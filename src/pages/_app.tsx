@@ -1,9 +1,11 @@
+import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { pageview } from 'src/utils/google-analytics'
 import { createGlobalStyle } from 'styled-components'
+import { client } from 'src/apollo/client'
 import 'normalize.css'
 
 const GlobalStyle = createGlobalStyle`
@@ -46,7 +48,9 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   )
 }

@@ -1,5 +1,5 @@
-function FeedDetailPage() {
+function PostPage() {
   return <></>
 }
 
-export default FeedDetailPage
+export default PostPage

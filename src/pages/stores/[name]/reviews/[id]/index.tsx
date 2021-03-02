@@ -1,5 +1,5 @@
 function StoreReviewPage() {
-  return <></>
+  return <>리뷰 상세</>
 }
 
 export default StoreReviewPage

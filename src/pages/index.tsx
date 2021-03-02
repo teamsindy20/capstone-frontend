@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
-import PageTitle from '../components/layouts/PageTitle'
+import PageHead from '../components/layouts/PageHead'
 
 const Title = styled.h2`
   margin: 1rem 0;
@@ -16,7 +16,7 @@ const FlexContainer = styled.div`
 
 function HomePage() {
   return (
-    <PageTitle title="캡스톤디자인 - Home">
+    <PageHead title="캡스톤디자인 - Home">
       <PageLayout>
         <Title>Title</Title>
         <FlexContainer>
@@ -56,7 +56,7 @@ function HomePage() {
           </div>
         </FlexContainer>
       </PageLayout>
-    </PageTitle>
+    </PageHead>
   )
 }
 

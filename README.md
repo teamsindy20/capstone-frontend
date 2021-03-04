@@ -1,3 +1,1 @@
-# capstone-frontend
-
-readme
+# 2021-1 Capstone Design - Frontend

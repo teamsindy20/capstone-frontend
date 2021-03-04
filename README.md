@@ -1,1 +1,1 @@
-# 2021-1 Capstone Design - Frontend
+# 2021-1 Capstone Design - FrontEnd

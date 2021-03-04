@@ -2,10 +2,6 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 
-const Title = styled.h2`
-  margin: 1rem 0;
-`
-
 const FlexContainer = styled.div`
   padding: 0 1rem;
 
@@ -18,43 +14,44 @@ function HomePage() {
   return (
     <PageHead title="캡스톤디자인 - Home">
       <PageLayout>
-        <Title>Title</Title>
-        <FlexContainer>
-          <div>
-            <div>"Lorem ipsum dolor sit amet,</div>
-            <div>
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </div>
-            <div>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
-            </div>
-            <div>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
-            </div>
-            <div>Excepteur sint occaecat cupidatat non proident,</div>
-            <div>sunt in culpa qui officia deserunt mollit anim id est laborum."</div>
-          </div>
-          <div>
-            <div>"Lorem ipsum dolor sit amet,</div>
-            <div>
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </div>
-            <div>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
-            </div>
-            <div>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
-            </div>
-            <div>Excepteur sint occaecat cupidatat non proident,</div>
-            <div>sunt in culpa qui officia deserunt mollit anim id est laborum."</div>
-          </div>
-        </FlexContainer>
+        <div>
+          <div>광고</div>
+          <div>카테고리</div>
+          <div>정렬 기준</div>
+          <button>사진만 보기</button>
+          <ul>
+            <li>
+              <img src="" alt="menu" />
+              <div>메뉴 이름</div>
+              <div>가격</div>
+              <div>좋아요</div>
+              <div>매장 이름</div>
+              <div>재주문율</div>
+              <div>배달팁</div>
+              <div>최소주문 금액</div>
+              <ul>
+                <li>#달달</li>
+                <li>#비건</li>
+                <li>#저칼로리</li>
+              </ul>
+            </li>
+            <li>
+              <img src="" alt="menu" />
+              <div>메뉴 이름2</div>
+              <div>가격2</div>
+              <div>좋아요2</div>
+              <div>매장 이름2</div>
+              <div>재주문율2</div>
+              <div>배달팁2</div>
+              <div>최소주문 금액2</div>
+              <ul>
+                <li>#달달</li>
+                <li>#비건</li>
+                <li>#저칼로리</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </PageLayout>
     </PageHead>
   )

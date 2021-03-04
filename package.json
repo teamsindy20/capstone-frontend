@@ -10,7 +10,7 @@
     "node": ">=14.15.4"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next",
     "build": "next build",
     "export": "next export",
     "start": "next start",

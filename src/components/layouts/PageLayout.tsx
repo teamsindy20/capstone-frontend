@@ -16,9 +16,8 @@ type Props = {
 function PageLayout({ children }: Props) {
   return (
     <FlexContainerGap>
-      <Header />
       <main>{children}</main>
-      <Footer />
+      <Header />
     </FlexContainerGap>
   )
 }

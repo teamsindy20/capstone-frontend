@@ -1,53 +1,55 @@
-import { DESKTOP_MIN_WIDTH, HEADER_HEIGHT } from 'src/models/constants'
+import Link from 'next/link'
+import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import styled from 'styled-components'
-import Logo from './atoms/Logo'
 
 const FixedHeader = styled.header`
-  width: 100%;
-  height: ${HEADER_HEIGHT};
   position: fixed;
-  top: 0;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+
+  width: ${TABLET_MIN_WIDTH};
+  height: ${HEADER_HEIGHT};
   z-index: 1;
 
   background-color: #fff;
-
-  @media (min-width: ${DESKTOP_MIN_WIDTH}) {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
 `
 
-const FlexContainer1 = styled.div`
+const StyledNav = styled.nav`
   height: 100%;
+`
+
+const FlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
 
-const FlexContainer2 = styled.div`
-  min-width: 100px;
-  max-width: calc(${HEADER_HEIGHT} * 2.2 - 1rem);
-  padding: 0.5rem;
-
-  display: flex;
-  align-items: center;
-`
-
-const FlexContainer3 = styled.div`
-  display: flex;
-  justify-content: space-between;
+  height: 100%;
 `
 
 function Header() {
+  const username = 'username'
   return (
     <FixedHeader>
-      <FlexContainer1>
-        <FlexContainer2>
-          <Logo />
-        </FlexContainer2>
-        <FlexContainer3>
-          <nav />
-        </FlexContainer3>
-      </FlexContainer1>
+      <StyledNav>
+        <FlexContainer>
+          <Link href="/">
+            <a href="/">홈</a>
+          </Link>
+          <Link href="/feed">
+            <a href="/feed">피드</a>
+          </Link>
+          <Link href="/stores">
+            <a href="/stores">찜 · 단골 가게</a>
+          </Link>
+          <Link href={`/users/${username}/orders`}>
+            <a href={`/users/${username}/orders`}>주문 내역</a>
+          </Link>
+          <Link href={`/users/${username}`}>
+            <a href={`/users/${username}`}>내 Sindy</a>
+          </Link>
+        </FlexContainer>
+      </StyledNav>
     </FixedHeader>
   )
 }

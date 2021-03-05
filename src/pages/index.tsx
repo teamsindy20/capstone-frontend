@@ -1,21 +1,32 @@
+import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 
-const FlexContainer = styled.div`
-  padding: 0 1rem;
+const MaxWidth = styled.div`
+  max-width: ${TABLET_MIN_WIDTH};
 
+  margin: 0 auto;
+`
+
+const FlexContainerBetween = styled.div`
   display: flex;
-  flex-flow: column nowrap;
-  gap: 10rem;
+  justify-content: space-between;
 `
 
 function HomePage() {
   return (
     <PageHead title="캡스톤디자인 - Home">
       <PageLayout>
-        <div>
-          <div>광고</div>
+        <MaxWidth>
+          <FlexContainerBetween>
+            <div />
+            <div>주소</div>
+            <SearchIcon fontSize="large" />
+          </FlexContainerBetween>
+
+          <div>광고 - 사진 가로 세로 비율 고정</div>
           <div>카테고리</div>
           <div>정렬 기준</div>
           <button>사진만 보기</button>
@@ -51,7 +62,7 @@ function HomePage() {
               </ul>
             </li>
           </ul>
-        </div>
+        </MaxWidth>
       </PageLayout>
     </PageHead>
   )

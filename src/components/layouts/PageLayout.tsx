@@ -1,12 +1,11 @@
 import { ReactNode } from 'react'
+import { HEADER_HEIGHT } from 'src/models/constants'
 import styled from 'styled-components'
 import Footer from '../Footer'
 import Header from '../Header'
 
-const FlexContainerGap = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 5rem;
+const Padding = styled.div`
+  padding: ${HEADER_HEIGHT} 0 0;
 `
 
 type Props = {
@@ -15,10 +14,11 @@ type Props = {
 
 function PageLayout({ children }: Props) {
   return (
-    <FlexContainerGap>
+    <>
       <main>{children}</main>
+      <Padding />
       <Header />
-    </FlexContainerGap>
+    </>
   )
 }
 

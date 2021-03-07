@@ -8,6 +8,8 @@ type Food = {
   orderCount: number
   reorderRatio: number
   hashtags: string[]
+
+  bookmark: boolean
 }
 
 export default Food

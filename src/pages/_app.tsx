@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     font-size: 16px;
+    font-family: -apple-system, 'Noto Sans KR', BlinkMacSystemFont, Roboto,
+      'Helvetica Neue', sans-serif;
+    line-height: normal;
+    word-break: keep-all
   }
 `
 

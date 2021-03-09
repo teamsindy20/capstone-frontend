@@ -1,15 +1,56 @@
+import TPost from 'src/types/Post'
+import TStore from 'src/types/Store'
+import styled from 'styled-components'
+
+const StyledImg = styled.img`
+  width: 3rem;
+  height: 3rem;
+  margin: 0.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
+`
+
+const FlexContainerBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const GridContainerGap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  align-items: center;
+  gap: 1rem;
+`
+
 type Props = {
-  post: any
+  post: TPost
+  store: TStore
+  loading: boolean
 }
 
-function Post({ post }: Props) {
+function Post({ post, store, loading }: Props) {
+  if (loading) {
+    return <div />
+  }
+
   return (
     <div>
-      <div>
-        <div>매장 프로필</div>
-        <div>매장 이름</div>
+      <FlexContainerBetween>
+        <GridContainerGap>
+          <StyledImg
+            src="https://i.pinimg.com/originals/3f/3d/d9/3f3dd9219f7bb1c9617cf4f154b70383.jpg"
+            alt="profile"
+          />
+          <NoMarginH3>{store.name}</NoMarginH3>
+          <div>{store.location}</div>
+        </GridContainerGap>
         <div>...</div>
-      </div>
+      </FlexContainerBetween>
       <div>
         <button>{'<-'}</button>
         <img src="" alt="post" />

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
-function useBoolean(): readonly [boolean | undefined, () => void, () => void, () => void]
-function useBoolean(initialValue: boolean): readonly [boolean, () => void, () => void, () => void]
+function useBoolean(): readonly [boolean | undefined, () => void, () => void]
+function useBoolean(initialValue: boolean): readonly [boolean, () => void, () => void]
 
 function useBoolean(initialValue?: boolean) {
   const [state, setState] = useState(initialValue)
@@ -10,15 +10,7 @@ function useBoolean(initialValue?: boolean) {
     setState((prev) => !prev)
   }, [])
 
-  const setTrue = useCallback(() => {
-    setState(true)
-  }, [])
-
-  const setFalse = useCallback(() => {
-    setState(false)
-  }, [])
-
-  return [state, toggleState, setTrue, setFalse] as const
+  return [state, toggleState, setState] as const
 }
 
 export default useBoolean

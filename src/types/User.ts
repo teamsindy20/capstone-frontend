@@ -1,5 +1,5 @@
-type User = {
+type TUser = {
   name: string
 }
 
-export default User
+export default TUser

@@ -1,4 +1,4 @@
-type Food = {
+type TFood = {
   imageUrl: string
   name: string
   price: number
@@ -12,4 +12,4 @@ type Food = {
   bookmark: boolean
 }
 
-export default Food
+export default TFood

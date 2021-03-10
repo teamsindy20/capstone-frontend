@@ -4,18 +4,33 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { pageview } from 'src/utils/google-analytics'
-import { createGlobalStyle } from 'styled-components'
 import { client } from 'src/apollo/client'
+import { DESKTOP_MIN_WIDTH } from 'src/models/constants'
+import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
-    font-size: 16px;
+    font-size: 14px;
     font-family: -apple-system, 'Noto Sans KR', BlinkMacSystemFont, Roboto,
       'Helvetica Neue', sans-serif;
     line-height: normal;
-    word-break: keep-all
+    word-break: keep-all;
+
+    @media (min-width: ${DESKTOP_MIN_WIDTH}) {
+      font-size: 16px;
+    }
+  }
+
+  ul, ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  li {
+    list-style-type: none
   }
 `
 

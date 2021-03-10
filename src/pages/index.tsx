@@ -48,6 +48,8 @@ const store: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 19,
   location: '흑석동',
+  imageUrl:
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5LjcsMKnMSPqH8PHSpGhV73CFjTf6ysHsgw&usqp=CAU',
 }
 
 const food2: TFood = {
@@ -70,6 +72,8 @@ const store2: TStore = {
   deliveryTimeMin: 9,
   deliveryTimeMax: 15,
   location: '흑석동',
+  imageUrl:
+    'https://file.namu.moe/file/cbfb693725816fbffef427ed9273e3cf0d9a6457dc3bf01a518761a3ce872f365ab0b96a243764e0af20e2adfbc297cf',
 }
 
 const food3: TFood = {
@@ -92,6 +96,8 @@ const store3: TStore = {
   deliveryTimeMin: 13,
   deliveryTimeMax: 25,
   location: '흑석동',
+  imageUrl:
+    'https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
 }
 
 const food4: TFood = {
@@ -169,7 +175,6 @@ function HomePage() {
             <FoodCard food={food3} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food4} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food5} loading={false} store={store3} onlyImage={onlyImage} />
-            <FoodCard food={food4} loading={true} store={store3} onlyImage={onlyImage} />
           </GridContainerUl>
         </InfiniteScroll>
       </PageLayout>

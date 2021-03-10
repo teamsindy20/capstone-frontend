@@ -47,7 +47,7 @@ const FlexContainerBetween = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  margin: 1rem;
+  padding: 1rem;
 `
 
 const GridContainerAlignCenter = styled.div`
@@ -98,10 +98,7 @@ function Post({ post, store, loading }: Props) {
     <NoStyleLi>
       <FlexContainerBetween>
         <GridContainerAlignCenter>
-          <StyledImg
-            src="https://i.pinimg.com/originals/3f/3d/d9/3f3dd9219f7bb1c9617cf4f154b70383.jpg"
-            alt="store profile"
-          />
+          <StyledImg src={store.imageUrl} alt="store profile" />
           <NoMarginH3>{store.name}</NoMarginH3>
           <div>{store.location}</div>
         </GridContainerAlignCenter>
@@ -109,10 +106,7 @@ function Post({ post, store, loading }: Props) {
       </FlexContainerBetween>
 
       <ImageRatioWrapper paddingTop="100%">
-        <AbsolutePositionImage
-          src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE"
-          alt="post"
-        />
+        <AbsolutePositionImage src={post.imageUrl[0]} alt="post" />
         <AbsolutePosition>Photo location indicator</AbsolutePosition>
       </ImageRatioWrapper>
 

@@ -9,21 +9,16 @@ import TFood from 'src/types/Food'
 import TStore from 'src/types/Store'
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/styles/FlexContainer'
 
-const FlexContainerBetween = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-const FlexContainerAlignCenter = styled.div`
-  display: flex;
+const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
-  gap: min(1vw, 0.5rem);
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
 
   list-style: none;
   padding-left: 0;
@@ -140,14 +135,14 @@ function HomePage() {
   return (
     <PageHead title="캡스톤디자인 - Home">
       <PageLayout>
-        <FlexContainerBetween>
-          <div />
+        <FlexContainerBetweenCenter>
+          <div>로고</div>
           <FlexContainerAlignCenter>
             <LocationOnTwoToneIcon />
             주소
           </FlexContainerAlignCenter>
           <SearchIcon fontSize="large" />
-        </FlexContainerBetween>
+        </FlexContainerBetweenCenter>
 
         <ImageRatioWrapper paddingTop="56.25%">
           <AbsolutePositionImage
@@ -175,6 +170,7 @@ function HomePage() {
             <FoodCard food={food3} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food4} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food5} loading={false} store={store3} onlyImage={onlyImage} />
+            <FoodCard food={food5} loading={true} store={store3} onlyImage={onlyImage} />
           </GridContainerUl>
         </InfiniteScroll>
       </PageLayout>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import Post from 'src/components/Post'
+import PostCard from 'src/components/PostCard'
 import TPost from 'src/types/Post'
 import TStore from 'src/types/Store'
 import styled from 'styled-components'
@@ -23,6 +23,8 @@ const post: TPost = {
   imageUrl: [
     'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
   ],
+  likeCount: 422,
+  commentCount: 76,
 }
 
 const store: TStore = {
@@ -47,15 +49,16 @@ function FeedPage() {
   return (
     <PageHead title="캡스톤디자인 - Feed" description={description}>
       <PageLayout>
+        <div>흑석동 주변 새소식</div>
         <InfiniteScroll
           loadMore={handleLoadMore}
           hasMore={hasMore}
-          loader={<Post post={post} store={store} loading={true} />}
+          loader={<PostCard post={post} store={store} loading={true} />}
         >
           <GridContainerUl>
-            <Post post={post} store={store} loading={false} />
-            <Post post={post} store={store} loading={false} />
-            <Post post={post} store={store} loading={false} />
+            <PostCard post={post} store={store} loading={false} />
+            <PostCard post={post} store={store} loading={false} />
+            <PostCard post={post} store={store} loading={true} />
           </GridContainerUl>
         </InfiniteScroll>
       </PageLayout>

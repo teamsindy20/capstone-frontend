@@ -151,7 +151,7 @@ function HomePage() {
 
         <ImageRatioWrapper paddingTop="56.25%">
           <AbsolutePositionImage
-            src="https://cdn.pixabay.com/photo/2015/09/26/11/21/banner-958962_960_720.jpg"
+            src="https://cdn.dribbble.com/users/2689908/screenshots/6544696/dribbble.jpg"
             alt="banner advertisement"
           />
         </ImageRatioWrapper>

@@ -21,8 +21,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
   border-radius: 50%;
 `
 
-const NoStyleLi = styled.li`
-  list-style-type: none;
+const ShadowingLi = styled.li`
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: 3px;
 `
@@ -73,7 +72,7 @@ type Props = {
 function PostCard({ post, store, loading }: Props) {
   if (loading) {
     return (
-      <NoStyleLi>
+      <ShadowingLi>
         <FlexContainerBetweenPadding>
           <GridContainerColumn3>
             <SkeletonImageRound />
@@ -92,12 +91,12 @@ function PostCard({ post, store, loading }: Props) {
           <SkeletonText width="50%" />
           <input placeholder="댓글 달기..." disabled={true} />
         </GridContainerPadding>
-      </NoStyleLi>
+      </ShadowingLi>
     )
   }
 
   return (
-    <NoStyleLi>
+    <ShadowingLi>
       <FlexContainerBetweenPadding>
         <GridContainerColumn3>
           <StyledImg src={store.imageUrl} alt="store profile" />
@@ -151,7 +150,7 @@ function PostCard({ post, store, loading }: Props) {
         </ul>
         <input placeholder="댓글 달기..." />
       </GridContainerPadding>
-    </NoStyleLi>
+    </ShadowingLi>
   )
 }
 

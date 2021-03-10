@@ -5,6 +5,7 @@ type TStore = {
   deliveryTimeMax: number
   location: string
   imageUrl: string
+  reorderRatio: number
 }
 
 export default TStore

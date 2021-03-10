@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import TFood from 'src/types/Food'
 import TStore from 'src/types/Store'
 
-const SkeletonGradient = styled.div`
+export const SkeletonGradient = styled.div`
   background: #eee;
   overflow: hidden;
 
@@ -32,10 +32,10 @@ const SkeletonGradient = styled.div`
       rgba(255, 255, 255, 0.4) 75%,
       transparent 100%
     );
-    animation: load 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: shine 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
-  @keyframes load {
+  @keyframes shine {
     0% {
       left: -30vw;
     }
@@ -48,14 +48,14 @@ const SkeletonGradient = styled.div`
   }
 `
 
-const SkeletonBox = styled(SkeletonGradient)`
+export const SkeletonImage = styled(SkeletonGradient)`
   position: absolute;
   top: 0;
   width: 100%;
   height: 100%;
 `
 
-const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: string }>`
+export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: string }>`
   position: relative;
   width: ${({ width = '100%' }) => width};
   height: ${({ height = '1rem' }) => height};
@@ -180,7 +180,7 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
       <GridContainerLi onlyImage={onlyImage}>
         <FlexContainerAlignCenter>
           <ImageRatioWrapper paddingTop="100%">
-            <SkeletonBox />
+            <SkeletonImage />
           </ImageRatioWrapper>
         </FlexContainerAlignCenter>
         {!onlyImage && (

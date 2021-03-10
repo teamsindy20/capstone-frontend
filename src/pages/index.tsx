@@ -47,6 +47,7 @@ const store: TStore = {
   deliveryFees: [2500],
   deliveryTimeMin: 10,
   deliveryTimeMax: 19,
+  location: '흑석동',
 }
 
 const food2: TFood = {
@@ -68,6 +69,7 @@ const store2: TStore = {
   deliveryFees: [1500],
   deliveryTimeMin: 9,
   deliveryTimeMax: 15,
+  location: '흑석동',
 }
 
 const food3: TFood = {
@@ -89,6 +91,7 @@ const store3: TStore = {
   deliveryFees: [2000],
   deliveryTimeMin: 13,
   deliveryTimeMax: 25,
+  location: '흑석동',
 }
 
 const food4: TFood = {

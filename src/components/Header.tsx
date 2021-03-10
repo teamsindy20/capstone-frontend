@@ -18,6 +18,7 @@ const FixedHeader = styled.header`
   z-index: 1;
 
   background-color: #fff;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
 `
 
 const FlexContainerAroundNav = styled.nav`

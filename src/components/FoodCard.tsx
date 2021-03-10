@@ -11,6 +11,8 @@ import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price
 import styled from 'styled-components'
 import TFood from 'src/types/Food'
 import TStore from 'src/types/Store'
+import { FlexContainerAlignCenter, FlexContainerBetween } from './styles/FlexContainer'
+import { GridContainerGap } from './styles/GridContainer'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -64,14 +66,10 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
+  grid-template-rows: auto auto;
 
   background: #f8f2f8;
-`
-
-const FlexContainerAlignCenter = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.1rem;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
@@ -86,16 +84,15 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  background: #eee;
 `
 
-const FlexContainerColumnBetween = styled.div`
-  display: flex;
+const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
-  justify-content: space-between;
 
   position: relative;
   padding: 0.5rem 0.5rem 0;
-  gap: 1rem;
 `
 
 const AbsolutePosition = styled.div`
@@ -104,10 +101,9 @@ const AbsolutePosition = styled.div`
   right: 0.1rem;
 `
 
-const FlexContainerColumnGap = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 0.3rem;
+const GridContainer = styled.div`
+  display: grid;
+  gap: 0.5rem;
 `
 
 const LighterH5 = styled.h5`
@@ -115,17 +111,17 @@ const LighterH5 = styled.h5`
   font-weight: lighter;
 `
 
-const FlexContainerAlignCenterGap = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+const GridContainerColumn2 = styled(GridContainerGap)`
+  grid-template-columns: auto auto;
+
+  width: fit-content;
 `
 
 const NoMarginH3 = styled.h3`
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
-  /* white-space: nowrap; */
+  /* white-space: nowrap; 이름 길면 줄이기 */
 `
 
 const FlexContainerUl = styled.ul`
@@ -136,16 +132,10 @@ const FlexContainerUl = styled.ul`
   padding-left: 0;
 `
 
-const StyledLi = styled.li`
-  font-size: 0.83em;
+const BoldH5 = styled.h5`
+  margin-top: 0;
   font-weight: bold;
   color: #555;
-`
-
-const FlexContainerBetweenCenter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `
 
 const HorizontalBorder = styled.div`
@@ -157,11 +147,9 @@ const VerticalBorder = styled.div`
   height: 100%;
 `
 
-const FlexContainerCenterGap = styled.div`
-  display: flex;
+const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   flex-flow: row wrap;
   justify-content: space-around;
-  align-items: center;
 
   grid-column: auto / span 2;
   padding: min(2vw, 0.5rem);
@@ -189,16 +177,16 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
             <SkeletonText width="80%" height="1.2rem" />
             <SkeletonText width="50%" />
 
-            <FlexContainerColumnGap>
+            <GridContainer>
               <SkeletonText height="1.2rem" />
               <HorizontalBorder />
-            </FlexContainerColumnGap>
+            </GridContainer>
           </FlexContainerColumnBetween>
         )}
         {!onlyImage && (
-          <FlexContainerCenterGap>
+          <FlexContainerWrapAround>
             <SkeletonText />
-          </FlexContainerCenterGap>
+          </FlexContainerWrapAround>
         )}
       </GridContainerLi>
     )
@@ -220,8 +208,8 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
               <BookmarkBorderTwoToneIcon fontSize="large" />
             )}
           </AbsolutePosition>
-          <FlexContainerColumnGap>
-            <FlexContainerAlignCenterGap>
+          <GridContainer>
+            <GridContainerColumn2>
               <FlexContainerAlignCenter>
                 <LocationOnTwoToneIcon fontSize="small" />
                 <LighterH5>{store.name}</LighterH5>
@@ -230,30 +218,32 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
                 <MotorcycleTwoToneIcon />
                 <LighterH5>{formatPricesWithFree(store.deliveryFees)}</LighterH5>
               </FlexContainerAlignCenter>
-            </FlexContainerAlignCenterGap>
+            </GridContainerColumn2>
             <div>
               <NoMarginH3>{food.name}</NoMarginH3>
             </div>
             <FlexContainerUl>
               {food.hashtags.map((hashtag) => (
-                <StyledLi key={hashtag}>{hashtag}</StyledLi>
+                <li key={hashtag}>
+                  <BoldH5>{hashtag}</BoldH5>
+                </li>
               ))}
             </FlexContainerUl>
-          </FlexContainerColumnGap>
-          <FlexContainerColumnGap>
-            <FlexContainerBetweenCenter>
+          </GridContainer>
+          <GridContainer>
+            <FlexContainerBetween>
               <FlexContainerAlignCenter>
                 <TimerRoundedIcon />
                 {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
               </FlexContainerAlignCenter>
               <NoMarginH3>{formatPrice(food.price)}</NoMarginH3>
-            </FlexContainerBetweenCenter>
+            </FlexContainerBetween>
             <HorizontalBorder />
-          </FlexContainerColumnGap>
+          </GridContainer>
         </FlexContainerColumnBetween>
       )}
       {!onlyImage && (
-        <FlexContainerCenterGap>
+        <FlexContainerWrapAround>
           <FlexContainerAlignCenter>
             <ThumbUpOutlinedIcon />
             <div>{food.likeRatio}%</div>
@@ -273,7 +263,7 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
             <AssignmentTwoToneIcon />
             <div>{formatNumber(food.orderCount)}개</div>
           </FlexContainerAlignCenter>
-        </FlexContainerCenterGap>
+        </FlexContainerWrapAround>
       )}
     </GridContainerLi>
   )

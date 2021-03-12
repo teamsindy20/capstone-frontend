@@ -1,22 +1,25 @@
 import FaceIcon from '@material-ui/icons/Face'
 import RefreshIcon from '@material-ui/icons/Refresh'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 import TStore from 'src/types/Store'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from './styles/FlexContainer'
+import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
+import styles from '../styles/NextImage.module.css'
 
 const NoStyleLi = styled.li`
   background: #fff;
 `
 
-const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
+const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
+  align-items: center;
   padding: 1rem;
 `
 
-const StyledImg = styled.img`
-  width: 20%;
-  height: 20%;
-  border-radius: 5px;
-  object-fit: cover;
+const RelativePosition = styled.div`
+  position: relative;
+  width: 4rem;
+  height: 4rem;
 `
 
 type Props = {
@@ -24,13 +27,25 @@ type Props = {
 }
 
 function StoreCard({ store }: Props) {
+  const router = useRouter()
+
   return (
-    <NoStyleLi>
-      <FlexContainerBetweenPadding>
-        <StyledImg src={store.imageUrl} alt="store" />
+    <NoStyleLi onClick={() => router.push(`/stores/${store.name}`)}>
+      <FlexContainerBetweenCenter>
+        <RelativePosition>
+          <Image
+            src={store.imageUrl}
+            alt="store"
+            layout="fill"
+            objectFit="cover"
+            className={styles.storeCard}
+          />
+        </RelativePosition>
         <h3>{store.name}</h3>
         <ul>
-          <li>#인기인기</li>
+          <li>
+            <a href="인기인기">#인기인기</a>
+          </li>
         </ul>
         <ul>
           <FlexContainerAlignCenter>
@@ -42,7 +57,7 @@ function StoreCard({ store }: Props) {
             <div>{store.reorderRatio}%</div>
           </FlexContainerAlignCenter>
         </ul>
-      </FlexContainerBetweenPadding>
+      </FlexContainerBetweenCenter>
     </NoStyleLi>
   )
 }

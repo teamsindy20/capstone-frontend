@@ -87,6 +87,17 @@ export const store4: TStore = {
     'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
 }
 
+export const store5: TStore = {
+  name: '타임스퀘어 지하백화점',
+  deliveryFees: [1000],
+  deliveryTimeMin: 10,
+  deliveryTimeMax: 23,
+  reorderRatio: 32,
+  location: '영등포',
+  imageUrl:
+    'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
+}
+
 export const food4: TFood = {
   imageUrl:
     'https://image.istarbucks.co.kr/upload/store/skuimg/2019/11/[9300000002488]_20191106172218633.jpg',
@@ -111,6 +122,19 @@ export const food5: TFood = {
   orderCount: 19744,
   reorderRatio: 67,
   hashtags: ['#한라봉필', '#초코스틱', '#패스츄리'],
+  bookmark: false,
+}
+
+export const food6: TFood = {
+  imageUrl: 'http://belocal.kr/Files/28/News/202006/2101_20200610163604331.JPG',
+  name: '춘천 감자빵',
+  price: 3000,
+  likeCount: 1442,
+  likeRatio: 58,
+  reviewCount: 1294,
+  orderCount: 19744,
+  reorderRatio: 67,
+  hashtags: ['#춘천', '#감자빵', '#고소'],
   bookmark: false,
 }
 

@@ -11,11 +11,12 @@ const FixedHeader = styled.header`
   position: fixed;
   left: 50%;
   bottom: 0;
+  z-index: 1;
   transform: translateX(-50%);
 
-  width: min(100%, ${TABLET_MIN_WIDTH});
+  width: 100%;
+  max-width: ${TABLET_MIN_WIDTH};
   height: ${HEADER_HEIGHT};
-  z-index: 1;
 
   background-color: #fff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
@@ -49,6 +50,7 @@ const NoMarginH6 = styled.h5`
 
 function Header() {
   const username = 'username'
+
   return (
     <FixedHeader>
       <FlexContainerAroundNav>

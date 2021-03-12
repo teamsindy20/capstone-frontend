@@ -8,7 +8,19 @@ import FoodCard, { AbsolutePositionImage, ImageRatioWrapper } from 'src/componen
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/styles/FlexContainer'
-import { food4, store3, food, store, food2, store2, food3, food5 } from 'src/models/mock-data'
+import {
+  food4,
+  store3,
+  food,
+  store,
+  food2,
+  store2,
+  food3,
+  food5,
+  food6,
+  store4,
+  store5,
+} from 'src/models/mock-data'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -17,7 +29,7 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
-  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')}; '
 `
 
 function HomePage() {
@@ -68,6 +80,7 @@ function HomePage() {
             <FoodCard food={food3} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food4} loading={false} store={store3} onlyImage={onlyImage} />
             <FoodCard food={food5} loading={false} store={store3} onlyImage={onlyImage} />
+            <FoodCard food={food6} loading={false} store={store5} onlyImage={onlyImage} />
             <FoodCard food={food5} loading={true} store={store3} onlyImage={onlyImage} />
           </GridContainerUl>
         </InfiniteScroll>

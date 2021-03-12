@@ -18,7 +18,6 @@ import {
   food3,
   food5,
   food6,
-  store4,
   store5,
 } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -30,7 +29,7 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
-  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')}; '
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
 `
 
 function HomePage() {

@@ -112,7 +112,7 @@ const LighterH5 = styled.h5`
 `
 
 const GridContainerColumn2 = styled(GridContainerGap)`
-  grid-template-columns: auto auto;
+  grid-template-columns: min-content auto;
 
   width: fit-content;
 `
@@ -166,7 +166,7 @@ export function Fee() {
   return null
 }
 
-function FoodCard({ food, loading, store, onlyImage }: Props) {
+function MenuCard({ food, loading, store, onlyImage }: Props) {
   if (loading) {
     return (
       <GridContainerLi onlyImage={onlyImage}>
@@ -273,4 +273,4 @@ function FoodCard({ food, loading, store, onlyImage }: Props) {
   )
 }
 
-export default FoodCard
+export default MenuCard

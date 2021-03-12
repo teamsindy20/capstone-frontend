@@ -10,7 +10,7 @@ import {
   SkeletonGradient,
   SkeletonImage,
   SkeletonText,
-} from './FoodCard'
+} from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 

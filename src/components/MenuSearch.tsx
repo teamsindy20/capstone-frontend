@@ -1,4 +1,4 @@
-function FoodSearch() {
+function MenuSearch() {
   return (
     <>
       <input placeholder="음식 해시태크를 입력해주세요" />
@@ -12,4 +12,4 @@ function FoodSearch() {
   )
 }
 
-export default FoodSearch
+export default MenuSearch

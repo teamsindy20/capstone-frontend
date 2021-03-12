@@ -5,6 +5,7 @@ import ListAltTwoTone from '@material-ui/icons/ListAltTwoTone'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import Link from 'next/link'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 
 const FixedHeader = styled.header`
@@ -35,11 +36,9 @@ const FlexContainerAroundNav = styled.nav`
   }
 `
 
-const FlexContainerCenterCenter = styled.div`
-  display: flex;
+const FlexContainerColumnCenterCenter = styled(FlexContainerAlignCenter)`
   flex-flow: column nowrap;
   justify-content: center;
-  align-items: center;
 
   height: 100%;
 `
@@ -56,42 +55,42 @@ function Header() {
       <FlexContainerAroundNav>
         <Link href="/">
           <a href="/">
-            <FlexContainerCenterCenter>
+            <FlexContainerColumnCenterCenter>
               <HomeRoundedIcon fontSize="large" />
               <NoMarginH6>홈</NoMarginH6>
-            </FlexContainerCenterCenter>
+            </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href="/feed">
           <a href="/feed">
-            <FlexContainerCenterCenter>
+            <FlexContainerColumnCenterCenter>
               <ListAltTwoTone fontSize="large" />
               <NoMarginH6>피드</NoMarginH6>
-            </FlexContainerCenterCenter>
+            </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href="/stores">
           <a href="/stores">
-            <FlexContainerCenterCenter>
+            <FlexContainerColumnCenterCenter>
               <StoreRoundedIcon fontSize="large" />
               <NoMarginH6>찜·단골 매장</NoMarginH6>
-            </FlexContainerCenterCenter>
+            </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href={`/users/${username}/orders`}>
           <a href={`/users/${username}/orders`}>
-            <FlexContainerCenterCenter>
+            <FlexContainerColumnCenterCenter>
               <AssignmentTwoToneIcon fontSize="large" />
               <NoMarginH6>주문 내역</NoMarginH6>
-            </FlexContainerCenterCenter>
+            </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href={`/users/${username}`}>
           <a href={`/users/${username}`}>
-            <FlexContainerCenterCenter>
+            <FlexContainerColumnCenterCenter>
               <InsertEmoticonTwoToneIcon fontSize="large" />
               <NoMarginH6>내 Sindy</NoMarginH6>
-            </FlexContainerCenterCenter>
+            </FlexContainerColumnCenterCenter>
           </a>
         </Link>
       </FlexContainerAroundNav>

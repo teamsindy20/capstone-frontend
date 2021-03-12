@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
 
-const NoStyleLi = styled.li`
+const BackgroundColorLi = styled.li`
   background: #fff;
 `
 
@@ -29,8 +29,12 @@ type Props = {
 function StoreCard({ store }: Props) {
   const router = useRouter()
 
+  function goToStoreMenuPage() {
+    router.push(`/stores/${store.name}`)
+  }
+
   return (
-    <NoStyleLi onClick={() => router.push(`/stores/${store.name}`)}>
+    <BackgroundColorLi onClick={goToStoreMenuPage}>
       <FlexContainerBetweenCenter>
         <RelativePosition>
           <Image
@@ -58,7 +62,7 @@ function StoreCard({ store }: Props) {
           </FlexContainerAlignCenter>
         </ul>
       </FlexContainerBetweenCenter>
-    </NoStyleLi>
+    </BackgroundColorLi>
   )
 }
 

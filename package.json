@@ -19,7 +19,8 @@
     "type": "tsc --pretty",
     "test": "jest",
     "pre-push": "yarn format && yarn lint && yarn type",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",

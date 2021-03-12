@@ -11,8 +11,8 @@ import {
   SkeletonImage,
   SkeletonText,
 } from './FoodCard'
-import { FlexContainerBetween, FlexContainerAlignCenter } from './styles/FlexContainer'
-import { GridContainerGap } from './styles/GridContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
+import { GridContainerGap } from '../styles/GridContainer'
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;

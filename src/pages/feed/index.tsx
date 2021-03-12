@@ -26,9 +26,9 @@ function FeedPage() {
   }
 
   return (
-    <PageHead title="캡스톤디자인 - Feed" description={description}>
+    <PageHead title="캡스톤디자인 - 새 소식" description={description}>
       <PageLayout>
-        <h2>흑석동 주변 새소식</h2>
+        <h2>흑석동 주변 새 소식</h2>
         <InfiniteScroll
           loadMore={handleLoadMore}
           hasMore={hasMore}

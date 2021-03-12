@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { pageview } from 'src/utils/google-analytics'
 import { client } from 'src/apollo/client'
-import { DESKTOP_MIN_WIDTH } from 'src/models/constants'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 
@@ -18,14 +18,13 @@ const GlobalStyle = createGlobalStyle`
     line-height: normal;
     word-break: keep-all;
 
-    @media (min-width: ${DESKTOP_MIN_WIDTH}) {
+    @media (min-width: ${TABLET_MIN_WIDTH}) {
       font-size: 16px;
     }
   }
 
   ul, ol {
     padding: 0;
-    margin: 0;
     list-style: none;
   }
 

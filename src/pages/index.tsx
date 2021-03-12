@@ -1,13 +1,13 @@
 import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
+import Image from 'next/image'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import InfiniteScroll from 'react-infinite-scroller'
-import FoodCard, { AbsolutePositionImage, ImageRatioWrapper } from 'src/components/FoodCard'
+import FoodCard, { ImageRatioWrapper } from 'src/components/FoodCard'
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/styles/FlexContainer'
 import {
   food4,
   store3,
@@ -21,6 +21,7 @@ import {
   store4,
   store5,
 } from 'src/models/mock-data'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -43,7 +44,7 @@ function HomePage() {
   }
 
   return (
-    <PageHead title="캡스톤디자인 - Home">
+    <PageHead title="캡스톤디자인 - 홈">
       <PageLayout>
         <FlexContainerBetweenCenter>
           <div>로고</div>
@@ -55,9 +56,10 @@ function HomePage() {
         </FlexContainerBetweenCenter>
 
         <ImageRatioWrapper paddingTop="56.25%">
-          <AbsolutePositionImage
+          <Image
             src="https://cdn.dribbble.com/users/2689908/screenshots/6544696/dribbble.jpg"
             alt="banner advertisement"
+            layout="fill"
           />
         </ImageRatioWrapper>
 

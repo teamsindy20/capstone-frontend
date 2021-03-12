@@ -22,8 +22,7 @@ export const store: TStore = {
   deliveryTimeMax: 19,
   reorderRatio: 82,
   location: '흑석동',
-  imageUrl:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5LjcsMKnMSPqH8PHSpGhV73CFjTf6ysHsgw&usqp=CAU',
+  imageUrl: 'http://image.newdaily.co.kr/site/data/img/2019/06/03/2019060300094_0.jpg',
 }
 
 export const food2: TFood = {
@@ -83,8 +82,7 @@ export const store4: TStore = {
   deliveryTimeMax: 23,
   reorderRatio: 32,
   location: '흑석동',
-  imageUrl:
-    'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
+  imageUrl: 'http://ojsfile.ohmynews.com/PHT_IMG_FILE/2019/0923/IE002549966_PHT.jpg',
 }
 
 export const store5: TStore = {

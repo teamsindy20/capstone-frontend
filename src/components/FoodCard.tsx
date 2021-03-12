@@ -11,8 +11,8 @@ import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price
 import styled from 'styled-components'
 import TFood from 'src/types/Food'
 import TStore from 'src/types/Store'
-import { FlexContainerAlignCenter, FlexContainerBetween } from './styles/FlexContainer'
-import { GridContainerGap } from './styles/GridContainer'
+import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
+import { GridContainerGap } from '../styles/GridContainer'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -28,11 +28,11 @@ export const SkeletonGradient = styled.div`
     width: 30vw;
     background: linear-gradient(
       to right,
-      transparent 0%,
+      rgba(255, 255, 255, 0) 0%,
       rgba(255, 255, 255, 0.4) 25%,
       rgba(255, 255, 255, 0.5) 50%,
       rgba(255, 255, 255, 0.4) 75%,
-      transparent 100%
+      rgba(255, 255, 255, 0) 100%
     );
     animation: shine 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
@@ -160,6 +160,10 @@ type Props = {
   loading: boolean
   store: TStore
   onlyImage: boolean
+}
+
+export function Fee() {
+  return null
 }
 
 function FoodCard({ food, loading, store, onlyImage }: Props) {

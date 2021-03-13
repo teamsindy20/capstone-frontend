@@ -9,7 +9,7 @@ import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
-import TFood from 'src/types/Food'
+import TMenu from 'src/types/Menu'
 import TStore from 'src/types/Store'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
@@ -155,58 +155,57 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   padding: min(2vw, 0.5rem);
 `
 
-type Props = {
-  food: TFood
-  loading: boolean
-  store: TStore
+type Props2 = {
   onlyImage: boolean
 }
 
-export function Fee() {
-  return null
-}
-
-function MenuCard({ food, loading, store, onlyImage }: Props) {
-  if (loading) {
-    return (
-      <GridContainerLi onlyImage={onlyImage}>
-        <FlexContainerAlignCenter>
-          <ImageRatioWrapper paddingTop="100%">
-            <SkeletonImage />
-          </ImageRatioWrapper>
-        </FlexContainerAlignCenter>
-        {!onlyImage && (
-          <FlexContainerColumnBetween>
-            <SkeletonText width="30%" />
-            <SkeletonText width="80%" height="1.2rem" />
-            <SkeletonText width="50%" />
-
-            <GridContainer>
-              <SkeletonText height="1.2rem" />
-              <HorizontalBorder />
-            </GridContainer>
-          </FlexContainerColumnBetween>
-        )}
-        {!onlyImage && (
-          <FlexContainerWrapAround>
-            <SkeletonText />
-          </FlexContainerWrapAround>
-        )}
-      </GridContainerLi>
-    )
-  }
-
+export function MenuLoadingCard({ onlyImage }: Props2) {
   return (
     <GridContainerLi onlyImage={onlyImage}>
       <FlexContainerAlignCenter>
         <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={food.imageUrl} alt="food" />
+          <SkeletonImage />
+        </ImageRatioWrapper>
+      </FlexContainerAlignCenter>
+      {!onlyImage && (
+        <FlexContainerColumnBetween>
+          <SkeletonText width="30%" />
+          <SkeletonText width="80%" height="1.2rem" />
+          <SkeletonText width="50%" />
+
+          <GridContainer>
+            <SkeletonText height="1.2rem" />
+            <HorizontalBorder />
+          </GridContainer>
+        </FlexContainerColumnBetween>
+      )}
+      {!onlyImage && (
+        <FlexContainerWrapAround>
+          <SkeletonText />
+        </FlexContainerWrapAround>
+      )}
+    </GridContainerLi>
+  )
+}
+
+type Props = {
+  menu: TMenu
+  store: TStore
+  onlyImage: boolean
+}
+
+function MenuCard({ menu, store, onlyImage }: Props) {
+  return (
+    <GridContainerLi onlyImage={onlyImage}>
+      <FlexContainerAlignCenter>
+        <ImageRatioWrapper paddingTop="100%">
+          <AbsolutePositionImage src={menu.imageUrl} alt="food" />
         </ImageRatioWrapper>
       </FlexContainerAlignCenter>
       {!onlyImage && (
         <FlexContainerColumnBetween>
           <AbsolutePosition>
-            {food.bookmark ? (
+            {menu.bookmark ? (
               <BookmarkTwoToneIcon fontSize="large" />
             ) : (
               <BookmarkBorderTwoToneIcon fontSize="large" />
@@ -224,10 +223,10 @@ function MenuCard({ food, loading, store, onlyImage }: Props) {
               </FlexContainerAlignCenter>
             </GridContainerColumn2>
             <div>
-              <NoMarginH3>{food.name}</NoMarginH3>
+              <NoMarginH3>{menu.name}</NoMarginH3>
             </div>
             <FlexContainerUl>
-              {food.hashtags.map((hashtag) => (
+              {menu.hashtags.map((hashtag) => (
                 <li key={hashtag}>
                   <BoldH5>{hashtag}</BoldH5>
                 </li>
@@ -240,7 +239,7 @@ function MenuCard({ food, loading, store, onlyImage }: Props) {
                 <TimerRoundedIcon />
                 {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
               </FlexContainerAlignCenter>
-              <NoMarginH3>{formatPrice(food.price)}</NoMarginH3>
+              <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
             </FlexContainerBetween>
             <HorizontalBorder />
           </GridContainer>
@@ -250,22 +249,22 @@ function MenuCard({ food, loading, store, onlyImage }: Props) {
         <FlexContainerWrapAround>
           <FlexContainerAlignCenter>
             <ThumbUpOutlinedIcon />
-            <div>{food.likeRatio}%</div>
+            <div>{menu.likeRatio}%</div>
           </FlexContainerAlignCenter>
           <VerticalBorder />
           <FlexContainerAlignCenter>
             <RateReviewTwoToneIcon />
-            <div>{formatNumber(food.reviewCount)}개</div>
+            <div>{formatNumber(menu.reviewCount)}개</div>
           </FlexContainerAlignCenter>
           <VerticalBorder />
           <FlexContainerAlignCenter>
             <RefreshIcon />
-            <div>{food.reorderRatio}%</div>
+            <div>{menu.reorderRatio}%</div>
           </FlexContainerAlignCenter>
           <VerticalBorder />
           <FlexContainerAlignCenter>
             <AssignmentTwoToneIcon />
-            <div>{formatNumber(food.orderCount)}개</div>
+            <div>{formatNumber(menu.orderCount)}개</div>
           </FlexContainerAlignCenter>
         </FlexContainerWrapAround>
       )}

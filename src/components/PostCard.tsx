@@ -63,38 +63,37 @@ const NoMarginP = styled.p`
   margin: 0;
 `
 
+export function PostLoadingCard() {
+  return (
+    <ShadowingLi>
+      <FlexContainerBetweenPadding>
+        <GridContainerColumn3>
+          <SkeletonImageRound />
+          <SkeletonText width="min(10rem, 30vw)" />
+        </GridContainerColumn3>
+      </FlexContainerBetweenPadding>
+
+      <ImageRatioWrapper paddingTop="100%">
+        <SkeletonImage />
+      </ImageRatioWrapper>
+
+      <GridContainerPadding>
+        <SkeletonText height="1.5rem" />
+        <SkeletonText width="30%" />
+        <SkeletonText width="80%" />
+        <SkeletonText width="50%" />
+        <input placeholder="댓글 달기..." disabled={true} />
+      </GridContainerPadding>
+    </ShadowingLi>
+  )
+}
+
 type Props = {
   post: TPost
   store: TStore
-  loading: boolean
 }
 
-function PostCard({ post, store, loading }: Props) {
-  if (loading) {
-    return (
-      <ShadowingLi>
-        <FlexContainerBetweenPadding>
-          <GridContainerColumn3>
-            <SkeletonImageRound />
-            <SkeletonText width="min(10rem, 30vw)" />
-          </GridContainerColumn3>
-        </FlexContainerBetweenPadding>
-
-        <ImageRatioWrapper paddingTop="100%">
-          <SkeletonImage />
-        </ImageRatioWrapper>
-
-        <GridContainerPadding>
-          <SkeletonText height="1.5rem" />
-          <SkeletonText width="30%" />
-          <SkeletonText width="80%" />
-          <SkeletonText width="50%" />
-          <input placeholder="댓글 달기..." disabled={true} />
-        </GridContainerPadding>
-      </ShadowingLi>
-    )
-  }
-
+function PostCard({ post, store }: Props) {
   return (
     <ShadowingLi>
       <FlexContainerBetweenPadding>

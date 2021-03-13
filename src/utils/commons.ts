@@ -18,3 +18,7 @@ export function formatPhoneNumber(phoneNumber: string) {
     return phoneNumber
   }
 }
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

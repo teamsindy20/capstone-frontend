@@ -1,4 +1,5 @@
-type TFood = {
+type TMenu = {
+  id: number
   imageUrl: string
   name: string
   price: number
@@ -12,4 +13,4 @@ type TFood = {
   bookmark: boolean
 }
 
-export default TFood
+export default TMenu

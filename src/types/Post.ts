@@ -1,5 +1,5 @@
 type TPost = {
-  title: string
+  id: number
   content: string
   imageUrl: string[]
   likeCount: number

@@ -96,7 +96,7 @@ export const menus: TMenu[] = [
     reviewCount: 1294,
     orderCount: 19744,
     reorderRatio: 67,
-    hashtags: ['#슈크림', '#달달', '#봄음료'],
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
     bookmark: false,
   },
 ]

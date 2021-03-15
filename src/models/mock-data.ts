@@ -84,6 +84,21 @@ export const menus: TMenu[] = [
     hashtags: ['#춘천', '#감자빵', '#고소'],
     bookmark: false,
   },
+
+  {
+    id: 6,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료'],
+    bookmark: false,
+  },
 ]
 
 export const store: TStore = {

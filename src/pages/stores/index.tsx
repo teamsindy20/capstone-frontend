@@ -16,7 +16,7 @@ const description = '내가 찜한 매장 또는 단골 매장을 모아서 볼 
 
 function StoresPage() {
   return (
-    <PageHead title="캡스톤디자인 - 찜·단골 매장" description={description}>
+    <PageHead title="디신 - 찜·단골 매장" description={description}>
       <PageLayout>
         <h1>찜·단골 매장</h1>
         <h2>단골 매장</h2>

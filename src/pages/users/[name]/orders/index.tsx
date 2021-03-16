@@ -35,7 +35,7 @@ function UserOrdersPage() {
   })
 
   return (
-    <PageHead title="캡스톤디자인 - Orders" description={description}>
+    <PageHead title="디신 - Orders" description={description}>
       <PageLayout>
         <GridContainerUl ref={infiniteRef}>
           {orders.map((order) => (

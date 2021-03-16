@@ -1,10 +1,8 @@
-import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { pageview } from 'src/utils/google-analytics'
-import { client } from 'src/apollo/client'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
@@ -34,10 +32,11 @@ const GlobalStyle = createGlobalStyle`
 `
 
 // 최대 120자
-const description = '안녕하세요. 중앙대학교 2021년 1학기 캡스톤 프로젝트 프론트엔드 입니다.'
+const description =
+  "안녕하세요. 사장님의 개성에 따라 자신의 디저트 매장을 자율적으로 운영할 수 있는 소상공인 친화형 디저트 전용 배달 서비스 '디신'입니다."
 
 // 최대 10개
-const keywords = '중앙대학교, 2021-1, 캡스톤, 프로젝트, 프론트엔드'
+const keywords = '디신, 디저트, 배달, 소통, 자율'
 
 function CapstoneApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -66,9 +65,7 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyle />
-      <ApolloProvider client={client}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <Component {...pageProps} />
     </>
   )
 }

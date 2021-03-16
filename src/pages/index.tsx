@@ -63,7 +63,7 @@ function HomePage() {
   })
 
   return (
-    <PageHead title="캡스톤디자인 - 홈">
+    <PageHead title="디신 - 홈">
       <PageLayout>
         <FlexContainerBetweenCenter>
           <BookmarkTwoToneIcon fontSize="large" />

@@ -3,9 +3,9 @@ import PageLayout from 'src/components/layouts/PageLayout'
 
 const description = ''
 
-function MySindyPage() {
+function MyDisinPage() {
   return (
-    <PageHead title="캡스톤디자인 - My Sindy" description={description}>
+    <PageHead title="디신 - My 디신" description={description}>
       <PageLayout>
         <>마이페이지</>
       </PageLayout>
@@ -13,4 +13,4 @@ function MySindyPage() {
   )
 }
 
-export default MySindyPage
+export default MyDisinPage

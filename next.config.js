@@ -5,6 +5,7 @@ module.exports = {
   },
   images: {
     domains: [
+      'cdn.crowdpic.net',
       'cdn.dribbble.com',
       'image.newdaily.co.kr',
       'file.namu.moe',

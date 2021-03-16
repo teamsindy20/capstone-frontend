@@ -10,9 +10,6 @@ import styled from 'styled-components'
 const GridContainerUl = styled.ul`
   display: grid;
   gap: 3rem;
-
-  list-style: none;
-  padding-left: 0;
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'

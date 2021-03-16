@@ -1,12 +1,21 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
+import { SkeletonImage, SkeletonText } from './MenuCard'
 
-const BackgroundColorLi = styled.li`
+const GridContainerLi = styled.li`
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 2fr;
+  grid-auto-rows: max-content;
+
   background: #fff;
+  padding: 0.5rem;
 `
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
@@ -14,14 +23,63 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   padding: 1rem;
 `
 
+const ratio = 30
+
 const RelativePosition = styled.div`
+  margin: auto;
   position: relative;
-  width: 4rem;
-  height: 4rem;
+  width: ${ratio}vw;
+  max-width: calc(${TABLET_MIN_WIDTH} * ${ratio / 100});
+  height: ${ratio}vw;
+  max-height: calc(${TABLET_MIN_WIDTH} * ${ratio / 100});
 `
 
+const RoundSkeletonImage = styled(SkeletonImage)`
+  border-radius: 5px;
+`
+
+const FlexContainerColumnBetween = styled(FlexContainerBetween)`
+  flex-flow: column nowrap;
+`
+
+const WideSkeletonText = styled(SkeletonText)`
+  grid-column: auto / span 2;
+`
+
+const GridContainer = styled.div`
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: 1fr 2fr 1fr;
+
+  @media (min-width: ${TABLET_MIN_WIDTH}) {
+    gap: 1rem;
+  }
+`
+
+const Width100Button = styled.button`
+  width: 100%;
+  grid-column: auto / span 2;
+`
+
+export function OrderLoadingCard() {
+  return (
+    <GridContainerLi>
+      <RelativePosition>
+        <RoundSkeletonImage />
+      </RelativePosition>
+      <GridContainer>
+        <SkeletonText width="50%" height="100%" />
+        <SkeletonText height="100%" />
+        <SkeletonText height="100%" />
+      </GridContainer>
+      <WideSkeletonText height="3rem" />
+      <Width100Button disabled={true}>재주문</Width100Button>
+    </GridContainerLi>
+  )
+}
+
 type Props = {
-  order: any
+  order: TOrder
   store: TStore
 }
 
@@ -35,35 +93,27 @@ function OrderCard({ order, store }: Props) {
   }
 
   return (
-    <BackgroundColorLi onClick={goToUserOrderPage}>
-      <FlexContainerBetweenCenter>
-        <RelativePosition>
-          <Image
-            src={order.imageUrl}
-            alt="store"
-            layout="fill"
-            objectFit="cover"
-            className={styles.storeCard}
-          />
-        </RelativePosition>
-        <h3>{store.name}</h3>
-        <ul>
-          <li>
-            <a href="인기인기">#인기인기</a>
-          </li>
-        </ul>
-        <ul>
-          <FlexContainerAlignCenter>
-            {/* <FaceIcon /> */}
-            <div>{order.reorderRatio}명</div>
-          </FlexContainerAlignCenter>
-          <FlexContainerAlignCenter>
-            {/* <RefreshIcon /> */}
-            <div>{order.reorderRatio}%</div>
-          </FlexContainerAlignCenter>
-        </ul>
-      </FlexContainerBetweenCenter>
-    </BackgroundColorLi>
+    <GridContainerLi onClick={goToUserOrderPage}>
+      <RelativePosition>
+        <Image
+          src={order.menus[0].imageUrl}
+          alt="store"
+          layout="fill"
+          objectFit="cover"
+          className={styles.storeCard}
+        />
+      </RelativePosition>
+      <h3>{store.name}</h3>
+      <ul>
+        <li>
+          <a href="인기인기">#인기인기</a>
+        </li>
+      </ul>
+      <ul>
+        <FlexContainerAlignCenter>{/* <FaceIcon /> */}</FlexContainerAlignCenter>
+        <FlexContainerAlignCenter>{/* <RefreshIcon /> */}</FlexContainerAlignCenter>
+      </ul>
+    </GridContainerLi>
   )
 }
 

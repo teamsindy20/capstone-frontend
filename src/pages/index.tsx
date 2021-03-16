@@ -92,7 +92,7 @@ function HomePage() {
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
-
+          <MenuLoadingCard onlyImage={onlyImage} />
           {isLoadingMenus &&
             (onlyImage ? (
               <>

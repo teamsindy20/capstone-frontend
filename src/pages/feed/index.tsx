@@ -43,6 +43,7 @@ function FeedPage() {
           {posts.map((post) => (
             <PostCard key={post.id} post={post} store={store} />
           ))}
+          <PostLoadingCard />
           {isLoadingPosts && <PostLoadingCard />}
         </GridContainerUl>
       </PageLayout>

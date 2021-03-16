@@ -79,9 +79,8 @@ export function PostLoadingCard() {
 
       <GridContainerPadding>
         <SkeletonText height="1.5rem" />
-        <SkeletonText width="30%" />
         <SkeletonText width="80%" />
-        <SkeletonText width="50%" />
+        <SkeletonText width="40%" />
         <input placeholder="댓글 달기..." disabled={true} />
       </GridContainerPadding>
     </ShadowingLi>
@@ -122,18 +121,7 @@ function PostCard({ post, store }: Props) {
           </GridContainerColumn2>
           <OpenInNewIcon />
         </FlexContainerBetween>
-        <NoMarginP>
-          깔끔히 정리된 서재는
-          <br /> 일의 능률을 올려주죠.
-          <br />
-          <br />
-          넉넉한 수납장만 있다면
-          <br /> 더 능률적인 홈오피스를 만들 수 있어요.
-          <br />
-          <br />
-          IKEA 매장과 IKEA.kr에서
-          <br /> 더 많은 홈퍼니싱 아이디어를 확인하세요!
-        </NoMarginP>
+        <NoMarginP>{post.content}</NoMarginP>
         <div>더 보기</div>
         <div>작성일</div>
         <ul>

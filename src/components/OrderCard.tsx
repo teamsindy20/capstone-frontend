@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
+import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
@@ -50,10 +51,6 @@ const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
   grid-template-rows: 1fr 2fr 1fr;
-
-  @media (min-width: ${TABLET_MIN_WIDTH}) {
-    gap: 1rem;
-  }
 `
 
 const Width100Button = styled.button`
@@ -68,8 +65,8 @@ export function OrderLoadingCard() {
         <RoundSkeletonImage />
       </RelativePosition>
       <GridContainer>
-        <SkeletonText width="50%" height="100%" />
-        <SkeletonText height="100%" />
+        <SkeletonText width="40%" height="100%" />
+        <SkeletonText width="80%" height="100%" />
         <SkeletonText height="100%" />
       </GridContainer>
       <WideSkeletonText height="3rem" />
@@ -103,7 +100,17 @@ function OrderCard({ order, store }: Props) {
           className={styles.storeCard}
         />
       </RelativePosition>
-      <h3>{store.name}</h3>
+      <div>
+        <h3>{store.name}</h3>
+        <ul>
+          {order.menus.map((menu) => (
+            <li key={menu.id}>{menu.name}</li>
+          ))}
+        </ul>
+        <div>{order.orderDate}</div>
+        <div>{formatPrice(order.orderTotal)}</div>
+      </div>
+      <div>{order.orderStatus}</div>
       <ul>
         <li>
           <a href="인기인기">#인기인기</a>

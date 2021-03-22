@@ -154,6 +154,17 @@ export const store5: TStore = {
     'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
 }
 
+export const store6: TStore = {
+  name: '타임스퀘어 지하백화점',
+  deliveryFees: [1000],
+  deliveryTimeMin: 10,
+  deliveryTimeMax: 23,
+  reorderRatio: 32,
+  location: '영등포',
+  imageUrl:
+    'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
+}
+
 export const posts: TPost[] = [
   {
     id: 0,

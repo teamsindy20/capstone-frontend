@@ -170,13 +170,6 @@ export const posts: TPost[] = [
   },
 ]
 
-export enum OrderStatus {
-  '접수 대기',
-  '준비 중',
-  '배달 중',
-  '배달 완료',
-}
-
 export const orders: TOrder[] = [
   {
     id: 0,
@@ -186,6 +179,22 @@ export const orders: TOrder[] = [
     menus: [menus[0], menus[1]],
     orderDate: new Date().toISOString(),
     orderTotal: 42430,
-    orderStatus: OrderStatus['배달 완료'],
+    orderStatus: '배달 완료',
+    review: { id: 0 },
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 3,
+  },
+  {
+    id: 1,
+    imageUrl: [
+      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
+    ],
+    menus: [menus[2], menus[3]],
+    orderDate: new Date().toISOString(),
+    orderTotal: 62430,
+    orderStatus: '접수 대기',
+    review: undefined,
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 4,
   },
 ]

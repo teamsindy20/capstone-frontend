@@ -11,6 +11,7 @@ module.exports = {
       'file.namu.moe',
       'upload.wikimedia.org',
       'ojsfile.ohmynews.com',
+      'globalassets.starbucks.com',
     ],
   },
   reactStrictMode: true,

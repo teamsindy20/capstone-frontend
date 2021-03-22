@@ -89,7 +89,7 @@ function Header() {
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
               <InsertEmoticonTwoToneIcon fontSize="large" />
-              <NoMarginH6>내 Sindy</NoMarginH6>
+              <NoMarginH6>My 디신</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>

@@ -44,10 +44,6 @@ function UserOrdersPage() {
           <OrderLoadingCard />
           {isLoadingOrders && <OrderLoadingCard />}
         </GridContainerUl>
-        <>
-          <>사용자 주문 목록</>
-          <>클릭 시 /users/[name]/orders/[id] 로 이동</>
-        </>
       </PageLayout>
     </PageHead>
   )

@@ -102,15 +102,15 @@ export const menus: TMenu[] = [
   {
     id: 7,
     imageUrl:
-      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
-    name: '슈크림라떼',
-    price: 3000,
+      'https://postfiles.pstatic.net/MjAyMTAzMjNfMjI0/MDAxNjE2NDgwMzQ2MjQy.ahxh6mIUCF1FqK-ZKW6pyyseELEcHTX_vNEhEDmp2tsg.nRsc_1ADTJcPBaQsFMlWeJqOh75dJXHHB_qXzi7WgGAg.JPEG.eienn1/SE-9554853d-d21a-4112-8c47-ebef0808d17a.jpg?type=w966',
+    name: '밀풰이 바니',
+    price: 9500,
     likeCount: 1442,
     likeRatio: 67,
     reviewCount: 1294,
     orderCount: 19744,
     reorderRatio: 67,
-    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    hashtags: ['#마얘', '#정통프렌치디저트', '#바닐라크림', '#패스츄리', '#고소', "#달달"],
     bookmark: false,
   },
   {

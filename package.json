@@ -1,9 +1,9 @@
 {
   "name": "capstone-frontend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "capstone-frontend",
   "repository": "https://github.com/capstone-2021-1/capstone-frontend.git",
-  "author": "capstone-2021-1",
+  "author": "sindy",
   "license": "GPL-3.0-only",
   "private": false,
   "engines": {
@@ -23,9 +23,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.12",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "date-fns": "^2.19.0",
+    "graphql": "^15.5.0",
     "next": "latest",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",

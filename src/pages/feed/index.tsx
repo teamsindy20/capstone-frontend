@@ -35,7 +35,7 @@ function FeedPage() {
   })
 
   return (
-    <PageHead title="디신 - 새 소식" description={description}>
+    <PageHead title="디플 - 새 소식" description={description}>
       <PageLayout>
         <h2>흑석동 주변 새 소식</h2>
 

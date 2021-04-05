@@ -33,10 +33,10 @@ const GlobalStyle = createGlobalStyle`
 
 // 최대 120자
 const description =
-  "안녕하세요. 사장님의 개성에 따라 자신의 디저트 매장을 자율적으로 운영할 수 있는 소상공인 친화형 디저트 전용 배달 서비스 '디신'입니다."
+  "안녕하세요. 사장님의 개성에 따라 자신의 디저트 매장을 자율적으로 운영할 수 있는 소상공인 친화형 디저트 전용 배달 서비스 '디플'입니다."
 
 // 최대 10개
-const keywords = '디신, 디저트, 배달, 소통, 자율'
+const keywords = '디플, 디저트, 플레저, 개성, 배달, 소통'
 
 function CapstoneApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -58,6 +58,10 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
+        <meta property="og:url" content="https://disin.vercel.app/" />
+        <meta property="og:image" content="/sindy.jpeg" />
+        <link rel="canonical" href="https://disin.vercel.app/" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"

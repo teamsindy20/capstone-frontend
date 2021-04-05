@@ -63,7 +63,7 @@ function HomePage() {
   })
 
   return (
-    <PageHead title="디신 - 홈">
+    <PageHead title="디플">
       <PageLayout>
         <FlexContainerBetweenCenter>
           <BookmarkTwoToneIcon fontSize="large" />

@@ -1,11 +1,13 @@
+import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { MouseEvent as ReactMouseEvent } from 'react'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
 import { SkeletonImage, SkeletonText } from './MenuCard'
 
@@ -14,6 +16,7 @@ const GridContainerLi = styled.li`
   gap: 0.5rem;
   grid-template-columns: 1fr 2fr;
 
+  position: relative;
   background: #fff;
   padding: 0.5rem;
 `
@@ -33,10 +36,6 @@ const RelativePosition = styled.div`
 
 const RoundSkeletonImage = styled(SkeletonImage)`
   border-radius: 5px;
-`
-
-const FlexContainerColumnBetween = styled(FlexContainerBetween)`
-  flex-flow: column nowrap;
 `
 
 const WideSkeletonText = styled(SkeletonText)`
@@ -62,6 +61,12 @@ const GridItemColumn2 = styled.div`
 
 const Width100Button = styled.button`
   width: 100%;
+`
+
+const AbsolutePosition = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 `
 
 function formatOrderDate(orderDate: string) {
@@ -105,9 +110,14 @@ function OrderCard({ order, store }: Props) {
     router.push(`/users/${name}/orders/${order.id}`)
   }
 
+  function goToStoreMenuPage(e: ReactMouseEvent<HTMLElement, MouseEvent>) {
+    e.stopPropagation()
+    router.push(`/stores/${store.name}/`)
+  }
+
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
-      <RelativePosition>
+      <RelativePosition onClick={goToStoreMenuPage}>
         <Image
           src={order.menus[0].imageUrl}
           alt="store"
@@ -117,7 +127,13 @@ function OrderCard({ order, store }: Props) {
         />
       </RelativePosition>
       <div>
-        <h3>{store.name}</h3>
+        <AbsolutePosition>
+          <FlexContainerAlignCenter>
+            <TimerRoundedIcon />
+            {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
+          </FlexContainerAlignCenter>
+        </AbsolutePosition>
+        <h3 onClick={goToStoreMenuPage}>{store.name}</h3>
         <ul>
           {order.menus.map((menu) => (
             <li key={menu.id}>{menu.name}</li>

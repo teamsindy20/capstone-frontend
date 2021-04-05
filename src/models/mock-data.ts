@@ -93,6 +93,7 @@ export const store: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 19,
   reorderRatio: 82,
+  regularCount: 21,
   location: '흑석동',
   imageUrl: 'http://image.newdaily.co.kr/site/data/img/2019/06/03/2019060300094_0.jpg',
 }
@@ -103,6 +104,7 @@ export const store2: TStore = {
   deliveryTimeMin: 9,
   deliveryTimeMax: 15,
   reorderRatio: 32,
+  regularCount: 21,
   location: '흑석동',
   imageUrl:
     'https://file.namu.moe/file/cbfb693725816fbffef427ed9273e3cf0d9a6457dc3bf01a518761a3ce872f365ab0b96a243764e0af20e2adfbc297cf',
@@ -114,6 +116,7 @@ export const store3: TStore = {
   deliveryTimeMin: 13,
   deliveryTimeMax: 25,
   reorderRatio: 62,
+  regularCount: 21,
   location: '흑석동',
   imageUrl:
     'https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
@@ -125,6 +128,7 @@ export const store4: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 23,
   reorderRatio: 32,
+  regularCount: 21,
   location: '흑석동',
   imageUrl: 'http://ojsfile.ohmynews.com/PHT_IMG_FILE/2019/0923/IE002549966_PHT.jpg',
 }
@@ -135,6 +139,7 @@ export const store5: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 23,
   reorderRatio: 32,
+  regularCount: 21,
   location: '영등포',
   imageUrl:
     'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',

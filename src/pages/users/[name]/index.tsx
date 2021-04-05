@@ -5,7 +5,7 @@ const description = ''
 
 function MyDisinPage() {
   return (
-    <PageHead title="디플 - My 디플" description={description}>
+    <PageHead title="Deple - 내 Deple" description={description}>
       <PageLayout>
         <>마이페이지</>
       </PageLayout>

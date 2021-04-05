@@ -5,11 +5,13 @@ module.exports = {
   },
   images: {
     domains: [
+      'cdn.crowdpic.net',
       'cdn.dribbble.com',
       'image.newdaily.co.kr',
       'file.namu.moe',
       'upload.wikimedia.org',
       'ojsfile.ohmynews.com',
+      'globalassets.starbucks.com',
     ],
   },
   reactStrictMode: true,

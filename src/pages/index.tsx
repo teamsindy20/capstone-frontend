@@ -63,7 +63,7 @@ function HomePage() {
   })
 
   return (
-    <PageHead title="캡스톤디자인 - 홈">
+    <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
           <BookmarkTwoToneIcon fontSize="large" />
@@ -92,7 +92,7 @@ function HomePage() {
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
-
+          <MenuLoadingCard onlyImage={onlyImage} />
           {isLoadingMenus &&
             (onlyImage ? (
               <>

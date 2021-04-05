@@ -65,7 +65,7 @@ function Header() {
           <a href="/feed">
             <FlexContainerColumnCenterCenter>
               <ListAltTwoTone fontSize="large" />
-              <NoMarginH6>피드</NoMarginH6>
+              <NoMarginH6>새 소식</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>
@@ -89,7 +89,7 @@ function Header() {
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
               <InsertEmoticonTwoToneIcon fontSize="large" />
-              <NoMarginH6>내 Sindy</NoMarginH6>
+              <NoMarginH6>내 디신</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>

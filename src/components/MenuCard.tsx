@@ -172,11 +172,8 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
           <SkeletonText width="30%" />
           <SkeletonText width="80%" height="1.2rem" />
           <SkeletonText width="50%" />
-
-          <GridContainer>
-            <SkeletonText height="1.2rem" />
-            <HorizontalBorder />
-          </GridContainer>
+          <SkeletonText height="1.2rem" />
+          <HorizontalBorder />
         </FlexContainerColumnBetween>
       )}
       {!onlyImage && (

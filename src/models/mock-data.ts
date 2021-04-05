@@ -84,6 +84,91 @@ export const menus: TMenu[] = [
     hashtags: ['#춘천', '#감자빵', '#고소'],
     bookmark: false,
   },
+
+  {
+    id: 6,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 7,
+    imageUrl:
+      'https://post-phinf.pstatic.net/MjAxOTA4MjJfMjc3/MDAxNTY2NDQwMjY4MDA1.iuAYTuWj97NoOtuI5ha2cPrtO0V2zCLv5U8VPe8GNuwg.LMKtLv4P4rU8d3Ow-NBkFZJDNNJMDuES14lsvohKLU4g.JPEG/%EB%B0%80%ED%91%80%EC%9C%A0%EB%B0%94%EB%8B%88.jpg?type=w1200',
+    name: '밀푀유 바니',
+    price: 9500,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#마얘', '#정통프렌치디저트', '#바닐라크림', '#패스츄리', '#고소', '#달달'],
+    bookmark: false,
+  },
+  {
+    id: 8,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 9,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 10,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 11,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
 ]
 
 export const store: TStore = {
@@ -129,6 +214,17 @@ export const store4: TStore = {
 }
 
 export const store5: TStore = {
+  name: '타임스퀘어 지하백화점',
+  deliveryFees: [1000],
+  deliveryTimeMin: 10,
+  deliveryTimeMax: 23,
+  reorderRatio: 32,
+  location: '영등포',
+  imageUrl:
+    'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
+}
+
+export const store6: TStore = {
   name: '타임스퀘어 지하백화점',
   deliveryFees: [1000],
   deliveryTimeMin: 10,

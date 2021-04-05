@@ -1,4 +1,5 @@
 import TMenu from 'src/types/Menu'
+import TOrder from 'src/types/Order'
 import TPost from 'src/types/Post'
 import TStore from 'src/types/Store'
 
@@ -84,6 +85,91 @@ export const menus: TMenu[] = [
     hashtags: ['#춘천', '#감자빵', '#고소'],
     bookmark: false,
   },
+
+  {
+    id: 6,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 7,
+    imageUrl:
+      'https://post-phinf.pstatic.net/MjAxOTA4MjJfMjc3/MDAxNTY2NDQwMjY4MDA1.iuAYTuWj97NoOtuI5ha2cPrtO0V2zCLv5U8VPe8GNuwg.LMKtLv4P4rU8d3Ow-NBkFZJDNNJMDuES14lsvohKLU4g.JPEG/%EB%B0%80%ED%91%80%EC%9C%A0%EB%B0%94%EB%8B%88.jpg?type=w1200',
+    name: '밀푀유 바니',
+    price: 9500,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#마얘', '#정통프렌치디저트', '#바닐라크림', '#패스츄리', '#고소', '#달달'],
+    bookmark: false,
+  },
+  {
+    id: 8,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 9,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 10,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
+  {
+    id: 11,
+    imageUrl:
+      'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
+    name: '슈크림라떼',
+    price: 3000,
+    likeCount: 1442,
+    likeRatio: 67,
+    reviewCount: 1294,
+    orderCount: 19744,
+    reorderRatio: 67,
+    hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
+    bookmark: false,
+  },
 ]
 
 export const store: TStore = {
@@ -92,6 +178,7 @@ export const store: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 19,
   reorderRatio: 82,
+  regularCount: 21,
   location: '흑석동',
   imageUrl: 'http://image.newdaily.co.kr/site/data/img/2019/06/03/2019060300094_0.jpg',
 }
@@ -102,6 +189,7 @@ export const store2: TStore = {
   deliveryTimeMin: 9,
   deliveryTimeMax: 15,
   reorderRatio: 32,
+  regularCount: 21,
   location: '흑석동',
   imageUrl:
     'https://file.namu.moe/file/cbfb693725816fbffef427ed9273e3cf0d9a6457dc3bf01a518761a3ce872f365ab0b96a243764e0af20e2adfbc297cf',
@@ -113,6 +201,7 @@ export const store3: TStore = {
   deliveryTimeMin: 13,
   deliveryTimeMax: 25,
   reorderRatio: 62,
+  regularCount: 21,
   location: '흑석동',
   imageUrl:
     'https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
@@ -124,6 +213,7 @@ export const store4: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 23,
   reorderRatio: 32,
+  regularCount: 21,
   location: '흑석동',
   imageUrl: 'http://ojsfile.ohmynews.com/PHT_IMG_FILE/2019/0923/IE002549966_PHT.jpg',
 }
@@ -134,6 +224,19 @@ export const store5: TStore = {
   deliveryTimeMin: 10,
   deliveryTimeMax: 23,
   reorderRatio: 32,
+  regularCount: 21,
+  location: '영등포',
+  imageUrl:
+    'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
+}
+
+export const store6: TStore = {
+  name: '타임스퀘어 지하백화점',
+  deliveryFees: [1000],
+  deliveryTimeMin: 10,
+  deliveryTimeMax: 23,
+  reorderRatio: 32,
+  regularCount: 53,
   location: '영등포',
   imageUrl:
     'https://lh3.googleusercontent.com/proxy/f3D00Ev7BKmh0gCB_0_4Z0PtbeipxwdhAN_mAKWsYZ-azAjMJRyHk7jEtKGcM141HV0HvpN0qinu4NmBkdFkPc3aSU6HudJbPSuHHvaqhbgqxQSCZSHuFjAeTbSGE10k8eSdRmIY2iPg6hiqwMD7xLwMpPKebVW1IPfF3DY7JOwq9V-6u_U',
@@ -166,5 +269,34 @@ export const posts: TPost[] = [
     ],
     likeCount: 234,
     commentCount: 74,
+  },
+]
+
+export const orders: TOrder[] = [
+  {
+    id: 0,
+    imageUrl: [
+      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
+    ],
+    menus: [menus[0], menus[1]],
+    orderDate: new Date().toISOString(),
+    orderTotal: 42430,
+    orderStatus: '배달 완료',
+    review: { id: 0 },
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 3,
+  },
+  {
+    id: 1,
+    imageUrl: [
+      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
+    ],
+    menus: [menus[2], menus[3]],
+    orderDate: new Date().toISOString(),
+    orderTotal: 62430,
+    orderStatus: '접수 대기',
+    review: undefined,
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 4,
   },
 ]

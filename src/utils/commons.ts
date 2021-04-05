@@ -1,4 +1,4 @@
-export function stopEnterPropagation(e: React.KeyboardEvent<HTMLElement>) {
+export function preventAndStopEnterPropagation(e: React.KeyboardEvent<HTMLElement>) {
   if (e.key === 'Enter') {
     e.preventDefault()
     e.stopPropagation()

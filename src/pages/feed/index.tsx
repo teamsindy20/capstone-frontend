@@ -10,9 +10,6 @@ import styled from 'styled-components'
 const GridContainerUl = styled.ul`
   display: grid;
   gap: 3rem;
-
-  list-style: none;
-  padding-left: 0;
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
@@ -38,7 +35,7 @@ function FeedPage() {
   })
 
   return (
-    <PageHead title="캡스톤디자인 - 새 소식" description={description}>
+    <PageHead title="Deple - 새 소식" description={description}>
       <PageLayout>
         <h2>흑석동 주변 새 소식</h2>
 
@@ -46,6 +43,7 @@ function FeedPage() {
           {posts.map((post) => (
             <PostCard key={post.id} post={post} store={store} />
           ))}
+          <PostLoadingCard />
           {isLoadingPosts && <PostLoadingCard />}
         </GridContainerUl>
       </PageLayout>

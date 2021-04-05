@@ -6,6 +6,7 @@ type TStore = {
   location: string
   imageUrl: string
   reorderRatio: number
+  regularCount: number
 }
 
 export default TStore

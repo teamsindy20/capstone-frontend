@@ -9,7 +9,7 @@ function StoreMenuPage() {
   const { name } = router.query
 
   return (
-    <PageHead title="캡스톤디자인 - 매장 메뉴" description={description}>
+    <PageHead title="Deple - 매장 메뉴" description={description}>
       <PageLayout>
         <>{name}</>
       </PageLayout>

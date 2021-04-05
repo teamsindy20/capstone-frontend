@@ -3,6 +3,11 @@ import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/do
 import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
+export const canonicalUrl = 'https://disin.vercel.app/'
+
+// 최대 10개
+const keywords = '디플,deple,디저트,플레저,배달,배송,픽업,예약'
+
 export default class CapstoneDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
@@ -33,9 +38,13 @@ export default class CapstoneDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="apple-touch-icon" href="/favicon.ico" />
+          <meta name="keywords" content={keywords} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/favicon.ico" />
+          <link rel="canonical" href={canonicalUrl} />
           {process.env.NODE_ENV === 'production' && (
             <>
               <script

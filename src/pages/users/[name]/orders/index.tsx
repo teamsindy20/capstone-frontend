@@ -35,7 +35,7 @@ function UserOrdersPage() {
   })
 
   return (
-    <PageHead title="Deple - Orders" description={description}>
+    <PageHead title="Deple - 주문 내역" description={description}>
       <PageLayout>
         <GridContainerUl ref={infiniteRef}>
           {orders.map((order) => (

@@ -63,7 +63,7 @@ function HomePage() {
   })
 
   return (
-    <PageHead title="Deple">
+    <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
           <BookmarkTwoToneIcon fontSize="large" />

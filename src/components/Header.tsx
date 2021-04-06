@@ -5,6 +5,7 @@ import ListAltTwoTone from '@material-ui/icons/ListAltTwoTone'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import Link from 'next/link'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { username } from 'src/models/mock-data'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 
@@ -48,8 +49,6 @@ const NoMarginH6 = styled.h5`
 `
 
 function Header() {
-  const username = 'username'
-
   return (
     <FixedHeader>
       <FlexContainerAroundNav>

@@ -3,6 +3,8 @@ import TOrder from 'src/types/Order'
 import TPost from 'src/types/Post'
 import TStore from 'src/types/Store'
 
+export const username = 'username'
+
 export const menus: TMenu[] = [
   {
     id: 0,
@@ -94,7 +96,7 @@ export const menus: TMenu[] = [
     price: 3000,
     likeCount: 1442,
     likeRatio: 67,
-    reviewCount: 1294,
+    reviewCount: 123456789,
     orderCount: 19744,
     reorderRatio: 67,
     hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],

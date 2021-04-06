@@ -13,6 +13,10 @@ import TMenu from 'src/types/Menu'
 import TStore from 'src/types/Store'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
+import { CHOCO_COLOR } from 'src/models/constants'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import useGoToPage from 'src/hooks/useGoToPage'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -63,11 +67,11 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
   height: ${({ height = '1rem' }) => height};
 `
 
-const GridContainerLi = styled.li<{ onlyImage: boolean }>`
+const GridContainerLi = styled.li<{ column1by2: boolean }>`
   display: grid;
-  ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
-  grid-template-rows: auto auto;
+  ${(p) => (p.column1by2 ? 'grid-template-columns: 1fr 2fr;' : '')}
 
+  cursor: pointer;
   background: #f8f2f8;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
 `
@@ -90,6 +94,7 @@ export const AbsolutePositionImage = styled.img`
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
+  gap: 0.5rem;
 
   position: relative;
   padding: 0.5rem 0.5rem 0;
@@ -101,7 +106,7 @@ const AbsolutePosition = styled.div`
   right: 0.1rem;
 `
 
-const GridContainer = styled.div`
+const GridContainer2 = styled.div`
   display: grid;
   gap: 0.5rem;
 `
@@ -119,23 +124,31 @@ const GridContainerColumn2 = styled(GridContainerGap)`
 
 const NoMarginH3 = styled.h3`
   margin: 0;
-  text-overflow: ellipsis;
+
   overflow: hidden;
-  /* white-space: nowrap; 이름 길면 줄이기 */
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const FlexContainerUl = styled.ul`
   display: flex;
-  gap: 0.5rem;
+  flex-flow: row wrap;
 
   list-style: none;
   padding-left: 0;
 `
 
-const BoldH5 = styled.h5`
-  margin-top: 0;
+const BoldA = styled.a`
+  font-size: 0.83em;
   font-weight: bold;
-  color: #555;
+  word-break: keep-all;
+
+  color: maroon;
+  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  :hover {
+    color: ${CHOCO_COLOR};
+  }
 `
 
 const HorizontalBorder = styled.div`
@@ -160,27 +173,35 @@ type Props2 = {
 }
 
 export function MenuLoadingCard({ onlyImage }: Props2) {
+  if (onlyImage) {
+    return (
+      <GridContainerLi column1by2={false}>
+        <ImageRatioWrapper paddingTop="100%">
+          <SkeletonImage />
+        </ImageRatioWrapper>
+      </GridContainerLi>
+    )
+  }
+
   return (
-    <GridContainerLi onlyImage={onlyImage}>
+    <GridContainerLi column1by2={true}>
       <FlexContainerAlignCenter>
         <ImageRatioWrapper paddingTop="100%">
           <SkeletonImage />
         </ImageRatioWrapper>
       </FlexContainerAlignCenter>
-      {!onlyImage && (
-        <FlexContainerColumnBetween>
-          <SkeletonText width="30%" />
-          <SkeletonText width="80%" height="1.2rem" />
-          <SkeletonText width="50%" />
-          <SkeletonText height="1.2rem" />
-          <HorizontalBorder />
-        </FlexContainerColumnBetween>
-      )}
-      {!onlyImage && (
-        <FlexContainerWrapAround>
-          <SkeletonText />
-        </FlexContainerWrapAround>
-      )}
+
+      <FlexContainerColumnBetween>
+        <SkeletonText width="30%" />
+        <SkeletonText width="80%" height="1.2rem" />
+        <SkeletonText width="50%" />
+        <SkeletonText height="1.2rem" />
+        <HorizontalBorder />
+      </FlexContainerColumnBetween>
+
+      <FlexContainerWrapAround>
+        <SkeletonText />
+      </FlexContainerWrapAround>
     </GridContainerLi>
   )
 }
@@ -192,79 +213,94 @@ type Props = {
 }
 
 function MenuCard({ menu, store, onlyImage }: Props) {
-  return (
-    <GridContainerLi onlyImage={onlyImage}>
-      <FlexContainerAlignCenter>
+  const goToStoreReviewsPage = useGoToPage(`/stores/${store.name}/reviews?menu=${menu.name}`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}`)
+
+  if (onlyImage) {
+    return (
+      <GridContainerLi column1by2={false} onClick={goToStoreMenusPage}>
         <ImageRatioWrapper paddingTop="100%">
           <AbsolutePositionImage src={menu.imageUrl} alt="food" />
         </ImageRatioWrapper>
-      </FlexContainerAlignCenter>
-      {!onlyImage && (
-        <FlexContainerColumnBetween>
-          <AbsolutePosition>
-            {menu.bookmark ? (
-              <BookmarkTwoToneIcon fontSize="large" />
-            ) : (
-              <BookmarkBorderTwoToneIcon fontSize="large" />
-            )}
-          </AbsolutePosition>
-          <GridContainer>
-            <GridContainerColumn2>
-              <FlexContainerAlignCenter>
-                <LocationOnTwoToneIcon fontSize="small" />
-                <LighterH5>{store.name}</LighterH5>
-              </FlexContainerAlignCenter>
-              <FlexContainerAlignCenter>
-                <MotorcycleTwoToneIcon />
-                <LighterH5>{formatPricesWithFree(store.deliveryFees)}</LighterH5>
-              </FlexContainerAlignCenter>
-            </GridContainerColumn2>
-            <div>
-              <NoMarginH3>{menu.name}</NoMarginH3>
-            </div>
-            <FlexContainerUl>
-              {menu.hashtags.map((hashtag) => (
+      </GridContainerLi>
+    )
+  }
+
+  return (
+    <GridContainerLi column1by2={true} onClick={goToStoreMenusPage}>
+      <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
+        <AbsolutePositionImage src={menu.imageUrl} alt="food" />
+      </ImageRatioWrapper>
+
+      <FlexContainerColumnBetween>
+        <AbsolutePosition>
+          {menu.bookmark ? (
+            <BookmarkTwoToneIcon fontSize="large" />
+          ) : (
+            <BookmarkBorderTwoToneIcon fontSize="large" />
+          )}
+        </AbsolutePosition>
+        <GridContainer2>
+          <GridContainerColumn2>
+            <FlexContainerAlignCenter>
+              <LocationOnTwoToneIcon fontSize="small" />
+              <LighterH5>{store.name}</LighterH5>
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <MotorcycleTwoToneIcon />
+              <LighterH5>{formatPricesWithFree(store.deliveryFees)}</LighterH5>
+            </FlexContainerAlignCenter>
+          </GridContainerColumn2>
+          <NoMarginH3>{menu.name}</NoMarginH3>
+          <FlexContainerUl>
+            {menu.hashtags.map((hashtag) => (
+              <>
                 <li key={hashtag}>
-                  <BoldH5>{hashtag}</BoldH5>
+                  <Link href={`/search/${hashtag.slice(1)}`}>
+                    <BoldA
+                      href={`/search/${hashtag.slice(1)}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >{`${hashtag}`}</BoldA>
+                  </Link>
                 </li>
-              ))}
-            </FlexContainerUl>
-          </GridContainer>
-          <GridContainer>
-            <FlexContainerBetween>
-              <FlexContainerAlignCenter>
-                <TimerRoundedIcon />
-                {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
-              </FlexContainerAlignCenter>
-              <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
-            </FlexContainerBetween>
-            <HorizontalBorder />
-          </GridContainer>
-        </FlexContainerColumnBetween>
-      )}
-      {!onlyImage && (
-        <FlexContainerWrapAround>
-          <FlexContainerAlignCenter>
-            <ThumbUpOutlinedIcon />
-            <div>{menu.likeRatio}%</div>
-          </FlexContainerAlignCenter>
-          <VerticalBorder />
-          <FlexContainerAlignCenter>
-            <RateReviewTwoToneIcon />
-            <div>{formatNumber(menu.reviewCount)}개</div>
-          </FlexContainerAlignCenter>
-          <VerticalBorder />
-          <FlexContainerAlignCenter>
-            <RefreshIcon />
-            <div>{menu.reorderRatio}%</div>
-          </FlexContainerAlignCenter>
-          <VerticalBorder />
-          <FlexContainerAlignCenter>
-            <AssignmentTwoToneIcon />
-            <div>{formatNumber(menu.orderCount)}개</div>
-          </FlexContainerAlignCenter>
-        </FlexContainerWrapAround>
-      )}
+                &nbsp;
+              </>
+            ))}
+          </FlexContainerUl>
+        </GridContainer2>
+        <GridContainer2>
+          <FlexContainerBetween>
+            <FlexContainerAlignCenter>
+              <TimerRoundedIcon />
+              {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
+            </FlexContainerAlignCenter>
+            <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
+          </FlexContainerBetween>
+          <HorizontalBorder />
+        </GridContainer2>
+      </FlexContainerColumnBetween>
+
+      <FlexContainerWrapAround>
+        <FlexContainerAlignCenter>
+          <ThumbUpOutlinedIcon />
+          <div>{menu.likeRatio}%</div>
+        </FlexContainerAlignCenter>
+        <VerticalBorder />
+        <FlexContainerAlignCenter>
+          <RateReviewTwoToneIcon />
+          <div>{formatNumber(menu.reviewCount)}개</div>
+        </FlexContainerAlignCenter>
+        <VerticalBorder />
+        <FlexContainerAlignCenter>
+          <RefreshIcon />
+          <div>{menu.reorderRatio}%</div>
+        </FlexContainerAlignCenter>
+        <VerticalBorder />
+        <FlexContainerAlignCenter>
+          <AssignmentTwoToneIcon />
+          <div>{formatNumber(menu.orderCount)}개</div>
+        </FlexContainerAlignCenter>
+      </FlexContainerWrapAround>
     </GridContainerLi>
   )
 }

@@ -38,11 +38,15 @@ export default class CapstoneDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta name="author" content="sindy" />
           <meta name="keywords" content={keywords} />
+          <meta name="application-name" content="Deple" />
+          <meta name="apple-mobile-web-app-title" content="Deple" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-startup-image" href="/sindy.jpeg" />
           <link rel="apple-touch-icon" href="/favicon.ico" />
           <link rel="canonical" href={canonicalUrl} />
           {process.env.NODE_ENV === 'production' && (

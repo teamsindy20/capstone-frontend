@@ -6,7 +6,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import ReviewCard, { ReviewLoadingCard } from 'src/components/ReviewCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { menus, store } from 'src/models/mock-data'
+import { reviews } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 
@@ -22,8 +22,8 @@ const GridContainerUl = styled.ul`
 
 const GridContainerInfiniteScroll = styled.ul<{ onlyImage: boolean }>`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
 `
 
 const description = '내 취향이 반영된 나만의 Deple을 만나보세요.'
@@ -96,8 +96,8 @@ function MyDeplePage() {
         <button onClick={toggleOnlyImage}>사진만 보기</button>
 
         <GridContainerInfiniteScroll onlyImage={onlyImage} ref={infiniteRef}>
-          {menus.map((menu) => (
-            <ReviewCard key={menu.id} review={menu} onlyImage={onlyImage} />
+          {reviews.map((review) => (
+            <ReviewCard key={review.id} review={review} onlyImage={onlyImage} />
           ))}
         </GridContainerInfiniteScroll>
         <ReviewLoadingCard onlyImage={onlyImage} />

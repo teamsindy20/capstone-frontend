@@ -14,7 +14,7 @@ export const menus: TMenu[] = [
     reviewCount: 429,
     orderCount: 4213,
     reorderRatio: 23,
-    hashtags: ['#달달', '#비건', '#다이어트'],
+    hashtags: ['#달달', "달콤", '#비건', '#다이어트'],
     bookmark: true,
   },
   {

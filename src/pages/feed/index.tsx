@@ -23,8 +23,6 @@ function FeedPage() {
     await sleep(5000) // fetchMorePosts(from, count)
     setIsLoadingPosts(false)
 
-    console.log('page:')
-
     setHasMorePosts(false)
   }
 

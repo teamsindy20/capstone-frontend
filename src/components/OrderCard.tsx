@@ -110,14 +110,14 @@ function OrderCard({ order, store }: Props) {
     router.push(`/users/${name}/orders/${order.id}`)
   }
 
-  function goToStoreMenuPage(e: ReactMouseEvent<HTMLElement, MouseEvent>) {
+  function goToStoreMenusPage(e: ReactMouseEvent<HTMLElement, MouseEvent>) {
     e.stopPropagation()
     router.push(`/stores/${store.name}/`)
   }
 
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
-      <RelativePosition onClick={goToStoreMenuPage}>
+      <RelativePosition onClick={goToStoreMenusPage}>
         <Image
           src={order.menus[0].imageUrl}
           alt="store"
@@ -133,7 +133,7 @@ function OrderCard({ order, store }: Props) {
             {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
           </FlexContainerAlignCenter>
         </AbsolutePosition>
-        <h3 onClick={goToStoreMenuPage}>{store.name}</h3>
+        <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
         <ul>
           {order.menus.map((menu) => (
             <li key={menu.id}>{menu.name}</li>

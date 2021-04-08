@@ -13,6 +13,7 @@ import { store3, store, store2, store5, menus } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
+import useGoToPage from 'src/hooks/useGoToPage'
 
 const PADDING_TOP = '3rem'
 
@@ -41,10 +42,16 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
 `
 
+const ClickableDiv = styled.div`
+  cursor: pointer;
+`
+
 function HomePage() {
   const [isLoadingMenus, setIsLoadingMenus] = useState(false)
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
+
+  const goToSearchPage = useGoToPage('/search')
 
   async function fetchMoreMenus() {
     setIsLoadingMenus(true)
@@ -62,6 +69,8 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
+  console.log(menus.map((menu) => menu.id))
+
   return (
     <PageHead>
       <PageLayout>
@@ -69,15 +78,17 @@ function HomePage() {
           <BookmarkTwoToneIcon fontSize="large" />
           <FlexContainerAlignCenter>
             <LocationOnTwoToneIcon />
-            주소
+            흑석로 84
           </FlexContainerAlignCenter>
-          <SearchIcon fontSize="large" />
+          <ClickableDiv onClick={goToSearchPage}>
+            <SearchIcon fontSize="large" />
+          </ClickableDiv>
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
         <ImageRatioWrapper paddingTop="56.25%">
           <Image
-            src="https://cdn.dribbble.com/users/2689908/screenshots/6544696/dribbble.jpg"
+            src="https://www.smlounge.co.kr/upload/woman/article/201912/thumb/43530-394917-sample.jpg"
             alt="banner advertisement"
             layout="fill"
           />
@@ -92,18 +103,9 @@ function HomePage() {
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
-          <MenuLoadingCard onlyImage={onlyImage} />
-          {isLoadingMenus &&
-            (onlyImage ? (
-              <>
-                <MenuLoadingCard onlyImage={onlyImage} />
-                <MenuLoadingCard onlyImage={onlyImage} />
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </>
-            ) : (
-              <MenuLoadingCard onlyImage={onlyImage} />
-            ))}
         </GridContainerUl>
+        <MenuLoadingCard onlyImage={onlyImage} />
+        {isLoadingMenus && <MenuLoadingCard onlyImage={onlyImage} />}
       </PageLayout>
     </PageHead>
   )

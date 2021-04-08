@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
@@ -15,6 +15,12 @@ const FlexContainer = styled.div`
 `
 
 const GridContainerUl = styled.ul`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+`
+
+const GridContainerInfiniteScroll = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
@@ -89,11 +95,11 @@ function MyDeplePage() {
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
         <button onClick={toggleOnlyImage}>사진만 보기</button>
 
-        <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
+        <GridContainerInfiniteScroll onlyImage={onlyImage} ref={infiniteRef}>
           {menus.map((menu) => (
             <ReviewCard key={menu.id} review={menu} onlyImage={onlyImage} />
           ))}
-        </GridContainerUl>
+        </GridContainerInfiniteScroll>
         <ReviewLoadingCard onlyImage={onlyImage} />
         {isLoadingMyReviews && <ReviewLoadingCard onlyImage={onlyImage} />}
       </PageLayout>

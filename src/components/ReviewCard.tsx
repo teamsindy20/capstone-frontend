@@ -1,12 +1,17 @@
-export function ReviewLoadingCard() {
+type LoadingProps = {
+  onlyImage: boolean
+}
+
+export function ReviewLoadingCard({ onlyImage }: LoadingProps) {
   return <div />
 }
 
 type Props = {
+  onlyImage: boolean
   review: any
 }
 
-function ReviewCard({ review }: Props) {
+function ReviewCard({ onlyImage, review }: Props) {
   return <></>
 }
 

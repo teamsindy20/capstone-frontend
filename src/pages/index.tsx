@@ -78,7 +78,7 @@ function HomePage() {
           <BookmarkTwoToneIcon fontSize="large" />
           <FlexContainerAlignCenter>
             <LocationOnTwoToneIcon />
-            주소
+            흑석로 84
           </FlexContainerAlignCenter>
           <ClickableDiv onClick={goToSearchPage}>
             <SearchIcon fontSize="large" />
@@ -88,7 +88,7 @@ function HomePage() {
 
         <ImageRatioWrapper paddingTop="56.25%">
           <Image
-            src="https://cdn.dribbble.com/users/2689908/screenshots/6544696/dribbble.jpg"
+            src="https://www.smlounge.co.kr/upload/woman/article/201912/thumb/43530-394917-sample.jpg"
             alt="banner advertisement"
             layout="fill"
           />

@@ -5,13 +5,16 @@ module.exports = {
   },
   images: {
     domains: [
+      'mp-seoul-image-production-s3.mangoplate.com',
       'cdn.crowdpic.net',
-      'cdn.dribbble.com',
+      'www.smlounge.co.kr',
       'image.newdaily.co.kr',
       'file.namu.moe',
       'upload.wikimedia.org',
       'ojsfile.ohmynews.com',
       'globalassets.starbucks.com',
+      'post-phinf.pstatic.net',
+      'mblogthumb-phinf.pstatic.net',
     ],
   },
   reactStrictMode: true,

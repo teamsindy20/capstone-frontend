@@ -69,8 +69,6 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
-  console.log(menus.map((menu) => menu.id))
-
   return (
     <PageHead>
       <PageLayout>

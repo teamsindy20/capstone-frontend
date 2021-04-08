@@ -1,6 +1,7 @@
 import TMenu from 'src/types/Menu'
 import TOrder from 'src/types/Order'
 import TPost from 'src/types/Post'
+import TReview from 'src/types/Review'
 import TStore from 'src/types/Store'
 
 export const username = 'username'
@@ -8,6 +9,8 @@ export const username = 'username'
 export const menus: TMenu[] = [
   {
     id: '0',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl: 'https://cdn.crowdpic.net/list-thumb/thumb_l_F22044335599802DDF4A7ABF5778ACE5.jpg',
     name: '팥빙수',
     price: 5900,
@@ -21,6 +24,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '1',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
     name: '메리딸기',
@@ -35,6 +40,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '2',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://globalassets.starbucks.com/assets/55525cd1303a4b18958b05f0705b4cbb.jpg?impolicy=1by1_wide_1242',
     name: '나이트로 콜드 브루 톨(355ml)',
@@ -49,6 +56,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '3',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://image.istarbucks.co.kr/upload/store/skuimg/2019/11/[9300000002488]_20191106172218633.jpg',
     name: '제주 한라봉 뺑오쇼콜라',
@@ -63,6 +72,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '4',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl: '',
     name: '제주 한라봉 뺑오쇼콜라',
     price: 5800,
@@ -76,6 +87,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '5',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl: 'http://belocal.kr/Files/28/News/202006/2101_20200610163604331.JPG',
     name: '춘천 감자빵',
     price: 3000,
@@ -90,6 +103,8 @@ export const menus: TMenu[] = [
 
   {
     id: '6',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
     name: '슈크림라떼',
@@ -104,6 +119,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '7',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://post-phinf.pstatic.net/MjAxOTA4MjJfMjc3/MDAxNTY2NDQwMjY4MDA1.iuAYTuWj97NoOtuI5ha2cPrtO0V2zCLv5U8VPe8GNuwg.LMKtLv4P4rU8d3Ow-NBkFZJDNNJMDuES14lsvohKLU4g.JPEG/%EB%B0%80%ED%91%80%EC%9C%A0%EB%B0%94%EB%8B%88.jpg?type=w1200',
     name: '밀푀유 바니',
@@ -118,6 +135,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '8',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
     name: '슈크림라떼',
@@ -132,6 +151,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '9',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
     name: '슈크림라떼',
@@ -146,6 +167,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '10',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
     name: '슈크림라떼',
@@ -160,6 +183,8 @@ export const menus: TMenu[] = [
   },
   {
     id: '11',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     imageUrl:
       'https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg',
     name: '슈크림라떼',
@@ -176,6 +201,8 @@ export const menus: TMenu[] = [
 
 export const store: TStore = {
   id: '0',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '스노우플라워',
   deliveryFees: [2500],
   deliveryTimeMin: 10,
@@ -190,6 +217,8 @@ export const store: TStore = {
 
 export const store2: TStore = {
   id: '1',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '프랑세즈',
   deliveryFees: [1500],
   deliveryTimeMin: 9,
@@ -204,6 +233,8 @@ export const store2: TStore = {
 
 export const store3: TStore = {
   id: '2',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '스타벅스',
   deliveryFees: [2000],
   deliveryTimeMin: 13,
@@ -218,6 +249,8 @@ export const store3: TStore = {
 
 export const store4: TStore = {
   id: '3',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '디저트정',
   deliveryFees: [2500],
   deliveryTimeMin: 10,
@@ -232,6 +265,8 @@ export const store4: TStore = {
 
 export const store5: TStore = {
   id: '4',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '콜렉티보',
   deliveryFees: [1000],
   deliveryTimeMin: 10,
@@ -246,6 +281,8 @@ export const store5: TStore = {
 
 export const store6: TStore = {
   id: '5',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
   name: '마얘',
   deliveryFees: [1500],
   deliveryTimeMin: 20,
@@ -261,6 +298,8 @@ export const store6: TStore = {
 export const posts: TPost[] = [
   {
     id: '0',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     content:
       '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
     imageUrl: [
@@ -271,6 +310,8 @@ export const posts: TPost[] = [
   },
   {
     id: '1',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     content: '저는 이 세상의 모든 굴레와 속박을 벗어던지고 제 행복을 찾아 떠납니다!',
     imageUrl: [
       'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
@@ -280,6 +321,8 @@ export const posts: TPost[] = [
   },
   {
     id: '2',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
     content: '새로운 메뉴',
     imageUrl: [
       'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
@@ -317,5 +360,35 @@ export const orders: TOrder[] = [
     regularOrderDate: new Date().toISOString(),
     regularOrderCount: 4,
     store: store3,
+  },
+]
+
+export const reviews: TReview[] = [
+  {
+    id: '0',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
+    imageUrl: '',
+    rating: '맛있어요',
+    doesHelpOthers: true,
+    menus: [menus[0]],
+  },
+  {
+    id: '1',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
+    imageUrl: '',
+    rating: '괜찮아요',
+    doesHelpOthers: false,
+    menus: [menus[1]],
+  },
+  {
+    id: '2',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
+    imageUrl: '',
+    rating: '별로에요',
+    doesHelpOthers: true,
+    menus: [menus[2]],
   },
 ]

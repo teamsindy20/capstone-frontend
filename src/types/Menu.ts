@@ -1,5 +1,7 @@
 type TMenu = {
   id: string
+  creationDate: string
+  modificationDate: string
   imageUrl: string
   name: string
   price: number

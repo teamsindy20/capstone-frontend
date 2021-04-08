@@ -15,7 +15,6 @@ import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexCo
 import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import useGoToPage from 'src/hooks/useGoToPage'
 
 export const SkeletonGradient = styled.div`
@@ -138,7 +137,7 @@ const FlexContainerUl = styled.ul`
   padding-left: 0;
 `
 
-const BoldA = styled.a`
+export const BoldA = styled.a`
   font-size: 0.83em;
   font-weight: bold;
   word-break: keep-all;
@@ -185,11 +184,9 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
   return (
     <GridContainerLi column1by2={true}>
-      <FlexContainerAlignCenter>
-        <ImageRatioWrapper paddingTop="100%">
-          <SkeletonImage />
-        </ImageRatioWrapper>
-      </FlexContainerAlignCenter>
+      <ImageRatioWrapper paddingTop="100%">
+        <SkeletonImage />
+      </ImageRatioWrapper>
 
       <FlexContainerColumnBetween>
         <SkeletonText width="30%" />

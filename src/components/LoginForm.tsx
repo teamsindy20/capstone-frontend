@@ -52,7 +52,16 @@ type FormValues = {
 }
 
 function LoginForm() {
-  const [login, { loading }] = useLoginMutation({ onError: handleApolloError })
+  const [login, { loading }] = useLoginMutation({
+    onCompleted: (data) => {
+      if (data.login) {
+        console.log(data.login)
+      } else {
+        console.warn('아이디 또는 비밀번호를 잘못 입력했습니다.')
+      }
+    },
+    onError: handleApolloError,
+  })
 
   const { control, errors, handleSubmit } = useForm<FormValues>({
     defaultValues: { email: '', password: '' },

@@ -56,3 +56,113 @@ http://localhost:3000
 ```
 
 브라우저에서 아래 주소로 접속하면 개발 중인 사이트를 볼 수 있습니다.
+
+## 프로젝트 구조
+
+#### .git
+
+커밋 히스토리 등 Git 관련 파일이 들어 있습니다. 이 폴더는 직접 건들지 않아도 됩니다.
+
+#### .github
+
+이슈 템플릿, GitHub Actions 등 GitHub 관련 설정 파일이 들어 있습니다.
+
+#### .husky
+
+[git hook](https://www.atlassian.com/git/tutorials/git-hooks) 관련 설정 파일이 들어 있습니다. `yarn husky install` 시 자동으로 생성됩니다. 이 폴더는 직접 건들지 않아도 됩니다.
+
+#### .next
+
+`yarn build` 시 생성되는 폴더로서 최적화된 빌드 결과물이 들어 있습니다. 이 폴더에는 Node.js 기반 웹 서버 로직과 HTML 렌더링 로직, 정적 파일 등이 포함됩니다. 이 폴더는 직접 건들지 않아도 됩니다.
+
+#### .vscode
+
+권장 확장 프로그램, 편집기 설정, 코드 스니펫 등 VSCode 관련 설정 파일이 들어 있습니다.
+
+#### node_modules
+
+프로젝트에 필요한 외부 패키지가 모여 있습니다. 이 폴더는 직접 건들지 않아도 됩니다.
+
+#### out
+
+`yarn export` 시 생성되는 결과물이 들어 있습니다. 이 폴더에는 정적 파일(브라우저용 HTML, CSS, JS)만 포함됩니다. 이 폴더는 직접 건들지 않아도 됩니다.
+
+#### public
+
+웹 서버에 정적으로 올릴 파일을 지정합니다.
+
+#### src
+
+프로젝트에 필요한 소스 코드가 들어 있습니다.
+
+#### components
+
+React 컴포넌트가 모여 있습니다. (.tsx)
+
+#### graphql
+
+GraphQL operation 파일이 모여 있습니다.
+
+- fragments : GraphQL Fragment 모음
+- mutations : GraphQL Mutation 모음
+- queries : GraphQL Query 모음
+
+#### hooks
+
+공통으로 쓰이는 React Custom Hook 이 모여 있습니다. (.ts)
+
+#### pages
+
+Next.js 의 동적 라우팅을 정의하는 페이지 컴포넌트가 모여 있습니다. (.tsx)
+
+- api : Next.js 웹 서버에 REST API를 정의할 수 있습니다.
+
+#### types
+
+프로젝트 전체에 공통으로 쓰이는 type, interface가 모여 있습니다. (.ts)
+
+REST API를 요청할 때 응답 데이터의 자료형 지정에 쓰이고, GraphQL 요청 시엔 쓰이지 않습니다.
+
+#### utils
+
+프로젝트 전체에 공통으로 쓰이는 함수가 모여 있습니다. (.ts)
+
+#### test
+
+프로젝트를 테스트하는 코드가 들어 있습니다.
+
+#### .editorconfig
+
+VSCode를 사용하지 않고 다른 편집기를 사용하는 경우 이 파일의 설정이 적용될 수 있습니다.
+
+#### .env.local
+
+프로젝트에 필요한 환경 변수를 설정할 수 있습니다.
+
+#### .eslint.json
+
+ESLint의 lint 규칙을 세부적으로 설정할 수 있습니다.
+
+#### .gitattribute
+
+개행 문자(line endings) 정규화 등 Git 관련 설정이 들어 있습니다.
+
+#### .gitignore
+
+Git에서 추적하지 않을 파일을 설정할 수 있습니다.
+
+#### .prettier.json
+
+Prettier의 코드 포맷 규칙을 세부적으로 설정할 수 있습니다.
+
+#### babel.config.js
+
+Babel을 설정할 수 있습니다. 이 프로젝트에선 Styled Components의 Server-Side Rendering을 설정하는데 사용됩니다.
+
+#### codegen.yml
+
+GraphQL Code Generator의 동작을 세부적으로 설정할 수 있습니다.
+
+#### next-env.d.ts
+
+Next 자료형을 지정합니다. Next 관련 명령어 실행 시 자동으로 생성됩니다. 이 파일은 직접 건들지 않아도 됩니다.

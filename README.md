@@ -57,6 +57,42 @@ http://localhost:3000
 
 브라우저에서 아래 주소로 접속하면 개발 중인 사이트를 볼 수 있습니다.
 
+## 유용한 스크립트
+
+### Pre-Push
+
+```bash
+> yarn pre-push
+```
+
+코드 포맷, 린트, TypeScript 타입 검사를 전부 수행합니다. 현재 이 명령어는 원격 저장소로 push 하기 전에 husky가 자동으로 실행해주고, 문제가 없는 경우에만 커밋을 원격 저장소로 push합니다.
+
+### GraphQL Code Generator
+
+```bash
+> yarn generate
+```
+
+서버로부터 GraphQL Schema를 받아서 이에 해당하는 TypeScript 자료형과 apollo hook 등을 자동으로 생성해줍니다. 서버나 로컬의 GraphQL Schema가 변경됐을 때마다 실행합니다.
+
+### Build
+
+#### 정적 빌드
+
+```bash
+> yarn export
+```
+
+결과물에 웹 서버가 없게끔 정적으로 빌드합니다. 이 경우 결과물에 HTML, CSS, JS 파일만 포함됩니다.
+
+#### 동적 빌드
+
+```bash
+> yarn build
+```
+
+결과물에 웹 서버가 포함되도록 동적으로 빌드합니다. 이 경우 결과물에 웹 서버 로직, JSON, HTML, CSS, JS 등이 포함됩니다.
+
 ## 프로젝트 구조
 
 #### .git

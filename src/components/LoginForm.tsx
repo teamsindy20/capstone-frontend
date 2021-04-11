@@ -56,6 +56,7 @@ function LoginForm() {
     onCompleted: (data) => {
       if (data.login) {
         console.log(data.login)
+        sessionStorage.setItem('token', data.login)
       } else {
         console.warn('아이디 또는 비밀번호를 잘못 입력했습니다.')
       }
@@ -112,7 +113,7 @@ function LoginForm() {
           )}
           rules={validatePassword}
         />
-        <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+        <RedText>{errors.password ? errors.password.message : <br />}</RedText>
       </label>
 
       <Button disabled={loading} htmlType="submit" size="large" type="primary">

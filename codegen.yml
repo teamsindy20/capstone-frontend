@@ -1,19 +1,19 @@
 overwrite: true
 schema:
   # 외부 GraphQL API
-  - 'http://localhost:4000/graphql'
+  - ${NEXT_PUBLIC_GRAPHQL_API_URL}
 
   # Client Schema
-  - 'src/models/*.graphql'
-documents: 'src/graphql/**/*.graphql'
+  - src/models/*.graphql
+documents: src/graphql/**/*.graphql
 generates:
   src/graphql/generated/types-and-hooks.ts:
     plugins:
       - add:
-          content: '/* eslint-disable */'
-      - 'typescript'
-      - 'typescript-operations'
-      - 'typescript-react-apollo'
+          content: /* eslint-disable */
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
 hooks:
   afterAllFileWrite:
     - prettier --write

@@ -332,37 +332,6 @@ export const posts: TPost[] = [
   },
 ]
 
-export const orders: TOrder[] = [
-  {
-    id: '0',
-    imageUrl: [
-      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
-    ],
-    menus: [menus[0], menus[1]],
-    orderDate: new Date().toISOString(),
-    orderTotal: 42430,
-    orderStatus: '배달 완료',
-    review: { id: 0 },
-    regularOrderDate: new Date().toISOString(),
-    regularOrderCount: 3,
-    store: store,
-  },
-  {
-    id: '1',
-    imageUrl: [
-      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
-    ],
-    menus: [menus[2], menus[3]],
-    orderDate: new Date().toISOString(),
-    orderTotal: 62430,
-    orderStatus: '접수 대기',
-    review: undefined,
-    regularOrderDate: new Date().toISOString(),
-    regularOrderCount: 4,
-    store: store3,
-  },
-]
-
 export const reviews: TReview[] = [
   {
     id: '0',
@@ -390,5 +359,36 @@ export const reviews: TReview[] = [
     rating: '별로에요',
     doesHelpOthers: true,
     menus: [menus[2]],
+  },
+]
+
+export const orders: TOrder[] = [
+  {
+    id: '0',
+    imageUrl: [
+      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
+    ],
+    menus: [menus[0], menus[1]],
+    orderDate: new Date().toISOString(),
+    orderTotal: 42430,
+    orderStatus: '배달 완료',
+    review: reviews[0],
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 3,
+    store: store,
+  },
+  {
+    id: '1',
+    imageUrl: [
+      'https://img1.daumcdn.net/thumb/R720x0/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fliveboard%2Fcemmarketing%2F88cdaed005bf44a6bcb1f228e250458d.jpg',
+    ],
+    menus: [menus[2], menus[3]],
+    orderDate: new Date().toISOString(),
+    orderTotal: 62430,
+    orderStatus: '접수 대기',
+    review: reviews[1],
+    regularOrderDate: new Date().toISOString(),
+    regularOrderCount: 4,
+    store: store3,
   },
 ]

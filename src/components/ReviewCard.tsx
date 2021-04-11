@@ -1,3 +1,5 @@
+import TReview from 'src/types/Review'
+
 type LoadingProps = {
   onlyImage: boolean
 }
@@ -8,11 +10,11 @@ export function ReviewLoadingCard({ onlyImage }: LoadingProps) {
 
 type Props = {
   onlyImage: boolean
-  review: any
+  review: TReview
 }
 
 function ReviewCard({ onlyImage, review }: Props) {
-  return <></>
+  return <li></li>
 }
 
 export default ReviewCard

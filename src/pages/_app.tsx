@@ -1,11 +1,14 @@
+import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { client } from 'src/apollo/client'
 import { pageview } from 'src/utils/google-analytics'
 import { DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
+import 'antd/dist/antd.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -61,7 +64,9 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   )
 }

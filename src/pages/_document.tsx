@@ -6,7 +6,7 @@ import { ServerStyleSheet } from 'styled-components'
 export const canonicalUrl = 'https://disin.vercel.app/'
 
 // 최대 10개
-const keywords = '디플,deple,디저트,플레저,배달,배송,픽업,예약'
+const keywords = '디플,deple,디저트,플레저,검색,맞춤,추천,배달,픽업,예약'
 
 export default class CapstoneDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {

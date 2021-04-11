@@ -1,11 +1,12 @@
+import PageHead from 'src/components/layouts/PageHead'
 import LoginForm from 'src/components/LoginForm'
 
 function LoginPage() {
   return (
-    <div>
+    <PageHead>
       <LoginForm />
       <button>sns 로그인</button>
-    </div>
+    </PageHead>
   )
 }
 

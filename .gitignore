@@ -103,3 +103,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Next PWA
+public/sw.js
+public/workbox-*.js

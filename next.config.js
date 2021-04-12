@@ -2,6 +2,9 @@
 const withPWA = require('next-pwa')
 
 module.exports = withPWA({
+  future: {
+    webpack5: true,
+  },
   i18n: {
     locales: ['ko', 'en'],
     defaultLocale: 'ko',

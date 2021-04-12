@@ -41,7 +41,7 @@ function FeedPage() {
           {posts.map((post) => (
             <PostCard key={post.id} post={post} store={store} />
           ))}
-          {isLoadingPosts && (
+          {(isLoadingPosts || hasMorePosts) && (
             <div ref={sentryRef}>
               <PostLoadingCard />
             </div>

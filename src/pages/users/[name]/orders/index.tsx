@@ -43,7 +43,7 @@ function UserOrdersPage() {
             <OrderCard key={order.id} order={order} store={order.store} />
           ))}
 
-          {isLoadingOrders && (
+          {(isLoadingOrders || hasMoreOrders) && (
             <div ref={sentryRef}>
               <OrderLoadingCard />
             </div>

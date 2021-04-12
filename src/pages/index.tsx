@@ -102,7 +102,7 @@ function HomePage() {
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {isLoadingMenus && (
+        {(isLoadingMenus || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

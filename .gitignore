@@ -105,5 +105,5 @@ dist
 .tern-port
 
 # Next PWA
-public/sw.js
-public/workbox-*.js
+public/sw.js*
+public/workbox-*.js*

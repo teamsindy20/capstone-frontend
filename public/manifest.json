@@ -1,0 +1,12 @@
+{
+  "name": "Deple Progressive Web App",
+  "short_name": "Deple",
+  "theme_color": "#ffffff",
+  "background_color": "#004740",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+
+  "splash_pages": null
+}

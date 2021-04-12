@@ -1,4 +1,7 @@
-module.exports = {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const withPWA = require('next-pwa')
+
+module.exports = withPWA({
   i18n: {
     locales: ['ko', 'en'],
     defaultLocale: 'ko',
@@ -17,5 +20,8 @@ module.exports = {
       'mblogthumb-phinf.pstatic.net',
     ],
   },
+  pwa: {
+    dest: 'public',
+  },
   reactStrictMode: true,
-}
+})

@@ -19,7 +19,7 @@
     "type": "tsc --pretty",
     "test": "jest",
     "pre-push": "yarn format && yarn lint && yarn type",
-    "generate": "graphql-codegen dotenv_config_path=.env.local --require dotenv/config",
+    "generate": "graphql-codegen dotenv_config_path=.env.production --require dotenv/config",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "graphql": "^15.5.0",
     "inko": "^1.1.1",
     "next": "latest",
+    "next-pwa": "^5.2.9",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

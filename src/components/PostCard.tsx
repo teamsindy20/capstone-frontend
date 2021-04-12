@@ -13,6 +13,7 @@ import {
 } from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
+import { Fragment } from 'react'
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;
@@ -89,10 +90,11 @@ export function PostLoadingCard() {
 
 type Props = {
   post: TPost
-  store: TStore
 }
 
-function PostCard({ post, store }: Props) {
+function PostCard({ post }: Props) {
+  const store = post.store
+
   return (
     <ShadowingLi>
       <FlexContainerBetweenPadding>
@@ -121,7 +123,10 @@ function PostCard({ post, store }: Props) {
           </GridContainerColumn2>
           <OpenInNewIcon />
         </FlexContainerBetween>
-        <NoMarginP>{post.content}</NoMarginP>
+        <div>
+          {post.contents.map((content) => (content ? <NoMarginP>{content}</NoMarginP> : <br />))}
+        </div>
+
         <div>더 보기</div>
         <div>작성일</div>
         <ul>

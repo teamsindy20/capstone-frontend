@@ -316,36 +316,47 @@ export const posts: TPost[] = [
     id: '0',
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
-    content:
+    contents: [
       '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
+    ],
     imageUrl: [
       'https://post-phinf.pstatic.net/MjAxNzAzMDJfMzIg/MDAxNDg4NDQwNzg5NjQz.PjCwCa-LsK0JhSj-YWuoMMQlhxNfOg5_fgzyCYHCPysg.aTQVrQ5QFduqEfsKc8BCh0CblDOf_vfezzM-dp7Qo3Ig.JPEG/image_4562399321488440004463.jpg?type=w1200',
     ],
     likeCount: 422,
     commentCount: 14,
+    store: store,
   },
   {
     id: '1',
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
-    content:
-     '재판매 요청이 많아서 딸기 프레지에 소량 준비해뒀어요! 금, 토, 일 3일간 프레지에 홀케이크 미니사이즈로 판매합니다 😁 예쁜 하트초 같이 넣어드릴게요 ❤️ 오늘의 라인업 입니다! 딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
+    contents: [
+      '재판매 요청이 많아서 딸기 프레지에 소량 준비해뒀어요!',
+      '금, 토, 일 3일간 프레지에 홀케이크 미니사이즈로 판매합니다😁',
+      '예쁜 하트초 같이 넣어드릴게요❤️',
+      '',
+      '오늘의 라인업 입니다!',
+      '',
+      '딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
+    ],
     imageUrl: [
       'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200726_219%2F1595757353365bKuBp_JPEG%2FiT6243NPDzm9e0aPxell_Nsj.jpg&type=sc960_832',
     ],
     likeCount: 6788,
     commentCount: 176,
+    store: store4,
   },
   {
     id: '2',
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
-    content: '새로운 메뉴',
+    contents: ['새로운 메뉴'],
     imageUrl: [
       'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
     ],
     likeCount: 234,
     commentCount: 74,
+    store: store3,
   },
 ]
 

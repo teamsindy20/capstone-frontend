@@ -39,8 +39,7 @@ function FeedPage() {
 
         <GridContainerUl ref={infiniteRef}>
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} store={store} />
-            
+            <PostCard key={post.id} post={post} />
           ))}
           <PostLoadingCard />
           {isLoadingPosts && <PostLoadingCard />}

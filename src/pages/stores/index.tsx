@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import StoreCard from 'src/components/StoreCard'
-import { store, store2, store3, store4, store5, store6, store7 } from 'src/models/mock-data'
+import { store, store2, store3, store4, store5, store6, store7, store8 } from 'src/models/mock-data'
 import styled from 'styled-components'
 
 const GridContainerBackground = styled.div`
@@ -21,6 +21,7 @@ function StoresPage() {
         <h2>찜·단골 매장</h2>
         <h3>단골 매장</h3>
         <GridContainerBackground>
+          <StoreCard store={store8} />
           <StoreCard store={store} />
           <StoreCard store={store2} />
           <StoreCard store={store3} />

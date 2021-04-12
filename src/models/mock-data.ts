@@ -311,6 +311,22 @@ export const store7: TStore = {
   hashtags: ['#마카롱맛집', '#문래동디저트맛집', '#뚱카롱', '#존맛', '#달달'],
 }
 
+export const store8: TStore = {
+  id: '7',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
+  name: '브릿지엣지',
+  deliveryFees: [2500],
+  deliveryTimeMin: 20,
+  deliveryTimeMax: 29,
+  reorderRatio: 42,
+  regularCount: 435,
+  location: '상도동',
+  imageUrl:
+    'https://postfiles.pstatic.net/MjAyMDAyMjNfMjA2/MDAxNTgyNDUxNTMwMTcz.I9I8KLwnx2moUXzkN5PFmS4FIx-psMhuP6Agv9ZC2hUg.B5CsQEIxY2aUAp5EZoQyOOeQIMtxivQxtGJaaw4Km4Qg.JPEG.lisagracie7762/SE-c61185a0-07e4-4ddb-bdb9-337af4449f7d.jpg?type=w966',
+  hashtags: ['#스콘맛집', '#브릿지엣지', '#공정무역커피', '#수제스콘', '#스콘'],
+}
+
 export const posts: TPost[] = [
   {
     id: '0',
@@ -354,7 +370,7 @@ export const posts: TPost[] = [
       '오늘의 마카롱&디저트 라인업이에요!💛',
       '파베생초코, 레드벨벳, 크림브륄레, 투게더바닐라, 피넛버터크런치,오레오, 찰떡인절미, 바나나누텔라, 블루베리크림치즈, 치즈케이크, 황치즈샌드, 뽀또황치즈, 쏠티드카라멜, 생딸기요거트',
       '',
-      '나미네양과점은 전 제품에 프랑스산 최고급 천연발효 버터만을 사용하고 있어요😊'
+      '나미네양과점은 전 제품에 프랑스산 최고급 천연발효 버터만을 사용하고 있어요😊',
     ],
     imageUrl: [
       'https://postfiles.pstatic.net/MjAyMTAzMDZfMjk0/MDAxNjE1MDMzMDQyNzA4.jPJOE8sRiVbwwjWyPOjXp50sHg2MX77adLnTU4IsqMcg.UK5yXB6p44sIB00sUzsrMJ7-oEnitai16uMwWwjvpW4g.JPEG.luckygirl1004/SE-86ed3f06-c723-449b-966b-4985cd3a10da.jpg?type=w966',
@@ -362,6 +378,26 @@ export const posts: TPost[] = [
     likeCount: 234,
     commentCount: 74,
     store: store7,
+  },
+  {
+    id: '3',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
+    contents: [
+      '오늘의 스콘이 모두 소진되었습니당!😅',
+      '고메플레인, 옥수수, 얼그레이, 체다치즈파슬리, 오레오, 로투스, 녹차',
+      '',
+      '넘나 빠른 소진,,🤣',
+      '여러분들의 성원에 힘입어 스콘이 모두 소진되었습니다..',
+      '이 공지 꼭 보시고 헛된 발걸음 하시지 않길 바라요 🙏🏻',
+      '내일 더 맛있는 스콘으로 찾아뵐게요! 오늘도 좋은 하루 보내세요 :)',
+    ],
+    imageUrl: [
+      'https://postfiles.pstatic.net/MjAyMDAyMjNfMSAg/MDAxNTgyNDUxNTAyNjg0.YRIRqMCLjopSGmTimCWEBs56u_G8MzIpQxFbXNm18dkg.gkD4Gkt1frAPAwWpKp9AOkaYkxppHYDaxri5q2UTN9kg.JPEG.lisagracie7762/SE-250bf5e3-3e63-45c1-8cdd-9b90ed3a5b85.jpg?type=w966',
+    ],
+    likeCount: 58,
+    commentCount: 19,
+    store: store8,
   },
 ]
 

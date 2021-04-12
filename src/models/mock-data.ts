@@ -308,7 +308,7 @@ export const store7: TStore = {
   location: '문래동',
   imageUrl:
     'https://blogfiles.pstatic.net/MjAyMTA0MTBfMjMx/MDAxNjE4MDI4Mzk3OTI3.OLfRvBjTY62aZV3Lw2zndsPuEIAqXT8HyB4P5WZiT0Qg.g5o0ca3OIX5oYKOQ4QNZMeaIxu4yXB0SrdOofgMEX24g.JPEG.imina74/2021-03-31-13-08-06-268.jpg?type=w2',
-  hashtags: ['#디저트천국', '#신규오픈'],
+  hashtags: ['#마카롱맛집', '#문래동디저트맛집', '#뚱카롱', '#존맛', '#달달'],
 }
 
 export const posts: TPost[] = [

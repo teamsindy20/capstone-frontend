@@ -295,6 +295,22 @@ export const store6: TStore = {
   hashtags: ['#디저트천국', '#신규오픈'],
 }
 
+export const store7: TStore = {
+  id: '6',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
+  name: '나미네양과점',
+  deliveryFees: [2500],
+  deliveryTimeMin: 20,
+  deliveryTimeMax: 29,
+  reorderRatio: 42,
+  regularCount: 435,
+  location: '문래동',
+  imageUrl:
+    'https://blogfiles.pstatic.net/MjAyMTA0MTBfMjMx/MDAxNjE4MDI4Mzk3OTI3.OLfRvBjTY62aZV3Lw2zndsPuEIAqXT8HyB4P5WZiT0Qg.g5o0ca3OIX5oYKOQ4QNZMeaIxu4yXB0SrdOofgMEX24g.JPEG.imina74/2021-03-31-13-08-06-268.jpg?type=w2',
+  hashtags: ['#디저트천국', '#신규오픈'],
+}
+
 export const posts: TPost[] = [
   {
     id: '0',

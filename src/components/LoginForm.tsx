@@ -5,6 +5,7 @@ import { useCallback } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
+import { digestMessageWithSHA256 } from 'src/utils/commons'
 import styled from 'styled-components'
 
 const { ko2en } = new Inko()
@@ -32,8 +33,8 @@ export const validateEmail = {
 export const validatePassword = {
   required: '필수 항목입니다',
   minLength: {
-    value: 5,
-    message: '최소 5글자 이상 입력해주세요',
+    value: 8,
+    message: '최소 8글자 이상 입력해주세요',
   },
 }
 
@@ -56,7 +57,7 @@ function LoginForm() {
     onCompleted: (data) => {
       if (data.login) {
         console.log(data.login)
-        sessionStorage.setItem('token', data.login)
+        localStorage.setItem('token', data.login)
       } else {
         console.warn('아이디 또는 비밀번호를 잘못 입력했습니다.')
       }
@@ -64,13 +65,18 @@ function LoginForm() {
     onError: handleApolloError,
   })
 
-  const { control, errors, handleSubmit } = useForm<FormValues>({
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>({
     defaultValues: { email: '', password: '' },
   })
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
-    ({ email, password }) => {
-      login({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+    async ({ email, password }) => {
+      const passwordHash = await digestMessageWithSHA256(ko2en(password))
+      login({ variables: { email, passwordHash } })
     },
     [login]
   )

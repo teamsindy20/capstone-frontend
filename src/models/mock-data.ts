@@ -328,12 +328,13 @@ export const posts: TPost[] = [
     id: '1',
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
-    content: '저는 이 세상의 모든 굴레와 속박을 벗어던지고 제 행복을 찾아 떠납니다!',
+    content:
+     '재판매 요청이 많아서 딸기 프레지에 소량 준비해뒀어요! 금, 토, 일 3일간 프레지에 홀케이크 미니사이즈로 판매합니다 😁 예쁜 하트초 같이 넣어드릴게요 ❤️ 오늘의 라인업 입니다! 딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
     imageUrl: [
-      'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
+      'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200726_219%2F1595757353365bKuBp_JPEG%2FiT6243NPDzm9e0aPxell_Nsj.jpg&type=sc960_832',
     ],
-    likeCount: 678,
-    commentCount: 76,
+    likeCount: 6788,
+    commentCount: 176,
   },
   {
     id: '2',

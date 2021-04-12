@@ -44,7 +44,7 @@ function MyDeplePage() {
     setHasMoreMyReviews(false)
   }
 
-  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+  const [sentryRef] = useInfiniteScroll({
     loading: isLoadingMyReviews,
     hasNextPage: hasMoreMyReviews,
     onLoadMore: fetchMoreMenus,
@@ -95,13 +95,16 @@ function MyDeplePage() {
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
         <button onClick={toggleOnlyImage}>사진만 보기</button>
 
-        <GridContainerInfiniteScroll onlyImage={onlyImage} ref={infiniteRef}>
+        <GridContainerInfiniteScroll onlyImage={onlyImage}>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} onlyImage={onlyImage} />
           ))}
         </GridContainerInfiniteScroll>
-        <ReviewLoadingCard onlyImage={onlyImage} />
-        {isLoadingMyReviews && <ReviewLoadingCard onlyImage={onlyImage} />}
+        {isLoadingMyReviews && (
+          <div ref={sentryRef}>
+            <ReviewLoadingCard onlyImage={onlyImage} />
+          </div>
+        )}
       </PageLayout>
     </PageHead>
   )

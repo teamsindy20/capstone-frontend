@@ -1,4 +1,4 @@
-import TStore from "./Store"
+import TStore from './Store'
 
 type TPost = {
   id: string

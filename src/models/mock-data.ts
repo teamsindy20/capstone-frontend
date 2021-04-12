@@ -350,13 +350,18 @@ export const posts: TPost[] = [
     id: '2',
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
-    contents: ['새로운 메뉴'],
+    contents: [
+      '오늘의 마카롱&디저트 라인업이에요!💛',
+      '파베생초코, 레드벨벳, 크림브륄레, 투게더바닐라, 피넛버터크런치,오레오, 찰떡인절미, 바나나누텔라, 블루베리크림치즈, 치즈케이크, 황치즈샌드, 뽀또황치즈, 쏠티드카라멜, 생딸기요거트',
+      '',
+      '나미네양과점은 전 제품에 프랑스산 최고급 천연발효 버터만을 사용하고 있어요😊'
+    ],
     imageUrl: [
-      'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/158898610_769503400650135_864312100874278057_n.jpg?tp=1&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=103&_nc_ohc=n2QL5bi1mgAAX8GEg6s&oh=0fe3584ef45698e09940e917610370af&oe=607027AE',
+      'https://postfiles.pstatic.net/MjAyMTAzMDZfMjk0/MDAxNjE1MDMzMDQyNzA4.jPJOE8sRiVbwwjWyPOjXp50sHg2MX77adLnTU4IsqMcg.UK5yXB6p44sIB00sUzsrMJ7-oEnitai16uMwWwjvpW4g.JPEG.luckygirl1004/SE-86ed3f06-c723-449b-966b-4985cd3a10da.jpg?type=w966',
     ],
     likeCount: 234,
     commentCount: 74,
-    store: store3,
+    store: store7,
   },
 ]
 

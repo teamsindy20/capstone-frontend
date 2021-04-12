@@ -209,9 +209,11 @@ type Props = {
   onlyImage: boolean
 }
 
-function MenuCard({ menu, store, onlyImage }: Props) {
-  const goToStoreReviewsPage = useGoToPage(`/stores/${store.name}/reviews?menu=${menu.name}`)
-  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}`)
+function MenuCard({ menu, onlyImage }: Props) {
+  const goToStoreReviewsPage = useGoToPage(
+    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}}`
+  )
+  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}}`)
 
   if (onlyImage) {
     return (
@@ -241,11 +243,11 @@ function MenuCard({ menu, store, onlyImage }: Props) {
           <GridContainerColumn2>
             <FlexContainerAlignCenter>
               <LocationOnTwoToneIcon fontSize="small" />
-              <LighterH5>{store.name}</LighterH5>
+              <LighterH5>{menu.store.name}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree(store.deliveryFees)}</LighterH5>
+              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn2>
           <NoMarginH3>{menu.name}</NoMarginH3>
@@ -269,7 +271,7 @@ function MenuCard({ menu, store, onlyImage }: Props) {
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
               <TimerRoundedIcon />
-              {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
+              {`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}
             </FlexContainerAlignCenter>
             <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
           </FlexContainerBetween>

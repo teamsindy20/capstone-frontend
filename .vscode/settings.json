@@ -14,6 +14,5 @@
     "**/out": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.packageManager": "yarn",
-  "prettier.packageManager": "yarn"
+  "eslint.packageManager": "yarn"
 }

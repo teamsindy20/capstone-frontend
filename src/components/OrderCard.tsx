@@ -2,6 +2,7 @@ import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { MouseEvent as ReactMouseEvent } from 'react'
+import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
@@ -106,18 +107,19 @@ function OrderCard({ order, store }: Props) {
 
   const { name } = router.query
 
-  function goToUserOrderPage() {
-    router.push(`/users/${name}/orders/${order.id}`)
-  }
+  const goToUserOrderPage = useGoToPage(`/users/${name}/orders/${order.id}`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}/`)
 
-  function goToStoreMenuPage(e: ReactMouseEvent<HTMLElement, MouseEvent>) {
-    e.stopPropagation()
-    router.push(`/stores/${store.name}/`)
+  function goToUserReviewPage(reviewId: number) {
+    return (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
+      e.stopPropagation()
+      router.push(`/users/${name}/reviews/${reviewId}`)
+    }
   }
 
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
-      <RelativePosition onClick={goToStoreMenuPage}>
+      <RelativePosition onClick={goToStoreMenusPage}>
         <Image
           src={order.menus[0].imageUrl}
           alt="store"
@@ -133,7 +135,7 @@ function OrderCard({ order, store }: Props) {
             {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
           </FlexContainerAlignCenter>
         </AbsolutePosition>
-        <h3 onClick={goToStoreMenuPage}>{store.name}</h3>
+        <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
         <ul>
           {order.menus.map((menu) => (
             <li key={menu.id}>{menu.name}</li>
@@ -150,7 +152,9 @@ function OrderCard({ order, store }: Props) {
       <GridContainerSpan2 hasReview={!!order.review}>
         <Width100Button onClick={(e) => e.stopPropagation()}>재주문</Width100Button>
         {order.review && (
-          <Width100Button onClick={(e) => e.stopPropagation()}>내 리뷰 보기</Width100Button>
+          <Width100Button onClick={goToUserReviewPage(+order.review.id)}>
+            내 리뷰 보기
+          </Width100Button>
         )}
       </GridContainerSpan2>
     </GridContainerLi>

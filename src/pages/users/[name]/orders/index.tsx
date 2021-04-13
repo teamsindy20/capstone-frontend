@@ -37,9 +37,10 @@ function UserOrdersPage() {
   return (
     <PageHead title="Deple - 주문 내역" description={description}>
       <PageLayout>
+        <h2>주문 내역</h2>
         <GridContainerUl ref={infiniteRef}>
           {orders.map((order) => (
-            <OrderCard key={order.id} order={order} store={store} />
+            <OrderCard key={order.id} order={order} store={order.store} />
           ))}
           <OrderLoadingCard />
           {isLoadingOrders && <OrderLoadingCard />}

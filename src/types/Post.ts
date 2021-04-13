@@ -1,5 +1,7 @@
 type TPost = {
-  id: number
+  id: string
+  creationDate: string
+  modificationDate: string
   content: string
   imageUrl: string[]
   likeCount: number

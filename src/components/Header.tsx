@@ -4,7 +4,9 @@ import InsertEmoticonTwoToneIcon from '@material-ui/icons/InsertEmoticonTwoTone'
 import ListAltTwoTone from '@material-ui/icons/ListAltTwoTone'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import Link from 'next/link'
+import { memo } from 'react'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { username } from 'src/models/mock-data'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 
@@ -48,8 +50,6 @@ const NoMarginH6 = styled.h5`
 `
 
 function Header() {
-  const username = 'username'
-
   return (
     <FixedHeader>
       <FlexContainerAroundNav>
@@ -89,7 +89,7 @@ function Header() {
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
               <InsertEmoticonTwoToneIcon fontSize="large" />
-              <NoMarginH6>내 디신</NoMarginH6>
+              <NoMarginH6>내 Sindy</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>
@@ -98,4 +98,4 @@ function Header() {
   )
 }
 
-export default Header
+export default memo(Header)

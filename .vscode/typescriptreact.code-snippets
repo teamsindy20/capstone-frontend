@@ -1,4 +1,18 @@
 {
+  "Page Component": {
+    "prefix": "pc",
+    "body": [
+      "import PageHead from 'src/components/layouts/PageHead'",
+      "",
+      "function Page() {",
+      "  return <PageHead>{}</PageHead>",
+      "}",
+      "",
+      "export default Page",
+      ""
+    ],
+    "description": "Function Component"
+  },
   "Function Component": {
     "prefix": "fc",
     "body": [

@@ -1,15 +1,19 @@
+import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { useEffect } from 'react'
+import { client } from 'src/apollo/client'
 import { pageview } from 'src/utils/google-analytics'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
+import 'antd/dist/antd.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
+    color: ${DARK_CHOCO_COLOR};
     font-size: 14px;
     font-family: -apple-system, 'Noto Sans KR', BlinkMacSystemFont, Roboto,
       'Helvetica Neue', sans-serif;
@@ -28,6 +32,11 @@ const GlobalStyle = createGlobalStyle`
 
   li {
     list-style-type: none
+  }
+
+  a {
+    color: ${DARK_CHOCO_COLOR};
+    text-decoration: none;
   }
 `
 
@@ -55,7 +64,9 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   )
 }

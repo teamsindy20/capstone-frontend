@@ -30,7 +30,7 @@
 
 ### 환경 변수 설정
 
-루트 폴더에 `.env.local` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
+프로젝트 루트 경로에 `.env.development`과 `.env.production` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
 ### 개발 모드
 
@@ -171,9 +171,13 @@ REST API를 요청할 때 응답 데이터의 자료형 지정에 쓰이고, Gra
 
 VSCode를 사용하지 않고 다른 편집기를 사용하는 경우 이 파일의 설정이 적용될 수 있습니다.
 
-#### .env.local
+#### .env.development
 
-프로젝트에 필요한 환경 변수를 설정할 수 있습니다.
+프로젝트에 필요한 환경 변수를 설정할 수 있습니다. 여기에 있는 환경 변수는 `yarn dev` 실행 시에만 적용됩니다.
+
+#### .env.production
+
+프로젝트에 필요한 환경 변수를 설정할 수 있습니다. 여기에 있는 환경 변수는 `yarn start` 실행 시에만 적용됩니다.
 
 #### .eslint.json
 
@@ -193,12 +197,38 @@ Prettier의 코드 포맷 규칙을 세부적으로 설정할 수 있습니다.
 
 #### babel.config.js
 
-Babel을 설정할 수 있습니다. 이 프로젝트에선 Styled Components의 Server-Side Rendering을 설정하는데 사용됩니다.
+Babel을 세부적으로 설정할 수 있습니다. 이 프로젝트에선 Styled Components의 Server-Side Rendering을 설정하는데 사용됩니다.
 
 #### codegen.yml
 
 GraphQL Code Generator의 동작을 세부적으로 설정할 수 있습니다.
 
+#### jest.config.js
+
+Jest를 세부적으로 설정할 수 있습니다.
+
 #### next-env.d.ts
 
 Next 자료형을 지정합니다. Next 관련 명령어 실행 시 자동으로 생성됩니다. 이 파일은 직접 건들지 않아도 됩니다.
+
+#### next.config.js
+
+Next를 세부적으로 설정할 수 있습니다. 이 프로젝트에선 Internationalized Routing과 Progressive Web Application을 설정하는데 사용됩니다.
+
+#### package.json
+
+프로젝트의 대략적인 정보가 담겨있습니다. 해당 프로젝트 버전, 이름, Git 주소, 설명, 저자, 의존하는 패키지 목록, 스크립트 등의 정보가 저장되어 있습니다.
+
+#### README.md
+
+말 그대로 프로젝트에 관한 설명이 마크다운 언어로 쓰여진 Read me 파일입니다.
+
+#### tsconfig.json
+
+TypeScript 세부 컴파일 옵션을 설정할 수 있다. 이 프로젝트에선 Next.js와 React.js에 적합하게 자동으로 설정됩니다.
+
+#### yarn.lock
+
+yarn 패키지 잠금 파일로서 프로젝트에 쓰인 패키지의 실제 버전이 명시되어 있습니다. 이 파일은 직접 건들지 않아도 됩니다.
+
+(참고 : https://www.daleseo.com/js-package-locks/)

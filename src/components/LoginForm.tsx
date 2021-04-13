@@ -26,7 +26,7 @@ export const validateEmail = {
   required: '필수 항목입니다',
   pattern: {
     value: /\S+@\S+\.\S+/,
-    message: '이메일 형식에 맞게 입력해주세요',
+    message: '이메일을 형식에 맞게 입력해주세요',
   },
 }
 
@@ -59,7 +59,7 @@ function LoginForm() {
         console.log(data.login)
         localStorage.setItem('token', data.login)
       } else {
-        console.warn('아이디 또는 비밀번호를 잘못 입력했습니다.')
+        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }
     },
     onError: handleApolloError,
@@ -111,7 +111,7 @@ function LoginForm() {
             <Input.Password
               disabled={loading}
               iconRender={renderPasswordInputIcon}
-              placeholder="패스워드를 입력해주세요"
+              placeholder="비밀번호를 입력해주세요"
               size="large"
               type="password"
               {...props}

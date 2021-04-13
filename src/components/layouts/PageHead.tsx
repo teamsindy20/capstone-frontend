@@ -12,7 +12,7 @@ type Props = {
 function PageHead({
   children,
   title = 'Deple: Dessert Pleasure',
-  description = '디플은 좋아하는 디저트를 쉽게 고를 수 있는 온라인 디저트 전문 서비스입니다.',
+  description = '디플은 내가 원하는 디저트를 쉽고 빠르게 고를 수 있는 온라인 디저트 검색 및 배달 서비스입니다.',
 }: Props) {
   const { pathname } = useRouter()
 

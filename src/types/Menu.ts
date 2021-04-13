@@ -1,3 +1,5 @@
+import TStore from './Store'
+
 type TMenu = {
   id: string
   creationDate: string
@@ -11,7 +13,7 @@ type TMenu = {
   orderCount: number
   reorderRatio: number
   hashtags: string[]
-
+  store: TStore
   bookmark: boolean
 }
 

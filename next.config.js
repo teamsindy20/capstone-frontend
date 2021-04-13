@@ -15,6 +15,8 @@ module.exports = {
       'globalassets.starbucks.com',
       'post-phinf.pstatic.net',
       'mblogthumb-phinf.pstatic.net',
+      'blogfiles.pstatic.net',
+      'postfiles.pstatic.net',
     ],
   },
   reactStrictMode: true,

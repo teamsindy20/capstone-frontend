@@ -356,7 +356,7 @@ export const reviews: TReview[] = [
     creationDate: new Date().toISOString(),
     modificationDate: new Date().toISOString(),
     imageUrl: '',
-    rating: '별로에요',
+    rating: '별로예요',
     doesHelpOthers: true,
     menus: [menus[2]],
   },

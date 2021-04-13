@@ -105,7 +105,7 @@ const AbsolutePosition = styled.div`
   right: 0.1rem;
 `
 
-const GridContainer2 = styled.div`
+const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
 `
@@ -115,7 +115,7 @@ const LighterH5 = styled.h5`
   font-weight: lighter;
 `
 
-const GridContainerColumn2 = styled(GridContainerGap)`
+const GridContainerColumn = styled(GridContainerGap)`
   grid-template-columns: min-content auto;
 
   width: fit-content;
@@ -237,8 +237,8 @@ function MenuCard({ menu, store, onlyImage }: Props) {
             <BookmarkBorderTwoToneIcon fontSize="large" />
           )}
         </AbsolutePosition>
-        <GridContainer2>
-          <GridContainerColumn2>
+        <GridContainer>
+          <GridContainerColumn>
             <FlexContainerAlignCenter>
               <LocationOnTwoToneIcon fontSize="small" />
               <LighterH5>{store.name}</LighterH5>
@@ -247,7 +247,7 @@ function MenuCard({ menu, store, onlyImage }: Props) {
               <MotorcycleTwoToneIcon />
               <LighterH5>{formatPricesWithFree(store.deliveryFees)}</LighterH5>
             </FlexContainerAlignCenter>
-          </GridContainerColumn2>
+          </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>
           <FlexContainerUl>
             {menu.hashtags.map((hashtag) => (
@@ -264,8 +264,8 @@ function MenuCard({ menu, store, onlyImage }: Props) {
               </>
             ))}
           </FlexContainerUl>
-        </GridContainer2>
-        <GridContainer2>
+        </GridContainer>
+        <GridContainer>
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
               <TimerRoundedIcon />
@@ -274,7 +274,7 @@ function MenuCard({ menu, store, onlyImage }: Props) {
             <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
           </FlexContainerBetween>
           <HorizontalBorder />
-        </GridContainer2>
+        </GridContainer>
       </FlexContainerColumnBetween>
 
       <FlexContainerWrapAround>

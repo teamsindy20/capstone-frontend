@@ -83,7 +83,7 @@ function MyDeplePage() {
             <button>이벤트</button>
           </li>
           <li>
-            <button>신디</button>
+            <button>디플 팀</button>
           </li>
           <li>
             <button>고객 지원</button>

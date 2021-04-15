@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { client } from 'src/apollo/client'
 import { pageview } from 'src/utils/google-analytics'
-import { DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
@@ -37,6 +37,11 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: ${DARK_CHOCO_COLOR};
     text-decoration: none;
+    transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    :hover {
+      color: ${CHOCO_COLOR}
+    }
   }
 `
 

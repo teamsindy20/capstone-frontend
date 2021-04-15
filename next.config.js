@@ -1,4 +1,10 @@
-module.exports = {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const withPWA = require('next-pwa')
+
+module.exports = withPWA({
+  future: {
+    webpack5: true,
+  },
   i18n: {
     locales: ['ko', 'en'],
     defaultLocale: 'ko',
@@ -19,5 +25,8 @@ module.exports = {
       'postfiles.pstatic.net',
     ],
   },
+  pwa: {
+    dest: 'public',
+  },
   reactStrictMode: true,
-}
+})

@@ -339,7 +339,7 @@ export const reviews: TReview[] = [
     modificationDate: new Date().toISOString(),
     imageUrl: '',
     rating: '맛있어요',
-    doesHelpOthers: true,
+    doesHelpOthers: 10,
     menus: [menus[0]],
   },
   {
@@ -348,7 +348,7 @@ export const reviews: TReview[] = [
     modificationDate: new Date().toISOString(),
     imageUrl: '',
     rating: '괜찮아요',
-    doesHelpOthers: false,
+    doesHelpOthers: 1,
     menus: [menus[1]],
   },
   {
@@ -357,7 +357,7 @@ export const reviews: TReview[] = [
     modificationDate: new Date().toISOString(),
     imageUrl: '',
     rating: '별로예요',
-    doesHelpOthers: true,
+    doesHelpOthers: 2,
     menus: [menus[2]],
   },
 ]

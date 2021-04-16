@@ -1,5 +1,9 @@
+import TStore from './Store'
+
 type TMenu = {
-  id: number
+  id: string
+  creationDate: string
+  modificationDate: string
   imageUrl: string
   name: string
   price: number
@@ -9,7 +13,7 @@ type TMenu = {
   orderCount: number
   reorderRatio: number
   hashtags: string[]
-
+  store: TStore
   bookmark: boolean
 }
 

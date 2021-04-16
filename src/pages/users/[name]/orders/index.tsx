@@ -28,7 +28,7 @@ function UserOrdersPage() {
     setHasMoreOrders(false)
   }
 
-  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+  const [sentryRef] = useInfiniteScroll({
     loading: isLoadingOrders,
     hasNextPage: hasMoreOrders,
     onLoadMore: fetchMoreMenus,
@@ -37,12 +37,17 @@ function UserOrdersPage() {
   return (
     <PageHead title="Deple - 주문 내역" description={description}>
       <PageLayout>
-        <GridContainerUl ref={infiniteRef}>
+        <h2>주문 내역</h2>
+        <GridContainerUl>
           {orders.map((order) => (
-            <OrderCard key={order.id} order={order} store={store} />
+            <OrderCard key={order.id} order={order} store={order.store} />
           ))}
-          <OrderLoadingCard />
-          {isLoadingOrders && <OrderLoadingCard />}
+
+          {(isLoadingOrders || hasMoreOrders) && (
+            <div ref={sentryRef}>
+              <OrderLoadingCard />
+            </div>
+          )}
         </GridContainerUl>
       </PageLayout>
     </PageHead>

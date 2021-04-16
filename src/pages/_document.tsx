@@ -6,7 +6,7 @@ import { ServerStyleSheet } from 'styled-components'
 export const canonicalUrl = 'https://disin.vercel.app/'
 
 // 최대 10개
-const keywords = '디플,deple,디저트,플레저,배달,배송,픽업,예약'
+const keywords = '디플,deple,디저트,플레저,검색,맞춤,추천,배달,픽업,예약'
 
 export default class CapstoneDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -38,13 +38,19 @@ export default class CapstoneDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta name="author" content="sindy" />
           <meta name="keywords" content={keywords} />
+          <meta name="application-name" content="Deple" />
+          <meta name="apple-mobile-web-app-title" content="Deple" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-startup-image" href="/sindy.jpeg" />
           <link rel="apple-touch-icon" href="/favicon.ico" />
           <link rel="canonical" href={canonicalUrl} />
+          <link rel="manifest" href="/manifest.json" />
           {process.env.NODE_ENV === 'production' && (
             <>
               <script

@@ -23,12 +23,10 @@ function FeedPage() {
     await sleep(5000) // fetchMorePosts(from, count)
     setIsLoadingPosts(false)
 
-    console.log('page:')
-
     setHasMorePosts(false)
   }
 
-  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+  const [sentryRef] = useInfiniteScroll({
     loading: isLoadingPosts,
     hasNextPage: hasMorePosts,
     onLoadMore: fetchMorePosts,
@@ -39,12 +37,15 @@ function FeedPage() {
       <PageLayout>
         <h2>흑석동 주변 새 소식</h2>
 
-        <GridContainerUl ref={infiniteRef}>
+        <GridContainerUl>
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} store={store} />
+            <PostCard key={post.id} post={post} />
           ))}
-          <PostLoadingCard />
-          {isLoadingPosts && <PostLoadingCard />}
+          {(isLoadingPosts || hasMorePosts) && (
+            <div ref={sentryRef}>
+              <PostLoadingCard />
+            </div>
+          )}
         </GridContainerUl>
       </PageLayout>
     </PageHead>

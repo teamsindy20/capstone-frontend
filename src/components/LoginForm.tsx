@@ -88,13 +88,13 @@ function LoginForm() {
         <Controller
           control={control}
           name="email"
-          render={(props) => (
+          render={({ field }) => (
             <Input
               disabled={loading}
               placeholder="이메일을 입력해주세요"
               size="large"
               type="email"
-              {...props}
+              {...field}
             />
           )}
           rules={validateEmail}
@@ -107,14 +107,14 @@ function LoginForm() {
         <Controller
           control={control}
           name="password"
-          render={(props) => (
+          render={({ field }) => (
             <Input.Password
               disabled={loading}
               iconRender={renderPasswordInputIcon}
               placeholder="비밀번호를 입력해주세요"
               size="large"
               type="password"
-              {...props}
+              {...field}
             />
           )}
           rules={validatePassword}
@@ -122,7 +122,7 @@ function LoginForm() {
         <RedText>{errors.password ? errors.password.message : <br />}</RedText>
       </label>
 
-      <Button disabled={loading} htmlType="submit" size="large" type="primary">
+      <Button htmlType="submit" loading={loading} size="large" type="primary">
         로그인
       </Button>
     </GridContainerForm>

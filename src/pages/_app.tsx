@@ -48,11 +48,11 @@ const GlobalStyle = createGlobalStyle`
 `
 
 type Values = {
-  user: MeQuery['me']
+  user?: MeQuery['me']
   refetchUser: () => Promise<unknown>
 }
 
-export const GlobalContext = createContext<Values | undefined>(undefined)
+export const GlobalContext = createContext<Values>({ refetchUser: async () => null })
 
 type Props = {
   children: ReactNode

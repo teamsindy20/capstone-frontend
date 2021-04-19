@@ -29,8 +29,7 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   max-width: ${TABLET_MIN_WIDTH};
   height: ${PADDING_TOP};
   transform: translateX(-50%);
-
-  background: #eee;
+  background: #fe6661;
 `
 
 const PaddingTop = styled.div`

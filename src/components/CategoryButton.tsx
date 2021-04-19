@@ -1,18 +1,25 @@
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
 import { Theme, makeStyles, createStyles } from '@material-ui/core/styles'
+import CategoryPage from 'src/pages/category/index'
+import ThemePage from 'src/pages/theme/index'
+
+const goToCategoryPage = CategoryPage()
+const goToThemePage = ThemePage()
 
 const images = [
   {
     url: 'https://cdn.pixabay.com/photo/2017/05/04/21/23/cupcakes-2285209_1280.jpg',
     title: '카테고리별 보기',
     width: '50%',
+    onclick: { goToCategoryPage },
   },
   {
     url:
       'https://search.pstatic.net/common/?src=http%3A%2F%2Fimage.nmv.naver.net%2Fblog_2020_08_25_2801%2Ff114664d-e68b-11ea-a019-246e963a49a8_01.jpg&type=sc960_832',
     title: '테마별 보기',
     width: '50%',
+    onclick: { goToThemePage },
   },
 ]
 
@@ -106,6 +113,7 @@ function CategoryButton() {
             width: image.width,
           }}
         >
+          <span onClick={e => console.log(image.title)}></span>
           <span
             className={classes.imageSrc}
             style={{

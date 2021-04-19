@@ -15,24 +15,12 @@ export type Scalars = {
   Float: number
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any
-}
-
-export type Comment = {
-  __typename?: 'Comment'
-  id: Scalars['ID']
-  creationDate: Scalars['DateTime']
-  modificationDate: Scalars['DateTime']
-  writingDate: Scalars['String']
-  content: Scalars['String']
-  userName: Scalars['String']
-  source: CrawlingSource
-  likeCount?: Maybe<Scalars['Int']>
-}
-
-export enum CrawlingSource {
-  Youtube = 'YOUTUBE',
-  Melon = 'MELON',
-  Icezam = 'ICEZAM',
+  /** A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/. */
+  EmailAddress: any
+  /** A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction. */
+  JWT: any
+  /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
+  URL: any
 }
 
 export type Menu = {
@@ -64,18 +52,20 @@ export type Menu = {
   isDiscounted: Scalars['Boolean']
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
-  /** from other table */
-  imageUrl?: Maybe<Array<Scalars['String']>>
+  /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
+  favorite: Scalars['Boolean']
   hashtags?: Maybe<Array<Scalars['String']>>
-  bookmark: Scalars['Boolean']
+  imageUrls?: Maybe<Array<Scalars['URL']>>
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
-  register: Scalars['String']
+  register: Scalars['JWT']
+  /** 회원탈퇴 시 사용자 정보가 모두 초기화된다. */
+  unregister: Scalars['Boolean']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
-  login: Scalars['String']
+  login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
 }
@@ -85,7 +75,7 @@ export type MutationRegisterArgs = {
 }
 
 export type MutationLoginArgs = {
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
 }
 
@@ -111,8 +101,9 @@ export enum OrderStatus {
 
 export type Query = {
   __typename?: 'Query'
+  menus: Array<Menu>
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me?: Maybe<User>
+  me: User
 }
 
 export enum Rating {
@@ -122,7 +113,7 @@ export enum Rating {
 }
 
 export type RegisterInput = {
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
   /** nullable */
   imageUrl?: Maybe<Scalars['String']>
@@ -176,10 +167,10 @@ export type User = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   point: Scalars['Int']
   /** nullable */
-  imageUrl?: Maybe<Scalars['String']>
+  imageUrl?: Maybe<Scalars['URL']>
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
@@ -194,20 +185,30 @@ export type User = {
 }
 
 export type LoginMutationVariables = Exact<{
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
 }>
 
 export type LoginMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'login'>
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>
+
+export type LogoutMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logout'>
+
+export type RegisterMutationVariables = Exact<{
+  input: RegisterInput
+}>
+
+export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
 export type MeQuery = { __typename?: 'Query' } & {
-  me?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'email'>>
+  me: { __typename?: 'User' } & Pick<User, 'id' | 'email'>
 }
 
 export const LoginDocument = gql`
-  mutation Login($email: String!, $passwordHash: String!) {
+  mutation Login($email: EmailAddress!, $passwordHash: String!) {
     login(email: $email, passwordHash: $passwordHash)
   }
 `
@@ -240,6 +241,80 @@ export function useLoginMutation(
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>
+export const LogoutDocument = gql`
+  mutation Logout {
+    logout
+  }
+`
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options)
+}
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>
+export const RegisterDocument = gql`
+  mutation Register($input: RegisterInput!) {
+    register(input: $input)
+  }
+`
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options)
+}
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
+>
 export const MeDocument = gql`
   query Me {
     me {

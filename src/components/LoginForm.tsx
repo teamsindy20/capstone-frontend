@@ -1,14 +1,11 @@
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { Input, Button } from 'antd'
-import Inko from 'inko'
 import { useCallback } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
-import { digestMessageWithSHA256 } from 'src/utils/commons'
+import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import styled from 'styled-components'
-
-const { ko2en } = new Inko()
 
 const GridContainerForm = styled.form`
   display: grid;

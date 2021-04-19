@@ -113,7 +113,6 @@ function CategoryButton() {
             width: image.width,
           }}
         >
-          <span onClick={(e) => console.log(image.title)}></span>
           <span
             className={classes.imageSrc}
             style={{

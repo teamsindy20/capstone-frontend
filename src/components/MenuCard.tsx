@@ -73,7 +73,8 @@ const GridContainerLi = styled.li<{ column1by2: boolean }>`
   cursor: pointer;
   background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: 20px;
+  border-radius: max(10px, 2vw);
+  overflow: hidden;
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`

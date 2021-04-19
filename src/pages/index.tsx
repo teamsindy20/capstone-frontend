@@ -45,6 +45,34 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 const ClickableDiv = styled.div`
   cursor: pointer;
 `
+const PhotoButton = styled.button`
+  background: #f1f6fa;
+  color: #fe6661;
+  border-radius: 15px;
+  background-size: cover;
+
+  font-weight: bold;
+  font-size: 20%;
+
+  top: 5%;
+  left: 5%;
+
+  text-align: center;
+  transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
+
+  display: block;
+  margin: 20px auto;
+  max-width: 180px;
+  text-decoration: none;
+
+  padding: 20px 30px;
+
+  box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+  :hover {
+    background: #fe6661;
+    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 40px inset;
+  }
+`
 
 function HomePage() {
   const [isLoadingMenus, setIsLoadingMenus] = useState(false)
@@ -94,8 +122,7 @@ function HomePage() {
 
         <CategoryButton></CategoryButton>
         <div>정렬 기준</div>
-        <button onClick={toggleOnlyImage}>사진만 보기</button>
-
+        <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
         <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />

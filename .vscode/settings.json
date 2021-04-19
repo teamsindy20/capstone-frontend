@@ -11,7 +11,8 @@
   "search.exclude": {
     "**/.git": true,
     "**/.next": true,
-    "**/out": true
+    "**/out": true,
+    "yarn.lock": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.packageManager": "yarn"

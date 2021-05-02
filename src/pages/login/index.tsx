@@ -4,6 +4,7 @@ import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { Input, Button, Checkbox, Form } from 'antd'
 import Inko from 'inko'
 import { useCallback } from 'react'
+import Link from 'next/link'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
@@ -190,7 +191,12 @@ function LoginPage() {
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>로그인 상태 유지</Checkbox>
               <GridLinkForm>
-                <Button type="link">회원가입</Button>
+                <Link href="/register">
+                  <a href="/register">
+                    <Button type="link">회원가입</Button>
+                  </a>
+                </Link>
+
                 <Button type="link">아이디찾기</Button>
                 <Button type="link">비밀번호찾기</Button>
               </GridLinkForm>

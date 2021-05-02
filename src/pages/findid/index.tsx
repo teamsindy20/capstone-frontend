@@ -5,7 +5,7 @@ function RegisterPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <button>회원가입</button>
+        <button>아이디찾기</button>
       </LoginPageLayout>
     </PageHead>
   )

@@ -134,6 +134,22 @@ export const store8: TStore = {
   hashtags: ['#스콘맛집', '#브릿지엣지', '#공정무역커피', '#수제스콘', '#스콘'],
 }
 
+export const store9: TStore = {
+  id: '8',
+  creationDate: new Date().toISOString(),
+  modificationDate: new Date().toISOString(),
+  name: '플디',
+  deliveryFees: [2500],
+  deliveryTimeMin: 20,
+  deliveryTimeMax: 29,
+  reorderRatio: 42,
+  regularCount: 435,
+  location: '도산점',
+  imageUrl:
+    'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAyMTBfMTIz%2FMDAxNjEyOTMwNDQ2Mjk3.z59nOVeZvFpgma9c0S5zXRwilAvu5FGL8zlycCxFbhcg.bEbuGyY99Vgdf-_lW2UKCqJ8MebT1ATN1vKKVoUzbpog.JPEG.njkmj51%2FIMG_5104.jpg&type=sc960_832',
+  hashtags: ['#디저트맛집', '#plate_d', '#딸기케이크', '#압구정', '#플디'],
+}
+
 export const menus: TMenu[] = [
   {
     id: '0',
@@ -410,6 +426,24 @@ export const posts: TPost[] = [
     likeCount: 58,
     commentCount: 19,
     store: store8,
+  },
+  {
+    id: '4',
+    creationDate: new Date().toISOString(),
+    modificationDate: new Date().toISOString(),
+    contents: [
+      '4월 일정 공지합니다!',
+      '💛 = 베이킹 클래스',
+      '🖤 = 카페 정상 운영 기간',
+      '일정 꼭 확인하셔서 헛걸음 없으시길 바라요🙏🏻',
+      '오늘도 좋은 하루 보내세요 :)',
+    ],
+    imageUrl: [
+      'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/83008531_824166611387598_471126081900830500_n.jpg?tp=1&amp;_nc_ht=scontent-ssn1-1.cdninstagram.com&amp;_nc_cat=106&amp;_nc_ohc=LCMp4ciQMmoAX8GEXd7&amp;edm=AP_V10EAAAAA&amp;ccb=7-4&amp;oh=bfb7305175710157b62836f4b38ca7b8&amp;oe=609A30FD&amp;_nc_sid=4f375e',
+    ],
+    likeCount: 160,
+    commentCount: 50,
+    store: store9,
   },
 ]
 

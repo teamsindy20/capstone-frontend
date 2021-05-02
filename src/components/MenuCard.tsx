@@ -71,8 +71,10 @@ const GridContainerLi = styled.li<{ column1by2: boolean }>`
   ${(p) => (p.column1by2 ? 'grid-template-columns: 1fr 2fr;' : '')}
 
   cursor: pointer;
-  background: #f8f2f8;
+  background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  border-radius: max(10px, 2vw);
+  overflow: hidden;
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
@@ -88,7 +90,7 @@ export const AbsolutePositionImage = styled.img`
   height: 100%;
   object-fit: cover;
 
-  background: #eee;
+  background: #f3ccc7;
 `
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
@@ -142,7 +144,7 @@ export const BoldA = styled.a`
   font-weight: bold;
   word-break: keep-all;
 
-  color: maroon;
+  color: 3c3c3c;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   :hover {

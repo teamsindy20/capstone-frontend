@@ -191,14 +191,22 @@ function LoginPage() {
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>로그인 상태 유지</Checkbox>
               <GridLinkForm>
-                <Link href="/register">
-                  <a href="/register">
+                <Link href="/register/email">
+                  <a href="/register/email">
                     <Button type="link">회원가입</Button>
                   </a>
                 </Link>
 
-                <Button type="link">아이디찾기</Button>
-                <Button type="link">비밀번호찾기</Button>
+                <Link href="/findid">
+                  <a href="/findid">
+                    <Button type="link">아이디찾기</Button>
+                  </a>
+                </Link>
+                <Link href="/findpw">
+                  <a href="/findpw">
+                    <Button type="link">비밀번호찾기</Button>
+                  </a>
+                </Link>
               </GridLinkForm>
             </Form.Item>
           </Form>

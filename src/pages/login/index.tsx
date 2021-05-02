@@ -9,6 +9,7 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
+
 const { ko2en } = new Inko()
 
 const GridContainerForm = styled.form`
@@ -191,8 +192,8 @@ function LoginPage() {
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>로그인 상태 유지</Checkbox>
               <GridLinkForm>
-                <Link href="/register/email">
-                  <a href="/register/email">
+                <Link href="/register">
+                  <a href="/register">
                     <Button type="link">회원가입</Button>
                   </a>
                 </Link>

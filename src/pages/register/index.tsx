@@ -3,10 +3,14 @@ import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import Link from 'next/link'
+import { useCallback } from 'react'
 import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
+import Inko from 'inko'
+
+const { ko2en } = new Inko()
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -40,13 +44,21 @@ const HeadMessage = styled.h1`
   line-height: 1.5;
   margin: 6rem 1rem 3rem 1rem;
 `
-const HeadRegister = styled.h2`
+const HeadRegister = styled.h3`
   color: #3c3c3c;
   text-align: center;
   font-weight: 3rem;
   margin: 1rem 1rem 0.2rem;
   letter-spacing: 0.3rem;
 `
+
+export const validateEmail = {
+  required: '필수 항목입니다.',
+  pattern: {
+    value: /\S+@\S+\.\S+/,
+    message: '이메일을 형식에 맞게 입력해주세요.',
+  },
+}
 
 export const validatePassword = {
   required: '필수 항목입니다.',
@@ -73,9 +85,10 @@ export const RedText = styled.h5`
 type FormValues = {
   email: string
   password: string
+  password2: string
 }
 
-function RegisterPWPage() {
+function RegisterPage() {
   const [login, { loading }] = useLoginMutation({
     onCompleted: (data) => {
       if (data.login) {
@@ -89,20 +102,46 @@ function RegisterPWPage() {
   })
 
   const { control, errors, handleSubmit } = useForm<FormValues>({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '', password2: '' },
   })
+
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    ({ email, password, password2 }) => {
+      login({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+    },
+    [login]
+  )
 
   return (
     <PageHead>
       <LoginPageLayout>
         <GridContainerForm>
           <HeadMessage>
-            로그인에 사용할<br></br>
-            비밀번호를 입력해주세요.
+            내가 원하는 디저트를<br></br>
+            쉽고 빠르게<br></br>
+            <b>신디에 가입해보세요.</b>
           </HeadMessage>
           <HeadRegister>SIGN UP</HeadRegister>
-
+          <label htmlFor="email">
+            <h4>이메일</h4>
+            <Controller
+              control={control}
+              name="email"
+              render={(props) => (
+                <Input
+                  disabled={loading}
+                  placeholder="이메일을 입력해주세요."
+                  size="large"
+                  type="email"
+                  {...props}
+                />
+              )}
+              rules={validateEmail}
+            />
+            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+          </label>
           <label htmlFor="password">
+            <h4>비밀번호</h4>
             <Controller
               control={control}
               name="password"
@@ -121,6 +160,7 @@ function RegisterPWPage() {
             <RedText>{errors.password ? errors.password.message : <br />}</RedText>
           </label>
           <label htmlFor="password">
+            <h4>비밀번호 확인</h4>
             <Controller
               control={control}
               name="password"
@@ -128,7 +168,7 @@ function RegisterPWPage() {
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="다시 한번 입력해주세요."
+                  placeholder="비밀번호를 재입력해주세요."
                   size="large"
                   type="password"
                   {...props}
@@ -138,11 +178,15 @@ function RegisterPWPage() {
             />
             <RedText>{errors.password ? errors.password.message : <br />}</RedText>
           </label>
-          <RegisterButton type="submit">다음</RegisterButton>
+          <Link href="/register/pw">
+            <a href="/register/pw">
+              <RegisterButton type="submit">확인</RegisterButton>
+            </a>
+          </Link>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>
   )
 }
 
-export default RegisterPWPage
+export default RegisterPage

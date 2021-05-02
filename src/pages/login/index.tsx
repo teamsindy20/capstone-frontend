@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button } from 'antd'
+import { Input, Button, Checkbox, Form } from 'antd'
 import Inko from 'inko'
 import { useCallback } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
@@ -15,6 +15,12 @@ const GridContainerForm = styled.form`
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
   gap: 1rem;
+`
+
+const GridLinkForm = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 `
 
 const LoginButton = styled.button`
@@ -67,7 +73,7 @@ const HeadLogin = styled.h2`
   color: #3c3c3c;
   text-align: center;
   font-weight: 3rem;
-  margin: 1rem 1rem;
+  margin: 1rem 1rem 0.2rem;
   letter-spacing: 0.3rem;
 `
 
@@ -137,44 +143,60 @@ function LoginPage() {
           내가 원하는 디저트를<br></br>
           쉽고 빠르게!
         </HeadMessage>
-        <HeadLogin>LOGIN</HeadLogin>
-        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="email">
-            <Controller
-              control={control}
-              name="email"
-              render={(props) => (
-                <Input
-                  disabled={loading}
-                  placeholder="이메일을 입력해주세요."
-                  size="large"
-                  type="email"
-                  {...props}
-                />
-              )}
-              rules={validateEmail}
-            />
-            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-          </label>
 
-          <label htmlFor="password">
-            <Controller
-              control={control}
-              name="password"
-              render={(props) => (
-                <Input.Password
-                  disabled={loading}
-                  iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 입력해주세요."
-                  size="large"
-                  type="password"
-                  {...props}
-                />
-              )}
-              rules={validatePassword}
-            />
-            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-          </label>
+        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+          <HeadLogin>LOGIN</HeadLogin>
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            // onFinish={onFinish}
+            // onFinishFailed={onFinishFailed}
+          >
+            <label htmlFor="email">
+              <Controller
+                control={control}
+                name="email"
+                render={(props) => (
+                  <Input
+                    disabled={loading}
+                    placeholder="이메일을 입력해주세요."
+                    size="large"
+                    type="email"
+                    {...props}
+                  />
+                )}
+                rules={validateEmail}
+              />
+              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+            </label>
+
+            <label htmlFor="password">
+              <Controller
+                control={control}
+                name="password"
+                render={(props) => (
+                  <Input.Password
+                    disabled={loading}
+                    iconRender={renderPasswordInputIcon}
+                    placeholder="비밀번호를 입력해주세요."
+                    size="large"
+                    type="password"
+                    {...props}
+                  />
+                )}
+                rules={validatePassword}
+              />
+              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+            </label>
+            <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>로그인 상태 유지</Checkbox>
+              <GridLinkForm>
+                <Button type="link">회원가입</Button>
+                <Button type="link">아이디찾기</Button>
+                <Button type="link">비밀번호찾기</Button>
+              </GridLinkForm>
+            </Form.Item>
+          </Form>
 
           <LoginButton type="submit">로그인</LoginButton>
           <SNSLoginButton>카카오톡으로 로그인하기</SNSLoginButton>

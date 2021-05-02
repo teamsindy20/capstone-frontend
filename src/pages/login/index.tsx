@@ -12,7 +12,7 @@ const { ko2en } = new Inko()
 
 const GridContainerForm = styled.form`
   display: grid;
-  grid-template-columns: minmax(auto, 400px);
+  grid-template-columns: minmax(auto, 370px);
   justify-content: center;
   gap: 1rem;
 `
@@ -45,7 +45,7 @@ const SNSLoginButton = styled.button`
   text-decoration: none;
   padding: 0.5em 0.5rem;
   font-size: 1rem;
-  margin: 4px 2px;
+  margin: 1px 1px;
   border-radius: 0.3rem;
   cursor: pointer;
   display: inline-block;
@@ -57,9 +57,22 @@ const SNSLoginButton = styled.button`
     color: #ffc9c3;
   }
 `
+const HeadMessage = styled.h1`
+  color: #3c3c3c;
+  text-align: left;
+  line-height: 1.5;
+  margin: 6rem 1rem 3rem 1rem;
+`
+const HeadLogin = styled.h2`
+  color: #3c3c3c;
+  text-align: center;
+  font-weight: 3rem;
+  margin: 1rem 1rem;
+  letter-spacing: 0.3rem;
+`
 
 export const RedText = styled.h5`
-  margin: 0.4rem 0;
+  margin: 0.5rem 0.2rem;
   color: #800000;
 `
 
@@ -120,9 +133,13 @@ function LoginPage() {
   return (
     <PageHead>
       <LoginPageLayout>
+        <HeadMessage>
+          내가 원하는 디저트를<br></br>
+          쉽고 빠르게!
+        </HeadMessage>
+        <HeadLogin>LOGIN</HeadLogin>
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="email">
-            이메일
             <Controller
               control={control}
               name="email"
@@ -141,7 +158,6 @@ function LoginPage() {
           </label>
 
           <label htmlFor="password">
-            비밀번호
             <Controller
               control={control}
               name="password"

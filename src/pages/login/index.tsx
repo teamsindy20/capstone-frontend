@@ -20,7 +20,6 @@ const GridContainerForm = styled.form`
 const GridLinkForm = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-}
 `
 
 const LoginButton = styled.button`

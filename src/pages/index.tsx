@@ -120,7 +120,7 @@ function HomePage() {
           />
         </ImageRatioWrapper>
 
-        <CategoryButton></CategoryButton>
+        <CategoryButton />
         <div>정렬 기준</div>
         <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
         <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>

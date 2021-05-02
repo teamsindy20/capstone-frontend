@@ -1,13 +1,170 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
-import LoginForm from 'src/components/LoginForm'
+import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
+import { Input, Button } from 'antd'
+import Inko from 'inko'
+import { useCallback } from 'react'
+import { Controller, useForm, SubmitHandler } from 'react-hook-form'
+import { handleApolloError } from 'src/apollo/error'
+import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
+import styled from 'styled-components'
+const { ko2en } = new Inko()
+
+const GridContainerForm = styled.form`
+  display: grid;
+  grid-template-columns: minmax(auto, 400px);
+  justify-content: center;
+  gap: 1rem;
+`
+
+const LoginButton = styled.button`
+  background-color: #ffc9c3;
+  border: none;
+  color: #3c3c3c;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5em 0.5rem;
+  font-size: 1rem;
+  margin: 4px 2px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: inline-block;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: #f1f6fa;
+    border: #ffc9c3;
+    color: #ffc9c3;
+  }
+`
+const SNSLoginButton = styled.button`
+  background-color: #f1f6fa;
+  border: none;
+  color: #3c3c3c;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5em 0.5rem;
+  font-size: 1rem;
+  margin: 4px 2px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: inline-block;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: #f1f6fa;
+    border: #ffc9c3;
+    color: #ffc9c3;
+  }
+`
+
+export const RedText = styled.h5`
+  margin: 0.4rem 0;
+  color: #800000;
+`
+
+export const validateEmail = {
+  required: '필수 항목입니다.',
+  pattern: {
+    value: /\S+@\S+\.\S+/,
+    message: '이메일을 형식에 맞게 입력해주세요.',
+  },
+}
+
+export const validatePassword = {
+  required: '필수 항목입니다.',
+  minLength: {
+    value: 5,
+    message: '최소 5글자 이상 입력해주세요.',
+  },
+}
+
+const PASSWORD_INPUT_ICONS = [
+  <UnlockTwoTone key={1} style={{ fontSize: '1.2rem' }} twoToneColor="#c4801a" />,
+  <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
+]
+
+export function renderPasswordInputIcon(visible: boolean) {
+  return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
+}
+
+type FormValues = {
+  email: string
+  password: string
+}
 
 function LoginPage() {
+  const [login, { loading }] = useLoginMutation({
+    onCompleted: (data) => {
+      if (data.login) {
+        console.log(data.login)
+        sessionStorage.setItem('token', data.login)
+      } else {
+        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+      }
+    },
+    onError: handleApolloError,
+  })
+
+  const { control, errors, handleSubmit } = useForm<FormValues>({
+    defaultValues: { email: '', password: '' },
+  })
+
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    ({ email, password }) => {
+      login({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+    },
+    [login]
+  )
+
   return (
     <PageHead>
       <LoginPageLayout>
-        <LoginForm />
-        <button>sns 로그인</button>
+        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="email">
+            이메일
+            <Controller
+              control={control}
+              name="email"
+              render={(props) => (
+                <Input
+                  disabled={loading}
+                  placeholder="이메일을 입력해주세요."
+                  size="large"
+                  type="email"
+                  {...props}
+                />
+              )}
+              rules={validateEmail}
+            />
+            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+          </label>
+
+          <label htmlFor="password">
+            비밀번호
+            <Controller
+              control={control}
+              name="password"
+              render={(props) => (
+                <Input.Password
+                  disabled={loading}
+                  iconRender={renderPasswordInputIcon}
+                  placeholder="비밀번호를 입력해주세요."
+                  size="large"
+                  type="password"
+                  {...props}
+                />
+              )}
+              rules={validatePassword}
+            />
+            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+          </label>
+
+          <LoginButton type="submit">로그인</LoginButton>
+          <SNSLoginButton>카카오톡으로 로그인하기</SNSLoginButton>
+          <SNSLoginButton>네이버로 로그인하기</SNSLoginButton>
+          <SNSLoginButton>구글로 로그인하기</SNSLoginButton>
+        </GridContainerForm>
       </LoginPageLayout>
     </PageHead>
   )

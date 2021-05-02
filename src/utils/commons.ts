@@ -1,3 +1,5 @@
+import Inko from 'inko'
+
 export function preventAndStopEnterPropagation(e: React.KeyboardEvent<HTMLElement>) {
   if (e.key === 'Enter') {
     e.preventDefault()
@@ -32,3 +34,5 @@ export async function digestMessageWithSHA256(message: string) {
   const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('') // convert bytes to hex string
   return hashHex
 }
+
+export const { ko2en } = new Inko()

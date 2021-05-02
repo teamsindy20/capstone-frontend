@@ -91,7 +91,7 @@ function HomePage() {
     setHasMoreMenus(false)
   }
 
-  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+  const [sentryRef] = useInfiniteScroll({
     loading: isLoadingMenus,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
@@ -123,13 +123,17 @@ function HomePage() {
         <CategoryButton></CategoryButton>
         <div>정렬 기준</div>
         <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
-        <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
+
+        <GridContainerUl onlyImage={onlyImage}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        <MenuLoadingCard onlyImage={onlyImage} />
-        {isLoadingMenus && <MenuLoadingCard onlyImage={onlyImage} />}
+        {(isLoadingMenus || hasMoreMenus) && (
+          <div ref={sentryRef}>
+            <MenuLoadingCard onlyImage={onlyImage} />
+          </div>
+        )}
       </PageLayout>
     </PageHead>
   )

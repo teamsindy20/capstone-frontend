@@ -32,6 +32,8 @@
 
 프로젝트 루트 경로에 `.env.development`과 `.env.production` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
+`.env.development`는 `yarn dev` 실행 시에만 적용되고, `.env.production`는 `yarn start` 실행 시에만 적용됩니다.
+
 ### 개발 모드
 
 ```bash
@@ -225,7 +227,7 @@ Next를 세부적으로 설정할 수 있습니다. 이 프로젝트에선 Inter
 
 #### tsconfig.json
 
-TypeScript 세부 컴파일 옵션을 설정할 수 있다. 이 프로젝트에선 Next.js와 React.js에 적합하게 자동으로 설정됩니다.
+TypeScript 세부 컴파일 옵션을 설정할 수 있습니다. 이 프로젝트에선 Next.js와 React.js에 적합하게 자동으로 설정됩니다.
 
 #### yarn.lock
 

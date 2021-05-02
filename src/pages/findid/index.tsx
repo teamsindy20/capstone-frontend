@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 
-function RegisterPage() {
+function FindIDPage() {
   return (
     <PageHead>
       <LoginPageLayout>
@@ -11,4 +11,4 @@ function RegisterPage() {
   )
 }
 
-export default RegisterPage
+export default FindIDPage

@@ -1,14 +1,14 @@
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import LoginForm from 'src/components/LoginForm'
 
 function LoginPage() {
   return (
     <PageHead>
-      <PageLayout>
+      <LoginPageLayout>
         <LoginForm />
         <button>sns 로그인</button>
-      </PageLayout>
+      </LoginPageLayout>
     </PageHead>
   )
 }

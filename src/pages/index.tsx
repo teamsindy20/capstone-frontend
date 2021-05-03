@@ -1,6 +1,10 @@
-import BookmarkTwoToneIcon from '@material-ui/icons/BookmarkTwoTone'
-import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
-import SearchIcon from '@material-ui/icons/Search'
+import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
+import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
+import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
+import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
 import Image from 'next/image'
 import PageLayout from '../components/layouts/PageLayout'
@@ -100,13 +104,15 @@ function HomePage() {
     <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
-          <BookmarkTwoToneIcon fontSize="large" />
+          <BookmarkRoundedIcon style={{ fontSize: 30, color: red[500] }} />
           <FlexContainerAlignCenter>
-            <LocationOnTwoToneIcon />
-            흑석로 84
+            <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            흑석동
           </FlexContainerAlignCenter>
           <ClickableDiv onClick={goToSearchPage}>
-            <SearchIcon fontSize="large" />
+            <SearchRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <TuneRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <NotificationsRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
           </ClickableDiv>
         </FlexContainerBetweenCenter>
         <PaddingTop />

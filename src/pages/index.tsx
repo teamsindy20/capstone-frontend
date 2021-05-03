@@ -61,6 +61,9 @@ const MiddleText = styled.div`
   display: table-cell;
   vertical-align: middle;
   margin: 3rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  background-color: #fff5f5;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`

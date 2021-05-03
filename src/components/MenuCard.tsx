@@ -157,7 +157,7 @@ export const BoldA = styled.a`
 `
 
 const HorizontalBorder = styled.div`
-  border: 1px solid grey;
+  border: 1px solid #adb5bd;
 `
 
 const VerticalBorder = styled.div`

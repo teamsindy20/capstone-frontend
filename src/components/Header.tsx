@@ -9,6 +9,7 @@ import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { username } from 'src/models/mock-data'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
+import { grey } from '@material-ui/core/colors'
 
 const FixedHeader = styled.header`
   position: fixed;
@@ -56,7 +57,7 @@ function Header() {
         <Link href="/">
           <a href="/">
             <FlexContainerColumnCenterCenter>
-              <HomeRoundedIcon style={{ fontSize: 30 }} />
+              <HomeRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>홈</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
@@ -64,7 +65,7 @@ function Header() {
         <Link href="/feed">
           <a href="/feed">
             <FlexContainerColumnCenterCenter>
-              <StoreRoundedIcon style={{ fontSize: 30 }} />
+              <StoreRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>매장소식</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
@@ -72,7 +73,7 @@ function Header() {
         <Link href="/stores">
           <a href="/stores">
             <FlexContainerColumnCenterCenter>
-              <FavoriteRoundedIcon style={{ fontSize: 30 }} />
+              <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>찜·단골</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
@@ -80,7 +81,7 @@ function Header() {
         <Link href={`/users/${username}/orders`}>
           <a href={`/users/${username}/orders`}>
             <FlexContainerColumnCenterCenter>
-              <AssignmentTwoToneIcon style={{ fontSize: 30 }} />
+              <AssignmentTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>주문내역</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
@@ -88,7 +89,7 @@ function Header() {
         <Link href={`/users/${username}`}>
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
-              <InsertEmoticonTwoToneIcon style={{ fontSize: 30 }} />
+              <InsertEmoticonTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>마이페이지</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>

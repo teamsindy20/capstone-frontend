@@ -1,7 +1,7 @@
-import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone'
+import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentRounded'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
-import InsertEmoticonTwoToneIcon from '@material-ui/icons/InsertEmoticonTwoTone'
-import ListAltTwoTone from '@material-ui/icons/ListAltTwoTone'
+import InsertEmoticonTwoToneIcon from '@material-ui/icons/InsertEmoticonRounded'
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import Link from 'next/link'
 import { memo } from 'react'
@@ -56,7 +56,7 @@ function Header() {
         <Link href="/">
           <a href="/">
             <FlexContainerColumnCenterCenter>
-              <HomeRoundedIcon fontSize="large" />
+              <HomeRoundedIcon style={{ fontSize: 30 }} />
               <NoMarginH6>홈</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
@@ -64,32 +64,32 @@ function Header() {
         <Link href="/feed">
           <a href="/feed">
             <FlexContainerColumnCenterCenter>
-              <ListAltTwoTone fontSize="large" />
-              <NoMarginH6>새 소식</NoMarginH6>
+              <StoreRoundedIcon style={{ fontSize: 30 }} />
+              <NoMarginH6>매장소식</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href="/stores">
           <a href="/stores">
             <FlexContainerColumnCenterCenter>
-              <StoreRoundedIcon fontSize="large" />
-              <NoMarginH6>찜·단골 매장</NoMarginH6>
+              <FavoriteRoundedIcon style={{ fontSize: 30 }} />
+              <NoMarginH6>찜·단골</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href={`/users/${username}/orders`}>
           <a href={`/users/${username}/orders`}>
             <FlexContainerColumnCenterCenter>
-              <AssignmentTwoToneIcon fontSize="large" />
-              <NoMarginH6>주문 내역</NoMarginH6>
+              <AssignmentTwoToneIcon style={{ fontSize: 30 }} />
+              <NoMarginH6>주문내역</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>
         <Link href={`/users/${username}`}>
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
-              <InsertEmoticonTwoToneIcon fontSize="large" />
-              <NoMarginH6>내 Sindy</NoMarginH6>
+              <InsertEmoticonTwoToneIcon style={{ fontSize: 30 }} />
+              <NoMarginH6>마이페이지</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>
         </Link>

@@ -221,7 +221,7 @@ function MenuCard({ menu, onlyImage }: Props) {
     return (
       <GridContainerLi column1by2={false} onClick={goToStoreMenusPage}>
         <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src="" alt="food" />
+          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
         </ImageRatioWrapper>
       </GridContainerLi>
     )
@@ -230,7 +230,7 @@ function MenuCard({ menu, onlyImage }: Props) {
   return (
     <GridContainerLi column1by2={true} onClick={goToStoreMenusPage}>
       <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
-        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="food" />
+        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
       </ImageRatioWrapper>
 
       <FlexContainerColumnBetween>

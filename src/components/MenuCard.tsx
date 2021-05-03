@@ -9,13 +9,13 @@ import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
-import TMenu from 'src/types/Menu'
 import TStore from 'src/types/Store'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
+import { MenusQuery } from 'src/graphql/generated/types-and-hooks'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -206,7 +206,7 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: TMenu
+  menu: MenusQuery['menus'][number]
   store: TStore
   onlyImage: boolean
 }
@@ -221,7 +221,7 @@ function MenuCard({ menu, onlyImage }: Props) {
     return (
       <GridContainerLi column1by2={false} onClick={goToStoreMenusPage}>
         <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrl} alt="food" />
+          <AbsolutePositionImage src="" alt="food" />
         </ImageRatioWrapper>
       </GridContainerLi>
     )
@@ -230,12 +230,12 @@ function MenuCard({ menu, onlyImage }: Props) {
   return (
     <GridContainerLi column1by2={true} onClick={goToStoreMenusPage}>
       <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
-        <AbsolutePositionImage src={menu.imageUrl} alt="food" />
+        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="food" />
       </ImageRatioWrapper>
 
       <FlexContainerColumnBetween>
         <AbsolutePosition>
-          {menu.bookmark ? (
+          {menu.favorite ? (
             <BookmarkTwoToneIcon fontSize="large" />
           ) : (
             <BookmarkBorderTwoToneIcon fontSize="large" />
@@ -249,12 +249,12 @@ function MenuCard({ menu, onlyImage }: Props) {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
+              <LighterH5>{formatPricesWithFree([menu.store.deliveryFee])}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>
           <FlexContainerUl>
-            {menu.hashtags.map((hashtag) => (
+            {menu.hashtags?.map((hashtag) => (
               <>
                 <li key={hashtag}>
                   <Link href={`/search/${hashtag.slice(1)}`}>
@@ -273,7 +273,7 @@ function MenuCard({ menu, onlyImage }: Props) {
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
               <TimerRoundedIcon />
-              {`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}
+              {`${menu.store.minimumDeliveryTime}-${menu.store.maximumDeliveryTime}분`}
             </FlexContainerAlignCenter>
             <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
           </FlexContainerBetween>
@@ -284,12 +284,12 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerWrapAround>
         <FlexContainerAlignCenter>
           <ThumbUpOutlinedIcon />
-          <div>{menu.likeRatio}%</div>
+          <div>{menu.positiveReviewRatio}%</div>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <RateReviewTwoToneIcon />
-          <div>{formatNumber(menu.reviewCount)}개</div>
+          <div>{formatNumber(menu.totalReviewCount)}개</div>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
@@ -299,7 +299,7 @@ function MenuCard({ menu, onlyImage }: Props) {
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <AssignmentTwoToneIcon />
-          <div>{formatNumber(menu.orderCount)}개</div>
+          <div>{formatNumber(menu.totalOrderCount)}개</div>
         </FlexContainerAlignCenter>
       </FlexContainerWrapAround>
     </GridContainerLi>

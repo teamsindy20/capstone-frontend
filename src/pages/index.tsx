@@ -15,6 +15,8 @@ import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import CategoryButton from 'src/components/CategoryButton'
+import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { handleApolloError } from 'src/apollo/error'
 
 const PADDING_TOP = '3rem'
 
@@ -79,6 +81,8 @@ function HomePage() {
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
+  const { data, loading } = useMenusQuery({ onError: handleApolloError })
+
   const goToSearchPage = useGoToPage('/search')
 
   async function fetchMoreMenus() {
@@ -125,11 +129,11 @@ function HomePage() {
         <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
 
         <GridContainerUl onlyImage={onlyImage}>
-          {menus.map((menu) => (
+          {data?.menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isLoadingMenus || hasMoreMenus) && (
+        {(loading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

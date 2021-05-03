@@ -118,9 +118,9 @@ function HomePage() {
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
-        <ImageRatioWrapper paddingTop="56.25%">
+        <ImageRatioWrapper paddingTop="36.25%">
           <Image
-            src="https://www.smlounge.co.kr/upload/woman/article/201912/thumb/43530-394917-sample.jpg"
+            src="/../public/디저트정-광고.png"
             alt="banner advertisement"
             layout="fill"
           />

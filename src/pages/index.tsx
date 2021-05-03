@@ -14,7 +14,6 @@ import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexC
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
-import CategoryButton from 'src/components/CategoryButton'
 
 const PADDING_TOP = '3rem'
 
@@ -120,7 +119,6 @@ function HomePage() {
           />
         </ImageRatioWrapper>
 
-        <CategoryButton />
         <div>정렬 기준</div>
         <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
         <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>

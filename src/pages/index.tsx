@@ -3,6 +3,7 @@ import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
+import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
@@ -23,7 +24,6 @@ const PADDING_TOP = '3rem'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
-
   position: fixed;
   top: 0;
   left: 50%;
@@ -32,7 +32,7 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   max-width: ${TABLET_MIN_WIDTH};
   height: ${PADDING_TOP};
   transform: translateX(-50%);
-  background: #fe6661;
+  background: #ffffff;
 `
 
 const PaddingTop = styled.div`
@@ -108,6 +108,7 @@ function HomePage() {
           <FlexContainerAlignCenter>
             <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
             흑석동
+            <ExpandMoreRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
           </FlexContainerAlignCenter>
           <ClickableDiv onClick={goToSearchPage}>
             <SearchRoundedIcon style={{ fontSize: 30, color: grey[800] }} />

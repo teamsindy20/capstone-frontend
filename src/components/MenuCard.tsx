@@ -145,6 +145,7 @@ const FlexContainerUl = styled.ul`
 export const BoldA = styled.a`
   font-size: 0.83em;
   font-weight: bold;
+  color: #fe6661;
   word-break: keep-all;
 
   color: 3c3c3c;

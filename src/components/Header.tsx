@@ -1,6 +1,6 @@
 import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentRounded'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
-import InsertEmoticonTwoToneIcon from '@material-ui/icons/InsertEmoticonRounded'
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import Link from 'next/link'
@@ -89,7 +89,7 @@ function Header() {
         <Link href={`/users/${username}`}>
           <a href={`/users/${username}`}>
             <FlexContainerColumnCenterCenter>
-              <InsertEmoticonTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
+              <PersonRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
               <NoMarginH6>마이페이지</NoMarginH6>
             </FlexContainerColumnCenterCenter>
           </a>

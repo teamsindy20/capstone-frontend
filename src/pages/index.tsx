@@ -8,6 +8,9 @@ import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
 import Image from 'next/image'
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -39,6 +42,20 @@ const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
 
+const GridContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 0.8rem;
+  margin: 1rem;
+`
+
+const SmallText = styled.div`
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+`
+
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
@@ -47,34 +64,6 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 
 const ClickableDiv = styled.div`
   cursor: pointer;
-`
-const PhotoButton = styled.button`
-  background: #f1f6fa;
-  color: #fe6661;
-  border-radius: 15px;
-  background-size: cover;
-
-  font-weight: bold;
-  font-size: 20%;
-
-  top: 5%;
-  left: 5%;
-
-  text-align: center;
-  transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-
-  display: block;
-  margin: 20px auto;
-  max-width: 180px;
-  text-decoration: none;
-
-  padding: 20px 30px;
-
-  box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
-  :hover {
-    background: #fe6661;
-    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 40px inset;
-  }
 `
 
 function HomePage() {
@@ -126,8 +115,21 @@ function HomePage() {
           />
         </ImageRatioWrapper>
 
-        <div>정렬 기준</div>
-        <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
+        <GridContainer>
+          <SmallText>정렬방식</SmallText>
+          <Button variant="contained" color="secondary" size="small">
+            맞춤추천
+          </Button>
+          <Button variant="contained" size="small">
+            좋아요순
+          </Button>
+          <Button variant="contained" size="small">
+            재주문율순
+          </Button>
+          <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
+            사진만보기
+          </Button>
+        </GridContainer>
         <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />

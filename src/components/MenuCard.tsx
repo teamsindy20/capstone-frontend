@@ -1,6 +1,6 @@
 import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone'
-import BookmarkBorderTwoToneIcon from '@material-ui/icons/BookmarkBorderTwoTone'
-import BookmarkTwoToneIcon from '@material-ui/icons/BookmarkTwoTone'
+import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
+import BookmarkBorderRoundedIcon from '@material-ui/icons/BookmarkBorderRounded'
 import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
 import MotorcycleTwoToneIcon from '@material-ui/icons/MotorcycleTwoTone'
 import RateReviewTwoToneIcon from '@material-ui/icons/RateReviewTwoTone'
@@ -16,6 +16,8 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -73,7 +75,7 @@ const GridContainerLi = styled.li<{ column1by2: boolean }>`
   cursor: pointer;
   background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 2vw);
+  border-radius: max(10px, 1vw);
   overflow: hidden;
 `
 
@@ -89,6 +91,7 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: max(10px, 1vw);
 
   background: #f3ccc7;
 `
@@ -236,9 +239,9 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.bookmark ? (
-            <BookmarkTwoToneIcon fontSize="large" />
+            <BookmarkRoundedIcon style={{ fontSize: 25, color: red[500] }} />
           ) : (
-            <BookmarkBorderTwoToneIcon fontSize="large" />
+            <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
           )}
         </AbsolutePosition>
         <GridContainer>

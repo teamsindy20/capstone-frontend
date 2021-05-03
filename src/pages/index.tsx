@@ -55,6 +55,13 @@ const SmallText = styled.div`
   display: table-cell;
   vertical-align: middle;
 `
+const MiddleText = styled.div`
+  justify-content: center;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  margin: 3rem;
+`
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
@@ -130,6 +137,7 @@ function HomePage() {
             사진만보기
           </Button>
         </GridContainer>
+        <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
         <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />

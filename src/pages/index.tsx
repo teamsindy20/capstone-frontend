@@ -16,12 +16,15 @@ import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { useState } from 'react'
+import React, { useState, Component } from 'react'
 import { store3, store, store2, store5, menus } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import Slider from 'react-slick'
 
 const PADDING_TOP = '3rem'
 
@@ -44,11 +47,15 @@ const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
-const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800], visibility: 'hidden' }
+const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const StyledSlider = styled(Slider)`
+  margin: 1rem;
+`
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
@@ -67,15 +74,19 @@ const SmallText = styled.div`
   text-align: center;
 `
 const MiddleText = styled.div`
-  /* width: 100%; */
-  /* justify-content: center; */
   text-align: center;
-  /* display: table-cell; */
-  /* vertical-align: middle; */
-  /* margin: 3rem; */
   padding: 0.5rem;
   margin: 0.5rem;
   border-radius: 1rem;
+  background-color: #fff5f5;
+`
+
+const BannerAd = styled.div`
+  height: 150px;
+  text-align: center;
+  padding: 0.5rem;
+  margin: 0.5rem;
+
   background-color: #fff5f5;
 `
 
@@ -112,6 +123,14 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  }
+
   return (
     <PageHead>
       <PageLayout>
@@ -132,9 +151,27 @@ function HomePage() {
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
-        <ImageRatioWrapper paddingTop="36.25%">
+        <Slider {...settings}>
+          <BannerAd>
+            <img src="/디저트정-광고.png" alt="banner advertisement" />
+          </BannerAd>
+          <BannerAd>
+            <h3>2</h3>
+          </BannerAd>
+          <BannerAd>
+            <h3>3</h3>
+          </BannerAd>
+          <BannerAd>
+            <h3>4</h3>
+          </BannerAd>
+          <BannerAd>
+            <h3>5</h3>
+          </BannerAd>
+        </Slider>
+
+        {/* <ImageRatioWrapper paddingTop="36.25%">
           <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
-        </ImageRatioWrapper>
+        </ImageRatioWrapper> */}
 
         <GridContainer>
           <SmallText>정렬방식</SmallText>

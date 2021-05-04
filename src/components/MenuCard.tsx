@@ -98,7 +98,7 @@ export const AbsolutePositionImage = styled.img`
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
-  gap: 0.5rem;
+  gap: 0.3rem;
 
   position: relative;
   padding: 0.5rem 0.5rem 0;
@@ -161,7 +161,7 @@ export const BoldA = styled.a`
 `
 
 const HorizontalBorder = styled.div`
-  border: 1px solid #adb5bd;
+  border: 1px solid #ddd;
 `
 
 const VerticalBorder = styled.div`
@@ -306,7 +306,6 @@ function MenuCard({ menu, onlyImage }: Props) {
           <NormalH5>리뷰수 {formatNumber(menu.reviewCount)}개</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
-
         <FlexContainerAlignCenter>
           <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
           <NormalH5>주문수 {formatNumber(menu.orderCount)}개</NormalH5>

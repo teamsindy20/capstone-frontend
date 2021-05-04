@@ -38,6 +38,8 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   background: #ffffff;
 `
 
+const StyledBookmarkRoundedIcon = { fontSize: 30, color: red[500] }
+
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
@@ -45,23 +47,24 @@ const PaddingTop = styled.div`
 const GridContainer = styled.div`
   display: grid;
   justify-content: center;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  grid-template-columns: repeat(5, 1fr);
   column-gap: 0.8rem;
-  margin: 1rem;
+  margin: 0.5rem;
 `
 
 const SmallText = styled.div`
   text-align: center;
-  display: table-cell;
-  vertical-align: middle;
 `
 const MiddleText = styled.div`
-  justify-content: center;
+  /* width: 100%; */
+  /* justify-content: center; */
   text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-  margin: 3rem;
+  /* display: table-cell; */
+  /* vertical-align: middle; */
+  /* margin: 3rem; */
   padding: 0.5rem;
+  margin: 0.5rem;
   border-radius: 1rem;
   background-color: #fff5f5;
 `
@@ -103,26 +106,28 @@ function HomePage() {
     <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
-          <BookmarkRoundedIcon style={{ fontSize: 30, color: red[500] }} />
+          <div>
+            <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
+            {/* <StyledBookmarkRoundedIcon fontSize="30px" /> */}
+            <SearchRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={goToSearchPage as any}
+            />
+          </div>
           <FlexContainerAlignCenter>
             <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
             흑석동
             <ExpandMoreRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
           </FlexContainerAlignCenter>
-          <ClickableDiv onClick={goToSearchPage}>
-            <SearchRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-            <TuneRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+          <div>
+            <TuneRoundedIcon style={{ fontSize: 30, color: '#3C3C3C' }} />
             <NotificationsRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-          </ClickableDiv>
+          </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
         <ImageRatioWrapper paddingTop="36.25%">
-          <Image
-            src="/../public/디저트정-광고.png"
-            alt="banner advertisement"
-            layout="fill"
-          />
+          <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
         </ImageRatioWrapper>
 
         <GridContainer>

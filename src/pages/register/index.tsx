@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useCallback } from 'react'
 import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
-import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
+import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import Inko from 'inko'
 
@@ -63,8 +63,8 @@ export const validateEmail = {
 export const validatePassword = {
   required: '필수 항목입니다.',
   minLength: {
-    value: 5,
-    message: '최소 5글자 이상 입력해주세요.',
+    value: 8,
+    message: '최소 8글자 이상 입력해주세요.',
   },
 }
 
@@ -89,11 +89,11 @@ type FormValues = {
 }
 
 function RegisterPage() {
-  const [login, { loading }] = useLoginMutation({
+  const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      if (data.login) {
-        console.log(data.login)
-        sessionStorage.setItem('token', data.login)
+      if (data.register) {
+        console.log(data.register)
+        sessionStorage.setItem('token', data.register)
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }
@@ -101,21 +101,31 @@ function RegisterPage() {
     onError: handleApolloError,
   })
 
-  const { control, errors, handleSubmit } = useForm<FormValues>({
+  const { control, errors, getValues, handleSubmit } = useForm<FormValues>({
     defaultValues: { email: '', password: '', password2: '' },
   })
 
-  const onSubmit = useCallback<SubmitHandler<FormValues>>(
-    ({ email, password, password2 }) => {
-      login({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+  console.log('1')
+
+  const validatePassword2 = {
+    required: '필수 항목입니다.',
+    validate: {
+      same: (password2: string) =>
+        password2 === getValues('password') || '비밀번호가 일치하지 않습니다.',
     },
-    [login]
+  }
+
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    ({ email, password }) => {
+      register({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+    },
+    [register]
   )
 
   return (
     <PageHead>
       <LoginPageLayout>
-        <GridContainerForm>
+        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <HeadMessage>
             내가 원하는 디저트를<br></br>
             쉽고 빠르게<br></br>
@@ -159,11 +169,11 @@ function RegisterPage() {
             />
             <RedText>{errors.password ? errors.password.message : <br />}</RedText>
           </label>
-          <label htmlFor="password">
+          <label htmlFor="password2">
             <h4>비밀번호 확인</h4>
             <Controller
               control={control}
-              name="password"
+              name="password2"
               render={(props) => (
                 <Input.Password
                   disabled={loading}
@@ -174,15 +184,12 @@ function RegisterPage() {
                   {...props}
                 />
               )}
-              rules={validatePassword}
+              rules={validatePassword2}
             />
-            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+            <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
           </label>
-          <Link href="/register/pw">
-            <a href="/register/pw">
-              <RegisterButton type="submit">확인</RegisterButton>
-            </a>
-          </Link>
+
+          <RegisterButton type="submit">확인</RegisterButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

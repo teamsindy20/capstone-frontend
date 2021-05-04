@@ -32,8 +32,8 @@ const GridContainerPadding = styled(GridContainerGap)`
 `
 
 const StyledImg = styled.img`
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   object-fit: cover;
   border-radius: 50%;
 `

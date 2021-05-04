@@ -40,6 +40,16 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
 
 const StyledBookmarkRoundedIcon = { fontSize: 30, color: red[500] }
 
+const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
+
+const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
+
+const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800], visibility: 'hidden' }
+
+const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
@@ -108,20 +118,16 @@ function HomePage() {
         <FlexContainerBetweenCenter>
           <div>
             <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
-            {/* <StyledBookmarkRoundedIcon fontSize="30px" /> */}
-            <SearchRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={goToSearchPage as any}
-            />
+            <TuneRoundedIcon style={StyledTuneRoundedIcon} />
           </div>
           <FlexContainerAlignCenter>
-            <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
             흑석동
-            <ExpandMoreRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
           </FlexContainerAlignCenter>
           <div>
-            <TuneRoundedIcon style={{ fontSize: 30, color: '#3C3C3C' }} />
-            <NotificationsRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <SearchRoundedIcon style={StyledSearchRoundedIcon} onClick={goToSearchPage as any} />
+            <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />

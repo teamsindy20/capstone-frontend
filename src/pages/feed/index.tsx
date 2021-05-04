@@ -6,6 +6,7 @@ import PostCard, { PostLoadingCard } from 'src/components/PostCard'
 import { posts, store, store2, store4 } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
+import TopHeader from 'src/components/TopHeader'
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -35,6 +36,7 @@ function FeedPage() {
   return (
     <PageHead title="Deple - 새 소식" description={description}>
       <PageLayout>
+        <TopHeader></TopHeader>
         <h2>흑석동 주변 새 소식</h2>
 
         <GridContainerUl ref={infiniteRef}>

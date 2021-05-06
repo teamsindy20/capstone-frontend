@@ -23,8 +23,8 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 `
 
 const ShadowingLi = styled.li`
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: 3px;
+  background-color: #f1f6fa;
+  border-radius: 15px;
 `
 
 const GridContainerPadding = styled(GridContainerGap)`

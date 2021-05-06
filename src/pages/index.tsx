@@ -16,7 +16,7 @@ import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
-import React, { useState, Component } from 'react'
+import { useState, Component } from 'react'
 import { store3, store, store2, store5, menus } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
@@ -54,7 +54,8 @@ const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledSlider = styled(Slider)`
-  margin: 1rem;
+  margin-bottom: 3rem;
+  object-fit: cover;
 `
 
 const PaddingTop = styled.div`
@@ -82,11 +83,8 @@ const MiddleText = styled.div`
 `
 
 const BannerAd = styled.div`
-  height: 150px;
+  height: 10rem;
   text-align: center;
-  padding: 0.5rem;
-  margin: 0.5rem;
-
   background-color: #fff5f5;
 `
 
@@ -98,6 +96,11 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 
 const ClickableDiv = styled.div`
   cursor: pointer;
+`
+
+const Img = styled.img`
+  object-fit: cover;
+  overflow: hidden;
 `
 
 function HomePage() {
@@ -151,23 +154,20 @@ function HomePage() {
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
-        <Slider {...settings}>
+        <StyledSlider {...settings}>
           <BannerAd>
-            <img src="/디저트정-광고.png" alt="banner advertisement" />
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
           </BannerAd>
           <BannerAd>
-            <h3>2</h3>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
           </BannerAd>
           <BannerAd>
-            <h3>3</h3>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
           </BannerAd>
           <BannerAd>
-            <h3>4</h3>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
           </BannerAd>
-          <BannerAd>
-            <h3>5</h3>
-          </BannerAd>
-        </Slider>
+        </StyledSlider>
 
         {/* <ImageRatioWrapper paddingTop="36.25%">
           <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />

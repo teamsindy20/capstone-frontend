@@ -83,16 +83,12 @@ const MiddleText = styled.div`
 `
 
 const BannerAd = styled.div`
+  position: relative;
   height: 10rem;
   text-align: center;
   background-color: #fff5f5;
   display: inline-block;
   object-fit: cover;
-`
-const AdText = styled.div`
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
 `
 
 const AdTextDiv = styled.div`
@@ -100,6 +96,7 @@ const AdTextDiv = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -174,19 +171,19 @@ function HomePage() {
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
-            <AdTextDiv>
-              <AdText>쿠폰증정</AdText>
-            </AdTextDiv>
+            <AdTextDiv>쿠폰증정</AdTextDiv>
           </BannerAd>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정2</AdTextDiv>
           </BannerAd>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정3</AdTextDiv>
           </BannerAd>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
-            <AdText>왜 이거 겹침??? 왜 4번째만 나타나냐고... 쿠폰증정2</AdText>
+            <AdTextDiv>쿠폰증정4</AdTextDiv>
           </BannerAd>
         </StyledSlider>
 

@@ -1,5 +1,7 @@
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import TPost from 'src/types/Post'
 import TStore from 'src/types/Store'
@@ -14,6 +16,8 @@ import {
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { Fragment } from 'react'
+
+const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;
@@ -32,27 +36,33 @@ const GridContainerPadding = styled(GridContainerGap)`
 `
 
 const StyledImg = styled.img`
-  width: 1rem;
-  height: 1rem;
+  width: 1.8rem;
+  height: 1.8rem;
   object-fit: cover;
   border-radius: 50%;
 `
 
-const NoMarginH3 = styled.h3`
+const NoMarginH5 = styled.h5`
   margin: 0;
 `
 
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
-
-const GridContainerColumn3 = styled(GridContainerGap)`
-  grid-template-columns: repeat(3, auto);
+const GridContainerRow3Column2 = styled(GridContainerGap)`
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(2, auto);
   align-items: center;
 `
 
 const GridContainerColumn2 = styled(GridContainerGap)`
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+`
+
+const GridContainerColumn3 = styled(GridContainerGap)`
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
 `
 
 const AbsolutePosition = styled.div`
@@ -68,10 +78,10 @@ export function PostLoadingCard() {
   return (
     <ShadowingLi>
       <FlexContainerBetweenPadding>
-        <GridContainerColumn3>
+        <GridContainerColumn2>
           <SkeletonImageRound />
           <SkeletonText width="min(10rem, 30vw)" />
-        </GridContainerColumn3>
+        </GridContainerColumn2>
       </FlexContainerBetweenPadding>
 
       <ImageRatioWrapper paddingTop="100%">
@@ -98,12 +108,15 @@ function PostCard({ post }: Props) {
   return (
     <ShadowingLi>
       <FlexContainerBetweenPadding>
-        <GridContainerColumn3>
-          <StyledImg src={store.imageUrl} alt="store profile" />
-          <NoMarginH3>{store.name}</NoMarginH3>
-          <div>{store.location}</div>
-        </GridContainerColumn3>
-        <div>...</div>
+        <GridContainerColumn2>
+          <div>
+            <StyledImg src={store.imageUrl} alt="store profile" />
+            <NoMarginH5>{store.name}</NoMarginH5>
+          </div>
+          <div>
+            <FavoriteRoundedIcon style={StyledFavoriteRoundedIcon} /> {post.likeCount}
+          </div>
+        </GridContainerColumn2>
       </FlexContainerBetweenPadding>
 
       <ImageRatioWrapper paddingTop="100%">
@@ -114,9 +127,7 @@ function PostCard({ post }: Props) {
       <GridContainerPadding>
         <FlexContainerBetween>
           <GridContainerColumn2>
-            <FlexContainerAlignCenter>
-              <FavoriteBorderIcon /> {post.likeCount}
-            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter></FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <ChatBubbleOutlineRoundedIcon /> {post.commentCount}
             </FlexContainerAlignCenter>

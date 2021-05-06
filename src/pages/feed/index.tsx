@@ -79,7 +79,7 @@ function FeedPage() {
           mode="multiple"
           showArrow
           tagRender={tagRender}
-          defaultValue={['신메뉴소식', '오늘의라인업', '공지사항']}
+          defaultValue={['신메뉴소식', '오늘의라인업', '공지사항', 'cyan']}
           style={{ width: '100%' }}
           options={options}
         />

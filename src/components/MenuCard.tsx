@@ -207,7 +207,6 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   menu: MenusQuery['menus'][number]
-  store: TStore
   onlyImage: boolean
 }
 
@@ -216,6 +215,8 @@ function MenuCard({ menu, onlyImage }: Props) {
     `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
   )
   const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
+
+  const store = menu.store
 
   if (onlyImage) {
     return (
@@ -245,11 +246,11 @@ function MenuCard({ menu, onlyImage }: Props) {
           <GridContainerColumn>
             <FlexContainerAlignCenter>
               <LocationOnTwoToneIcon fontSize="small" />
-              <LighterH5>{menu.store.name}</LighterH5>
+              <LighterH5>{store.name}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree([menu.store.deliveryCharge])}</LighterH5>
+              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>
@@ -273,7 +274,7 @@ function MenuCard({ menu, onlyImage }: Props) {
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
               <TimerRoundedIcon />
-              {`${menu.store.minimumDeliveryTime}-${menu.store.maximumDeliveryTime}분`}
+              {`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}
             </FlexContainerAlignCenter>
             <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
           </FlexContainerBetween>

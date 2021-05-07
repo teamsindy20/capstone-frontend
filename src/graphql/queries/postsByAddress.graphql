@@ -3,13 +3,15 @@ query PostsByAddress {
     id
     creationDate
     modificationDate
-    likeCount
-    commentCount
     contents
+    commentCount
+    likeCount
+    imageUrls
     store {
       id
       name
       address
+      imageUrls
     }
     hashtags
   }

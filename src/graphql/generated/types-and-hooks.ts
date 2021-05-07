@@ -551,11 +551,12 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
       | 'id'
       | 'creationDate'
       | 'modificationDate'
-      | 'likeCount'
-      | 'commentCount'
       | 'contents'
+      | 'commentCount'
+      | 'likeCount'
+      | 'imageUrls'
       | 'hashtags'
-    > & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address'> }
+    > & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address' | 'imageUrls'> }
   >
 }
 
@@ -764,13 +765,15 @@ export const PostsByAddressDocument = gql`
       id
       creationDate
       modificationDate
-      likeCount
-      commentCount
       contents
+      commentCount
+      likeCount
+      imageUrls
       store {
         id
         name
         address
+        imageUrls
       }
       hashtags
     }

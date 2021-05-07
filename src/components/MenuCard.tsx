@@ -66,9 +66,9 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
   height: ${({ height = '1rem' }) => height};
 `
 
-const GridContainerLi = styled.li<{ column1by2: boolean }>`
+const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
-  ${(p) => (p.column1by2 ? 'grid-template-columns: 1fr 2fr;' : '')}
+  ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
 
   cursor: pointer;
   background: #f1f6fa;
@@ -176,7 +176,7 @@ type Props2 = {
 export function MenuLoadingCard({ onlyImage }: Props2) {
   if (onlyImage) {
     return (
-      <GridContainerLi column1by2={false}>
+      <GridContainerLi onlyImage={true}>
         <ImageRatioWrapper paddingTop="100%">
           <SkeletonImage />
         </ImageRatioWrapper>
@@ -185,7 +185,7 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
   }
 
   return (
-    <GridContainerLi column1by2={true}>
+    <GridContainerLi onlyImage={false}>
       <ImageRatioWrapper paddingTop="100%">
         <SkeletonImage />
       </ImageRatioWrapper>
@@ -213,13 +213,13 @@ type Props = {
 
 function MenuCard({ menu, onlyImage }: Props) {
   const goToStoreReviewsPage = useGoToPage(
-    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}}`
+    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
   )
-  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}}`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
 
   if (onlyImage) {
     return (
-      <GridContainerLi column1by2={false} onClick={goToStoreMenusPage}>
+      <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
         <ImageRatioWrapper paddingTop="100%">
           <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
         </ImageRatioWrapper>
@@ -228,7 +228,7 @@ function MenuCard({ menu, onlyImage }: Props) {
   }
 
   return (
-    <GridContainerLi column1by2={true} onClick={goToStoreMenusPage}>
+    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
       <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
         <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
       </ImageRatioWrapper>

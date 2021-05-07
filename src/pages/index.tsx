@@ -77,29 +77,32 @@ const PhotoButton = styled.button`
 `
 
 function HomePage() {
-  const [isLoadingMenus, setIsLoadingMenus] = useState(false)
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const { data, loading } = useMenusQuery({ onError: handleApolloError })
+  const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
+    onError: handleApolloError,
+    notifyOnNetworkStatusChange: true,
+  })
 
-  const goToSearchPage = useGoToPage('/search')
+  const isEventsLoading = networkStatus < 7
 
   async function fetchMoreMenus() {
-    setIsLoadingMenus(true)
-    await sleep(5000) // fetchMoreMenus(from, count)
-    setIsLoadingMenus(false)
-
-    console.log('page:')
-
-    setHasMoreMenus(false)
+    if (data?.menus.length) {
+      await sleep(5000) // fetchMore({ variables: { from, count } })
+      setHasMoreMenus(false)
+    } else {
+      setHasMoreMenus(false)
+    }
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isLoadingMenus,
+    loading: isEventsLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
+
+  const goToSearchPage = useGoToPage('/search')
 
   return (
     <PageHead>
@@ -133,7 +136,7 @@ function HomePage() {
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(loading || hasMoreMenus) && (
+        {(isEventsLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

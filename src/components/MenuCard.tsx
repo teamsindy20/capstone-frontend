@@ -249,7 +249,7 @@ function MenuCard({ menu, onlyImage }: Props) {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree([menu.store.deliveryFee])}</LighterH5>
+              <LighterH5>{formatPricesWithFree([menu.store.deliveryCharge])}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>

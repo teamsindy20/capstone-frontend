@@ -10,7 +10,7 @@ query Menus {
     store {
       id
       name
-      deliveryFee
+      deliveryCharge
       minimumDeliveryTime
       maximumDeliveryTime
     }

@@ -1,0 +1,16 @@
+query PostsByAddress {
+  postsByAddress(address: "") {
+    id
+    creationDate
+    modificationDate
+    likeCount
+    commentCount
+    contents
+    store {
+      id
+      name
+      address
+    }
+    hashtags
+  }
+}

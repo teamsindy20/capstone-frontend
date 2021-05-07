@@ -50,6 +50,7 @@ export type Menu = {
   newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
   regularCustomerRatio: Scalars['Int']
+  totalCustomerCount: Scalars['Int']
   favoriteCount: Scalars['Int']
   clickCount: Scalars['Int']
   storePostCount: Scalars['Int']
@@ -60,6 +61,7 @@ export type Menu = {
   storeId: Scalars['ID']
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
@@ -68,16 +70,40 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  /** 해당 메뉴가 속한 테마를 반환한다. */
+  theme?: Maybe<Scalars['String']>
 }
 
 export type MenuCreationInput = {
+  storeId: Scalars['ID']
   name: Scalars['String']
   price: Scalars['Int']
   category: Scalars['String']
-  storeId: Scalars['ID']
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['String']>>
+  options?: Maybe<Array<MenuOptionInput>>
+}
+
+export type MenuModificationInput = {
+  storeId: Scalars['ID']
+  name?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['Int']>
+  category?: Maybe<Scalars['String']>
+  /**
+   * 기존 이미지 주소 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  /**
+   * 기존 해시태그 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  hashtags?: Maybe<Array<Scalars['String']>>
+  /**
+   * 기존 메뉴 옵션 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
   options?: Maybe<Array<MenuOptionInput>>
 }
 
@@ -88,10 +114,14 @@ export type MenuOptionInput = {
   category?: Maybe<Scalars['String']>
 }
 
+export type MenuOptionSelectionInput = {
+  menuOptionId: Scalars['ID']
+  text?: Maybe<Scalars['String']>
+}
+
 export type MenuSelectionInput = {
-  menuId: Scalars['ID']
-  menuOptionIds?: Maybe<Array<Scalars['ID']>>
   count: Scalars['Int']
+  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
 }
 
 export type Mutation = {
@@ -99,6 +129,7 @@ export type Mutation = {
   /** 자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다. */
   createMenu: Scalars['ID']
   searchMenuCategory?: Maybe<Array<Scalars['String']>>
+  modifyMenu: Scalars['ID']
   createOrder: Scalars['ID']
   /** 주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다. */
   updateOrderStatus: Scalars['ID']
@@ -128,6 +159,10 @@ export type MutationCreateMenuArgs = {
 
 export type MutationSearchMenuCategoryArgs = {
   searchTerm: Scalars['String']
+}
+
+export type MutationModifyMenuArgs = {
+  input: MenuModificationInput
 }
 
 export type MutationCreateOrderArgs = {
@@ -212,13 +247,13 @@ export type Post = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  likeCount: Scalars['Int']
+  contents: Array<Scalars['String']>
   commentCount: Scalars['Int']
-  content: Array<Scalars['String']>
+  likeCount: Scalars['Int']
   storeId: Scalars['ID']
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
-  /** from other table */
+  /** 해당 글을 작성한 매장 정보를 반환한다. */
   store: Store
   /** from other table - nullable */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
@@ -370,7 +405,11 @@ export type Store = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   address: Scalars['String']
-  deliveryFee: Scalars['Int']
+  businessRegistrationName: Scalars['String']
+  businessRegistrationNumber: Scalars['String']
+  businessRegistrationAddress: Scalars['String']
+  businessRepresentativeName: Scalars['String']
+  deliveryCharge: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
   deliciousReviewRatio: Scalars['Int']
@@ -380,27 +419,34 @@ export type Store = {
   positiveReviewRatio: Scalars['Int']
   badReviewCount: Scalars['Int']
   badReviewRatio: Scalars['Int']
+  totalReviewCount: Scalars['Int']
   newOrderCount: Scalars['Int']
   newOrderRatio: Scalars['Int']
   reorderCount: Scalars['Int']
   reorderRatio: Scalars['Int']
+  totalOrderCount: Scalars['Int']
   newCustomerCount: Scalars['Int']
   newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
   regularCustomerRatio: Scalars['Int']
+  totalCustomerCount: Scalars['Int']
   favoriteCount: Scalars['Int']
   clickCount: Scalars['Int']
   postCount: Scalars['Int']
+  userId: Scalars['ID']
   /** nullable */
   reviewEventContent?: Maybe<Scalars['String']>
   regularCustomerEventContent?: Maybe<Scalars['String']>
   minimumDeliveryTime?: Maybe<Scalars['Int']>
   maximumDeliveryTime?: Maybe<Scalars['Int']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
-  /** from other table */
+  /** 해당 매장에서 판매 중인 메뉴 목록을 반환한다. */
   menus: Array<Menu>
+  /** 해당 매장을 소유한 사용자 정보를 반환한다. */
+  user: User
   /** from other table - nullable */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  posts?: Maybe<Array<Post>>
 }
 
 export type StoreCreationInput = {
@@ -423,18 +469,19 @@ export type User = {
   email: Scalars['EmailAddress']
   point: Scalars['Int']
   /** nullable */
-  imageUrl?: Maybe<Scalars['URL']>
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
-  address?: Maybe<Scalars['String']>
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  deliveryAddresses?: Maybe<Scalars['String']>
+  representativeDeliveryAddress?: Maybe<Scalars['String']>
   /** from other table - nullable */
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
-  regularStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
+  regularStores?: Maybe<Array<Store>>
 }
 
 export type UserInfoInput = {
@@ -443,8 +490,8 @@ export type UserInfoInput = {
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
-  pointUsed?: Maybe<Scalars['Int']>
-  promotions?: Maybe<Array<Scalars['ID']>>
+  point?: Maybe<Scalars['Int']>
+  coupon?: Maybe<Scalars['ID']>
 }
 
 export type LoginMutationVariables = Exact<{
@@ -489,9 +536,26 @@ export type MenusQuery = { __typename?: 'Query' } & {
     > & {
         store: { __typename?: 'Store' } & Pick<
           Store,
-          'id' | 'name' | 'deliveryFee' | 'minimumDeliveryTime' | 'maximumDeliveryTime'
+          'id' | 'name' | 'deliveryCharge' | 'minimumDeliveryTime' | 'maximumDeliveryTime'
         >
       }
+  >
+}
+
+export type PostsByAddressQueryVariables = Exact<{ [key: string]: never }>
+
+export type PostsByAddressQuery = { __typename?: 'Query' } & {
+  postsByAddress: Array<
+    { __typename?: 'Post' } & Pick<
+      Post,
+      | 'id'
+      | 'creationDate'
+      | 'modificationDate'
+      | 'likeCount'
+      | 'commentCount'
+      | 'contents'
+      | 'hashtags'
+    > & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address'> }
   >
 }
 
@@ -653,7 +717,7 @@ export const MenusDocument = gql`
       store {
         id
         name
-        deliveryFee
+        deliveryCharge
         minimumDeliveryTime
         maximumDeliveryTime
       }
@@ -694,3 +758,61 @@ export function useMenusLazyQuery(
 export type MenusQueryHookResult = ReturnType<typeof useMenusQuery>
 export type MenusLazyQueryHookResult = ReturnType<typeof useMenusLazyQuery>
 export type MenusQueryResult = Apollo.QueryResult<MenusQuery, MenusQueryVariables>
+export const PostsByAddressDocument = gql`
+  query PostsByAddress {
+    postsByAddress(address: "") {
+      id
+      creationDate
+      modificationDate
+      likeCount
+      commentCount
+      contents
+      store {
+        id
+        name
+        address
+      }
+      hashtags
+    }
+  }
+`
+
+/**
+ * __usePostsByAddressQuery__
+ *
+ * To run a query within a React component, call `usePostsByAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsByAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsByAddressQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostsByAddressQuery(
+  baseOptions?: Apollo.QueryHookOptions<PostsByAddressQuery, PostsByAddressQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PostsByAddressQuery, PostsByAddressQueryVariables>(
+    PostsByAddressDocument,
+    options
+  )
+}
+export function usePostsByAddressLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PostsByAddressQuery, PostsByAddressQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PostsByAddressQuery, PostsByAddressQueryVariables>(
+    PostsByAddressDocument,
+    options
+  )
+}
+export type PostsByAddressQueryHookResult = ReturnType<typeof usePostsByAddressQuery>
+export type PostsByAddressLazyQueryHookResult = ReturnType<typeof usePostsByAddressLazyQuery>
+export type PostsByAddressQueryResult = Apollo.QueryResult<
+  PostsByAddressQuery,
+  PostsByAddressQueryVariables
+>

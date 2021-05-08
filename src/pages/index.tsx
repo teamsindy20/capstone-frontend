@@ -23,6 +23,9 @@ import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import Slider from 'react-slick'
 
 const PADDING_TOP = '3rem'
 
@@ -41,6 +44,21 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
 
 const StyledBookmarkRoundedIcon = { fontSize: 30, color: red[500] }
 
+const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
+
+const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
+
+const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800] }
+
+const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const StyledSlider = styled(Slider)`
+  margin-bottom: 3rem;
+  object-fit: cover;
+`
+
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
@@ -58,16 +76,28 @@ const SmallText = styled.div`
   text-align: center;
 `
 const MiddleText = styled.div`
-  /* width: 100%; */
-  /* justify-content: center; */
   text-align: center;
-  /* display: table-cell; */
-  /* vertical-align: middle; */
-  /* margin: 3rem; */
   padding: 0.5rem;
   margin: 0.5rem;
   border-radius: 1rem;
   background-color: #fff5f5;
+`
+
+const BannerAd = styled.div`
+  position: relative;
+  height: 10rem;
+  text-align: center;
+  background-color: #fff5f5;
+  display: inline-block;
+  object-fit: cover;
+`
+
+const AdTextDiv = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -78,6 +108,14 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 
 const ClickableDiv = styled.div`
   cursor: pointer;
+`
+const ImgWrapper = styled.div`
+  display: inline-block;
+  object-fit: cover;
+`
+const Img = styled.img`
+  width: 100%;
+  overflow: hidden;
 `
 
 function HomePage() {
@@ -106,6 +144,14 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  }
+
   const goToSearchPage = useGoToPage('/search')
 
   return (
@@ -114,27 +160,42 @@ function HomePage() {
         <FlexContainerBetweenCenter>
           <div>
             <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
-            {/* <StyledBookmarkRoundedIcon fontSize="30px" /> */}
-            <SearchRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={goToSearchPage as any}
-            />
+            <TuneRoundedIcon style={StyledTuneRoundedIcon} />
           </div>
           <FlexContainerAlignCenter>
-            <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
             흑석동
-            <ExpandMoreRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
           </FlexContainerAlignCenter>
           <div>
-            <TuneRoundedIcon style={{ fontSize: 30, color: '#3C3C3C' }} />
-            <NotificationsRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <SearchRoundedIcon style={StyledSearchRoundedIcon} onClick={goToSearchPage as any} />
+            <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
-        <ImageRatioWrapper paddingTop="36.25%">
+        <StyledSlider {...settings}>
+          <BannerAd>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정</AdTextDiv>
+          </BannerAd>
+          <BannerAd>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정2</AdTextDiv>
+          </BannerAd>
+          <BannerAd>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정3</AdTextDiv>
+          </BannerAd>
+          <BannerAd>
+            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <AdTextDiv>쿠폰증정4</AdTextDiv>
+          </BannerAd>
+        </StyledSlider>
+
+        {/* <ImageRatioWrapper paddingTop="36.25%">
           <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
-        </ImageRatioWrapper>
+        </ImageRatioWrapper> */}
 
         <GridContainer>
           <SmallText>정렬방식</SmallText>

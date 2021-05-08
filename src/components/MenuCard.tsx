@@ -98,7 +98,7 @@ export const AbsolutePositionImage = styled.img`
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
-  gap: 0.5rem;
+  gap: 0.3rem;
 
   position: relative;
   padding: 0.5rem 0.5rem 0;
@@ -119,9 +119,13 @@ const LighterH5 = styled.h5`
   margin: 0;
   font-weight: lighter;
 `
+const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
+`
 
 const GridContainerColumn = styled(GridContainerGap)`
-  grid-template-columns: min-content auto;
+  grid-template-columns: repeat(3, 1fr);
 
   width: fit-content;
 `
@@ -157,7 +161,7 @@ export const BoldA = styled.a`
 `
 
 const HorizontalBorder = styled.div`
-  border: 1px solid #adb5bd;
+  border: 1px solid #ddd;
 `
 
 const VerticalBorder = styled.div`
@@ -282,6 +286,10 @@ function MenuCard({ menu, onlyImage }: Props) {
               <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
               <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
             </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}</LighterH5>
+            </FlexContainerAlignCenter>
           </GridContainerColumn>
         </GridContainer>
         <GridContainer>
@@ -299,22 +307,22 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerWrapAround>
         <FlexContainerAlignCenter>
           <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <div>{menu.positiveReviewRatio}%</div>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <div>{formatNumber(menu.totalReviewCount)}개</div>
+          <NormalH5>좋아요 {menu.likeRatio}%</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
-          <div>{menu.reorderRatio}%</div>
+          <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
+        </FlexContainerAlignCenter>
+        <VerticalBorder />
+        <FlexContainerAlignCenter>
+          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+          <NormalH5>리뷰수 {formatNumber(menu.reviewCount)}개</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <div>{formatNumber(menu.totalOrderCount)}개</div>
+          <NormalH5>주문수 {formatNumber(menu.orderCount)}개</NormalH5>
         </FlexContainerAlignCenter>
       </FlexContainerWrapAround>
     </GridContainerLi>

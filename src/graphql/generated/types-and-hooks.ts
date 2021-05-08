@@ -498,6 +498,35 @@ export type ReviewCreationInput = {
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
+export enum Rating {
+  Delicious = 'DELICIOUS',
+  Good = 'GOOD',
+  Bad = 'BAD',
+}
+
+export type Review = {
+  __typename?: 'Review'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  helpingOthersCount: Scalars['Int']
+  rating: Rating
+  goodPointContent?: Maybe<Scalars['String']>
+  desiredPointContent?: Maybe<Scalars['String']>
+}
+
+export type StoreCreationInput = {
+  name: Scalars['String']
+  address: Scalars['String']
+  /** nullable */
+  reviewEventContent?: Maybe<Scalars['String']>
+  regularCustomerEventContent?: Maybe<Scalars['String']>
+  deliveryTimeMin?: Maybe<Scalars['Int']>
+  deliveryTimeMax?: Maybe<Scalars['Int']>
+  imageUrls?: Maybe<Array<Scalars['String']>>
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
 export type Store = {
   __typename?: 'Store'
   id: Scalars['ID']
@@ -586,15 +615,12 @@ export type User = {
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
-  imageUrls?: Maybe<Array<Scalars['URL']>>
-  deliveryAddresses?: Maybe<Scalars['String']>
-  representativeDeliveryAddress?: Maybe<Scalars['String']>
+  address?: Maybe<Scalars['String']>
   /** from other table - nullable */
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
-  regularStores?: Maybe<Array<Store>>
 }
 
 export type UserInfoInput = {

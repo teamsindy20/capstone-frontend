@@ -1,9 +1,9 @@
-import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone'
-import BookmarkBorderTwoToneIcon from '@material-ui/icons/BookmarkBorderTwoTone'
-import BookmarkTwoToneIcon from '@material-ui/icons/BookmarkTwoTone'
-import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
-import MotorcycleTwoToneIcon from '@material-ui/icons/MotorcycleTwoTone'
-import RateReviewTwoToneIcon from '@material-ui/icons/RateReviewTwoTone'
+import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
+import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
+import BookmarkBorderRoundedIcon from '@material-ui/icons/BookmarkBorderRounded'
+import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
+import MotorcycleRoundedIcon from '@material-ui/icons/MotorcycleRounded'
+import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
@@ -16,6 +16,8 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -73,7 +75,7 @@ const GridContainerLi = styled.li<{ column1by2: boolean }>`
   cursor: pointer;
   background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 2vw);
+  border-radius: max(10px, 1vw);
   overflow: hidden;
 `
 
@@ -89,6 +91,7 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: max(10px, 1vw);
 
   background: #f3ccc7;
 `
@@ -123,9 +126,9 @@ const GridContainerColumn = styled(GridContainerGap)`
   width: fit-content;
 `
 
-const NoMarginH3 = styled.h3`
+const NoMarginH4 = styled.h4`
   margin: 0;
-
+  font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -142,6 +145,7 @@ const FlexContainerUl = styled.ul`
 export const BoldA = styled.a`
   font-size: 0.83em;
   font-weight: bold;
+  color: #fe6661;
   word-break: keep-all;
 
   color: 3c3c3c;
@@ -153,7 +157,7 @@ export const BoldA = styled.a`
 `
 
 const HorizontalBorder = styled.div`
-  border: 1px solid grey;
+  border: 1px solid #adb5bd;
 `
 
 const VerticalBorder = styled.div`
@@ -236,23 +240,14 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.bookmark ? (
-            <BookmarkTwoToneIcon fontSize="large" />
+            <BookmarkRoundedIcon style={{ fontSize: 25, color: red[500] }} />
           ) : (
-            <BookmarkBorderTwoToneIcon fontSize="large" />
+            <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
           )}
         </AbsolutePosition>
         <GridContainer>
-          <GridContainerColumn>
-            <FlexContainerAlignCenter>
-              <LocationOnTwoToneIcon fontSize="small" />
-              <LighterH5>{menu.store.name}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
-            </FlexContainerAlignCenter>
-          </GridContainerColumn>
-          <NoMarginH3>{menu.name}</NoMarginH3>
+          <NoMarginH4>{menu.name}</NoMarginH4>
+
           <FlexContainerUl>
             {menu.hashtags.map((hashtag) => (
               <>
@@ -268,14 +263,24 @@ function MenuCard({ menu, onlyImage }: Props) {
               </>
             ))}
           </FlexContainerUl>
+          <GridContainerColumn>
+            <FlexContainerAlignCenter>
+              <LocationOnRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{menu.store.name}</LighterH5>
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
+            </FlexContainerAlignCenter>
+          </GridContainerColumn>
         </GridContainer>
         <GridContainer>
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
-              <TimerRoundedIcon />
+              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
               {`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}
             </FlexContainerAlignCenter>
-            <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
+            <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
           </FlexContainerBetween>
           <HorizontalBorder />
         </GridContainer>
@@ -283,22 +288,22 @@ function MenuCard({ menu, onlyImage }: Props) {
 
       <FlexContainerWrapAround>
         <FlexContainerAlignCenter>
-          <ThumbUpOutlinedIcon />
+          <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
           <div>{menu.likeRatio}%</div>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <RateReviewTwoToneIcon />
+          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
           <div>{formatNumber(menu.reviewCount)}개</div>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <RefreshIcon />
+          <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
           <div>{menu.reorderRatio}%</div>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <AssignmentTwoToneIcon />
+          <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
           <div>{formatNumber(menu.orderCount)}개</div>
         </FlexContainerAlignCenter>
       </FlexContainerWrapAround>

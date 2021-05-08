@@ -1,8 +1,16 @@
-import BookmarkTwoToneIcon from '@material-ui/icons/BookmarkTwoTone'
-import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
-import SearchIcon from '@material-ui/icons/Search'
+import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
+import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
+import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
+import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
+import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
 import Image from 'next/image'
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -14,13 +22,11 @@ import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexC
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
-import CategoryButton from 'src/components/CategoryButton'
 
 const PADDING_TOP = '3rem'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
-
   position: fixed;
   top: 0;
   left: 50%;
@@ -29,11 +35,38 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   max-width: ${TABLET_MIN_WIDTH};
   height: ${PADDING_TOP};
   transform: translateX(-50%);
-  background: #fe6661;
+  background: #ffffff;
 `
+
+const StyledBookmarkRoundedIcon = { fontSize: 30, color: red[500] }
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
+`
+
+const GridContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 0.8rem;
+  margin: 0.5rem;
+`
+
+const SmallText = styled.div`
+  text-align: center;
+`
+const MiddleText = styled.div`
+  /* width: 100%; */
+  /* justify-content: center; */
+  text-align: center;
+  /* display: table-cell; */
+  /* vertical-align: middle; */
+  /* margin: 3rem; */
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 1rem;
+  background-color: #fff5f5;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -44,34 +77,6 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 
 const ClickableDiv = styled.div`
   cursor: pointer;
-`
-const PhotoButton = styled.button`
-  background: #f1f6fa;
-  color: #fe6661;
-  border-radius: 15px;
-  background-size: cover;
-
-  font-weight: bold;
-  font-size: 20%;
-
-  top: 5%;
-  left: 5%;
-
-  text-align: center;
-  transition: all 200ms cubic-bezier(0.39, 0.5, 0.15, 1.36);
-
-  display: block;
-  margin: 20px auto;
-  max-width: 180px;
-  text-decoration: none;
-
-  padding: 20px 30px;
-
-  box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
-  :hover {
-    background: #fe6661;
-    box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 40px inset;
-  }
 `
 
 function HomePage() {
@@ -101,30 +106,47 @@ function HomePage() {
     <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
-          <BookmarkTwoToneIcon fontSize="large" />
+          <div>
+            <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
+            {/* <StyledBookmarkRoundedIcon fontSize="30px" /> */}
+            <SearchRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={goToSearchPage as any}
+            />
+          </div>
           <FlexContainerAlignCenter>
-            <LocationOnTwoToneIcon />
-            흑석로 84
+            <LocationOnRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
+            흑석동
+            <ExpandMoreRoundedIcon style={{ fontSize: 20, color: grey[800] }} />
           </FlexContainerAlignCenter>
-          <ClickableDiv onClick={goToSearchPage}>
-            <SearchIcon fontSize="large" />
-          </ClickableDiv>
+          <div>
+            <TuneRoundedIcon style={{ fontSize: 30, color: '#3C3C3C' }} />
+            <NotificationsRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+          </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
 
-        <ImageRatioWrapper paddingTop="56.25%">
-          <Image
-            src="https://www.smlounge.co.kr/upload/woman/article/201912/thumb/43530-394917-sample.jpg"
-            alt="banner advertisement"
-            layout="fill"
-          />
+        <ImageRatioWrapper paddingTop="36.25%">
+          <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
         </ImageRatioWrapper>
 
-        <CategoryButton></CategoryButton>
-        <div>정렬 기준</div>
-        <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
-
-        <GridContainerUl onlyImage={onlyImage}>
+        <GridContainer>
+          <SmallText>정렬방식</SmallText>
+          <Button variant="contained" color="secondary" size="small">
+            맞춤추천
+          </Button>
+          <Button variant="contained" size="small">
+            좋아요순
+          </Button>
+          <Button variant="contained" size="small">
+            재주문율순
+          </Button>
+          <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
+            사진만보기
+          </Button>
+        </GridContainer>
+        <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
+        <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}

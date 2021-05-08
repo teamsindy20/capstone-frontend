@@ -19,7 +19,7 @@
     "type": "tsc --pretty",
     "test": "jest",
     "pre-push": "yarn format && yarn lint && yarn type",
-    "generate": "graphql-codegen dotenv_config_path=.env.production --require dotenv/config",
+    "generate": "graphql-codegen dotenv_config_path=.env.development --require dotenv/config",
     "prepare": "husky install"
   },
   "dependencies": {

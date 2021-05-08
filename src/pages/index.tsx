@@ -17,11 +17,12 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
-import { store3, store, store2, store5, menus } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
+import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { handleApolloError } from 'src/apollo/error'
 
 const PADDING_TOP = '3rem'
 
@@ -80,27 +81,32 @@ const ClickableDiv = styled.div`
 `
 
 function HomePage() {
-  const [isLoadingMenus, setIsLoadingMenus] = useState(false)
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const goToSearchPage = useGoToPage('/search')
+  const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
+    onError: handleApolloError,
+    notifyOnNetworkStatusChange: true,
+  })
+
+  const isEventsLoading = networkStatus < 7
 
   async function fetchMoreMenus() {
-    setIsLoadingMenus(true)
-    await sleep(5000) // fetchMoreMenus(from, count)
-    setIsLoadingMenus(false)
-
-    console.log('page:')
-
-    setHasMoreMenus(false)
+    if (data?.menus.length) {
+      await sleep(5000) // fetchMore({ variables: { from, count } })
+      setHasMoreMenus(false)
+    } else {
+      setHasMoreMenus(false)
+    }
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isLoadingMenus,
+    loading: isEventsLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
+
+  const goToSearchPage = useGoToPage('/search')
 
   return (
     <PageHead>
@@ -146,12 +152,12 @@ function HomePage() {
           </Button>
         </GridContainer>
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
-        <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
-          {menus.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
+        <GridContainerUl onlyImage={onlyImage}>
+          {data?.menus.map((menu) => (
+            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isLoadingMenus || hasMoreMenus) && (
+        {(isEventsLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

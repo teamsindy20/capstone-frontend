@@ -1,8 +1,6 @@
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import TPost from 'src/types/Post'
-import TStore from 'src/types/Store'
 import styled from 'styled-components'
 import {
   AbsolutePositionImage,
@@ -13,7 +11,7 @@ import {
 } from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
-import { Fragment } from 'react'
+import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;
@@ -89,7 +87,7 @@ export function PostLoadingCard() {
 }
 
 type Props = {
-  post: TPost
+  post: PostsByAddressQuery['postsByAddress'][number]
 }
 
 function PostCard({ post }: Props) {
@@ -99,15 +97,15 @@ function PostCard({ post }: Props) {
     <ShadowingLi>
       <FlexContainerBetweenPadding>
         <GridContainerColumn3>
-          <StyledImg src={store.imageUrl} alt="store profile" />
+          <StyledImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
           <NoMarginH3>{store.name}</NoMarginH3>
-          <div>{store.location}</div>
+          <div>{store.address}</div>
         </GridContainerColumn3>
         <div>...</div>
       </FlexContainerBetweenPadding>
 
       <ImageRatioWrapper paddingTop="100%">
-        <AbsolutePositionImage src={post.imageUrl[0]} alt="post" />
+        <AbsolutePositionImage src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" />
         <AbsolutePosition>Photo location indicator</AbsolutePosition>
       </ImageRatioWrapper>
 

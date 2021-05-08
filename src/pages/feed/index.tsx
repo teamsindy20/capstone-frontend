@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ReactDOM from 'react-dom'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PageHead from 'src/components/layouts/PageHead'
@@ -9,6 +9,10 @@ import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import TopHeader from 'src/components/TopHeader'
 import { Select, Tag } from 'antd'
+import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
+import grey from '@material-ui/core/colors/grey'
+
+const StyledStoreRoundedIcon = { fontSize: 25, color: grey[800] }
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -34,9 +38,19 @@ const TopContainer = styled.div`
   margin-bottom: 10px;
   text-align: center;
 `
-function tagRender(props) {
+
+const Div = styled.div`
+  height: 3rem;
+  overflow: scroll hidden;
+`
+
+const Tag1 = styled.span`
+  display: inline;
+`
+
+function tagRender(props: { label: any; value: any; closable: any; onClose: any }) {
   const { label, value, closable, onClose } = props
-  const onPreventMouseDown = (event) => {
+  const onPreventMouseDown = (event: any) => {
     event.preventDefault()
     event.stopPropagation()
   }
@@ -74,15 +88,39 @@ function FeedPage() {
   return (
     <PageHead title="Deple - 새 소식" description={description}>
       <PageLayout>
-        <TopHeader></TopHeader>
-        <Select
+        <TopHeader>
+          <StoreRoundedIcon style={StyledStoreRoundedIcon} />
+          매장소식
+        </TopHeader>
+        {/* <Select
           mode="multiple"
           showArrow
           tagRender={tagRender}
           defaultValue={['신메뉴소식', '오늘의라인업', '공지사항', 'cyan']}
           style={{ width: '100%' }}
           options={options}
-        />
+        /> */}
+        <Div>
+          <Tag1 onClick={(e) => console.log(123)}>asdf1</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+        </Div>
         <GridContainerUl ref={infiniteRef}>
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />

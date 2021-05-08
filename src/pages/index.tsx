@@ -15,6 +15,8 @@ import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import CategoryButton from 'src/components/CategoryButton'
+import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { handleApolloError } from 'src/apollo/error'
 
 const PADDING_TOP = '3rem'
 
@@ -75,27 +77,32 @@ const PhotoButton = styled.button`
 `
 
 function HomePage() {
-  const [isLoadingMenus, setIsLoadingMenus] = useState(false)
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const goToSearchPage = useGoToPage('/search')
+  const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
+    onError: handleApolloError,
+    notifyOnNetworkStatusChange: true,
+  })
+
+  const isEventsLoading = networkStatus < 7
 
   async function fetchMoreMenus() {
-    setIsLoadingMenus(true)
-    await sleep(5000) // fetchMoreMenus(from, count)
-    setIsLoadingMenus(false)
-
-    console.log('page:')
-
-    setHasMoreMenus(false)
+    if (data?.menus.length) {
+      await sleep(5000) // fetchMore({ variables: { from, count } })
+      setHasMoreMenus(false)
+    } else {
+      setHasMoreMenus(false)
+    }
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isLoadingMenus,
+    loading: isEventsLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
+
+  const goToSearchPage = useGoToPage('/search')
 
   return (
     <PageHead>
@@ -125,11 +132,11 @@ function HomePage() {
         <PhotoButton onClick={toggleOnlyImage}>사진만 보기</PhotoButton>
 
         <GridContainerUl onlyImage={onlyImage}>
-          {menus.map((menu) => (
+          {data?.menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isLoadingMenus || hasMoreMenus) && (
+        {(isEventsLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

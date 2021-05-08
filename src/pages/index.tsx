@@ -7,10 +7,7 @@ import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import Image from 'next/image'
 import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -23,8 +20,6 @@ import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import Slider from 'react-slick'
 
 const PADDING_TOP = '3rem'
@@ -106,13 +101,6 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
 `
 
-const ClickableDiv = styled.div`
-  cursor: pointer;
-`
-const ImgWrapper = styled.div`
-  display: inline-block;
-  object-fit: cover;
-`
 const Img = styled.img`
   width: 100%;
   overflow: hidden;

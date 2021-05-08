@@ -9,7 +9,6 @@ import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
-import TStore from 'src/types/Store'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
@@ -113,6 +112,10 @@ const AbsolutePosition = styled.div`
 const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
 `
 
 const LighterH5 = styled.h5`
@@ -245,7 +248,7 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <BookmarkTwoToneIcon fontSize="large" />
+            <BookmarkRoundedIcon fontSize="large" />
           ) : (
             <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
           )}
@@ -253,11 +256,11 @@ function MenuCard({ menu, onlyImage }: Props) {
         <GridContainer>
           <GridContainerColumn>
             <FlexContainerAlignCenter>
-              <LocationOnTwoToneIcon fontSize="small" />
+              <LocationOnRoundedIcon fontSize="small" />
               <LighterH5>{store.name}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <MotorcycleTwoToneIcon />
+              <MotorcycleRoundedIcon />
               <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn>
@@ -280,15 +283,15 @@ function MenuCard({ menu, onlyImage }: Props) {
           <GridContainerColumn>
             <FlexContainerAlignCenter>
               <LocationOnRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{menu.store.name}</LighterH5>
+              <LighterH5>{store.name}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
+              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}</LighterH5>
+              <LighterH5>{`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}</LighterH5>
             </FlexContainerAlignCenter>
           </GridContainerColumn>
         </GridContainer>
@@ -307,7 +310,7 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerWrapAround>
         <FlexContainerAlignCenter>
           <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>좋아요 {menu.likeRatio}%</NormalH5>
+          <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
@@ -317,12 +320,12 @@ function MenuCard({ menu, onlyImage }: Props) {
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>리뷰수 {formatNumber(menu.reviewCount)}개</NormalH5>
+          <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
           <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>주문수 {formatNumber(menu.orderCount)}개</NormalH5>
+          <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
         </FlexContainerAlignCenter>
       </FlexContainerWrapAround>
     </GridContainerLi>

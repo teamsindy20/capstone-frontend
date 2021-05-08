@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ReactDOM from 'react-dom'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'

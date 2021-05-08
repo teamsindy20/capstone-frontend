@@ -4,9 +4,11 @@ query Menus {
     name
     price
     positiveReviewRatio
-    reorderRatio
     totalReviewCount
+    reorderRatio
     totalOrderCount
+    imageUrls
+    favorite
     store {
       id
       name
@@ -15,7 +17,5 @@ query Menus {
       maximumDeliveryTime
     }
     hashtags
-    imageUrls
-    favorite
   }
 }

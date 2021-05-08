@@ -1,18 +1,11 @@
 query PostsByAddress {
   postsByAddress(address: "") {
-    id
-    creationDate
-    modificationDate
-    contents
-    commentCount
-    likeCount
-    imageUrls
+    ...postCard
     store {
       id
       name
       address
       imageUrls
     }
-    hashtags
   }
 }

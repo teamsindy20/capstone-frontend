@@ -1,0 +1,9 @@
+fragment postCard on Post {
+  id
+  creationDate
+  modificationDate
+  contents
+  commentCount
+  likeCount
+  imageUrls
+}

@@ -126,7 +126,11 @@ function LoginPage() {
     onError: handleApolloError,
   })
 
-  const { control, errors, handleSubmit } = useForm<FormValues>({
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormValues>({
     defaultValues: { email: '', password: '' },
   })
 

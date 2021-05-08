@@ -101,7 +101,12 @@ function RegisterPage() {
     onError: handleApolloError,
   })
 
-  const { control, errors, getValues, handleSubmit } = useForm<FormValues>({
+  const {
+    control,
+    formState: { errors },
+    getValues,
+    handleSubmit,
+  } = useForm<FormValues>({
     defaultValues: { email: '', password: '', password2: '' },
   })
 
@@ -117,7 +122,7 @@ function RegisterPage() {
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
     ({ email, password }) => {
-      register({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+      register({ variables: { input: { email, passwordHash: ko2en(password) } } }) // SHA256 해시 필요
     },
     [register]
   )

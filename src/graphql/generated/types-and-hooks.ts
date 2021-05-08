@@ -5,7 +5,6 @@ export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
-const defaultOptions = {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -35,13 +34,35 @@ export type MenuOptionInput = {
 }
 
 export type MenuCreationInput = {
+  storeId: Scalars['ID']
   name: Scalars['String']
   price: Scalars['Int']
   category: Scalars['String']
-  storeId: Scalars['ID']
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['String']>>
+  options?: Maybe<Array<MenuOptionInput>>
+}
+
+export type MenuModificationInput = {
+  storeId: Scalars['ID']
+  name?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['Int']>
+  category?: Maybe<Scalars['String']>
+  /**
+   * 기존 이미지 주소 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  /**
+   * 기존 해시태그 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  hashtags?: Maybe<Array<Scalars['String']>>
+  /**
+   * 기존 메뉴 옵션 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
   options?: Maybe<Array<MenuOptionInput>>
 }
 
@@ -50,12 +71,25 @@ export type Mutation = {
   /** 자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다. */
   createMenu: Scalars['ID']
   searchMenuCategory?: Maybe<Array<Scalars['String']>>
+  modifyMenu: Scalars['ID']
+  /**
+   * 해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
+   *
+   * `true`: 찜 성공, `false`: 찜 해제
+   */
+  pickMenu: Scalars['Boolean']
   createOrder: Scalars['ID']
   /** 주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다. */
   updateOrderStatus: Scalars['ID']
   createPost: Scalars['ID']
   createReview: Scalars['ID']
   createStore: Scalars['ID']
+  /**
+   * 해당 매장을 찜하거나 이미 찜한 매장을 헤제한다.
+   *
+   * True: 찜 성공, False: 찜 해제
+   */
+  pickStore: Scalars['Boolean']
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
   register: Scalars['JWT']
   /** 회원탈퇴 시 사용자 정보가 모두 초기화된다. */
@@ -81,6 +115,14 @@ export type MutationSearchMenuCategoryArgs = {
   searchTerm: Scalars['String']
 }
 
+export type MutationModifyMenuArgs = {
+  input: MenuModificationInput
+}
+
+export type MutationPickMenuArgs = {
+  id: Scalars['ID']
+}
+
 export type MutationCreateOrderArgs = {
   input: OrderCreationInput
 }
@@ -99,6 +141,10 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateStoreArgs = {
   input: StoreCreationInput
+}
+
+export type MutationPickStoreArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationRegisterArgs = {
@@ -458,15 +504,62 @@ export type QueryStoreArgs = {
   id: Scalars['ID']
 }
 
-export enum Rating {
-  Delicious = 'DELICIOUS',
-  Good = 'GOOD',
-  Bad = 'BAD',
+export type MenuOptionSelectionInput = {
+  menuOptionId: Scalars['ID']
+  text?: Maybe<Scalars['String']>
 }
 
-export type RegisterInput = {
-  email: Scalars['EmailAddress']
-  passwordHash: Scalars['String']
+export type MenuSelectionInput = {
+  count: Scalars['Int']
+  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
+}
+
+/** 결제는 어디서 어떻게 이뤄질까? */
+export type PaymentInput = {
+  paymentId: Scalars['ID']
+  paymentDate: Scalars['DateTime']
+}
+
+export type UserInfoInput = {
+  deliveryAddress: Scalars['String']
+  reviewReward?: Maybe<Scalars['String']>
+  regularReward?: Maybe<Scalars['String']>
+  deliveryRequest?: Maybe<Scalars['String']>
+  storeRequest?: Maybe<Scalars['String']>
+  point?: Maybe<Scalars['Int']>
+  coupon?: Maybe<Scalars['ID']>
+}
+
+export type OrderCreationInput = {
+  menus: Array<MenuSelectionInput>
+  payment: PaymentInput
+  user: UserInfoInput
+}
+
+export enum OrderStatus {
+  OrderWaiting = 'ORDER_WAITING',
+  CookingInProgress = 'COOKING_IN_PROGRESS',
+  DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
+  DeliveryCompletion = 'DELIVERY_COMPLETION',
+}
+
+export type Order = {
+  __typename?: 'Order'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  orderStatus: OrderStatus
+  orderTotal: Scalars['Int']
+  /** from other table */
+  store: Store
+  review?: Maybe<Review>
+  menu?: Maybe<Array<Menu>>
+}
+
+export type PostCreationInput = {
+  /** 글 내용 중에 줄 바꿈 1개 당 `\n`을 1개 사용한다. */
+  content: Scalars['String']
+  storeId: Scalars['ID']
   /** nullable */
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
@@ -482,10 +575,16 @@ export type Review = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  helpingOthersCount: Scalars['Int']
-  rating: Rating
-  goodPointContent?: Maybe<Scalars['String']>
-  desiredPointContent?: Maybe<Scalars['String']>
+  contents: Array<Scalars['String']>
+  commentCount: Scalars['Int']
+  likeCount: Scalars['Int']
+  storeId: Scalars['ID']
+  /** nullable */
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 해당 글을 작성한 매장 정보를 반환한다. */
+  store: Store
+  /** from other table - nullable */
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type ReviewCreationInput = {
@@ -615,12 +714,15 @@ export type User = {
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
-  address?: Maybe<Scalars['String']>
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  deliveryAddresses?: Maybe<Scalars['String']>
+  representativeDeliveryAddress?: Maybe<Scalars['String']>
   /** from other table - nullable */
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
+  regularStores?: Maybe<Array<Store>>
 }
 
 export type UserInfoInput = {
@@ -640,9 +742,12 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'login'>
 
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>
+
+export type LogoutMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logout'>
+
 export type RegisterMutationVariables = Exact<{
-  email: Scalars['EmailAddress']
-  passwordHash: Scalars['String']
+  input: RegisterInput
 }>
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
@@ -724,15 +829,48 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
 export function useLoginMutation(
   baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
 ) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options)
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions)
 }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>
+export const LogoutDocument = gql`
+  mutation Logout {
+    logout
+  }
+`
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>
+) {
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions)
+}
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>
 export const RegisterDocument = gql`
-  mutation Register($email: EmailAddress!, $passwordHash: String!) {
-    register(input: { email: $email, passwordHash: $passwordHash })
+  mutation Register($input: RegisterInput!) {
+    register(input: $input)
   }
 `
 export type RegisterMutationFn = Apollo.MutationFunction<
@@ -753,8 +891,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  * @example
  * const [registerMutation, { data, loading, error }] = useRegisterMutation({
  *   variables: {
- *      email: // value for 'email'
- *      passwordHash: // value for 'passwordHash'
+ *      input: // value for 'input'
  *   },
  * });
  */

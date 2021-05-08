@@ -9,7 +9,6 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
-import { store3, store, store2, store5, menus } from 'src/models/mock-data'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
@@ -133,7 +132,7 @@ function HomePage() {
 
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
+            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
         {(isEventsLoading || hasMoreMenus) && (

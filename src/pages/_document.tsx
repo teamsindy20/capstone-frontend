@@ -44,11 +44,13 @@ export default class CapstoneDocument extends Document {
           <meta name="apple-mobile-web-app-title" content="Deple" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-startup-image" href="/sindy.jpeg" />
           <link rel="apple-touch-icon" href="/favicon.ico" />
           <link rel="canonical" href={canonicalUrl} />
+          <link rel="manifest" href="/manifest.json" />
           {process.env.NODE_ENV === 'production' && (
             <>
               <script

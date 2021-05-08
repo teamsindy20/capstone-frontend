@@ -134,7 +134,7 @@ function HomePage() {
     setHasMoreMenus(false)
   }
 
-  const infiniteRef = useInfiniteScroll<HTMLUListElement>({
+  const [sentryRef] = useInfiniteScroll({
     loading: isLoadingMenus,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
@@ -207,13 +207,16 @@ function HomePage() {
           </Button>
         </GridContainer>
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
-        <GridContainerUl onlyImage={onlyImage} ref={infiniteRef}>
+        <GridContainerUl onlyImage={onlyImage}>
           {menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} store={store} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        <MenuLoadingCard onlyImage={onlyImage} />
-        {isLoadingMenus && <MenuLoadingCard onlyImage={onlyImage} />}
+        {(isLoadingMenus || hasMoreMenus) && (
+          <div ref={sentryRef}>
+            <MenuLoadingCard onlyImage={onlyImage} />
+          </div>
+        )}
       </PageLayout>
     </PageHead>
   )

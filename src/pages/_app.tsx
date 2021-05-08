@@ -2,10 +2,12 @@ import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { createContext, ReactNode, useEffect, useMemo } from 'react'
 import { client } from 'src/apollo/client'
+import { handleApolloError } from 'src/apollo/error'
+import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
+import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
-import { DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
@@ -37,10 +39,42 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: ${DARK_CHOCO_COLOR};
     text-decoration: none;
+    transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    :hover {
+      color: ${CHOCO_COLOR}
+    }
   }
 `
 
-function CapstoneApp({ Component, pageProps }: AppProps) {
+type Values = {
+  user?: MeQuery['me']
+  refetchUser: () => Promise<unknown>
+}
+
+export const GlobalContext = createContext<Values>({ refetchUser: async () => null })
+
+type Props = {
+  children: ReactNode
+}
+
+function GlobalProvider({ children }: Props) {
+  const { data, refetch } = useMeQuery({ onError: handleApolloError })
+
+  const user = data?.me
+
+  const value = useMemo(
+    () => ({
+      user,
+      refetchUser: refetch,
+    }),
+    [refetch, user]
+  )
+
+  return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+}
+
+function DepleApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   // Google Analytics로 정보 보내기
@@ -65,10 +99,12 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyle />
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <GlobalProvider>
+          <Component {...pageProps} />
+        </GlobalProvider>
       </ApolloProvider>
     </>
   )
 }
 
-export default CapstoneApp
+export default DepleApp

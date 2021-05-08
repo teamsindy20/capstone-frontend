@@ -10,7 +10,7 @@ type TReview = {
   contents?: string[]
   rating: ReviewRating
   menus: TMenu[]
-  doesHelpOthers: boolean
+  doesHelpOthers: number
 }
 
 export default TReview

@@ -82,7 +82,7 @@ const MiddleText = styled.div`
   background-color: #fff5f5;
 `
 const StyledSlider = styled(Slider)`
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   object-fit: cover;
 `
 

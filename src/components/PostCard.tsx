@@ -2,7 +2,6 @@ import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRo
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import styled from 'styled-components'
 import {
   AbsolutePositionImage,

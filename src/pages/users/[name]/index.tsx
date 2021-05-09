@@ -21,7 +21,7 @@ const GridContainerUl = styled.ul`
 const description = '내 취향이 반영된 나만의 Deple을 만나보세요.'
 
 function MyDeplePage() {
-  const { user } = useContext(GlobalContext)
+  const { user, refetchUser } = useContext(GlobalContext)
   const { query } = useRouter()
 
   if (!user) {
@@ -76,6 +76,14 @@ function MyDeplePage() {
             <button>약관·정책</button>
           </li>
         </GridContainerUl>
+        <button
+          onClick={() => {
+            localStorage.removeItem('token')
+            refetchUser()
+          }}
+        >
+          로그아웃
+        </button>
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
       </PageLayout>
     </PageHead>

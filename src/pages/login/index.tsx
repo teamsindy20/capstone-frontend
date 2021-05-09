@@ -10,6 +10,7 @@ import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { digestMessageWithSHA256 } from 'src/utils/commons'
+import { HeadMessage } from '../register'
 
 const { ko2en } = new Inko()
 
@@ -65,12 +66,7 @@ const SNSLoginButton = styled.button`
     color: #ffc9c3;
   }
 `
-const HeadMessage = styled.h1`
-  color: #3c3c3c;
-  text-align: left;
-  line-height: 1.5;
-  margin: 6rem 1rem 3rem 1rem;
-`
+
 const HeadLogin = styled.h2`
   color: #3c3c3c;
   text-align: center;
@@ -164,13 +160,13 @@ function LoginPage() {
               <Controller
                 control={control}
                 name="email"
-                render={(props) => (
+                render={({ field }) => (
                   <Input
                     disabled={loading}
                     placeholder="이메일을 입력해주세요."
                     size="large"
                     type="email"
-                    {...props}
+                    {...field}
                   />
                 )}
                 rules={validateEmail}
@@ -182,20 +178,21 @@ function LoginPage() {
               <Controller
                 control={control}
                 name="password"
-                render={(props) => (
+                render={({ field }) => (
                   <Input.Password
                     disabled={loading}
                     iconRender={renderPasswordInputIcon}
                     placeholder="비밀번호를 입력해주세요."
                     size="large"
                     type="password"
-                    {...props}
+                    {...field}
                   />
                 )}
                 rules={validatePassword}
               />
               <RedText>{errors.password ? errors.password.message : <br />}</RedText>
             </label>
+
             <Form.Item name="remember" valuePropName="checked">
               <Checkbox>로그인 상태 유지</Checkbox>
               <GridLinkForm>

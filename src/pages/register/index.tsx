@@ -8,12 +8,9 @@ import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import Inko from 'inko'
-import { digestMessageWithSHA256 } from 'src/utils/commons'
+import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useRouter } from 'next/router'
-
-const { ko2en } = new Inko()
 
 const GridContainerForm = styled.form`
   display: grid;

@@ -140,6 +140,8 @@ export type Mutation = {
   /** 주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다. */
   updateOrderStatus: Scalars['ID']
   createPost: Scalars['ID']
+  /** 게시글을 '좋아요' 한다. */
+  likePost: Scalars['ID']
   createReview: Scalars['ID']
   createStore: Scalars['ID']
   /**
@@ -191,6 +193,10 @@ export type MutationUpdateOrderStatusArgs = {
 
 export type MutationCreatePostArgs = {
   input: PostCreationInput
+}
+
+export type MutationLikePostArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationCreateReviewArgs = {
@@ -500,7 +506,7 @@ export type User = {
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
-  preference?: Maybe<Array<Scalars['NonEmptyString']>>
+  preferences?: Maybe<Array<Scalars['NonEmptyString']>>
   regularStores?: Maybe<Array<Store>>
 }
 

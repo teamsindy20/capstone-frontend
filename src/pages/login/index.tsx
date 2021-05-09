@@ -2,17 +2,14 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { Input, Button, Checkbox, Form } from 'antd'
-import Inko from 'inko'
 import { useCallback } from 'react'
 import Link from 'next/link'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { digestMessageWithSHA256 } from 'src/utils/commons'
 import { HeadMessage } from '../register'
-
-const { ko2en } = new Inko()
+import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 
 const GridContainerForm = styled.form`
   display: grid;

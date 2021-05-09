@@ -16,7 +16,7 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 
-const StyledFavoriteRoundedIcon = { fontSize: 24, color: grey[800] }
+const StyledFavoriteRoundedIcon = { fontSize: 22, color: grey[800] }
 
 const GridContainerBackground = styled.div`
   display: grid;

@@ -181,10 +181,6 @@ function HomePage() {
           </BannerAd>
         </StyledSlider>
 
-        {/* <ImageRatioWrapper paddingTop="36.25%">
-          <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
-        </ImageRatioWrapper> */}
-
         <GridContainer>
           <SmallText>정렬방식</SmallText>
           <Button variant="contained" color="secondary" size="small">

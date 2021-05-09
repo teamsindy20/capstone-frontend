@@ -129,7 +129,6 @@ const NormalH5 = styled.h5`
 
 const GridContainerColumn = styled(GridContainerGap)`
   grid-template-columns: repeat(3, 1fr);
-
   width: fit-content;
 `
 
@@ -144,7 +143,6 @@ const NoMarginH4 = styled.h4`
 const FlexContainerUl = styled.ul`
   display: flex;
   flex-flow: row wrap;
-
   list-style: none;
   padding-left: 0;
 `

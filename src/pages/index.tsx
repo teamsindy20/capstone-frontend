@@ -236,22 +236,22 @@ function HomePage() {
         <HorizontalBorder />
         <StyledSlider {...settings}>
           <BannerAd>
-            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <Img src="/banner.png" alt="banner advertisement"></Img>
             <AdTextDiv>
               <b>OPEN EVENT!</b> <br />
               초코칩쿠키 무조건 증정!
             </AdTextDiv>
           </BannerAd>
           <BannerAd>
-            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <Img src="/banner.png" alt="banner advertisement"></Img>
             <AdTextDiv>쿠폰증정2</AdTextDiv>
           </BannerAd>
           <BannerAd>
-            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <Img src="/banner.png" alt="banner advertisement"></Img>
             <AdTextDiv>쿠폰증정3</AdTextDiv>
           </BannerAd>
           <BannerAd>
-            <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
+            <Img src="/banner.png" alt="banner advertisement"></Img>
             <AdTextDiv>쿠폰증정4</AdTextDiv>
           </BannerAd>
         </StyledSlider>

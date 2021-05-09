@@ -24,8 +24,13 @@ const FixedPosition = styled.div`
   background: #ffffff;
 `
 
+const Height = styled.div`
+  height: calc(${PADDING_TOP} - ${BORDER_HEIGHT});
+`
+
 const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
+  /* position: fixed; */
 `
 
 type Props = {
@@ -35,9 +40,11 @@ type Props = {
 function TopHeader({ children }: Props) {
   return (
     <>
-      <FixedPosition>{children}</FixedPosition>
+      <FixedPosition>
+        <Height>{children}</Height>
+        <HorizontalBorder />
+      </FixedPosition>
       <PaddingTop />
-      <HorizontalBorder />
     </>
   )
 }

@@ -4,6 +4,8 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
+import IconButton from '@material-ui/core/IconButton'
+import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
@@ -15,7 +17,7 @@ import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/Men
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
@@ -25,6 +27,8 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
 const PADDING_TOP = '3rem'
+
+const BORDER_HEIGHT = '2px'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -51,6 +55,21 @@ const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
 
+// const StyledLocalGroceryStoreRoundedIcon = { fontSize: 40, color: 'default', variant: 'outlined' }
+
+const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
+  font-size: 55px !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 10px;
+  //font-color: #3c3c3c;
+`
+const WrapIconDiv = styled.div`
+  font-size: 90px;
+  background-color: #fff;
+  border-radius: 50%;
+`
+
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
@@ -65,11 +84,8 @@ const settings = {
 
 const GridContainer = styled.div`
   display: grid;
-  justify-content: center;
+  grid-template-columns: 1fr 6fr 1fr;
   align-items: center;
-  grid-template-columns: repeat(5, 1fr);
-  column-gap: 0.8rem;
-  margin: 0.5rem;
 `
 
 const SmallText = styled.div`
@@ -78,12 +94,12 @@ const SmallText = styled.div`
 const MiddleText = styled.div`
   text-align: center;
   padding: 0.5rem;
-  margin: 0.5rem;
+  margin: 0rem 0.5rem 0.5rem 0.5rem;
   border-radius: 1rem;
   background-color: #fff5f5;
 `
 const StyledSlider = styled(Slider)`
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   object-fit: cover;
 `
 
@@ -114,6 +130,60 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 const Img = styled.img`
   width: 100%;
   overflow: hidden;
+`
+
+const Div = styled.div`
+  overflow: scroll hidden;
+  display: flex;
+  margin: 6px 0px;
+`
+
+const FixedDiv = styled.div`
+  position: sticky;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  height: 60px;
+  line-height: 60px;
+  background-color: #fff;
+`
+const Tag = styled.span<{ color: string }>`
+  margin: 10px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  border-radius: 12px;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: ${(p) => p.color};
+`
+
+const PhotoOnlyButton = styled.button`
+  background-color: #f3c7ab;
+  align-items: center;
+  font-size: 13px;
+  line-height: 13px;
+  border: none;
+  width: 80%;
+  height: 60%;
+  margin: auto;
+`
+
+const HorizontalBorder = styled.div`
+  border: ${BORDER_HEIGHT} solid #ddd;
+`
+
+const FixedPosition = styled.div`
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  /* right: 50%;
+  transform: translateX(50%); */
+  bottom: ${HEADER_HEIGHT};
+  z-index: 1;
+  width: 100%;
+  max-width: ${TABLET_MIN_WIDTH};
+  text-align: right;
 `
 
 function HomePage() {
@@ -163,9 +233,7 @@ function HomePage() {
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
-        {/* <div>
-          <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C80597625_2342545629368935_267113400641781760_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D3viFoOWESBUAX9r6XJD%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D39d161b5342ecaa518df7b620f0e49b3%26oe%3D60BE270A%26_nc_sid%3D7bff83"></img>
-        </div> */}
+        <HorizontalBorder />
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
@@ -187,23 +255,38 @@ function HomePage() {
             <AdTextDiv>쿠폰증정4</AdTextDiv>
           </BannerAd>
         </StyledSlider>
-
         <GridContainer>
-          <SmallText>정렬방식</SmallText>
-          <Button variant="contained" color="secondary" size="small">
-            맞춤추천
-          </Button>
-          <Button variant="contained" size="small">
-            좋아요순
-          </Button>
-          <Button variant="contained" size="small">
-            재주문율순
-          </Button>
-          <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
-            사진만보기
-          </Button>
+          <FixedDiv>정렬방식</FixedDiv>
+          <Div>
+            <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
+              맞춤추천
+            </Tag>
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              좋아요순
+            </Tag>
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              재주문율순
+            </Tag>
+
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              주문수순
+            </Tag>
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              배달팁적은순
+            </Tag>
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              리뷰수순
+            </Tag>
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              거리순
+            </Tag>
+          </Div>
+
+          <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         </GridContainer>
+
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
+
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
@@ -214,6 +297,12 @@ function HomePage() {
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>
         )}
+
+        <FixedPosition>
+          <IconButton color="default" aria-label="shopping cart" component="div">
+            <StyledLocalGroceryStoreRoundedIcon />
+          </IconButton>
+        </FixedPosition>
       </PageLayout>
     </PageHead>
   )

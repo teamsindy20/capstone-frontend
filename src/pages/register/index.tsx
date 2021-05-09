@@ -9,6 +9,7 @@ import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import Inko from 'inko'
+import { digestMessageWithSHA256 } from 'src/utils/commons'
 
 const { ko2en } = new Inko()
 
@@ -110,8 +111,6 @@ function RegisterPage() {
     defaultValues: { email: '', password: '', password2: '' },
   })
 
-  console.log('1')
-
   const validatePassword2 = {
     required: '필수 항목입니다.',
     validate: {
@@ -121,8 +120,9 @@ function RegisterPage() {
   }
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
-    ({ email, password }) => {
-      register({ variables: { input: { email, passwordHash: ko2en(password) } } }) // SHA256 해시 필요
+    async ({ email, password }) => {
+      const passwordHash = await digestMessageWithSHA256(ko2en(password))
+      register({ variables: { input: { email, passwordHash } } })
     },
     [register]
   )
@@ -132,8 +132,10 @@ function RegisterPage() {
       <LoginPageLayout>
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <HeadMessage>
-            내가 원하는 디저트를<br></br>
-            쉽고 빠르게<br></br>
+            내가 원하는 디저트를
+            <br />
+            쉽고 빠르게
+            <br />
             <b>신디에 가입해보세요.</b>
           </HeadMessage>
           <HeadRegister>SIGN UP</HeadRegister>

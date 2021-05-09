@@ -1,0 +1,11 @@
+query FavoriteStores {
+  me {
+    favoriteStores {
+      id
+      name
+      minimumDeliveryTime
+      maximumDeliveryTime
+      minimumDeliveryAmount
+    }
+  }
+}

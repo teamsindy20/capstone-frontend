@@ -47,18 +47,18 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-type Values = {
+type GlobalContextValues = {
   user?: MeQuery['me']
   refetchUser: () => Promise<unknown>
 }
 
-export const GlobalContext = createContext<Values>({ refetchUser: async () => null })
+export const GlobalContext = createContext<GlobalContextValues>({ refetchUser: async () => null })
 
-type Props = {
+type GlobalProviderProps = {
   children: ReactNode
 }
 
-function GlobalProvider({ children }: Props) {
+function GlobalProvider({ children }: GlobalProviderProps) {
   const { data, refetch } = useMeQuery({ onError: handleApolloError })
 
   const user = data?.me

@@ -1,0 +1,4 @@
+fragment storeCard on Store {
+  id
+  name
+}

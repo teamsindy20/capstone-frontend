@@ -24,6 +24,14 @@ import Slider from 'react-slick'
 
 const PADDING_TOP = '3rem'
 
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
+
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   position: fixed;
@@ -131,14 +139,6 @@ function HomePage() {
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
 
   const goToSearchPage = useGoToPage('/search')
 

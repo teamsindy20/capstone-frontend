@@ -9,6 +9,7 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
+import { digestMessageWithSHA256 } from 'src/utils/commons'
 
 const { ko2en } = new Inko()
 
@@ -118,7 +119,7 @@ function LoginPage() {
     onCompleted: (data) => {
       if (data.login) {
         console.log(data.login)
-        sessionStorage.setItem('token', data.login)
+        localStorage.setItem('token', data.login)
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }
@@ -135,8 +136,9 @@ function LoginPage() {
   })
 
   const onSubmit = useCallback<SubmitHandler<FormValues>>(
-    ({ email, password }) => {
-      login({ variables: { email, passwordHash: ko2en(password) } }) // SHA256 해시 필요
+    async ({ email, password }) => {
+      const passwordHash = await digestMessageWithSHA256(ko2en(password))
+      login({ variables: { email, passwordHash } })
     },
     [login]
   )
@@ -145,7 +147,8 @@ function LoginPage() {
     <PageHead>
       <LoginPageLayout>
         <HeadMessage>
-          내가 원하는 디저트를<br></br>
+          내가 원하는 디저트를
+          <br />
           쉽고 빠르게!
         </HeadMessage>
 

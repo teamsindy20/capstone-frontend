@@ -55,6 +55,14 @@ const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
 
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
+
 const GridContainer = styled.div`
   display: grid;
   justify-content: center;
@@ -135,14 +143,6 @@ function HomePage() {
   })
 
   const goToSearchPage = useGoToPage('/search')
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
 
   return (
     <PageHead>

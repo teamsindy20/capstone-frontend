@@ -67,7 +67,8 @@ const settings = {
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 1fr 6fr 1fr;
+  align-items: center;
 `
 
 const SmallText = styled.div`
@@ -76,7 +77,7 @@ const SmallText = styled.div`
 const MiddleText = styled.div`
   text-align: center;
   padding: 0.5rem;
-  margin: 0.5rem;
+  margin: 0rem 0.5rem 0.5rem 0.5rem;
   border-radius: 1rem;
   background-color: #fff5f5;
 `
@@ -140,9 +141,19 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
+const PhotoOnlyButton = styled.button`
+  background-color: #f3c7ab;
+  align-items: center;
+  font-size: 13px;
+  line-height: 13px;
+  border: none;
+  width: 80%;
+  height: 60%;
+  margin: auto;
+`
+
 const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
-  margin-bottom: 15px;
 `
 
 function HomePage() {
@@ -192,6 +203,7 @@ function HomePage() {
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
+        <HorizontalBorder />
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
@@ -216,34 +228,32 @@ function HomePage() {
         <GridContainer>
           <FixedDiv>정렬방식</FixedDiv>
           <Div>
-            <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
-              사진만보기
-            </Button>
             <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-              오늘의라인업
+              맞춤추천
             </Tag>
-            <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-              신메뉴소식
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              좋아요순
             </Tag>
-            <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
-              할인/이벤트
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              재주문율순
             </Tag>
 
-            <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-              휴무일정
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              주문수순
             </Tag>
-            <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
-              빵나오는시간
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              배달팁적은순
             </Tag>
-            <Tag color="#99E9F2" onClick={(e: any) => console.log(e.target.textContent)}>
-              일상
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              리뷰수순
             </Tag>
-            <Tag color="#F1F3F5" onClick={(e: any) => console.log(e.target.textContent)}>
-              기타
+            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
+              거리순
             </Tag>
           </Div>
+
+          <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         </GridContainer>
-        <HorizontalBorder />
 
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
         <GridContainerUl onlyImage={onlyImage}>

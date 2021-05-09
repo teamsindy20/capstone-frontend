@@ -163,7 +163,9 @@ function HomePage() {
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
-
+        {/* <div>
+          <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C80597625_2342545629368935_267113400641781760_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D3viFoOWESBUAX9r6XJD%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D39d161b5342ecaa518df7b620f0e49b3%26oe%3D60BE270A%26_nc_sid%3D7bff83"></img>
+        </div> */}
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>

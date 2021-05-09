@@ -11,8 +11,9 @@ import TopHeader from 'src/components/TopHeader'
 import { Select, Tag } from 'antd'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import grey from '@material-ui/core/colors/grey'
+import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
-const StyledStoreRoundedIcon = { fontSize: 25, color: grey[800] }
+const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -39,6 +40,12 @@ const TopContainer = styled.div`
   text-align: center;
 `
 
+const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
+  justify-content: center;
+
+  height: 100%;
+`
+
 const Div = styled.div`
   height: 3rem;
   overflow: scroll hidden;
@@ -46,6 +53,10 @@ const Div = styled.div`
 
 const Tag1 = styled.span`
   display: inline;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
 `
 
 function tagRender(props: { label: any; value: any; closable: any; onClose: any }) {
@@ -96,8 +107,10 @@ function FeedPage() {
     <PageHead title="Deple - 새 소식" description={description}>
       <PageLayout>
         <TopHeader>
-          <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-          매장소식
+          <FlexContainerCenterCenter>
+            <StoreRoundedIcon style={StyledStoreRoundedIcon} />
+            <NoMarginH3>매장소식</NoMarginH3>
+          </FlexContainerCenterCenter>
         </TopHeader>
         {/* <Select
           mode="multiple"
@@ -115,6 +128,8 @@ function FeedPage() {
           <Tag1>asdf</Tag1>
           <Tag1>asdf</Tag1>
           <Tag1>asdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
+          <Tag1>asdfasdfasdfasdfasdf</Tag1>
           <Tag1>asdfasdfasdfasdfasdf</Tag1>
           <Tag1>asdfasdfasdfasdfasdf</Tag1>
           <Tag1>asdfasdfasdfasdfasdf</Tag1>

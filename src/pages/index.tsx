@@ -26,6 +26,8 @@ import 'slick-carousel/slick/slick-theme.css'
 
 const PADDING_TOP = '3rem'
 
+const BORDER_HEIGHT = '2px'
+
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   position: fixed;
@@ -65,11 +67,7 @@ const settings = {
 
 const GridContainer = styled.div`
   display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: repeat(5, 1fr);
-  column-gap: 0.8rem;
-  margin: 0.5rem;
+  grid-template-columns: 1fr 7fr;
 `
 
 const SmallText = styled.div`
@@ -114,6 +112,37 @@ const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
 const Img = styled.img`
   width: 100%;
   overflow: hidden;
+`
+
+const Div = styled.div`
+  overflow: scroll hidden;
+  display: flex;
+  margin: 6px 0px;
+`
+
+const FixedDiv = styled.div`
+  position: sticky;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  height: 60px;
+  line-height: 60px;
+  background-color: #fff;
+`
+const Tag = styled.span<{ color: string }>`
+  margin: 10px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  border-radius: 12px;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: ${(p) => p.color};
+`
+
+const HorizontalBorder = styled.div`
+  border: ${BORDER_HEIGHT} solid #ddd;
+  margin-bottom: 15px;
 `
 
 function HomePage() {
@@ -163,9 +192,6 @@ function HomePage() {
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
-        {/* <div>
-          <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C80597625_2342545629368935_267113400641781760_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D3viFoOWESBUAX9r6XJD%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D39d161b5342ecaa518df7b620f0e49b3%26oe%3D60BE270A%26_nc_sid%3D7bff83"></img>
-        </div> */}
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
@@ -187,22 +213,38 @@ function HomePage() {
             <AdTextDiv>쿠폰증정4</AdTextDiv>
           </BannerAd>
         </StyledSlider>
-
         <GridContainer>
-          <SmallText>정렬방식</SmallText>
-          <Button variant="contained" color="secondary" size="small">
-            맞춤추천
-          </Button>
-          <Button variant="contained" size="small">
-            좋아요순
-          </Button>
-          <Button variant="contained" size="small">
-            재주문율순
-          </Button>
-          <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
-            사진만보기
-          </Button>
+          <FixedDiv>정렬방식</FixedDiv>
+          <Div>
+            <Button variant="contained" color="primary" size="small" onClick={toggleOnlyImage}>
+              사진만보기
+            </Button>
+            <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
+              오늘의라인업
+            </Tag>
+            <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
+              신메뉴소식
+            </Tag>
+            <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
+              할인/이벤트
+            </Tag>
+
+            <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
+              휴무일정
+            </Tag>
+            <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+              빵나오는시간
+            </Tag>
+            <Tag color="#99E9F2" onClick={(e: any) => console.log(e.target.textContent)}>
+              일상
+            </Tag>
+            <Tag color="#F1F3F5" onClick={(e: any) => console.log(e.target.textContent)}>
+              기타
+            </Tag>
+          </Div>
         </GridContainer>
+        <HorizontalBorder />
+
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (

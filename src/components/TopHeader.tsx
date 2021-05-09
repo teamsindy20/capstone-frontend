@@ -6,6 +6,7 @@ import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { ReactNode } from 'react'
 
 const PADDING_TOP = '3rem'
+const BORDER_HEIGHT = '2px'
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
@@ -24,7 +25,7 @@ const FixedPosition = styled.div`
 `
 
 const HorizontalBorder = styled.div`
-  border: 2px solid #ddd;
+  border: ${BORDER_HEIGHT} solid #ddd;
 `
 
 type Props = {
@@ -34,11 +35,9 @@ type Props = {
 function TopHeader({ children }: Props) {
   return (
     <>
-      <FixedPosition>
-        {children}
-        <HorizontalBorder></HorizontalBorder>
-      </FixedPosition>
+      <FixedPosition>{children}</FixedPosition>
       <PaddingTop />
+      <HorizontalBorder />
     </>
   )
 }

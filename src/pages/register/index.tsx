@@ -41,12 +41,14 @@ const RegisterButton = styled.button`
     color: #ffc9c3;
   }
 `
-const HeadMessage = styled.h1`
+
+export const HeadMessage = styled.h1`
   color: #3c3c3c;
   text-align: center;
   line-height: 1.5;
   margin: 6rem auto 3rem;
 `
+
 const HeadRegister = styled.h3`
   color: #3c3c3c;
   text-align: center;

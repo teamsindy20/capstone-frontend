@@ -94,6 +94,7 @@ const AdTextDiv = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  font-size: 1.6rem;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -166,7 +167,10 @@ function HomePage() {
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
-            <AdTextDiv>쿠폰증정</AdTextDiv>
+            <AdTextDiv>
+              <b>OPEN EVENT!</b> <br />
+              초코칩쿠키 무조건 증정!
+            </AdTextDiv>
           </BannerAd>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>

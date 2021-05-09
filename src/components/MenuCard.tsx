@@ -254,16 +254,6 @@ function MenuCard({ menu, onlyImage }: Props) {
           )}
         </AbsolutePosition>
         <GridContainer>
-          <GridContainerColumn>
-            <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon fontSize="small" />
-              <LighterH5>{store.name}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <MotorcycleRoundedIcon />
-              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
-            </FlexContainerAlignCenter>
-          </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>
           <FlexContainerUl>
             {menu.hashtags?.map((hashtag) => (
@@ -272,7 +262,7 @@ function MenuCard({ menu, onlyImage }: Props) {
                   <Link href={`/search/${hashtag.slice(1)}`}>
                     <BoldA
                       href={`/search/${hashtag.slice(1)}`}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e: any) => e.stopPropagation()}
                     >{`${hashtag}`}</BoldA>
                   </Link>
                 </li>

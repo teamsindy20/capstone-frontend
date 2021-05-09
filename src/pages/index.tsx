@@ -21,16 +21,10 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const PADDING_TOP = '3rem'
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -57,14 +51,17 @@ const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
 
-const StyledSlider = styled(Slider)`
-  margin-bottom: 3rem;
-  object-fit: cover;
-`
-
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
 
 const GridContainer = styled.div`
   display: grid;
@@ -85,6 +82,10 @@ const MiddleText = styled.div`
   border-radius: 1rem;
   background-color: #fff5f5;
 `
+const StyledSlider = styled(Slider)`
+  margin-bottom: 3rem;
+  object-fit: cover;
+`
 
 const BannerAd = styled.div`
   position: relative;
@@ -101,6 +102,7 @@ const AdTextDiv = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  font-size: 1.6rem;
 `
 
 const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -161,11 +163,16 @@ function HomePage() {
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
-
+        {/* <div>
+          <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C80597625_2342545629368935_267113400641781760_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D3viFoOWESBUAX9r6XJD%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D39d161b5342ecaa518df7b620f0e49b3%26oe%3D60BE270A%26_nc_sid%3D7bff83"></img>
+        </div> */}
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
-            <AdTextDiv>쿠폰증정</AdTextDiv>
+            <AdTextDiv>
+              <b>OPEN EVENT!</b> <br />
+              초코칩쿠키 무조건 증정!
+            </AdTextDiv>
           </BannerAd>
           <BannerAd>
             <Img src="/디저트정-광고.png" alt="banner advertisement"></Img>
@@ -180,10 +187,6 @@ function HomePage() {
             <AdTextDiv>쿠폰증정4</AdTextDiv>
           </BannerAd>
         </StyledSlider>
-
-        {/* <ImageRatioWrapper paddingTop="36.25%">
-          <Image src="/디저트정-광고.png" alt="banner advertisement" layout="fill" />
-        </ImageRatioWrapper> */}
 
         <GridContainer>
           <SmallText>정렬방식</SmallText>

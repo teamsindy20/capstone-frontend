@@ -10,6 +10,8 @@ import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/typ
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import Inko from 'inko'
 import { digestMessageWithSHA256 } from 'src/utils/commons'
+import useGoToPage from 'src/hooks/useGoToPage'
+import { useRouter } from 'next/router'
 
 const { ko2en } = new Inko()
 
@@ -41,15 +43,15 @@ const RegisterButton = styled.button`
 `
 const HeadMessage = styled.h1`
   color: #3c3c3c;
-  text-align: left;
+  text-align: center;
   line-height: 1.5;
-  margin: 6rem 1rem 3rem 1rem;
+  margin: 6rem auto 3rem;
 `
 const HeadRegister = styled.h3`
   color: #3c3c3c;
   text-align: center;
   font-weight: 3rem;
-  margin: 1rem 1rem 0.2rem;
+  margin: 1rem auto 0.2rem;
   letter-spacing: 0.3rem;
 `
 
@@ -90,11 +92,14 @@ type FormValues = {
 }
 
 function RegisterPage() {
+  const router = useRouter()
+
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
       if (data.register) {
         console.log(data.register)
-        sessionStorage.setItem('token', data.register)
+        localStorage.setItem('token', data.register)
+        router.push('/')
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }
@@ -130,65 +135,69 @@ function RegisterPage() {
   return (
     <PageHead>
       <LoginPageLayout>
+        <HeadMessage>
+          내가 원하는 디저트를
+          <br />
+          쉽고 빠르게
+          <br />
+          <b>신디에 가입해보세요.</b>
+        </HeadMessage>
+
+        <HeadRegister>SIGN UP</HeadRegister>
+
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-          <HeadMessage>
-            내가 원하는 디저트를
-            <br />
-            쉽고 빠르게
-            <br />
-            <b>신디에 가입해보세요.</b>
-          </HeadMessage>
-          <HeadRegister>SIGN UP</HeadRegister>
           <label htmlFor="email">
             <h4>이메일</h4>
             <Controller
               control={control}
               name="email"
-              render={(props) => (
+              render={({ field }) => (
                 <Input
                   disabled={loading}
                   placeholder="이메일을 입력해주세요."
                   size="large"
                   type="email"
-                  {...props}
+                  {...field}
                 />
               )}
               rules={validateEmail}
             />
             <RedText>{errors.email ? errors.email.message : <br />}</RedText>
           </label>
+
           <label htmlFor="password">
             <h4>비밀번호</h4>
             <Controller
               control={control}
               name="password"
-              render={(props) => (
+              render={({ field }) => (
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
                   placeholder="비밀번호를 입력해주세요."
                   size="large"
                   type="password"
-                  {...props}
+                  {...field}
                 />
               )}
               rules={validatePassword}
             />
             <RedText>{errors.password ? errors.password.message : <br />}</RedText>
           </label>
+
           <label htmlFor="password2">
             <h4>비밀번호 확인</h4>
             <Controller
               control={control}
               name="password2"
-              render={(props) => (
+              render={({ field }) => (
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
                   placeholder="비밀번호를 재입력해주세요."
                   size="large"
                   type="password"
-                  {...props}
+                  {...field}
                 />
               )}
               rules={validatePassword2}

@@ -535,6 +535,21 @@ export type PostCardFragment = { __typename?: 'Post' } & Pick<
   | 'imageUrls'
 >
 
+export type StoreCardFragment = { __typename?: 'Store' } & Pick<
+  Store,
+  | 'id'
+  | 'name'
+  | 'deliveryCharge'
+  | 'minimumDeliveryAmount'
+  | 'reorderRatio'
+  | 'regularCustomerCount'
+  | 'favoriteCount'
+  | 'minimumDeliveryTime'
+  | 'maximumDeliveryTime'
+  | 'imageUrls'
+  | 'hashtags'
+>
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
@@ -557,6 +572,14 @@ export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & {
     favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+  }
+}
+
+export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
+
+export type FavoriteStoresQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & {
+    favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
   }
 }
 
@@ -601,6 +624,14 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
+
+export type RegularStoresQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & {
+    regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+  }
+}
+
 export type StorePostsQueryVariables = Exact<{
   id: Scalars['ID']
 }>
@@ -639,6 +670,21 @@ export const PostCardFragmentDoc = gql`
     commentCount
     likeCount
     imageUrls
+  }
+`
+export const StoreCardFragmentDoc = gql`
+  fragment storeCard on Store {
+    id
+    name
+    deliveryCharge
+    minimumDeliveryAmount
+    reorderRatio
+    regularCustomerCount
+    favoriteCount
+    minimumDeliveryTime
+    maximumDeliveryTime
+    imageUrls
+    hashtags
   }
 `
 export const LoginDocument = gql`
@@ -799,6 +845,56 @@ export type FavoriteMenusQueryResult = Apollo.QueryResult<
   FavoriteMenusQuery,
   FavoriteMenusQueryVariables
 >
+export const FavoriteStoresDocument = gql`
+  query FavoriteStores {
+    me {
+      favoriteStores {
+        ...storeCard
+      }
+    }
+  }
+  ${StoreCardFragmentDoc}
+`
+
+/**
+ * __useFavoriteStoresQuery__
+ *
+ * To run a query within a React component, call `useFavoriteStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoriteStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavoriteStoresQuery(
+  baseOptions?: Apollo.QueryHookOptions<FavoriteStoresQuery, FavoriteStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoriteStoresQuery, FavoriteStoresQueryVariables>(
+    FavoriteStoresDocument,
+    options
+  )
+}
+export function useFavoriteStoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteStoresQuery, FavoriteStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoriteStoresQuery, FavoriteStoresQueryVariables>(
+    FavoriteStoresDocument,
+    options
+  )
+}
+export type FavoriteStoresQueryHookResult = ReturnType<typeof useFavoriteStoresQuery>
+export type FavoriteStoresLazyQueryHookResult = ReturnType<typeof useFavoriteStoresLazyQuery>
+export type FavoriteStoresQueryResult = Apollo.QueryResult<
+  FavoriteStoresQuery,
+  FavoriteStoresQueryVariables
+>
 export const MeDocument = gql`
   query Me {
     me {
@@ -943,6 +1039,56 @@ export type PostsByAddressLazyQueryHookResult = ReturnType<typeof usePostsByAddr
 export type PostsByAddressQueryResult = Apollo.QueryResult<
   PostsByAddressQuery,
   PostsByAddressQueryVariables
+>
+export const RegularStoresDocument = gql`
+  query RegularStores {
+    me {
+      regularStores {
+        ...storeCard
+      }
+    }
+  }
+  ${StoreCardFragmentDoc}
+`
+
+/**
+ * __useRegularStoresQuery__
+ *
+ * To run a query within a React component, call `useRegularStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegularStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegularStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRegularStoresQuery(
+  baseOptions?: Apollo.QueryHookOptions<RegularStoresQuery, RegularStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<RegularStoresQuery, RegularStoresQueryVariables>(
+    RegularStoresDocument,
+    options
+  )
+}
+export function useRegularStoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RegularStoresQuery, RegularStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<RegularStoresQuery, RegularStoresQueryVariables>(
+    RegularStoresDocument,
+    options
+  )
+}
+export type RegularStoresQueryHookResult = ReturnType<typeof useRegularStoresQuery>
+export type RegularStoresLazyQueryHookResult = ReturnType<typeof useRegularStoresLazyQuery>
+export type RegularStoresQueryResult = Apollo.QueryResult<
+  RegularStoresQuery,
+  RegularStoresQueryVariables
 >
 export const StorePostsDocument = gql`
   query StorePosts($id: ID!) {

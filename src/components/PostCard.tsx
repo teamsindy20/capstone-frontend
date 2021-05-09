@@ -90,7 +90,7 @@ const ImgInCard = styled.img`
 const TextInCard = styled.div`
   padding: 20px;
   font-size: 1rem;
-  overflow: visible scroll;
+  overflow: visible auto;
   height: 270px;
 `
 

@@ -21,7 +21,10 @@ const FixedPosition = styled.div`
   height: ${PADDING_TOP};
   transform: translateX(-50%);
   background: #ffffff;
-  text-align: center;
+`
+
+const HorizontalBorder = styled.div`
+  border: 2px solid #ddd;
 `
 
 type Props = {
@@ -32,7 +35,8 @@ function TopHeader({ children }: Props) {
   return (
     <>
       <FixedPosition>
-        <FlexContainerAlignCenter>{children}</FlexContainerAlignCenter>
+        {children}
+        <HorizontalBorder></HorizontalBorder>
       </FixedPosition>
       <PaddingTop />
     </>

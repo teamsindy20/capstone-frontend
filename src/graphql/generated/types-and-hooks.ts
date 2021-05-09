@@ -535,7 +535,20 @@ export type PostCardFragment = { __typename?: 'Post' } & Pick<
   | 'imageUrls'
 >
 
-export type StoreCardFragment = { __typename?: 'Store' } & Pick<Store, 'id' | 'name'>
+export type StoreCardFragment = { __typename?: 'Store' } & Pick<
+  Store,
+  | 'id'
+  | 'name'
+  | 'deliveryCharge'
+  | 'minimumDeliveryAmount'
+  | 'reorderRatio'
+  | 'regularCustomerCount'
+  | 'favoriteCount'
+  | 'minimumDeliveryTime'
+  | 'maximumDeliveryTime'
+  | 'imageUrls'
+  | 'hashtags'
+>
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['EmailAddress']
@@ -566,14 +579,7 @@ export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteStoresQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & {
-    favoriteStores?: Maybe<
-      Array<
-        { __typename?: 'Store' } & Pick<
-          Store,
-          'id' | 'name' | 'minimumDeliveryTime' | 'maximumDeliveryTime' | 'minimumDeliveryAmount'
-        >
-      >
-    >
+    favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
   }
 }
 
@@ -616,6 +622,14 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
       store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address' | 'imageUrls'>
     } & PostCardFragment
   >
+}
+
+export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
+
+export type RegularStoresQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & {
+    regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+  }
 }
 
 export type StorePostsQueryVariables = Exact<{
@@ -662,6 +676,15 @@ export const StoreCardFragmentDoc = gql`
   fragment storeCard on Store {
     id
     name
+    deliveryCharge
+    minimumDeliveryAmount
+    reorderRatio
+    regularCustomerCount
+    favoriteCount
+    minimumDeliveryTime
+    maximumDeliveryTime
+    imageUrls
+    hashtags
   }
 `
 export const LoginDocument = gql`
@@ -826,14 +849,11 @@ export const FavoriteStoresDocument = gql`
   query FavoriteStores {
     me {
       favoriteStores {
-        id
-        name
-        minimumDeliveryTime
-        maximumDeliveryTime
-        minimumDeliveryAmount
+        ...storeCard
       }
     }
   }
+  ${StoreCardFragmentDoc}
 `
 
 /**
@@ -1019,6 +1039,56 @@ export type PostsByAddressLazyQueryHookResult = ReturnType<typeof usePostsByAddr
 export type PostsByAddressQueryResult = Apollo.QueryResult<
   PostsByAddressQuery,
   PostsByAddressQueryVariables
+>
+export const RegularStoresDocument = gql`
+  query RegularStores {
+    me {
+      regularStores {
+        ...storeCard
+      }
+    }
+  }
+  ${StoreCardFragmentDoc}
+`
+
+/**
+ * __useRegularStoresQuery__
+ *
+ * To run a query within a React component, call `useRegularStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegularStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegularStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRegularStoresQuery(
+  baseOptions?: Apollo.QueryHookOptions<RegularStoresQuery, RegularStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<RegularStoresQuery, RegularStoresQueryVariables>(
+    RegularStoresDocument,
+    options
+  )
+}
+export function useRegularStoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RegularStoresQuery, RegularStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<RegularStoresQuery, RegularStoresQueryVariables>(
+    RegularStoresDocument,
+    options
+  )
+}
+export type RegularStoresQueryHookResult = ReturnType<typeof useRegularStoresQuery>
+export type RegularStoresLazyQueryHookResult = ReturnType<typeof useRegularStoresLazyQuery>
+export type RegularStoresQueryResult = Apollo.QueryResult<
+  RegularStoresQuery,
+  RegularStoresQueryVariables
 >
 export const StorePostsDocument = gql`
   query StorePosts($id: ID!) {

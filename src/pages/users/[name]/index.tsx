@@ -1,7 +1,10 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
+import NotLogin from 'src/components/NotLogin'
+import { GlobalContext } from 'src/pages/_app'
 
 import styled from 'styled-components'
 
@@ -18,7 +21,18 @@ const GridContainerUl = styled.ul`
 const description = '내 취향이 반영된 나만의 Deple을 만나보세요.'
 
 function MyDeplePage() {
+  const { user } = useContext(GlobalContext)
   const { query } = useRouter()
+
+  if (!user) {
+    return (
+      <PageHead title="Deple - 내 Deple" description={description}>
+        <PageLayout>
+          <NotLogin />
+        </PageLayout>
+      </PageHead>
+    )
+  }
 
   return (
     <PageHead title="Deple - 내 Deple" description={description}>

@@ -3,7 +3,7 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import TStore from 'src/types/Store'
+import { StoreCardFragment } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
@@ -25,7 +25,7 @@ const RelativePosition = styled.div`
 `
 
 type Props = {
-  store: TStore
+  store: StoreCardFragment
 }
 
 function StoreCard({ store }: Props) {
@@ -40,7 +40,7 @@ function StoreCard({ store }: Props) {
       <FlexContainerBetweenCenter>
         <RelativePosition>
           <Image
-            src={store.imageUrl}
+            src={store.imageUrls ? store.imageUrls[0] : ''}
             alt="store"
             layout="fill"
             objectFit="cover"
@@ -49,23 +49,21 @@ function StoreCard({ store }: Props) {
         </RelativePosition>
         <h3>{store.name}</h3>
         <ul>
-          {store.hashtags.map((hashtag) => (
-            <>
-              <li key={hashtag}>
-                <Link href={`/search/${hashtag.slice(1)}`}>
-                  <BoldA
-                    href={`/search/${hashtag.slice(1)}`}
-                    onClick={(e) => e.stopPropagation()}
-                  >{`${hashtag}`}</BoldA>
-                </Link>
-              </li>
-            </>
+          {store.hashtags?.map((hashtag) => (
+            <li key={hashtag}>
+              <Link href={`/search/${hashtag.slice(1)}`}>
+                <BoldA
+                  href={`/search/${hashtag.slice(1)}`}
+                  onClick={(e) => e.stopPropagation()}
+                >{`${hashtag}`}</BoldA>
+              </Link>
+            </li>
           ))}
         </ul>
         <ul>
           <FlexContainerAlignCenter>
             <FaceIcon />
-            <div>{store.regularCount}명</div>
+            <div>{store.regularCustomerCount}명</div>
           </FlexContainerAlignCenter>
           <FlexContainerAlignCenter>
             <RefreshIcon />

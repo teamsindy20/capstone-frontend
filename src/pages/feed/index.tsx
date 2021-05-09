@@ -40,6 +40,7 @@ const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
 
 const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
+  margin-bottom: 15px;
 `
 
 const Div = styled.div`
@@ -99,26 +100,26 @@ function FeedPage() {
         </TopHeader>
 
         <Div>
-          <Tag color="rgb(190, 235, 253)" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
             오늘의라인업
           </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
             신메뉴소식
           </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
             할인/이벤트
           </Tag>
 
-          <Tag color="rgb(207, 195, 181)" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
             휴무일정
           </Tag>
-          <Tag color="#FF8787" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
             빵나오는시간
           </Tag>
-          <Tag color="#99E9F2" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="#99E9F2" onClick={(e: any) => console.log(e.target.textContent)}>
             일상
           </Tag>
-          <Tag color="#F1F3F5" onClick={(e) => console.log(e.target.textContent)}>
+          <Tag color="#F1F3F5" onClick={(e: any) => console.log(e.target.textContent)}>
             기타
           </Tag>
         </Div>

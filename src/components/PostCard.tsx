@@ -100,6 +100,9 @@ function PostCard({ post }: Props) {
 
   return (
     <ShadowingLi>
+      {/* <div>
+        <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C133784715_672813013398326_5083752991447256061_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3DkKzoh7bNOMsAX_yPtQp%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Dd3276fb2af511a2070378be742c0d0aa%26oe%3D60BCEDE6%26_nc_sid%3D7bff83"></img>
+      </div> */}
       <FlexContainerBetweenPadding>
         <GridContainerColumn2>
           <div>

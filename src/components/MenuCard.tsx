@@ -262,7 +262,7 @@ function MenuCard({ menu, onlyImage }: Props) {
                   <Link href={`/search/${hashtag.slice(1)}`}>
                     <BoldA
                       href={`/search/${hashtag.slice(1)}`}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e: any) => e.stopPropagation()}
                     >{`${hashtag}`}</BoldA>
                   </Link>
                 </li>

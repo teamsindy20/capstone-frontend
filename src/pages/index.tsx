@@ -4,6 +4,8 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
+import IconButton from '@material-ui/core/IconButton'
+import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
@@ -15,7 +17,7 @@ import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/Men
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
@@ -52,6 +54,21 @@ const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800] }
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+
+// const StyledLocalGroceryStoreRoundedIcon = { fontSize: 40, color: 'default', variant: 'outlined' }
+
+const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
+  font-size: 55px !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 10px;
+  //font-color: #3c3c3c;
+`
+const WrapIconDiv = styled.div`
+  font-size: 90px;
+  background-color: #fff;
+  border-radius: 50%;
+`
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
@@ -156,6 +173,19 @@ const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
 `
 
+const FixedPosition = styled.div`
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  /* right: 50%;
+  transform: translateX(50%); */
+  bottom: ${HEADER_HEIGHT};
+  z-index: 1;
+  width: 100%;
+  max-width: ${TABLET_MIN_WIDTH};
+  text-align: right;
+`
+
 function HomePage() {
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
@@ -256,6 +286,7 @@ function HomePage() {
         </GridContainer>
 
         <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
+
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (
             <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
@@ -266,6 +297,12 @@ function HomePage() {
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>
         )}
+
+        <FixedPosition>
+          <IconButton color="default" aria-label="shopping cart" component="div">
+            <StyledLocalGroceryStoreRoundedIcon />
+          </IconButton>
+        </FixedPosition>
       </PageLayout>
     </PageHead>
   )

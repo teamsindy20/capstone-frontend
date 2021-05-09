@@ -23,10 +23,13 @@ module.exports = withPWA({
       'mblogthumb-phinf.pstatic.net',
       'blogfiles.pstatic.net',
       'postfiles.pstatic.net',
+      'cdn.pixabay.com',
+      'search.pstatic.net/common',
     ],
   },
   pwa: {
     dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
   },
   reactStrictMode: true,
 })

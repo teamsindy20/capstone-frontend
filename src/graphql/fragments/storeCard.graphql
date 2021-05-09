@@ -1,0 +1,13 @@
+fragment storeCard on Store {
+  id
+  name
+  deliveryCharge
+  minimumDeliveryAmount
+  reorderRatio
+  regularCustomerCount
+  favoriteCount
+  minimumDeliveryTime
+  maximumDeliveryTime
+  imageUrls
+  hashtags
+}

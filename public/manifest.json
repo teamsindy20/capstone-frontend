@@ -1,8 +1,8 @@
 {
-  "name": "Deple Progressive Web App",
+  "name": "Deple: 디저트를 즐기는 공간",
   "short_name": "Deple",
   "theme_color": "#ffffff",
-  "background_color": "#004740",
+  "background_color": "#ffc9c3",
   "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",

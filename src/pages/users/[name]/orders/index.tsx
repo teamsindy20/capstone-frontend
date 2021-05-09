@@ -6,6 +6,10 @@ import OrderCard, { OrderLoadingCard } from 'src/components/OrderCard'
 import { orders, store } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
+import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import grey from '@material-ui/core/colors/grey'
+import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
+import TopHeader from 'src/components/TopHeader'
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -13,6 +17,17 @@ const GridContainerUl = styled.ul`
 `
 
 const description = '내가 지금까지 주문한 내역을 확인해보세요.'
+
+const StyledStoreRoundedIcon = { fontSize: 24, color: grey[800] }
+
+const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
+  justify-content: center;
+  height: 100%;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
+`
 
 function UserOrdersPage() {
   const [isLoadingOrders, setIsLoadingOrders] = useState(false)
@@ -37,6 +52,12 @@ function UserOrdersPage() {
   return (
     <PageHead title="Deple - 주문 내역" description={description}>
       <PageLayout>
+        <TopHeader>
+          <FlexContainerCenterCenter>
+            <StoreRoundedIcon style={StyledStoreRoundedIcon} />
+            <NoMarginH3>주문내역</NoMarginH3>
+          </FlexContainerCenterCenter>
+        </TopHeader>
         <h2>주문 내역</h2>
         <GridContainerUl>
           {orders.map((order) => (

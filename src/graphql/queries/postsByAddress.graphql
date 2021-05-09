@@ -1,0 +1,11 @@
+query PostsByAddress {
+  postsByAddress(address: "") {
+    ...postCard
+    store {
+      id
+      name
+      address
+      imageUrls
+    }
+  }
+}

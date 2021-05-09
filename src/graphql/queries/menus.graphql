@@ -1,0 +1,21 @@
+query Menus {
+  menus {
+    id
+    name
+    price
+    positiveReviewRatio
+    totalReviewCount
+    reorderRatio
+    totalOrderCount
+    imageUrls
+    favorite
+    store {
+      id
+      name
+      deliveryCharge
+      minimumDeliveryTime
+      maximumDeliveryTime
+    }
+    hashtags
+  }
+}

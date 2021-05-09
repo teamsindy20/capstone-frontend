@@ -1,0 +1,7 @@
+query FavoriteStores {
+  me {
+    favoriteStores {
+      ...storeCard
+    }
+  }
+}

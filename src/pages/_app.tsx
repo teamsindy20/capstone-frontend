@@ -2,10 +2,12 @@ import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { createContext, ReactNode, useEffect, useMemo } from 'react'
 import { client } from 'src/apollo/client'
-import { pageview } from 'src/utils/google-analytics'
+import { handleApolloError } from 'src/apollo/error'
+import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { pageview } from 'src/utils/google-analytics'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
@@ -45,7 +47,34 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function CapstoneApp({ Component, pageProps }: AppProps) {
+type GlobalContextValues = {
+  user?: MeQuery['me']
+  refetchUser: () => Promise<unknown>
+}
+
+export const GlobalContext = createContext<GlobalContextValues>({ refetchUser: async () => null })
+
+type GlobalProviderProps = {
+  children: ReactNode
+}
+
+function GlobalProvider({ children }: GlobalProviderProps) {
+  const { data, refetch } = useMeQuery({ onError: handleApolloError })
+
+  const user = data?.me
+
+  const value = useMemo(
+    () => ({
+      user,
+      refetchUser: refetch,
+    }),
+    [refetch, user]
+  )
+
+  return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+}
+
+function DepleApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   // Google Analytics로 정보 보내기
@@ -70,10 +99,12 @@ function CapstoneApp({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyle />
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <GlobalProvider>
+          <Component {...pageProps} />
+        </GlobalProvider>
       </ApolloProvider>
     </>
   )
 }
 
-export default CapstoneApp
+export default DepleApp

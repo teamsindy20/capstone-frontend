@@ -47,7 +47,7 @@ export default class CapstoneDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="icon" href="/favicon.ico" />
-          <link rel="apple-touch-startup-image" href="/sindy.jpeg" />
+          <link rel="apple-touch-startup-image" href="/splash.png" />
           <link rel="apple-touch-icon" href="/favicon.ico" />
           <link rel="canonical" href={canonicalUrl} />
           <link rel="manifest" href="/manifest.json" />

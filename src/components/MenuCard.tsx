@@ -1,21 +1,22 @@
-import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone'
-import BookmarkBorderTwoToneIcon from '@material-ui/icons/BookmarkBorderTwoTone'
-import BookmarkTwoToneIcon from '@material-ui/icons/BookmarkTwoTone'
-import LocationOnTwoToneIcon from '@material-ui/icons/LocationOnTwoTone'
-import MotorcycleTwoToneIcon from '@material-ui/icons/MotorcycleTwoTone'
-import RateReviewTwoToneIcon from '@material-ui/icons/RateReviewTwoTone'
+import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
+import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
+import BookmarkBorderRoundedIcon from '@material-ui/icons/BookmarkBorderRounded'
+import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
+import MotorcycleRoundedIcon from '@material-ui/icons/MotorcycleRounded'
+import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
-import TMenu from 'src/types/Menu'
-import TStore from 'src/types/Store'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
+import { MenusQuery } from 'src/graphql/generated/types-and-hooks'
+import grey from '@material-ui/core/colors/grey'
+import red from '@material-ui/core/colors/red'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -66,13 +67,15 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
   height: ${({ height = '1rem' }) => height};
 `
 
-const GridContainerLi = styled.li<{ column1by2: boolean }>`
+const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
-  ${(p) => (p.column1by2 ? 'grid-template-columns: 1fr 2fr;' : '')}
+  ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
 
   cursor: pointer;
-  background: #f8f2f8;
+  background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  border-radius: max(10px, 1vw);
+  overflow: hidden;
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
@@ -87,13 +90,14 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: max(10px, 1vw);
 
-  background: #eee;
+  background: #f3ccc7;
 `
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
-  gap: 0.5rem;
+  gap: 0.3rem;
 
   position: relative;
   padding: 0.5rem 0.5rem 0;
@@ -110,20 +114,27 @@ const GridContainer = styled.div`
   gap: 0.5rem;
 `
 
+const NoMarginH3 = styled.h3`
+  margin: 0;
+`
+
 const LighterH5 = styled.h5`
   margin: 0;
   font-weight: lighter;
 `
+const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
+`
 
 const GridContainerColumn = styled(GridContainerGap)`
-  grid-template-columns: min-content auto;
-
+  grid-template-columns: repeat(3, 1fr);
   width: fit-content;
 `
 
-const NoMarginH3 = styled.h3`
+const NoMarginH4 = styled.h4`
   margin: 0;
-
+  font-weight: bold;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -132,7 +143,6 @@ const NoMarginH3 = styled.h3`
 const FlexContainerUl = styled.ul`
   display: flex;
   flex-flow: row wrap;
-
   list-style: none;
   padding-left: 0;
 `
@@ -140,9 +150,10 @@ const FlexContainerUl = styled.ul`
 export const BoldA = styled.a`
   font-size: 0.83em;
   font-weight: bold;
+  color: #fe6661;
   word-break: keep-all;
 
-  color: maroon;
+  color: 3c3c3c;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   :hover {
@@ -151,7 +162,7 @@ export const BoldA = styled.a`
 `
 
 const HorizontalBorder = styled.div`
-  border: 1px solid grey;
+  border: 1px solid #ddd;
 `
 
 const VerticalBorder = styled.div`
@@ -174,7 +185,7 @@ type Props2 = {
 export function MenuLoadingCard({ onlyImage }: Props2) {
   if (onlyImage) {
     return (
-      <GridContainerLi column1by2={false}>
+      <GridContainerLi onlyImage={true}>
         <ImageRatioWrapper paddingTop="100%">
           <SkeletonImage />
         </ImageRatioWrapper>
@@ -183,7 +194,7 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
   }
 
   return (
-    <GridContainerLi column1by2={true}>
+    <GridContainerLi onlyImage={false}>
       <ImageRatioWrapper paddingTop="100%">
         <SkeletonImage />
       </ImageRatioWrapper>
@@ -204,61 +215,52 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: TMenu
-  store: TStore
+  menu: MenusQuery['menus'][number]
   onlyImage: boolean
 }
 
 function MenuCard({ menu, onlyImage }: Props) {
   const goToStoreReviewsPage = useGoToPage(
-    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}}`
+    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
   )
-  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}}`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
+
+  const store = menu.store
 
   if (onlyImage) {
     return (
-      <GridContainerLi column1by2={false} onClick={goToStoreMenusPage}>
+      <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
         <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrl} alt="food" />
+          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
         </ImageRatioWrapper>
       </GridContainerLi>
     )
   }
 
   return (
-    <GridContainerLi column1by2={true} onClick={goToStoreMenusPage}>
+    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
       <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
-        <AbsolutePositionImage src={menu.imageUrl} alt="food" />
+        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
       </ImageRatioWrapper>
 
       <FlexContainerColumnBetween>
         <AbsolutePosition>
-          {menu.bookmark ? (
-            <BookmarkTwoToneIcon fontSize="large" />
+          {menu.favorite ? (
+            <BookmarkRoundedIcon fontSize="large" />
           ) : (
-            <BookmarkBorderTwoToneIcon fontSize="large" />
+            <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
           )}
         </AbsolutePosition>
         <GridContainer>
-          <GridContainerColumn>
-            <FlexContainerAlignCenter>
-              <LocationOnTwoToneIcon fontSize="small" />
-              <LighterH5>{menu.store.name}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <MotorcycleTwoToneIcon />
-              <LighterH5>{formatPricesWithFree(menu.store.deliveryFees)}</LighterH5>
-            </FlexContainerAlignCenter>
-          </GridContainerColumn>
           <NoMarginH3>{menu.name}</NoMarginH3>
           <FlexContainerUl>
-            {menu.hashtags.map((hashtag) => (
+            {menu.hashtags?.map((hashtag) => (
               <>
                 <li key={hashtag}>
                   <Link href={`/search/${hashtag.slice(1)}`}>
                     <BoldA
                       href={`/search/${hashtag.slice(1)}`}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e: any) => e.stopPropagation()}
                     >{`${hashtag}`}</BoldA>
                   </Link>
                 </li>
@@ -266,14 +268,28 @@ function MenuCard({ menu, onlyImage }: Props) {
               </>
             ))}
           </FlexContainerUl>
+          <GridContainerColumn>
+            <FlexContainerAlignCenter>
+              <LocationOnRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{store.name}</LighterH5>
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LighterH5>{`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}</LighterH5>
+            </FlexContainerAlignCenter>
+          </GridContainerColumn>
         </GridContainer>
         <GridContainer>
           <FlexContainerBetween>
             <FlexContainerAlignCenter>
-              <TimerRoundedIcon />
-              {`${menu.store.deliveryTimeMin}-${menu.store.deliveryTimeMax}분`}
+              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              {`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}
             </FlexContainerAlignCenter>
-            <NoMarginH3>{formatPrice(menu.price)}</NoMarginH3>
+            <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
           </FlexContainerBetween>
           <HorizontalBorder />
         </GridContainer>
@@ -281,23 +297,23 @@ function MenuCard({ menu, onlyImage }: Props) {
 
       <FlexContainerWrapAround>
         <FlexContainerAlignCenter>
-          <ThumbUpOutlinedIcon />
-          <div>{menu.likeRatio}%</div>
+          <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
+          <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <RateReviewTwoToneIcon />
-          <div>{formatNumber(menu.reviewCount)}개</div>
+          <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
+          <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <RefreshIcon />
-          <div>{menu.reorderRatio}%</div>
+          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+          <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
         </FlexContainerAlignCenter>
         <VerticalBorder />
         <FlexContainerAlignCenter>
-          <AssignmentTwoToneIcon />
-          <div>{formatNumber(menu.orderCount)}개</div>
+          <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+          <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
         </FlexContainerAlignCenter>
       </FlexContainerWrapAround>
     </GridContainerLi>

@@ -535,6 +535,8 @@ export type PostCardFragment = { __typename?: 'Post' } & Pick<
   | 'imageUrls'
 >
 
+export type StoreCardFragment = { __typename?: 'Store' } & Pick<Store, 'id' | 'name'>
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
@@ -557,6 +559,21 @@ export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & {
     favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+  }
+}
+
+export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
+
+export type FavoriteStoresQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & {
+    favoriteStores?: Maybe<
+      Array<
+        { __typename?: 'Store' } & Pick<
+          Store,
+          'id' | 'name' | 'minimumDeliveryTime' | 'maximumDeliveryTime' | 'minimumDeliveryAmount'
+        >
+      >
+    >
   }
 }
 
@@ -639,6 +656,12 @@ export const PostCardFragmentDoc = gql`
     commentCount
     likeCount
     imageUrls
+  }
+`
+export const StoreCardFragmentDoc = gql`
+  fragment storeCard on Store {
+    id
+    name
   }
 `
 export const LoginDocument = gql`
@@ -798,6 +821,59 @@ export type FavoriteMenusLazyQueryHookResult = ReturnType<typeof useFavoriteMenu
 export type FavoriteMenusQueryResult = Apollo.QueryResult<
   FavoriteMenusQuery,
   FavoriteMenusQueryVariables
+>
+export const FavoriteStoresDocument = gql`
+  query FavoriteStores {
+    me {
+      favoriteStores {
+        id
+        name
+        minimumDeliveryTime
+        maximumDeliveryTime
+        minimumDeliveryAmount
+      }
+    }
+  }
+`
+
+/**
+ * __useFavoriteStoresQuery__
+ *
+ * To run a query within a React component, call `useFavoriteStoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteStoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoriteStoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavoriteStoresQuery(
+  baseOptions?: Apollo.QueryHookOptions<FavoriteStoresQuery, FavoriteStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoriteStoresQuery, FavoriteStoresQueryVariables>(
+    FavoriteStoresDocument,
+    options
+  )
+}
+export function useFavoriteStoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteStoresQuery, FavoriteStoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoriteStoresQuery, FavoriteStoresQueryVariables>(
+    FavoriteStoresDocument,
+    options
+  )
+}
+export type FavoriteStoresQueryHookResult = ReturnType<typeof useFavoriteStoresQuery>
+export type FavoriteStoresLazyQueryHookResult = ReturnType<typeof useFavoriteStoresLazyQuery>
+export type FavoriteStoresQueryResult = Apollo.QueryResult<
+  FavoriteStoresQuery,
+  FavoriteStoresQueryVariables
 >
 export const MeDocument = gql`
   query Me {

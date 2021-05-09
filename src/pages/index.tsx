@@ -21,16 +21,10 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const PADDING_TOP = '3rem'
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -57,11 +51,6 @@ const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
 
-const StyledSlider = styled(Slider)`
-  margin-bottom: 3rem;
-  object-fit: cover;
-`
-
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
 `
@@ -84,6 +73,10 @@ const MiddleText = styled.div`
   margin: 0.5rem;
   border-radius: 1rem;
   background-color: #fff5f5;
+`
+const StyledSlider = styled(Slider)`
+  margin-bottom: 3rem;
+  object-fit: cover;
 `
 
 const BannerAd = styled.div`
@@ -141,6 +134,14 @@ function HomePage() {
   })
 
   const goToSearchPage = useGoToPage('/search')
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  }
 
   return (
     <PageHead>

@@ -79,6 +79,7 @@ function MyDeplePage() {
         <button
           onClick={() => {
             localStorage.removeItem('token')
+            sessionStorage.removeItem('token')
             refetchUser()
           }}
         >

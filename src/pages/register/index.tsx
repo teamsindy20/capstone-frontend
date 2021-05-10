@@ -2,15 +2,14 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
-import Link from 'next/link'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
-import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
+import { useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
-import useGoToPage from 'src/hooks/useGoToPage'
 import { useRouter } from 'next/router'
+import { GlobalContext } from '../_app'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -91,6 +90,7 @@ type FormValues = {
 }
 
 function RegisterPage() {
+  const { refetchUser } = useContext(GlobalContext)
   const router = useRouter()
 
   const [register, { loading }] = useRegisterMutation({
@@ -98,6 +98,7 @@ function RegisterPage() {
       if (data.register) {
         console.log(data.register)
         localStorage.setItem('token', data.register)
+        refetchUser()
         router.push('/')
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')

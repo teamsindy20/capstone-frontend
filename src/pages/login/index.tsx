@@ -2,7 +2,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { Input, Button, Checkbox } from 'antd'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import Link from 'next/link'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
@@ -10,6 +10,8 @@ import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { GridContainerColumn3, HeadMessage } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
+import { GlobalContext } from '../_app'
+import { useRouter } from 'next/router'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -104,6 +106,9 @@ type LoginFormValues = {
 }
 
 function LoginPage() {
+  const { refetchUser } = useContext(GlobalContext)
+  const router = useRouter()
+
   const {
     control,
     formState: { errors },
@@ -121,6 +126,8 @@ function LoginPage() {
         } else {
           sessionStorage.setItem('token', data.login)
         }
+        refetchUser()
+        router.push('/')
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }

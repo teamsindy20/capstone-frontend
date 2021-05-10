@@ -333,7 +333,7 @@ export type Query = {
   /** 특정 매장을 반환한다. */
   store?: Maybe<Store>
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me: User
+  me?: Maybe<User>
 }
 
 export type QueryMenusByCategoryArgs = {
@@ -576,23 +576,27 @@ export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'reg
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
-  }
+  me?: Maybe<
+    { __typename?: 'User' } & {
+      favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+    }
+  >
 }
 
 export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteStoresQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
-  }
+  me?: Maybe<
+    { __typename?: 'User' } & {
+      favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+    }
+  >
 }
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
 export type MeQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & Pick<User, 'id' | 'email'>
+  me?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'email'>>
 }
 
 export type MenusQueryVariables = Exact<{ [key: string]: never }>
@@ -633,9 +637,11 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
 export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type RegularStoresQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
-  }
+  me?: Maybe<
+    { __typename?: 'User' } & {
+      regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+    }
+  >
 }
 
 export type StorePostsQueryVariables = Exact<{

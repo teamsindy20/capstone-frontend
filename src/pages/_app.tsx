@@ -11,6 +11,8 @@ import { pageview } from 'src/utils/google-analytics'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -63,13 +65,10 @@ function GlobalProvider({ children }: GlobalProviderProps) {
 
   const user = data?.me
 
-  const value = useMemo(
-    () => ({
-      user,
-      refetchUser: refetch,
-    }),
-    [refetch, user]
-  )
+  const value = {
+    user,
+    refetchUser: refetch,
+  }
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }

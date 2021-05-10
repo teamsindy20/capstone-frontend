@@ -9,11 +9,10 @@ import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRo
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
 import { useState } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -23,8 +22,6 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 
 const PADDING_TOP = '3rem'
 
@@ -49,7 +46,7 @@ const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
-const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800] }
+const StyledTuneRoundedIcon = { fontSize: 30, color: '#ffffff' }
 
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -64,11 +61,12 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   //font-color: #3c3c3c;
 `
-const WrapIconDiv = styled.div`
-  font-size: 90px;
-  background-color: #fff;
-  border-radius: 50%;
-`
+
+// const WrapIconDiv = styled.div`
+//   font-size: 90px;
+//   background-color: #fff;
+//   border-radius: 50%;
+// `
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
@@ -88,9 +86,10 @@ const GridContainer = styled.div`
   align-items: center;
 `
 
-const SmallText = styled.div`
-  text-align: center;
-`
+// const SmallText = styled.div`
+//   text-align: center;
+// `
+
 const MiddleText = styled.div`
   text-align: center;
   padding: 0.5rem;
@@ -98,6 +97,7 @@ const MiddleText = styled.div`
   border-radius: 1rem;
   background-color: #fff5f5;
 `
+
 const StyledSlider = styled(Slider)`
   margin-bottom: 1rem;
   object-fit: cover;

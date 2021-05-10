@@ -16,7 +16,6 @@ import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { MenusQuery } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
-import red from '@material-ui/core/colors/red'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -260,8 +259,10 @@ function MenuCard({ menu, onlyImage }: Props) {
                   <Link href={`/search/${hashtag.slice(1)}`}>
                     <BoldA
                       href={`/search/${hashtag.slice(1)}`}
-                      onClick={(e: any) => e.stopPropagation()}
-                    >{`${hashtag}`}</BoldA>
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {hashtag}
+                    </BoldA>
                   </Link>
                 </li>
                 &nbsp;

@@ -177,8 +177,6 @@ const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  /* right: 50%;
-  transform: translateX(50%); */
   bottom: ${HEADER_HEIGHT};
   z-index: 1;
   width: 100%;
@@ -213,6 +211,8 @@ function HomePage() {
   })
 
   const goToSearchPage = useGoToPage('/search')
+
+  console.log(data?.menus.map((menu) => +menu.id))
 
   return (
     <PageHead>

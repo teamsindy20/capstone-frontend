@@ -189,8 +189,8 @@ function HomePage() {
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
   const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
-    onError: handleApolloError,
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
   })
 
   const isEventsLoading = networkStatus < 7
@@ -287,7 +287,7 @@ function HomePage() {
 
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
+            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} refetchMenus={refetch} />
           ))}
         </GridContainerUl>
         {(isEventsLoading || hasMoreMenus) && (

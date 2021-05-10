@@ -1,0 +1,3 @@
+mutation PickMenu($id: ID!) {
+  pickMenu(id: $id)
+}

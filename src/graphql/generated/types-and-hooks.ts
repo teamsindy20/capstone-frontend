@@ -567,6 +567,18 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never }>
 
 export type LogoutMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'logout'>
 
+export type PickMenuMutationVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type PickMenuMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'pickMenu'>
+
+export type PickStoreMutationVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type PickStoreMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'pickStore'>
+
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput
 }>
@@ -761,6 +773,87 @@ export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<
   LogoutMutation,
   LogoutMutationVariables
+>
+export const PickMenuDocument = gql`
+  mutation PickMenu($id: ID!) {
+    pickMenu(id: $id)
+  }
+`
+export type PickMenuMutationFn = Apollo.MutationFunction<
+  PickMenuMutation,
+  PickMenuMutationVariables
+>
+
+/**
+ * __usePickMenuMutation__
+ *
+ * To run a mutation, you first call `usePickMenuMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePickMenuMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pickMenuMutation, { data, loading, error }] = usePickMenuMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePickMenuMutation(
+  baseOptions?: Apollo.MutationHookOptions<PickMenuMutation, PickMenuMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<PickMenuMutation, PickMenuMutationVariables>(PickMenuDocument, options)
+}
+export type PickMenuMutationHookResult = ReturnType<typeof usePickMenuMutation>
+export type PickMenuMutationResult = Apollo.MutationResult<PickMenuMutation>
+export type PickMenuMutationOptions = Apollo.BaseMutationOptions<
+  PickMenuMutation,
+  PickMenuMutationVariables
+>
+export const PickStoreDocument = gql`
+  mutation PickStore($id: ID!) {
+    pickStore(id: $id)
+  }
+`
+export type PickStoreMutationFn = Apollo.MutationFunction<
+  PickStoreMutation,
+  PickStoreMutationVariables
+>
+
+/**
+ * __usePickStoreMutation__
+ *
+ * To run a mutation, you first call `usePickStoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePickStoreMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pickStoreMutation, { data, loading, error }] = usePickStoreMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePickStoreMutation(
+  baseOptions?: Apollo.MutationHookOptions<PickStoreMutation, PickStoreMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<PickStoreMutation, PickStoreMutationVariables>(
+    PickStoreDocument,
+    options
+  )
+}
+export type PickStoreMutationHookResult = ReturnType<typeof usePickStoreMutation>
+export type PickStoreMutationResult = Apollo.MutationResult<PickStoreMutation>
+export type PickStoreMutationOptions = Apollo.BaseMutationOptions<
+  PickStoreMutation,
+  PickStoreMutationVariables
 >
 export const RegisterDocument = gql`
   mutation Register($input: RegisterInput!) {

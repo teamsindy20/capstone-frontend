@@ -3,7 +3,6 @@ import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { Input, Button, Checkbox } from 'antd'
 import { useCallback, useContext } from 'react'
-import Link from 'next/link'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
@@ -12,6 +11,7 @@ import { GridContainerColumn3, HeadMessage } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -205,22 +205,17 @@ function LoginPage() {
           />
 
           <GridContainerColumn3>
-            <Link href="/register">
-              <a href="/register">
-                <Button type="link">회원가입</Button>
-              </a>
-            </Link>
+            <ClientSideLink href="/login">
+              <Button type="link">로그인</Button>
+            </ClientSideLink>
 
-            <Link href="/findid">
-              <a href="/findid">
-                <Button type="link">아이디찾기</Button>
-              </a>
-            </Link>
-            <Link href="/findpw">
-              <a href="/findpw">
-                <Button type="link">비밀번호찾기</Button>
-              </a>
-            </Link>
+            <ClientSideLink href="/find/email">
+              <Button type="link">아이디찾기</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/password">
+              <Button type="link">비밀번호찾기</Button>
+            </ClientSideLink>
           </GridContainerColumn3>
 
           <LoginButton disabled={loading} type="submit">

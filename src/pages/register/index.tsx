@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
 import { Button, Input } from 'antd'
 import { useContext, useCallback } from 'react'
-import Link from 'next/link'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -214,22 +214,17 @@ function RegisterPage() {
           </label>
 
           <GridContainerColumn3>
-            <Link href="/login">
-              <a href="/login">
-                <Button type="link">로그인</Button>
-              </a>
-            </Link>
+            <ClientSideLink href="/login">
+              <Button type="link">로그인</Button>
+            </ClientSideLink>
 
-            <Link href="/findid">
-              <a href="/findid">
-                <Button type="link">아이디찾기</Button>
-              </a>
-            </Link>
-            <Link href="/findpw">
-              <a href="/findpw">
-                <Button type="link">비밀번호찾기</Button>
-              </a>
-            </Link>
+            <ClientSideLink href="/find/email">
+              <Button type="link">아이디찾기</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/password">
+              <Button type="link">비밀번호찾기</Button>
+            </ClientSideLink>
           </GridContainerColumn3>
 
           <RegisterButton disabled={loading} type="submit">

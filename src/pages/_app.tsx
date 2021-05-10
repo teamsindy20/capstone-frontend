@@ -61,12 +61,15 @@ type GlobalProviderProps = {
 }
 
 function GlobalProvider({ children }: GlobalProviderProps) {
-  const { data, refetch } = useMeQuery({ onError: handleApolloError })
+  const { data, error, refetch } = useMeQuery({
+    notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
+  })
 
-  const user = data?.me
+  const user = error ? null : data?.me
 
   const value = {
-    user,
+    ...(user && { user }),
     refetchUser: refetch,
   }
 

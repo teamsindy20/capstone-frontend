@@ -333,7 +333,7 @@ export type Query = {
   /** 특정 매장을 반환한다. */
   store?: Maybe<Store>
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me?: Maybe<User>
+  me: User
 }
 
 export type QueryMenusByCategoryArgs = {
@@ -576,27 +576,23 @@ export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'reg
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
-  me?: Maybe<
-    { __typename?: 'User' } & {
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
       favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
     }
-  >
 }
 
 export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteStoresQuery = { __typename?: 'Query' } & {
-  me?: Maybe<
-    { __typename?: 'User' } & {
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
       favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
     }
-  >
 }
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
 export type MeQuery = { __typename?: 'Query' } & {
-  me?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'email'>>
+  me: { __typename?: 'User' } & Pick<User, 'id' | 'email'>
 }
 
 export type MenusQueryVariables = Exact<{ [key: string]: never }>
@@ -637,11 +633,9 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
 export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type RegularStoresQuery = { __typename?: 'Query' } & {
-  me?: Maybe<
-    { __typename?: 'User' } & {
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
       regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
     }
-  >
 }
 
 export type StorePostsQueryVariables = Exact<{
@@ -810,6 +804,7 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {
+      id
       favoriteMenus {
         ...menuCard
       }
@@ -860,6 +855,7 @@ export type FavoriteMenusQueryResult = Apollo.QueryResult<
 export const FavoriteStoresDocument = gql`
   query FavoriteStores {
     me {
+      id
       favoriteStores {
         ...storeCard
       }
@@ -1055,6 +1051,7 @@ export type PostsByAddressQueryResult = Apollo.QueryResult<
 export const RegularStoresDocument = gql`
   query RegularStores {
     me {
+      id
       regularStores {
         ...storeCard
       }

@@ -212,8 +212,6 @@ function HomePage() {
 
   const goToSearchPage = useGoToPage('/search')
 
-  console.log(data?.menus.map((menu) => +menu.id))
-
   return (
     <PageHead>
       <PageLayout>

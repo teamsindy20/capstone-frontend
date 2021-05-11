@@ -155,7 +155,6 @@ export const BoldA = styled.a`
   color: #fe6661;
   word-break: keep-all;
 
-  color: 3c3c3c;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   :hover {

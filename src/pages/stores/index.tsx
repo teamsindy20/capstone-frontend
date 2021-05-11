@@ -39,7 +39,7 @@ const description = '내가 찜한 매장 및 단골 매장을 모아서 볼 수
 
 function StoresPage() {
   const { user } = useContext(GlobalContext)
-
+d
   const favoriteStoresQueryResult = useFavoriteStoresQuery({
     onError: handleApolloError,
     skip: !user,

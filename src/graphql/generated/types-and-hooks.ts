@@ -576,17 +576,17 @@ export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'reg
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
-  }
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
+      favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+    }
 }
 
 export type FavoriteStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteStoresQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
-  }
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
+      favoriteStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+    }
 }
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
@@ -633,9 +633,9 @@ export type PostsByAddressQuery = { __typename?: 'Query' } & {
 export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
 
 export type RegularStoresQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & {
-    regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
-  }
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
+      regularStores?: Maybe<Array<{ __typename?: 'Store' } & StoreCardFragment>>
+    }
 }
 
 export type StorePostsQueryVariables = Exact<{
@@ -804,6 +804,7 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {
+      id
       favoriteMenus {
         ...menuCard
       }
@@ -854,6 +855,7 @@ export type FavoriteMenusQueryResult = Apollo.QueryResult<
 export const FavoriteStoresDocument = gql`
   query FavoriteStores {
     me {
+      id
       favoriteStores {
         ...storeCard
       }
@@ -1049,6 +1051,7 @@ export type PostsByAddressQueryResult = Apollo.QueryResult<
 export const RegularStoresDocument = gql`
   query RegularStores {
     me {
+      id
       regularStores {
         ...storeCard
       }

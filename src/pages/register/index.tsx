@@ -2,22 +2,30 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
-import Link from 'next/link'
-import { useCallback } from 'react'
-import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
-import { useLoginMutation, useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
+import { useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
-import useGoToPage from 'src/hooks/useGoToPage'
 import { useRouter } from 'next/router'
+import { GlobalContext } from '../_app'
+import { Button, Input } from 'antd'
+import { useContext, useCallback } from 'react'
+import Link from 'next/link'
 
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
 `
+
+export const GridContainerColumn3 = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  margin: 0.5rem 0;
+`
+
 const RegisterButton = styled.button`
   background-color: #ffc9c3;
   border: none;
@@ -91,13 +99,14 @@ type FormValues = {
 }
 
 function RegisterPage() {
+  const { refetchUser } = useContext(GlobalContext)
   const router = useRouter()
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
       if (data.register) {
-        console.log(data.register)
-        localStorage.setItem('token', data.register)
+        sessionStorage.setItem('token', data.register)
+        refetchUser()
         router.push('/')
       } else {
         console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
@@ -204,7 +213,28 @@ function RegisterPage() {
             <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
           </label>
 
-          <RegisterButton type="submit">확인</RegisterButton>
+          <GridContainerColumn3>
+            <Link href="/login">
+              <a href="/login">
+                <Button type="link">로그인</Button>
+              </a>
+            </Link>
+
+            <Link href="/findid">
+              <a href="/findid">
+                <Button type="link">아이디찾기</Button>
+              </a>
+            </Link>
+            <Link href="/findpw">
+              <a href="/findpw">
+                <Button type="link">비밀번호찾기</Button>
+              </a>
+            </Link>
+          </GridContainerColumn3>
+
+          <RegisterButton disabled={loading} type="submit">
+            확인
+          </RegisterButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

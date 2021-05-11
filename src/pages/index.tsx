@@ -122,7 +122,7 @@ const AdTextDiv = styled.div`
   font-size: 1.6rem;
 `
 
-const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
+export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};

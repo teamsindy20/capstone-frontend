@@ -7,7 +7,7 @@ import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLogin from 'src/components/NotLogin'
 import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
-import { PhotoOnlyButton } from 'src/pages'
+import { GridContainerUl, PhotoOnlyButton } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
 import { sleep } from 'src/utils/commons'
 
@@ -56,14 +56,16 @@ function UserFavoriteMenusPage() {
       <PageLayout>
         <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
 
-        {favoriteMenus?.map((favoriteMenu) => (
-          <MenuCard
-            key={favoriteMenu.id}
-            menu={favoriteMenu}
-            onlyImage={onlyImage}
-            refetchMenus={refetch}
-          />
-        ))}
+        <GridContainerUl onlyImage={onlyImage}>
+          {favoriteMenus?.map((favoriteMenu) => (
+            <MenuCard
+              key={favoriteMenu.id}
+              menu={favoriteMenu}
+              onlyImage={onlyImage}
+              refetchMenus={refetch}
+            />
+          ))}
+        </GridContainerUl>
         {(loading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />

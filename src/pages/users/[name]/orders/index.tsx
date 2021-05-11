@@ -18,7 +18,7 @@ const GridContainerUl = styled.ul`
 
 const description = '내가 지금까지 주문한 내역을 확인해보세요.'
 
-const StyledStoreRoundedIcon = { fontSize: 24, color: grey[800] }
+const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }
 
 const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
   justify-content: center;

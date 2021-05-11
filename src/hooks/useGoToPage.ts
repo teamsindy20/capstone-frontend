@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
-import { MouseEvent as ReactMouseEvent, useCallback } from 'react'
+import { MouseEvent, useCallback } from 'react'
 
 function useGoToPage(url: string) {
   const router = useRouter()
 
   const goToPage = useCallback(
-    (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
+    (e: MouseEvent) => {
       e.stopPropagation()
       router.push(url)
     },

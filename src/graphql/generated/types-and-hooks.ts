@@ -522,7 +522,16 @@ export type UserInfoInput = {
 
 export type MenuCardFragment = { __typename?: 'Menu' } & Pick<
   Menu,
-  'id' | 'name' | 'price' | 'imageUrls' | 'favorite' | 'hashtags'
+  | 'id'
+  | 'name'
+  | 'price'
+  | 'positiveReviewRatio'
+  | 'totalReviewCount'
+  | 'reorderRatio'
+  | 'totalOrderCount'
+  | 'imageUrls'
+  | 'favorite'
+  | 'hashtags'
 > & {
     store: { __typename?: 'Store' } & Pick<
       Store,
@@ -667,6 +676,10 @@ export const MenuCardFragmentDoc = gql`
     id
     name
     price
+    positiveReviewRatio
+    totalReviewCount
+    reorderRatio
+    totalOrderCount
     imageUrls
     favorite
     store {

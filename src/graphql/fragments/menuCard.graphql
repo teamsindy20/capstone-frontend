@@ -2,10 +2,10 @@ fragment menuCard on Menu {
   id
   name
   price
-  # positiveReviewRatio
-  # totalReviewCount
-  # reorderRatio
-  # totalOrderCount
+  positiveReviewRatio
+  totalReviewCount
+  reorderRatio
+  totalOrderCount
   imageUrls
   favorite
   store {

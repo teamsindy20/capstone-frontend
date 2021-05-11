@@ -15,7 +15,7 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { MenusQuery, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
@@ -218,7 +218,7 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: MenusQuery['menus'][number]
+  menu: MenuCardFragment
   onlyImage: boolean
   refetchMenus: () => Promise<unknown>
 }

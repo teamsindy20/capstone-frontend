@@ -6,12 +6,14 @@ const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
 function StoreMenusPage() {
   const router = useRouter()
-  const { name } = router.query
+  const storeName = router.query.name ?? ''
+
+  console.log(storeName)
 
   return (
-    <PageHead title="Deple - 매장 메뉴" description={`${name} ${description}`}>
+    <PageHead title="Deple - 매장 메뉴" description={` ${description}`}>
       <PageLayout>
-        <>{name}</>
+        <div></div>
       </PageLayout>
     </PageHead>
   )

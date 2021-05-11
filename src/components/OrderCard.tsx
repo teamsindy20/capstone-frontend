@@ -150,11 +150,9 @@ function OrderCard({ order, store }: Props) {
       </GridItemColumn2>
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
-        <Width100Button onClick={(e) => e.stopPropagation()}>재주문</Width100Button>
+        <Width100Button onClick={(e) => e.stopPropagation()}>재주문하기</Width100Button>
         {order.review && (
-          <Width100Button onClick={goToUserReviewPage(+order.review.id)}>
-            내 리뷰 보기
-          </Width100Button>
+          <Width100Button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</Width100Button>
         )}
       </GridContainerSpan2>
     </GridContainerLi>

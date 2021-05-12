@@ -19,6 +19,7 @@ import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/typ
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
+import ClientSideLink from './atoms/ClientSideLink'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -238,29 +239,33 @@ function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
     }
   }
 
-  const goToStoreReviewsPage = useGoToPage(
-    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
-  )
-
-  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
-
   const store = menu.store
+
+  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}-${store.id}`)
 
   if (onlyImage) {
     return (
       <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
-        <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-        </ImageRatioWrapper>
+        <div onClick={stopPropagation} role="alert">
+          <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+            <ImageRatioWrapper paddingTop="100%">
+              <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
+            </ImageRatioWrapper>
+          </ClientSideLink>
+        </div>
       </GridContainerLi>
     )
   }
 
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
-      <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
-        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-      </ImageRatioWrapper>
+      <div onClick={stopPropagation} role="alert">
+        <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+          <ImageRatioWrapper paddingTop="100%">
+            <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
+          </ImageRatioWrapper>
+        </ClientSideLink>
+      </div>
 
       <FlexContainerColumnBetween>
         <AbsolutePosition>

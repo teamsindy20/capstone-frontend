@@ -12,6 +12,8 @@ import { GridContainerColumn3, HeadMessage } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -143,6 +145,8 @@ function LoginPage() {
     [login]
   )
 
+  const notify = () => toast('Wow so easy!')
+
   return (
     <PageHead>
       <LoginPageLayout>
@@ -222,7 +226,8 @@ function LoginPage() {
               </a>
             </Link>
           </GridContainerColumn3>
-
+          <button onClick={notify}>Notify!</button>
+          <ToastContainer />
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>

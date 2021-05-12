@@ -39,6 +39,7 @@
     "react-hook-form": "^7.3.6",
     "react-infinite-scroll-hook": "^4.0.1",
     "react-slick": "^0.28.1",
+    "react-toastify": "^7.0.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.3"
   },

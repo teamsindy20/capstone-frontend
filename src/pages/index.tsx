@@ -22,6 +22,7 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const PADDING_TOP = '3rem'
 
@@ -121,7 +122,7 @@ const AdTextDiv = styled.div`
   font-size: 1.6rem;
 `
 
-const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
+export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
@@ -158,7 +159,7 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-const PhotoOnlyButton = styled.button`
+export const PhotoOnlyButton = styled.button`
   background-color: #f3c7ab;
   align-items: center;
   font-size: 13px;
@@ -189,11 +190,12 @@ function HomePage() {
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
   const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
-    onError: handleApolloError,
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
   })
 
-  const isEventsLoading = networkStatus < 7
+  const isMenusLoading = networkStatus < 7
 
   async function fetchMoreMenus() {
     if (data?.menus.length) {
@@ -205,19 +207,19 @@ function HomePage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isEventsLoading,
+    loading: isMenusLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
-
-  const goToSearchPage = useGoToPage('/search')
 
   return (
     <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
           <div>
-            <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
+            <ClientSideLink href="/users/username/menus">
+              <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
+            </ClientSideLink>
             <TuneRoundedIcon style={StyledTuneRoundedIcon} />
           </div>
           <FlexContainerAlignCenter>
@@ -226,7 +228,9 @@ function HomePage() {
             <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
           </FlexContainerAlignCenter>
           <div>
-            <SearchRoundedIcon style={StyledSearchRoundedIcon} onClick={goToSearchPage as any} />
+            <ClientSideLink href="/search">
+              <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+            </ClientSideLink>
             <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
           </div>
         </FlexContainerBetweenCenter>
@@ -287,10 +291,10 @@ function HomePage() {
 
         <GridContainerUl onlyImage={onlyImage}>
           {data?.menus.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
+            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} refetchMenus={refetch} />
           ))}
         </GridContainerUl>
-        {(isEventsLoading || hasMoreMenus) && (
+        {(isMenusLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

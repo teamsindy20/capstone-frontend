@@ -1,0 +1,3 @@
+mutation PickStore($id: ID!) {
+  pickStore(id: $id)
+}

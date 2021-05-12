@@ -7,6 +7,7 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
+import { MouseEvent } from 'react'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -14,9 +15,10 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { MenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
+import { handleApolloError } from 'src/apollo/error'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -153,7 +155,6 @@ export const BoldA = styled.a`
   color: #fe6661;
   word-break: keep-all;
 
-  color: 3c3c3c;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   :hover {
@@ -177,6 +178,8 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   grid-column: auto / span 2;
   padding: min(2vw, 0.5rem);
 `
+
+const BookmarkBorderRoundedIconStyle = { fontSize: 25, color: grey[800] }
 
 type Props2 = {
   onlyImage: boolean
@@ -215,14 +218,30 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: MenusQuery['menus'][number]
+  menu: MenuCardFragment
   onlyImage: boolean
+  refetchMenus: () => Promise<unknown>
 }
 
-function MenuCard({ menu, onlyImage }: Props) {
+function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
+  const [pickMenuMutation, { loading }] = usePickMenuMutation({
+    onCompleted: () => {
+      refetchMenus()
+    },
+    onError: handleApolloError,
+  })
+
+  function pickMenu(e: MouseEvent) {
+    e.stopPropagation()
+    if (!loading) {
+      pickMenuMutation({ variables: { id: menu.id } })
+    }
+  }
+
   const goToStoreReviewsPage = useGoToPage(
     `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
   )
+
   const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
 
   const store = menu.store
@@ -246,9 +265,9 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <BookmarkRoundedIcon fontSize="large" />
+            <BookmarkRoundedIcon fontSize="large" onClick={pickMenu} />
           ) : (
-            <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
+            <BookmarkBorderRoundedIcon style={BookmarkBorderRoundedIconStyle} onClick={pickMenu} />
           )}
         </AbsolutePosition>
         <GridContainer>

@@ -11,6 +11,8 @@ import { GlobalContext } from '../_app'
 import { Button, Input } from 'antd'
 import { useContext, useCallback } from 'react'
 import Link from 'next/link'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -109,7 +111,8 @@ function RegisterPage() {
         refetchUser()
         router.push('/')
       } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        // console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        toast('이메일 또는 비밀번호를 잘못 입력했습니다.')
       }
     },
     onError: handleApolloError,
@@ -140,13 +143,15 @@ function RegisterPage() {
     [register]
   )
 
+  const notify = () => toast('디저트핏에 가입한 것을 환영합니다!')
+
   return (
     <PageHead>
       <LoginPageLayout>
         <HeadMessage>
-          내가 원하는 디저트를
+          내게 딱 맞는
           <br />
-          쉽고 빠르게
+          디저트 핏 ?!
           <br />
           <b>신디에 가입해보세요.</b>
         </HeadMessage>
@@ -202,7 +207,7 @@ function RegisterPage() {
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 재입력해주세요."
+                  placeholder="비밀번호를 다시 한 번 입력해주세요."
                   size="large"
                   type="password"
                   {...field}
@@ -232,9 +237,10 @@ function RegisterPage() {
             </Link>
           </GridContainerColumn3>
 
-          <RegisterButton disabled={loading} type="submit">
+          <RegisterButton disabled={loading} type="submit" onClick={notify}>
             확인
           </RegisterButton>
+          <ToastContainer />
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

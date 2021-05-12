@@ -41,10 +41,13 @@ function StoresPage() {
   const { user } = useContext(GlobalContext)
 
   const favoriteStoresQueryResult = useFavoriteStoresQuery({
+    fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
   })
+
   const regularStoresQueryResult = useRegularStoresQuery({
+    fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
   })

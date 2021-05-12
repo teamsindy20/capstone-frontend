@@ -8,6 +8,7 @@ module.exports = withPWA({
   },
   images: {
     domains: [
+      'gramho.com',
       'mp-seoul-image-production-s3.mangoplate.com',
       'cdn.crowdpic.net',
       'www.smlounge.co.kr',

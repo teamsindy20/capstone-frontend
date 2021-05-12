@@ -1,7 +1,7 @@
 import Inko from 'inko'
 import { KeyboardEvent, MouseEvent } from 'react'
 
-export function preventAndStopEnterPropagation(e: KeyboardEvent<HTMLElement>) {
+export function preventAndStopEnterPropagation(e: KeyboardEvent) {
   if (e.key === 'Enter') {
     e.preventDefault()
     e.stopPropagation()

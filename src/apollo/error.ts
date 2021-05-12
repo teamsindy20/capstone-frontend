@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client'
+import { ToastContainer, toast } from 'react-toastify'
 
 export function handleApolloError(error: ApolloError) {
-  console.warn(error.message)
+  toast(error.message)
 }

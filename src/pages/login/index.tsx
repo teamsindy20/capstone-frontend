@@ -120,6 +120,8 @@ function LoginPage() {
     defaultValues: { email: '', password: '', remember: true },
   })
 
+  // const notify = () => toast('Wow so easy!')
+
   const [login, { loading }] = useLoginMutation({
     onCompleted: (data) => {
       if (data.login) {
@@ -131,7 +133,17 @@ function LoginPage() {
         refetchUser()
         router.push('/')
       } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        // console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        toast('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        // toast.error('🦄 이메일 또는 비밀번호를 잘못 입력했습니다.', {
+        //   position: 'top-right',
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // })
       }
     },
     onError: handleApolloError,
@@ -144,8 +156,6 @@ function LoginPage() {
     },
     [login]
   )
-
-  const notify = () => toast('Wow so easy!')
 
   return (
     <PageHead>
@@ -226,8 +236,18 @@ function LoginPage() {
               </a>
             </Link>
           </GridContainerColumn3>
-          <button onClick={notify}>Notify!</button>
-          <ToastContainer />
+
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>

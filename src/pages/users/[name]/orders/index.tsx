@@ -58,7 +58,6 @@ function UserOrdersPage() {
             <NoMarginH3>주문내역</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
-        
         <GridContainerUl>
           {orders.map((order) => (
             <OrderCard key={order.id} order={order} store={order.store} />

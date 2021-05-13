@@ -1,12 +1,12 @@
 {
   "GraphQL Query": {
     "prefix": "query",
-    "body": ["query ${TM_FILENAME_BASE} {", "  ${TM_FILENAME_BASE} {", "    $1", "  }", "}", ""],
+    "body": ["query ${TM_FILENAME_BASE} {", "  $1 {", "    $2", "  }", "}", ""],
     "description": "GraphQL Query"
   },
   "GraphQL Mutation": {
     "prefix": "mutation",
-    "body": ["mutation ${TM_FILENAME_BASE} {", "  ${TM_FILENAME_BASE} {", "    $1", "  }", "}", ""],
+    "body": ["mutation ${TM_FILENAME_BASE} {", "  $1 {", "    $2", "  }", "}", ""],
     "description": "GraphQL Mutation"
   }
 }

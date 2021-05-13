@@ -7,7 +7,7 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { MouseEvent } from 'react'
+import { Fragment, MouseEvent } from 'react'
 import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -180,7 +180,8 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   padding: min(2vw, 0.5rem);
 `
 
-const BookmarkBorderRoundedIconStyle = { fontSize: 25, color: grey[800] }
+const StyledBookmarkBorderRoundedIcon = { fontSize: 25, color: grey[800] }
+const StyledLocationOnRoundedIcon = { fontSize: 18, color: grey[800] }
 
 type Props2 = {
   onlyImage: boolean
@@ -257,6 +258,8 @@ function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
     )
   }
 
+  // return <div></div>
+
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
       <div onClick={stopPropagation} role="alert">
@@ -272,15 +275,15 @@ function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
           {menu.favorite ? (
             <BookmarkRoundedIcon fontSize="large" onClick={pickMenu} />
           ) : (
-            <BookmarkBorderRoundedIcon style={BookmarkBorderRoundedIconStyle} onClick={pickMenu} />
+            <BookmarkBorderRoundedIcon style={StyledBookmarkBorderRoundedIcon} onClick={pickMenu} />
           )}
         </AbsolutePosition>
         <GridContainer>
           <NoMarginH3>{menu.name}</NoMarginH3>
           <FlexContainerUl>
             {menu.hashtags?.map((hashtag) => (
-              <>
-                <li key={hashtag}>
+              <Fragment key={hashtag}>
+                <li>
                   <Link href={`/search/${hashtag.slice(1)}`}>
                     <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
                       {hashtag}
@@ -288,12 +291,12 @@ function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
                   </Link>
                 </li>
                 &nbsp;
-              </>
+              </Fragment>
             ))}
           </FlexContainerUl>
           <GridContainerColumn>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
               <LighterH5>{store.name}</LighterH5>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>

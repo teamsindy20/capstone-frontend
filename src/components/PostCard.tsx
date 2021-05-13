@@ -154,7 +154,9 @@ function PostCard({ post }: Props) {
           <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" />
         </div>
         <TextInCard>
-          {post.contents.map((content) => (content ? <NoMarginP>{content}</NoMarginP> : <br />))}
+          {post.contents.map((content, i) =>
+            content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
+          )}
         </TextInCard>
       </GridInCardColumn2>
       <FlexContainerBottomCard>

@@ -143,13 +143,15 @@ function RegisterPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <HeadMessage>
-          내가 원하는 디저트를
-          <br />
-          쉽고 빠르게
-          <br />
-          <b>신디에 가입해보세요.</b>
-        </HeadMessage>
+        <ClientSideLink href="/">
+          <HeadMessage>
+            내가 원하는 디저트를
+            <br />
+            쉽고 빠르게
+            <br />
+            <b>신디에 가입해보세요.</b>
+          </HeadMessage>
+        </ClientSideLink>
 
         <HeadRegister>SIGN UP</HeadRegister>
 
@@ -219,11 +221,11 @@ function RegisterPage() {
             </ClientSideLink>
 
             <ClientSideLink href="/find/email">
-              <Button type="link">아이디찾기</Button>
+              <Button type="link">아이디 찾기</Button>
             </ClientSideLink>
 
             <ClientSideLink href="/find/password">
-              <Button type="link">비밀번호찾기</Button>
+              <Button type="link">비밀번호 찾기</Button>
             </ClientSideLink>
           </GridContainerColumn3>
 

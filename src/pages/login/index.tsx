@@ -146,11 +146,13 @@ function LoginPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <HeadMessage>
-          내가 원하는 디저트를
-          <br />
-          쉽고 빠르게!
-        </HeadMessage>
+        <ClientSideLink href="/">
+          <HeadMessage>
+            내가 원하는 디저트를
+            <br />
+            쉽고 빠르게!
+          </HeadMessage>
+        </ClientSideLink>
 
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <HeadLogin>LOGIN</HeadLogin>
@@ -205,16 +207,16 @@ function LoginPage() {
           />
 
           <GridContainerColumn3>
-            <ClientSideLink href="/login">
-              <Button type="link">로그인</Button>
+            <ClientSideLink href="/register">
+              <Button type="link">회원가입</Button>
             </ClientSideLink>
 
             <ClientSideLink href="/find/email">
-              <Button type="link">아이디찾기</Button>
+              <Button type="link">아이디 찾기</Button>
             </ClientSideLink>
 
             <ClientSideLink href="/find/password">
-              <Button type="link">비밀번호찾기</Button>
+              <Button type="link">비밀번호 찾기</Button>
             </ClientSideLink>
           </GridContainerColumn3>
 

@@ -11,7 +11,7 @@ import { GlobalContext } from '../_app'
 import { Button, Input } from 'antd'
 import { useContext, useCallback } from 'react'
 import Link from 'next/link'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const GridContainerForm = styled.form`
@@ -106,14 +106,10 @@ function RegisterPage() {
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      if (data.register) {
-        sessionStorage.setItem('token', data.register)
-        refetchUser()
-        router.push('/')
-      } else {
-        // console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
-        toast('이메일 또는 비밀번호를 잘못 입력했습니다.')
-      }
+      toast.success('회원가입에 성공했어요. 회원정보를 기반으로 자동으로 로그인됐어요.')
+      sessionStorage.setItem('token', data.register)
+      refetchUser()
+      router.push('/')
     },
     onError: handleApolloError,
   })
@@ -240,7 +236,6 @@ function RegisterPage() {
           <RegisterButton disabled={loading} type="submit" onClick={notify}>
             확인
           </RegisterButton>
-          <ToastContainer />
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

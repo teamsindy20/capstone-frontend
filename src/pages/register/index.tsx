@@ -105,7 +105,7 @@ function RegisterPage() {
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      toast.success('회원가입에 성공했어요. 회원정보를 기반으로 자동으로 로그인됐어요.')
+      toast.success('디저트핏에 가입한 것을 환영합니다!')
       sessionStorage.setItem('token', data.register)
       refetchUser()
       router.push(decodeURI((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
@@ -138,7 +138,7 @@ function RegisterPage() {
     [register]
   )
 
-  const notify = () => toast('디저트핏에 가입하신 것을 환영합니다!')
+  const notify = () => toast('디저트핏에 가입한 것을 환영합니다!')
 
   return (
     <PageHead>
@@ -229,7 +229,7 @@ function RegisterPage() {
             </ClientSideLink>
           </GridContainerColumn3>
 
-          <RegisterButton disabled={loading} type="submit" onClick={notify}>
+          <RegisterButton disabled={loading} type="submit">
             확인
           </RegisterButton>
         </GridContainerForm>

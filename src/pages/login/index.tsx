@@ -13,7 +13,6 @@ import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const GridContainerForm = styled.form`
   display: grid;

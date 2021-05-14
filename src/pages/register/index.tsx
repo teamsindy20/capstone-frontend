@@ -12,7 +12,6 @@ import { Button, Input } from 'antd'
 import { useContext, useCallback } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const GridContainerForm = styled.form`
   display: grid;

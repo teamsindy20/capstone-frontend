@@ -12,6 +12,7 @@ import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import 'react-toastify/dist/ReactToastify.min.css'
 import { ToastContainer } from 'react-toastify'
 
 const GlobalStyle = createGlobalStyle`

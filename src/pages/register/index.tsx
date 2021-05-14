@@ -138,7 +138,7 @@ function RegisterPage() {
     [register]
   )
 
-  const notify = () => toast('디저트핏에 가입한 것을 환영합니다!')
+  const notify = () => toast('디저트핏에 가입하신 것을 환영합니다!')
 
   return (
     <PageHead>

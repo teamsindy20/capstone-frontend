@@ -14,6 +14,8 @@ import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
+// import { signIn, signOut, useSession } from 'next-auth/client'
+
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
@@ -119,28 +121,17 @@ function LoginPage() {
     defaultValues: { email: '', password: '', remember: true },
   })
 
-  // const notify = () => toast('Wow so easy!')
-
   const [login, { loading }] = useLoginMutation({
     onCompleted: (data) => {
       toast.success('로그인에 성공했어요.')
-      if (data.login) {
+
+      if (getValues('remember')) {
         localStorage.setItem('token', data.login)
       } else {
         sessionStorage.setItem('token', data.login)
       }
       refetchUser()
-      router.push('/')
-
-      // toast.error('🦄 이메일 또는 비밀번호를 잘못 입력했습니다.', {
-      //   position: 'top-right',
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // })
+      router.push(decodeURI((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })
@@ -235,7 +226,14 @@ function LoginPage() {
           </LoginButton>
           <SNSLoginButton>카카오톡으로 로그인하기</SNSLoginButton>
           <SNSLoginButton>네이버로 로그인하기</SNSLoginButton>
-          <SNSLoginButton>구글로 로그인하기</SNSLoginButton>
+          <SNSLoginButton /* onClick={() => signIn()} */>구글로 로그인하기</SNSLoginButton>
+          <a
+            href="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fiam.test&response_type=code&client_id=474655697521-d85qu38fas6r0pumm6llt59d208n5nuf.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fgoogle"
+            target="_blank"
+            rel="noreferrer"
+          >
+            구글 로그인
+          </a>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

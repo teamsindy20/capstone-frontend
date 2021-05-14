@@ -108,7 +108,7 @@ function RegisterPage() {
       toast.success('회원가입에 성공했어요. 회원정보를 기반으로 자동으로 로그인됐어요.')
       sessionStorage.setItem('token', data.register)
       refetchUser()
-      router.push('/')
+      router.push(decodeURI((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })

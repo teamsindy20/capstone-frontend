@@ -131,7 +131,7 @@ function LoginPage() {
         sessionStorage.setItem('token', data.login)
       }
       refetchUser()
-      router.push(decodeURI((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
+      router.push(decodeURI((router.query.afterLoginGoTo as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })
@@ -149,9 +149,9 @@ function LoginPage() {
       <LoginPageLayout>
         <ClientSideLink href="/">
           <HeadMessage>
-            내가 원하는 디저트를
+            내게 딱 맞는
             <br />
-            쉽고 빠르게!
+            디저트 핏!
           </HeadMessage>
         </ClientSideLink>
 

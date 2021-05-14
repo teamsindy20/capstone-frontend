@@ -35,7 +35,7 @@ const NoMarginH3 = styled.h3`
   margin: 0;
 `
 
-const description = '내가 찜한 매장 또는 단골 매장을 모아서 볼 수 있어요.'
+const description = '내가 찜한 매장 및 단골 매장을 모아서 볼 수 있어요.'
 
 function StoresPage() {
   const { user } = useContext(GlobalContext)

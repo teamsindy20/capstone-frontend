@@ -11,6 +11,10 @@ import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
 import styles from '../styles/NextImage.module.css'
 import { SkeletonImage, SkeletonText } from './MenuCard'
+import Button from '@material-ui/core/Button'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
 
 const GridContainerLi = styled.li`
   display: grid;
@@ -138,7 +142,7 @@ function OrderCard({ order, store }: Props) {
         <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
         <ul>
           {order.menus.map((menu) => (
-            <li key={menu.id}>{menu.name}</li>
+            <li key={menu.id}>- {menu.name}</li>
           ))}
         </ul>
         <div>{formatOrderDate(order.orderDate)}</div>
@@ -146,15 +150,27 @@ function OrderCard({ order, store }: Props) {
       </div>
       <GridItemColumn2>
         {`${formatRegularOrderDate(order.regularOrderDate)}까지 
-        ${order.regularOrderCount}회 주문 시 단골 등극`}
+        ${order.regularOrderCount}번 만 더 주문하면 단골이 될 수 있어요!`}
       </GridItemColumn2>
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
-        <Width100Button onClick={(e) => e.stopPropagation()}>재주문</Width100Button>
+        <Button
+          onClick={(e) => e.stopPropagation()}
+          variant="contained"
+          color="primary"
+          startIcon={<ReplayRoundedIcon />}
+        >
+          재주문하기
+        </Button>
         {order.review && (
-          <Width100Button onClick={goToUserReviewPage(+order.review.id)}>
-            내 리뷰 보기
-          </Width100Button>
+          <Button
+            onClick={goToUserReviewPage(+order.review.id)}
+            variant="contained"
+            color="primary"
+            startIcon={<RateReviewRoundedIcon />}
+          >
+            리뷰쓰기
+          </Button>
         )}
       </GridContainerSpan2>
     </GridContainerLi>

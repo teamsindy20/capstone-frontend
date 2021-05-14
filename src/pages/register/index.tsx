@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
 import { Button, Input } from 'antd'
 import { useContext, useCallback } from 'react'
+import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerForm = styled.form`
@@ -104,13 +105,10 @@ function RegisterPage() {
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      if (data.register) {
-        sessionStorage.setItem('token', data.register)
-        refetchUser()
-        router.push('/')
-      } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
-      }
+      toast.success('회원가입에 성공했어요. 회원정보를 기반으로 자동으로 로그인됐어요.')
+      sessionStorage.setItem('token', data.register)
+      refetchUser()
+      router.push('/')
     },
     onError: handleApolloError,
   })
@@ -140,14 +138,16 @@ function RegisterPage() {
     [register]
   )
 
+  const notify = () => toast('디저트핏에 가입한 것을 환영합니다!')
+
   return (
     <PageHead>
       <LoginPageLayout>
         <ClientSideLink href="/">
           <HeadMessage>
-            내가 원하는 디저트를
+            내게 딱 맞는
             <br />
-            쉽고 빠르게
+            디저트 핏!
             <br />
             <b>신디에 가입해보세요.</b>
           </HeadMessage>
@@ -204,7 +204,7 @@ function RegisterPage() {
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 재입력해주세요."
+                  placeholder="비밀번호를 다시 한 번 입력해주세요."
                   size="large"
                   type="password"
                   {...field}
@@ -229,7 +229,7 @@ function RegisterPage() {
             </ClientSideLink>
           </GridContainerColumn3>
 
-          <RegisterButton disabled={loading} type="submit">
+          <RegisterButton disabled={loading} type="submit" onClick={notify}>
             확인
           </RegisterButton>
         </GridContainerForm>

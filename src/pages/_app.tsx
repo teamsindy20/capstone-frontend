@@ -2,9 +2,8 @@ import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { createContext, ReactNode, useEffect, useMemo } from 'react'
+import { createContext, ReactNode, useEffect } from 'react'
 import { client } from 'src/apollo/client'
-import { handleApolloError } from 'src/apollo/error'
 import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
@@ -13,6 +12,8 @@ import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+import { ToastContainer } from 'react-toastify'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -63,7 +64,6 @@ type GlobalProviderProps = {
 function GlobalProvider({ children }: GlobalProviderProps) {
   const { data, error, refetch } = useMeQuery({
     notifyOnNetworkStatusChange: true,
-    onError: handleApolloError,
   })
 
   const user = error ? null : data?.me
@@ -105,6 +105,7 @@ function DepleApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </GlobalProvider>
       </ApolloProvider>
+      <ToastContainer position="top-center" />
     </>
   )
 }

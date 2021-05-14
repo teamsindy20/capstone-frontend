@@ -18,7 +18,9 @@ const GridContainerUl = styled.ul`
   gap: 3rem;
 `
 
-const StyledStoreRoundedIcon = { fontSize: 24, color: grey[800] }
+const description = '내가 지금까지 주문한 내역을 확인해보세요.'
+
+const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }
 
 const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
   justify-content: center;
@@ -72,7 +74,6 @@ function UserOrdersPage() {
             <NoMarginH3>주문내역</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
-        <h2>주문 내역</h2>
         <GridContainerUl>
           {orders.map((order) => (
             <OrderCard key={order.id} order={order} store={order.store} />

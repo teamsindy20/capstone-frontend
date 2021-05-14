@@ -11,6 +11,7 @@ import { GridContainerColumn3, HeadMessage } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerForm = styled.form`
@@ -118,19 +119,28 @@ function LoginPage() {
     defaultValues: { email: '', password: '', remember: true },
   })
 
+  // const notify = () => toast('Wow so easy!')
+
   const [login, { loading }] = useLoginMutation({
     onCompleted: (data) => {
+      toast.success('로그인에 성공했어요.')
       if (data.login) {
-        if (getValues('remember')) {
-          localStorage.setItem('token', data.login)
-        } else {
-          sessionStorage.setItem('token', data.login)
-        }
-        refetchUser()
-        router.push('/')
+        localStorage.setItem('token', data.login)
       } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
+        sessionStorage.setItem('token', data.login)
       }
+      refetchUser()
+      router.push('/')
+
+      // toast.error('🦄 이메일 또는 비밀번호를 잘못 입력했습니다.', {
+      //   position: 'top-right',
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // })
     },
     onError: handleApolloError,
   })

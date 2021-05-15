@@ -12,17 +12,18 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
-import { sleep } from 'src/utils/commons'
+import { sleep, stopPropagation } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import Link from 'next/link'
 
 const PADDING_TOP = '3rem'
 
@@ -190,15 +191,16 @@ function HomePage() {
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
   const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
-    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     onError: handleApolloError,
   })
 
-  const isMenusLoading = networkStatus < 7
+  const menus = data?.menus
+  // const preferences = data?.me.preferences
+  const isMenusPreferencesLoading = networkStatus < 7
 
   async function fetchMoreMenus() {
-    if (data?.menus.length) {
+    if (menus?.length) {
       await sleep(5000) // fetchMore({ variables: { from, count } })
       setHasMoreMenus(false)
     } else {
@@ -207,7 +209,7 @@ function HomePage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isMenusLoading,
+    loading: isMenusPreferencesLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
@@ -231,7 +233,9 @@ function HomePage() {
             <ClientSideLink href="/search">
               <SearchRoundedIcon style={StyledSearchRoundedIcon} />
             </ClientSideLink>
-            <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+            <ClientSideLink href="/users/username/notifications">
+              <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+            </ClientSideLink>
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
@@ -287,14 +291,34 @@ function HomePage() {
           <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         </GridContainer>
 
-        <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
+        {/* <MiddleText>
+          김빵순님이 설정하신 취향 :{' '}
+          {preferences ? (
+            preferences?.map((hashtag) => (
+              <Fragment key={hashtag}>
+                <li>
+                  <Link href={`/search/${hashtag.slice(1)}`}>
+                    <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      {hashtag}
+                    </BoldA>
+                  </Link>
+                </li>
+                &nbsp;
+              </Fragment>
+            ))
+          ) : (
+            <div>
+              아직 없어요. <a href="/users">취향 설정하러 가기</a>
+            </div>
+          )}
+        </MiddleText> */}
 
         <GridContainerUl onlyImage={onlyImage}>
-          {data?.menus.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} refetchMenus={refetch} />
+          {menus?.map((menu) => (
+            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isMenusLoading || hasMoreMenus) && (
+        {(isMenusPreferencesLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

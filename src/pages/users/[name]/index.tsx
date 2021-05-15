@@ -21,8 +21,12 @@ const GridContainerUl = styled.ul`
 const description = '내 취향이 반영된 나만의 Deple을 만나보세요.'
 
 function MyDeplePage() {
-  const { user, refetchUser } = useContext(GlobalContext)
+  const { user, loading, refetchUser } = useContext(GlobalContext)
   const { query } = useRouter()
+
+  if (loading) {
+    return '사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기'
+  }
 
   if (!user) {
     return (

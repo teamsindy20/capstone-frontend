@@ -52,17 +52,22 @@ const GlobalStyle = createGlobalStyle`
 
 type GlobalContextValues = {
   user?: MeQuery['me']
+  loading: boolean
   refetchUser: () => Promise<unknown>
 }
 
-export const GlobalContext = createContext<GlobalContextValues>({ refetchUser: async () => null })
+export const GlobalContext = createContext<GlobalContextValues>({
+  loading: false,
+  refetchUser: async () => null,
+})
 
 type GlobalProviderProps = {
   children: ReactNode
 }
 
 function GlobalProvider({ children }: GlobalProviderProps) {
-  const { data, error, refetch } = useMeQuery({
+  const { data, error, networkStatus, refetch } = useMeQuery({
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   })
 
@@ -70,6 +75,7 @@ function GlobalProvider({ children }: GlobalProviderProps) {
 
   const value = {
     ...(user && { user }),
+    loading: networkStatus < 7,
     refetchUser: refetch,
   }
 

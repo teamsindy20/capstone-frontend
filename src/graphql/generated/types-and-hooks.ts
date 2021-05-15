@@ -25,6 +25,28 @@ export type Scalars = {
   URL: any
 }
 
+export type Coupon = {
+  __typename?: 'Coupon'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  type: Scalars['String']
+  discountAmount: Scalars['Int']
+  minimumOrderAmount: Scalars['Int']
+  expirationStartDate: Scalars['DateTime']
+  expirationEndDate: Scalars['DateTime']
+  isUsed: Scalars['Boolean']
+  /** nullable */
+  orderId?: Maybe<Scalars['ID']>
+  storeId?: Maybe<Scalars['ID']>
+  userId?: Maybe<Scalars['ID']>
+  /** from other table - nullable */
+  order?: Maybe<Order>
+  store?: Maybe<Store>
+  user?: Maybe<User>
+}
+
 export type Menu = {
   __typename?: 'Menu'
   id: Scalars['ID']
@@ -61,6 +83,7 @@ export type Menu = {
   storeId: Scalars['ID']
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -107,6 +130,18 @@ export type MenuModificationInput = {
   options?: Maybe<Array<MenuOptionInput>>
 }
 
+export type MenuOption = {
+  __typename?: 'MenuOption'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  price: Scalars['Int']
+  menuId: Scalars['ID']
+  /** from other table */
+  menu: Menu
+}
+
 export type MenuOptionInput = {
   name: Scalars['String']
   price: Scalars['Int']
@@ -133,7 +168,9 @@ export type Mutation = {
   /**
    * 해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
    *
-   * `true`: 찜 성공, `false`: 찜 해제
+   * `True`: 찜 성공
+   *
+   * `False`: 찜 해제
    */
   pickMenu: Scalars['Boolean']
   createOrder: Scalars['ID']
@@ -161,10 +198,7 @@ export type Mutation = {
   /** 사용자 배달 주소를 업데이트한다. */
   updateDeliveryAddress: Scalars['Boolean']
   updatePrimaryDeliveryAddress: Scalars['Boolean']
-  /** 사용자의 메뉴 찜 목록을 업데이트한다. 해당 메뉴가 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
-  updateFavoriteMenus?: Maybe<Array<Scalars['ID']>>
-  /** 사용자의 매장 찜 목록을 업데이트한다. 해당 매장이 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
-  updateFavoriteStores?: Maybe<Array<Scalars['ID']>>
+  updatePreferences: Array<Scalars['NonEmptyString']>
 }
 
 export type MutationCreateMenuArgs = {
@@ -228,12 +262,8 @@ export type MutationUpdatePrimaryDeliveryAddressArgs = {
   deliveryAddress: Scalars['String']
 }
 
-export type MutationUpdateFavoriteMenusArgs = {
-  menuIds: Array<Scalars['ID']>
-}
-
-export type MutationUpdateFavoriteStoresArgs = {
-  storeIds: Array<Scalars['ID']>
+export type MutationUpdatePreferencesArgs = {
+  preferences: Array<Scalars['NonEmptyString']>
 }
 
 export type Order = {
@@ -241,12 +271,31 @@ export type Order = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  orderStatus: OrderStatus
   orderTotal: Scalars['Int']
+  menuTotal: Scalars['Int']
+  deliveryCharge: Scalars['Int']
+  paymentDate: Scalars['DateTime']
+  deliveryAddress: Scalars['String']
+  orderStatus: OrderStatus
+  pointUsed: Scalars['Int']
+  reviewReward: Scalars['Boolean']
+  regularReward: Scalars['Boolean']
+  userId: Scalars['ID']
+  paymentId: Scalars['ID']
+  storeId: Scalars['ID']
+  /** nullable */
+  deliveryRequest?: Maybe<Scalars['String']>
+  storeRequest?: Maybe<Scalars['String']>
+  couponId?: Maybe<Scalars['ID']>
   /** from other table */
+  user: User
+  payment: Payment
   store: Store
-  review?: Maybe<Review>
-  menu?: Maybe<Array<Menu>>
+  menus: Array<Menu>
+  /** from other table - nullable */
+  coupon?: Maybe<Coupon>
+  menuOptions?: Maybe<Array<MenuOption>>
+  review?: Maybe<Array<Review>>
 }
 
 export type OrderCreationInput = {
@@ -260,6 +309,13 @@ export enum OrderStatus {
   CookingInProgress = 'COOKING_IN_PROGRESS',
   DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
   DeliveryCompletion = 'DELIVERY_COMPLETION',
+}
+
+export type Payment = {
+  __typename?: 'Payment'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
 }
 
 /** 결제는 어디서 어떻게 이뤄질까? */
@@ -334,6 +390,14 @@ export type Query = {
   store?: Maybe<Store>
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
   me: User
+  /**
+   * 이메일 중복 여부를 검사한다.
+   *
+   * `True`: 중복되지 않은 이메일
+   *
+   * `False`: 중복된 이메일
+   */
+  verifyUniqueEmail: Scalars['Boolean']
 }
 
 export type QueryMenusByCategoryArgs = {
@@ -382,6 +446,10 @@ export type QueryReviewArgs = {
 
 export type QueryStoreArgs = {
   id: Scalars['ID']
+}
+
+export type QueryVerifyUniqueEmailArgs = {
+  email: Scalars['EmailAddress']
 }
 
 export enum Rating {
@@ -503,6 +571,7 @@ export type User = {
   deliveryAddresses?: Maybe<Scalars['String']>
   representativeDeliveryAddress?: Maybe<Scalars['String']>
   /** from other table - nullable */
+  coupons?: Maybe<Array<Coupon>>
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
@@ -616,29 +685,18 @@ export type MeQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & Pick<User, 'id' | 'email'>
 }
 
+export type MenuQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type MenuQuery = { __typename?: 'Query' } & {
+  menu?: Maybe<{ __typename?: 'Menu' } & MenuCardFragment>
+}
+
 export type MenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type MenusQuery = { __typename?: 'Query' } & {
-  menus: Array<
-    { __typename?: 'Menu' } & Pick<
-      Menu,
-      | 'id'
-      | 'name'
-      | 'price'
-      | 'positiveReviewRatio'
-      | 'totalReviewCount'
-      | 'reorderRatio'
-      | 'totalOrderCount'
-      | 'imageUrls'
-      | 'favorite'
-      | 'hashtags'
-    > & {
-        store: { __typename?: 'Store' } & Pick<
-          Store,
-          'id' | 'name' | 'deliveryCharge' | 'minimumDeliveryTime' | 'maximumDeliveryTime'
-        >
-      }
-  >
+  menus: Array<{ __typename?: 'Menu' } & MenuCardFragment>
 }
 
 export type PostsByAddressQueryVariables = Exact<{ [key: string]: never }>
@@ -669,6 +727,12 @@ export type StorePostsQuery = { __typename?: 'Query' } & {
         posts?: Maybe<Array<{ __typename?: 'Post' } & PostCardFragment>>
       }
   >
+}
+
+export type UserPreferencesQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserPreferencesQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & Pick<User, 'preferences'>
 }
 
 export const MenuCardFragmentDoc = gql`
@@ -1046,28 +1110,51 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>
+export const MenuDocument = gql`
+  query Menu($id: ID!) {
+    menu(id: $id) {
+      ...menuCard
+    }
+  }
+  ${MenuCardFragmentDoc}
+`
+
+/**
+ * __useMenuQuery__
+ *
+ * To run a query within a React component, call `useMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMenuQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMenuQuery(baseOptions: Apollo.QueryHookOptions<MenuQuery, MenuQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options)
+}
+export function useMenuLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenuQuery, MenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MenuQuery, MenuQueryVariables>(MenuDocument, options)
+}
+export type MenuQueryHookResult = ReturnType<typeof useMenuQuery>
+export type MenuLazyQueryHookResult = ReturnType<typeof useMenuLazyQuery>
+export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>
 export const MenusDocument = gql`
   query Menus {
     menus {
-      id
-      name
-      price
-      positiveReviewRatio
-      totalReviewCount
-      reorderRatio
-      totalOrderCount
-      imageUrls
-      favorite
-      store {
-        id
-        name
-        deliveryCharge
-        minimumDeliveryTime
-        maximumDeliveryTime
-      }
-      hashtags
+      ...menuCard
     }
   }
+  ${MenuCardFragmentDoc}
 `
 
 /**
@@ -1248,3 +1335,50 @@ export function useStorePostsLazyQuery(
 export type StorePostsQueryHookResult = ReturnType<typeof useStorePostsQuery>
 export type StorePostsLazyQueryHookResult = ReturnType<typeof useStorePostsLazyQuery>
 export type StorePostsQueryResult = Apollo.QueryResult<StorePostsQuery, StorePostsQueryVariables>
+export const UserPreferencesDocument = gql`
+  query UserPreferences {
+    me {
+      preferences
+    }
+  }
+`
+
+/**
+ * __useUserPreferencesQuery__
+ *
+ * To run a query within a React component, call `useUserPreferencesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserPreferencesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserPreferencesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserPreferencesQuery(
+  baseOptions?: Apollo.QueryHookOptions<UserPreferencesQuery, UserPreferencesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<UserPreferencesQuery, UserPreferencesQueryVariables>(
+    UserPreferencesDocument,
+    options
+  )
+}
+export function useUserPreferencesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<UserPreferencesQuery, UserPreferencesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<UserPreferencesQuery, UserPreferencesQueryVariables>(
+    UserPreferencesDocument,
+    options
+  )
+}
+export type UserPreferencesQueryHookResult = ReturnType<typeof useUserPreferencesQuery>
+export type UserPreferencesLazyQueryHookResult = ReturnType<typeof useUserPreferencesLazyQuery>
+export type UserPreferencesQueryResult = Apollo.QueryResult<
+  UserPreferencesQuery,
+  UserPreferencesQueryVariables
+>

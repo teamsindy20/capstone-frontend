@@ -15,7 +15,11 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import {
+  MenuCardFragment,
+  useMenuLazyQuery,
+  usePickMenuMutation,
+} from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
@@ -222,20 +226,24 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 type Props = {
   menu: MenuCardFragment
   onlyImage: boolean
-  refetchMenus: () => Promise<unknown>
 }
 
-function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
-  const [pickMenuMutation, { loading }] = usePickMenuMutation({
+function MenuCard({ menu, onlyImage }: Props) {
+  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
+    fetchPolicy: 'cache-and-network',
+    onError: handleApolloError,
+  })
+
+  const [pickMenuMutation, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: () => {
-      refetchMenus()
+      fetchMenu({ variables: { id: menu.id } })
     },
     onError: handleApolloError,
   })
 
   function pickMenu(e: MouseEvent) {
     e.stopPropagation()
-    if (!loading) {
+    if (!isPickingMenuLoading && !isMenuLoading) {
       pickMenuMutation({ variables: { id: menu.id } })
     }
   }
@@ -247,28 +255,22 @@ function MenuCard({ menu, onlyImage, refetchMenus }: Props) {
   if (onlyImage) {
     return (
       <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
-        <div onClick={stopPropagation} role="alert">
-          <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
-            <ImageRatioWrapper paddingTop="100%">
-              <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-            </ImageRatioWrapper>
-          </ClientSideLink>
-        </div>
-      </GridContainerLi>
-    )
-  }
-
-  // return <div></div>
-
-  return (
-    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
-      <div onClick={stopPropagation} role="alert">
         <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
           <ImageRatioWrapper paddingTop="100%">
             <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
           </ImageRatioWrapper>
         </ClientSideLink>
-      </div>
+      </GridContainerLi>
+    )
+  }
+
+  return (
+    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
+      <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+        <ImageRatioWrapper paddingTop="100%">
+          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
+        </ImageRatioWrapper>
+      </ClientSideLink>
 
       <FlexContainerColumnBetween>
         <AbsolutePosition>

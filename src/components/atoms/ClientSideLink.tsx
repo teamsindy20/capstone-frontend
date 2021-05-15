@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import { stopPropagation } from 'src/utils/commons'
 
 type Props = {
   children: ReactNode
@@ -9,7 +10,9 @@ type Props = {
 function ClientSideLink({ children, href }: Props) {
   return (
     <Link href={href}>
-      <a href={href}>{children}</a>
+      <a href={href} onClick={stopPropagation}>
+        {children}
+      </a>
     </Link>
   )
 }

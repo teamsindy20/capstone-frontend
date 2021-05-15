@@ -58,12 +58,7 @@ function UserFavoriteMenusPage() {
 
         <GridContainerUl onlyImage={onlyImage}>
           {favoriteMenus?.map((favoriteMenu) => (
-            <MenuCard
-              key={favoriteMenu.id}
-              menu={favoriteMenu}
-              onlyImage={onlyImage}
-              refetchMenus={refetch}
-            />
+            <MenuCard key={favoriteMenu.id} menu={favoriteMenu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
         {(loading || hasMoreMenus) && (

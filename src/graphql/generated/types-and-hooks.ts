@@ -681,9 +681,7 @@ export type FavoriteStoresQuery = { __typename?: 'Query' } & {
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
-export type MeQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & Pick<User, 'id' | 'email'>
-}
+export type MeQuery = { __typename?: 'Query' } & { me: { __typename?: 'User' } & Pick<User, 'id'> }
 
 export type MenuQueryVariables = Exact<{
   id: Scalars['ID']
@@ -732,7 +730,7 @@ export type StorePostsQuery = { __typename?: 'Query' } & {
 export type UserPreferencesQueryVariables = Exact<{ [key: string]: never }>
 
 export type UserPreferencesQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & Pick<User, 'preferences'>
+  me: { __typename?: 'User' } & Pick<User, 'id' | 'preferences'>
 }
 
 export const MenuCardFragmentDoc = gql`
@@ -1077,7 +1075,6 @@ export const MeDocument = gql`
   query Me {
     me {
       id
-      email
     }
   }
 `
@@ -1338,6 +1335,7 @@ export type StorePostsQueryResult = Apollo.QueryResult<StorePostsQuery, StorePos
 export const UserPreferencesDocument = gql`
   query UserPreferences {
     me {
+      id
       preferences
     }
   }

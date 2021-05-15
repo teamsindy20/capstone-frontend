@@ -230,7 +230,7 @@ type Props = {
 
 function MenuCard({ menu, onlyImage }: Props) {
   const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
 

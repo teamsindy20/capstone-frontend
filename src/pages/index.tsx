@@ -14,16 +14,17 @@ import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep, stopPropagation } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { useMenusQuery, useUserPreferencesQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
+import { GlobalContext } from './_app'
 
 const PADDING_TOP = '3rem'
 
@@ -187,17 +188,26 @@ const FixedPosition = styled.div`
 `
 
 function HomePage() {
+  const { user, loading } = useContext(GlobalContext)
+
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
+  const menusQueryResult = useMenusQuery({
     notifyOnNetworkStatusChange: true,
     onError: handleApolloError,
   })
 
-  const menus = data?.menus
-  // const preferences = data?.me.preferences
-  const isMenusPreferencesLoading = networkStatus < 7
+  const userPreferencesQueryResult = useUserPreferencesQuery({
+    notifyOnNetworkStatusChange: true,
+    skip: !user,
+  })
+
+  const menus = menusQueryResult.data?.menus
+  const isMenusLoading = menusQueryResult.networkStatus < 7
+
+  const preferences = userPreferencesQueryResult.data?.me.preferences
+  const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -209,7 +219,7 @@ function HomePage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isMenusPreferencesLoading,
+    loading: isMenusLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
@@ -291,34 +301,43 @@ function HomePage() {
           <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         </GridContainer>
 
-        {/* <MiddleText>
-          김빵순님이 설정하신 취향 :{' '}
-          {preferences ? (
-            preferences?.map((hashtag) => (
-              <Fragment key={hashtag}>
-                <li>
-                  <Link href={`/search/${hashtag.slice(1)}`}>
-                    <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                      {hashtag}
-                    </BoldA>
-                  </Link>
-                </li>
-                &nbsp;
-              </Fragment>
-            ))
+        <MiddleText>
+          {loading ? (
+            'user authenticating...'
+          ) : !user ? (
+            <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+          ) : isUserPreferencesLoading ? (
+            'user preferences loading...'
+          ) : preferences?.length ? (
+            <div>
+              김빵순님의 취향:{' '}
+              {preferences.map((hashtag) => (
+                <Fragment key={hashtag}>
+                  <li>
+                    <Link href={`/search/${hashtag.slice(1)}`}>
+                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                        {hashtag}
+                      </BoldA>
+                    </Link>
+                  </li>
+                  &nbsp;
+                </Fragment>
+              ))}
+            </div>
           ) : (
             <div>
-              아직 없어요. <a href="/users">취향 설정하러 가기</a>
+              설정한 취향이 아직 없어요.{' '}
+              <ClientSideLink href="/users/username/preferences">취향 설정하러 가기</ClientSideLink>
             </div>
           )}
-        </MiddleText> */}
+        </MiddleText>
 
         <GridContainerUl onlyImage={onlyImage}>
           {menus?.map((menu) => (
             <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isMenusPreferencesLoading || hasMoreMenus) && (
+        {(isMenusLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

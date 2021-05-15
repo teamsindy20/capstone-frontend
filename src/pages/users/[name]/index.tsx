@@ -25,7 +25,11 @@ function MyDeplePage() {
   const { query } = useRouter()
 
   if (loading) {
-    return '사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기'
+    return (
+      <PageHead title="Deple - 내 Deple" description={description}>
+        <PageLayout>'사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기'</PageLayout>
+      </PageHead>
+    )
   }
 
   if (!user) {

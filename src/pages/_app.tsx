@@ -67,7 +67,7 @@ type GlobalProviderProps = {
 
 function GlobalProvider({ children }: GlobalProviderProps) {
   const { data, error, networkStatus, refetch } = useMeQuery({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   })
 

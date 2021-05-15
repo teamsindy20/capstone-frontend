@@ -130,8 +130,9 @@ function LoginPage() {
       } else {
         sessionStorage.setItem('token', data.login)
       }
+
       refetchUser()
-      router.push(decodeURI((router.query.afterLoginGoTo as string | undefined) ?? '/'))
+      router.push(decodeURIComponent((router.query.afterLoginGoTo as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })

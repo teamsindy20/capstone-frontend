@@ -18,15 +18,15 @@ const GridContainerUl = styled.ul`
   gap: 1rem;
 `
 
-const description = '내 취향이 반영된 나만의 Deple을 만나보세요.'
+const description = '내 취향이 반영된 나만의 DessertFit을 만나보세요.'
 
-function MyDeplePage() {
+function MyDessertFitPage() {
   const { user, loading, refetchUser } = useContext(GlobalContext)
   const { query } = useRouter()
 
   if (loading) {
     return (
-      <PageHead title="Deple - 내 Deple" description={description}>
+      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
         <PageLayout>'사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기'</PageLayout>
       </PageHead>
     )
@@ -34,7 +34,7 @@ function MyDeplePage() {
 
   if (!user) {
     return (
-      <PageHead title="Deple - 내 Deple" description={description}>
+      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
         <PageLayout>
           <NotLogin />
         </PageLayout>
@@ -43,7 +43,7 @@ function MyDeplePage() {
   }
 
   return (
-    <PageHead title="Deple - 내 Deple" description={description}>
+    <PageHead title="디저트핏 - 내 DessertFit" description={description}>
       <PageLayout>
         <h2>마이페이지</h2>
         <div>
@@ -99,4 +99,4 @@ function MyDeplePage() {
   )
 }
 
-export default MyDeplePage
+export default MyDessertFitPage

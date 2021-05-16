@@ -43,7 +43,7 @@ function UserFavoriteMenusPage() {
 
   if (!user) {
     return (
-      <PageHead title="Deple - 찜 메뉴" description={description}>
+      <PageHead title="디저트핏 - 찜 메뉴" description={description}>
         <PageLayout>
           <NotLogin />
         </PageLayout>
@@ -52,7 +52,7 @@ function UserFavoriteMenusPage() {
   }
 
   return (
-    <PageHead title="Deple - 찜 메뉴" description={description}>
+    <PageHead title="디저트핏 - 찜 메뉴" description={description}>
       <PageLayout>
         <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
 

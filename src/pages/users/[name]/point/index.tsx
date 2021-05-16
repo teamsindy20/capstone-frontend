@@ -4,7 +4,7 @@ const description = '지금까지 사용한 포인트 내역을 확인해보세�
 
 function UserPointPage() {
   return (
-    <PageHead title="Deple - 포인트" description={description}>
+    <PageHead title="디저트핏 - 포인트" description={description}>
       {}
     </PageHead>
   )

@@ -8,7 +8,7 @@
       "",
       "function $1Page() {",
       "  return (",
-      "    <PageHead title=\"Deple - \" description={description}>",
+      "    <PageHead title=\"디저트핏 - \" description={description}>",
       "      {}",
       "    </PageHead>",
       "  )",

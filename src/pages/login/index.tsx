@@ -152,7 +152,7 @@ function LoginPage() {
           <HeadMessage>
             내게 딱 맞는
             <br />
-            디저트 핏!
+            디저트 Fit!
           </HeadMessage>
         </ClientSideLink>
 

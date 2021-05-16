@@ -28,7 +28,7 @@ function StoreMenuRankingPage() {
   return (
     <>
       <>매장 메뉴별 랭킹 페이지</>
-      <PageHead title="Deple - 주문 내역" description={description}>
+      <PageHead title="디저트핏 - 주문 내역" description={description}>
         <PageLayout>
           <TopHeader>
             <FlexContainerCenterCenter>

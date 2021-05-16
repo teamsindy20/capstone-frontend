@@ -55,7 +55,7 @@ function UserOrdersPage() {
 
   if (!user) {
     return (
-      <PageHead title="Deple - 주문 내역" description={description}>
+      <PageHead title="디저트핏 - 주문 내역" description={description}>
         <PageLayout>
           <NotLogin />
         </PageLayout>
@@ -64,7 +64,7 @@ function UserOrdersPage() {
   }
 
   return (
-    <PageHead title="Deple - 주문 내역" description={description}>
+    <PageHead title="디저트핏 - 주문 내역" description={description}>
       <PageLayout>
         <TopHeader>
           <FlexContainerCenterCenter>

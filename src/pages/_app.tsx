@@ -82,7 +82,7 @@ function GlobalProvider({ children }: GlobalProviderProps) {
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
-function DepleApp({ Component, pageProps }: AppProps) {
+function DessertFitApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   // Google Analytics로 정보 보내기
@@ -116,4 +116,4 @@ function DepleApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default DepleApp
+export default DessertFitApp

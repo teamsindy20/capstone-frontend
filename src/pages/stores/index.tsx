@@ -57,7 +57,7 @@ function StoresPage() {
 
   if (!user) {
     return (
-      <PageHead title="Deple - 찜·단골 매장" description={description}>
+      <PageHead title="디저트핏 - 찜·단골 매장" description={description}>
         <PageLayout>
           <NotLogin />
         </PageLayout>
@@ -66,7 +66,7 @@ function StoresPage() {
   }
 
   return (
-    <PageHead title="Deple - 찜·단골 매장" description={description}>
+    <PageHead title="디저트핏 - 찜·단골 매장" description={description}>
       <PageLayout>
         <TopHeader>
           <FlexContainerCenterCenter>

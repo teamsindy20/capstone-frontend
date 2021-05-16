@@ -90,7 +90,7 @@ function FeedPage() {
   })
 
   return (
-    <PageHead title="Deple - 새 소식" description={description}>
+    <PageHead title="디저트핏 - 새 소식" description={description}>
       <PageLayout>
         <TopHeader>
           <FlexContainerCenterCenter>

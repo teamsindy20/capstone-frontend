@@ -2,15 +2,18 @@ import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { createContext, ReactNode, useEffect, useMemo } from 'react'
+import { createContext, ReactNode, useEffect } from 'react'
 import { client } from 'src/apollo/client'
-import { handleApolloError } from 'src/apollo/error'
 import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
 import { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+import { ToastContainer } from 'react-toastify'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -49,32 +52,37 @@ const GlobalStyle = createGlobalStyle`
 
 type GlobalContextValues = {
   user?: MeQuery['me']
+  loading: boolean
   refetchUser: () => Promise<unknown>
 }
 
-export const GlobalContext = createContext<GlobalContextValues>({ refetchUser: async () => null })
+export const GlobalContext = createContext<GlobalContextValues>({
+  loading: false,
+  refetchUser: async () => null,
+})
 
 type GlobalProviderProps = {
   children: ReactNode
 }
 
 function GlobalProvider({ children }: GlobalProviderProps) {
-  const { data, refetch } = useMeQuery({ onError: handleApolloError })
+  const { data, error, networkStatus, refetch } = useMeQuery({
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+  })
 
-  const user = data?.me
+  const user = error ? null : data?.me
 
-  const value = useMemo(
-    () => ({
-      user,
-      refetchUser: refetch,
-    }),
-    [refetch, user]
-  )
+  const value = {
+    ...(user && { user }),
+    loading: networkStatus < 7,
+    refetchUser: refetch,
+  }
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
-function DepleApp({ Component, pageProps }: AppProps) {
+function DessertFitApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   // Google Analytics로 정보 보내기
@@ -103,8 +111,9 @@ function DepleApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </GlobalProvider>
       </ApolloProvider>
+      <ToastContainer position="top-center" />
     </>
   )
 }
 
-export default DepleApp
+export default DessertFitApp

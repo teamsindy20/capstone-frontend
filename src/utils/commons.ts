@@ -1,10 +1,15 @@
 import Inko from 'inko'
+import { KeyboardEvent, MouseEvent } from 'react'
 
-export function preventAndStopEnterPropagation(e: React.KeyboardEvent<HTMLElement>) {
+export function preventAndStopEnterPropagation(e: KeyboardEvent) {
   if (e.key === 'Enter') {
     e.preventDefault()
     e.stopPropagation()
   }
+}
+
+export function stopPropagation(e: MouseEvent<HTMLElement>) {
+  e.stopPropagation()
 }
 
 export function formatPhoneNumber(phoneNumber: string) {

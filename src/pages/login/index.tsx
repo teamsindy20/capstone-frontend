@@ -1,26 +1,26 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox, Form } from 'antd'
-import { useCallback } from 'react'
-import Link from 'next/link'
+import { Input, Button, Checkbox } from 'antd'
+import { useCallback, useContext } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { HeadMessage } from '../register'
+import { GridContainerColumn3, HeadMessage } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
+import { GlobalContext } from '../_app'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
+
+// import { signIn, signOut, useSession } from 'next-auth/client'
 
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 1rem;
-`
-
-const GridLinkForm = styled.form`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
 `
 
 const LoginButton = styled.button`
@@ -102,33 +102,42 @@ export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
 }
 
-type FormValues = {
+type LoginFormValues = {
   email: string
   password: string
+  remember: boolean
 }
 
 function LoginPage() {
-  const [login, { loading }] = useLoginMutation({
-    onCompleted: (data) => {
-      if (data.login) {
-        console.log(data.login)
-        localStorage.setItem('token', data.login)
-      } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
-      }
-    },
-    onError: handleApolloError,
-  })
+  const { refetchUser } = useContext(GlobalContext)
+  const router = useRouter()
 
   const {
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
-  } = useForm<FormValues>({
-    defaultValues: { email: '', password: '' },
+  } = useForm<LoginFormValues>({
+    defaultValues: { email: '', password: '', remember: true },
   })
 
-  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+  const [login, { loading }] = useLoginMutation({
+    onCompleted: (data) => {
+      toast.success('로그인에 성공했어요.')
+
+      if (getValues('remember')) {
+        localStorage.setItem('token', data.login)
+      } else {
+        sessionStorage.setItem('token', data.login)
+      }
+
+      refetchUser()
+      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
+    },
+    onError: handleApolloError,
+  })
+
+  const onSubmit = useCallback<SubmitHandler<LoginFormValues>>(
     async ({ email, password }) => {
       const passwordHash = await digestMessageWithSHA256(ko2en(password))
       login({ variables: { email, passwordHash } })
@@ -139,84 +148,93 @@ function LoginPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <HeadMessage>
-          내가 원하는 디저트를
-          <br />
-          쉽고 빠르게!
-        </HeadMessage>
+        <ClientSideLink href="/">
+          <HeadMessage>
+            내게 딱 맞는
+            <br />
+            디저트 Fit!
+          </HeadMessage>
+        </ClientSideLink>
 
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <HeadLogin>LOGIN</HeadLogin>
-          <Form
-            name="basic"
-            initialValues={{ remember: true }}
-            // onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
-          >
-            <label htmlFor="email">
-              <Controller
-                control={control}
-                name="email"
-                render={({ field }) => (
-                  <Input
-                    disabled={loading}
-                    placeholder="이메일을 입력해주세요."
-                    size="large"
-                    type="email"
-                    {...field}
-                  />
-                )}
-                rules={validateEmail}
-              />
-              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-            </label>
 
-            <label htmlFor="password">
-              <Controller
-                control={control}
-                name="password"
-                render={({ field }) => (
-                  <Input.Password
-                    disabled={loading}
-                    iconRender={renderPasswordInputIcon}
-                    placeholder="비밀번호를 입력해주세요."
-                    size="large"
-                    type="password"
-                    {...field}
-                  />
-                )}
-                rules={validatePassword}
-              />
-              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-            </label>
+          <label htmlFor="email">
+            <h4>이메일</h4>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <Input
+                  disabled={loading}
+                  placeholder="이메일을 입력해주세요."
+                  size="large"
+                  type="email"
+                  {...field}
+                />
+              )}
+              rules={validateEmail}
+            />
+            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+          </label>
 
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>로그인 상태 유지</Checkbox>
-              <GridLinkForm>
-                <Link href="/register">
-                  <a href="/register">
-                    <Button type="link">회원가입</Button>
-                  </a>
-                </Link>
+          <label htmlFor="password">
+            <h4>비밀번호</h4>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <Input.Password
+                  disabled={loading}
+                  iconRender={renderPasswordInputIcon}
+                  placeholder="비밀번호를 입력해주세요."
+                  size="large"
+                  type="password"
+                  {...field}
+                />
+              )}
+              rules={validatePassword}
+            />
+            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+          </label>
 
-                <Link href="/findid">
-                  <a href="/findid">
-                    <Button type="link">아이디찾기</Button>
-                  </a>
-                </Link>
-                <Link href="/findpw">
-                  <a href="/findpw">
-                    <Button type="link">비밀번호찾기</Button>
-                  </a>
-                </Link>
-              </GridLinkForm>
-            </Form.Item>
-          </Form>
+          <Controller
+            control={control}
+            name="remember"
+            render={({ field }) => (
+              <Checkbox checked={field.value} disabled={loading} {...field}>
+                로그인 상태 유지
+              </Checkbox>
+            )}
+          />
 
-          <LoginButton type="submit">로그인</LoginButton>
+          <GridContainerColumn3>
+            <ClientSideLink href="/register">
+              <Button type="link">회원가입</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/email">
+              <Button type="link">아이디 찾기</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/password">
+              <Button type="link">비밀번호 찾기</Button>
+            </ClientSideLink>
+          </GridContainerColumn3>
+
+          <LoginButton disabled={loading} type="submit">
+            로그인
+          </LoginButton>
           <SNSLoginButton>카카오톡으로 로그인하기</SNSLoginButton>
           <SNSLoginButton>네이버로 로그인하기</SNSLoginButton>
-          <SNSLoginButton>구글로 로그인하기</SNSLoginButton>
+          <SNSLoginButton /* onClick={() => signIn()} */>구글로 로그인하기</SNSLoginButton>
+          <a
+            href="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fiam.test&response_type=code&client_id=474655697521-d85qu38fas6r0pumm6llt59d208n5nuf.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fgoogle"
+            target="_blank"
+            rel="noreferrer"
+          >
+            구글 로그인
+          </a>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

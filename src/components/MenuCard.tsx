@@ -1,22 +1,28 @@
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
-import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
-import BookmarkBorderRoundedIcon from '@material-ui/icons/BookmarkBorderRounded'
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
-import MotorcycleRoundedIcon from '@material-ui/icons/MotorcycleRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
-import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
+import { Fragment, MouseEvent } from 'react'
+import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { MenusQuery } from 'src/graphql/generated/types-and-hooks'
+import {
+  MenuCardFragment,
+  useMenuLazyQuery,
+  usePickMenuMutation,
+} from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
-import red from '@material-ui/core/colors/red'
+import { stopPropagation } from 'src/utils/commons'
+import { handleApolloError } from 'src/apollo/error'
+import ClientSideLink from './atoms/ClientSideLink'
+import { toast } from 'react-toastify'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -127,11 +133,6 @@ const NormalH5 = styled.h5`
   font-weight: normal;
 `
 
-const GridContainerColumn = styled(GridContainerGap)`
-  grid-template-columns: repeat(3, 1fr);
-  width: fit-content;
-`
-
 const NoMarginH4 = styled.h4`
   margin: 0;
   font-weight: bold;
@@ -153,7 +154,6 @@ export const BoldA = styled.a`
   color: #fe6661;
   word-break: keep-all;
 
-  color: 3c3c3c;
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   :hover {
@@ -177,6 +177,8 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   grid-column: auto / span 2;
   padding: min(2vw, 0.5rem);
 `
+
+const StyledLocationOnRoundedIcon = { fontSize: 18, color: grey[800] }
 
 type Props2 = {
   onlyImage: boolean
@@ -215,81 +217,119 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: MenusQuery['menus'][number]
+  menu: MenuCardFragment
   onlyImage: boolean
 }
 
 function MenuCard({ menu, onlyImage }: Props) {
-  const goToStoreReviewsPage = useGoToPage(
-    `/stores/${menu.store.name}}/reviews?menu=${menu.store.name}`
-  )
-  const goToStoreMenusPage = useGoToPage(`/stores/${menu.store.name}`)
+  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
+    onCompleted: (data) => {
+      if (data.pickMenu) {
+        toast.success(
+          <div>
+            메뉴를 찜했어요{' '}
+            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+              찜 해제하기
+            </span>
+          </div>
+        )
+      } else {
+        toast.success(
+          <div>
+            메뉴 찜을 해제했어요
+            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+              다시 찜하기
+            </span>
+          </div>
+        )
+      }
+      fetchMenu({ variables: { id: menu.id } })
+    },
+    onError: handleApolloError,
+  })
+
+  function pickMenuStopPropagation(e: MouseEvent) {
+    e.stopPropagation()
+    if (!isPickingMenuLoading && !isMenuLoading) {
+      pickMenu({ variables: { id: menu.id } })
+    }
+  }
 
   const store = menu.store
 
+  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
-        <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-        </ImageRatioWrapper>
+      <GridContainerLi onlyImage={true} onClick={goToStoreMenuPage}>
+        <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+          <ImageRatioWrapper paddingTop="100%">
+            <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
+          </ImageRatioWrapper>
+        </ClientSideLink>
       </GridContainerLi>
     )
   }
 
   return (
-    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
-      <ImageRatioWrapper paddingTop="100%" onClick={goToStoreReviewsPage}>
-        <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-      </ImageRatioWrapper>
+    <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
+      <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+        <ImageRatioWrapper paddingTop="100%">
+          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
+        </ImageRatioWrapper>
+      </ClientSideLink>
 
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <BookmarkRoundedIcon fontSize="large" />
+            <FavoriteRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={pickMenuStopPropagation}
+            />
           ) : (
-            <BookmarkBorderRoundedIcon style={{ fontSize: 25, color: grey[800] }} />
+            <FavoriteBorderRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={pickMenuStopPropagation}
+            />
           )}
         </AbsolutePosition>
-        <GridContainer>
-          <NoMarginH3>{menu.name}</NoMarginH3>
-          <FlexContainerUl>
-            {menu.hashtags?.map((hashtag) => (
-              <>
-                <li key={hashtag}>
-                  <Link href={`/search/${hashtag.slice(1)}`}>
-                    <BoldA
-                      href={`/search/${hashtag.slice(1)}`}
-                      onClick={(e: any) => e.stopPropagation()}
-                    >{`${hashtag}`}</BoldA>
-                  </Link>
-                </li>
-                &nbsp;
-              </>
-            ))}
-          </FlexContainerUl>
-          <GridContainerColumn>
+
+        <GridContainerGap>
+          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
               <LighterH5>{store.name}</LighterH5>
             </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}</LighterH5>
-            </FlexContainerAlignCenter>
-          </GridContainerColumn>
-        </GridContainer>
+          </ClientSideLink>
+
+          <NoMarginH3>{menu.name}</NoMarginH3>
+          <GridContainer>
+            <FlexContainerUl>
+              {menu.hashtags?.map((hashtag) => (
+                <Fragment key={hashtag}>
+                  <li>
+                    <Link href={`/search/${hashtag.slice(1)}`}>
+                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                        {hashtag}
+                      </BoldA>
+                    </Link>
+                  </li>
+                  &nbsp;
+                </Fragment>
+              ))}
+            </FlexContainerUl>
+          </GridContainer>
+        </GridContainerGap>
+
         <GridContainer>
           <FlexContainerBetween>
-            <FlexContainerAlignCenter>
-              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              {`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}
-            </FlexContainerAlignCenter>
             <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
+            <div>^</div>
           </FlexContainerBetween>
           <HorizontalBorder />
         </GridContainer>

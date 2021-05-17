@@ -1,4 +1,4 @@
-# 2021-1 Capstone Front-End (React.js)
+# 2021-1 Capstone Front-end (React.js)
 
 ## 실행 방법
 
@@ -14,9 +14,9 @@
 ### 프로젝트 다운로드
 
 ```bash
-> git clone https://github.com/capstone-2021-1/capstone-frontend.git
-> cd capstone-frontend
-> git checkout (브랜치 이름)
+> git clone 프로젝트-주소
+> cd 프로젝트-폴더
+> git checkout 브랜치-이름
 > yarn
 ```
 
@@ -30,6 +30,10 @@
 
 ### 환경 변수 설정
 
+```
+NEXT_PUBLIC_GRAPHQL_API_URL=
+```
+
 프로젝트 루트 경로에 `.env.development`과 `.env.production` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
 `.env.development`는 `yarn dev` 실행 시에만 적용되고, `.env.production`는 `yarn start` 실행 시에만 적용됩니다.
@@ -42,7 +46,7 @@
 
 로컬 컴퓨터에서 개발 모드로 프로젝트를 실행하면, 수정한 파일을 저장했을 때 코드 변경 사항이 자동으로 브라우저에 반영됩니다.
 
-### 빌드 후 프로덕션 모드
+### 프로덕션 모드
 
 ```bash
 > yarn build
@@ -234,3 +238,5 @@ TypeScript 세부 컴파일 옵션을 설정할 수 있습니다. 이 프로젝�
 yarn 패키지 잠금 파일로서 프로젝트에 쓰인 패키지의 실제 버전이 명시되어 있습니다. 이 파일은 직접 건들지 않아도 됩니다.
 
 (참고 : https://www.daleseo.com/js-package-locks/)
+
+-

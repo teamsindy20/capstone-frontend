@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { memo } from 'react'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { username } from 'src/models/mock-data'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 import { grey } from '@material-ui/core/colors'
@@ -50,50 +51,42 @@ const NoMarginH6 = styled.h5`
   margin: 0;
 `
 
+const StyledHomeRoundedIcon = { fontSize: 30, color: grey[800] }
+
 function Header() {
   return (
     <FixedHeader>
       <FlexContainerAroundNav>
-        <Link href="/">
-          <a href="/">
-            <FlexContainerColumnCenterCenter>
-              <HomeRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-              <NoMarginH6>홈</NoMarginH6>
-            </FlexContainerColumnCenterCenter>
-          </a>
-        </Link>
-        <Link href="/feed">
-          <a href="/feed">
-            <FlexContainerColumnCenterCenter>
-              <StoreRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-              <NoMarginH6>매장소식</NoMarginH6>
-            </FlexContainerColumnCenterCenter>
-          </a>
-        </Link>
-        <Link href="/stores">
-          <a href="/stores">
-            <FlexContainerColumnCenterCenter>
-              <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-              <NoMarginH6>찜·단골</NoMarginH6>
-            </FlexContainerColumnCenterCenter>
-          </a>
-        </Link>
-        <Link href={`/users/${username}/orders`}>
-          <a href={`/users/${username}/orders`}>
-            <FlexContainerColumnCenterCenter>
-              <AssignmentTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
-              <NoMarginH6>주문내역</NoMarginH6>
-            </FlexContainerColumnCenterCenter>
-          </a>
-        </Link>
-        <Link href={`/users/${username}`}>
-          <a href={`/users/${username}`}>
-            <FlexContainerColumnCenterCenter>
-              <PersonRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-              <NoMarginH6>마이페이지</NoMarginH6>
-            </FlexContainerColumnCenterCenter>
-          </a>
-        </Link>
+        <ClientSideLink href="/">
+          <FlexContainerColumnCenterCenter>
+            <HomeRoundedIcon style={StyledHomeRoundedIcon} />
+            <NoMarginH6>홈</NoMarginH6>
+          </FlexContainerColumnCenterCenter>
+        </ClientSideLink>
+        <ClientSideLink href="/feed">
+          <FlexContainerColumnCenterCenter>
+            <StoreRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <NoMarginH6>소식</NoMarginH6>
+          </FlexContainerColumnCenterCenter>
+        </ClientSideLink>
+        <ClientSideLink href={`/users/${username}/favorites`}>
+          <FlexContainerColumnCenterCenter>
+            <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <NoMarginH6>찜</NoMarginH6>
+          </FlexContainerColumnCenterCenter>
+        </ClientSideLink>
+        <ClientSideLink href={`/users/${username}/orders`}>
+          <FlexContainerColumnCenterCenter>
+            <AssignmentTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
+            <NoMarginH6>주문내역</NoMarginH6>
+          </FlexContainerColumnCenterCenter>
+        </ClientSideLink>
+        <ClientSideLink href={`/users/${username}`}>
+          <FlexContainerColumnCenterCenter>
+            <PersonRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
+            <NoMarginH6>마이페이지</NoMarginH6>
+          </FlexContainerColumnCenterCenter>
+        </ClientSideLink>
       </FlexContainerAroundNav>
     </FixedHeader>
   )

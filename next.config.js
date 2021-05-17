@@ -2,15 +2,13 @@
 const withPWA = require('next-pwa')
 
 module.exports = withPWA({
-  future: {
-    webpack5: true,
-  },
   i18n: {
     locales: ['ko', 'en'],
     defaultLocale: 'ko',
   },
   images: {
     domains: [
+      'gramho.com',
       'mp-seoul-image-production-s3.mangoplate.com',
       'cdn.crowdpic.net',
       'www.smlounge.co.kr',

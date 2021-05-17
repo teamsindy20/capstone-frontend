@@ -1,14 +1,14 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 
-function FindPWPage() {
+function FindPasswordPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <button>비밀번호찾기</button>
+        <button>비밀번호 찾기</button>
       </LoginPageLayout>
     </PageHead>
   )
 }
 
-export default FindPWPage
+export default FindPasswordPage

@@ -2,7 +2,7 @@
   "name": "capstone-frontend",
   "version": "1.0.0",
   "description": "capstone-frontend",
-  "repository": "https://github.com/capstone-2021-1/capstone-frontend.git",
+  "repository": "https://github.com/teamsindy20/capstone-frontend.git",
   "author": "sindy",
   "license": "GPL-3.0-only",
   "private": false,
@@ -39,6 +39,7 @@
     "react-hook-form": "^7.3.6",
     "react-infinite-scroll-hook": "^4.0.1",
     "react-slick": "^0.28.1",
+    "react-toastify": "^7.0.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.3"
   },

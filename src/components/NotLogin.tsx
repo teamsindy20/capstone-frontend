@@ -1,8 +1,12 @@
+import { useRouter } from 'next/router'
 import useGoToPage from 'src/hooks/useGoToPage'
 
 function NotLogin() {
-  const goToRegisterPage = useGoToPage('/register')
-  const goToLoginPage = useGoToPage('/login')
+  const { asPath } = useRouter()
+
+  const goToRegisterPage = useGoToPage(`/register?redirectUrl=${encodeURIComponent(asPath)}`)
+
+  const goToLoginPage = useGoToPage(`/login?redirectUrl=${encodeURIComponent(asPath)}`)
 
   return (
     <>

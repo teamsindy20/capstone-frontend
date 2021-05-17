@@ -1,5 +1,6 @@
 query FavoriteStores {
   me {
+    id
     favoriteStores {
       ...storeCard
     }

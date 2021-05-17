@@ -9,22 +9,22 @@ import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRo
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { ImageRatioWrapper, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { useState } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
-import { sleep } from 'src/utils/commons'
+import { sleep, stopPropagation } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { useMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import { useMenusQuery, useUserPreferencesQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import Link from 'next/link'
+import { GlobalContext } from './_app'
 
 const PADDING_TOP = '3rem'
 
@@ -49,7 +49,7 @@ const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
-const StyledTuneRoundedIcon = { fontSize: 30, color: grey[800] }
+const StyledTuneRoundedIcon = { fontSize: 30, color: '#ffffff' }
 
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -64,11 +64,12 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   //font-color: #3c3c3c;
 `
-const WrapIconDiv = styled.div`
-  font-size: 90px;
-  background-color: #fff;
-  border-radius: 50%;
-`
+
+// const WrapIconDiv = styled.div`
+//   font-size: 90px;
+//   background-color: #fff;
+//   border-radius: 50%;
+// `
 
 const PaddingTop = styled.div`
   padding-top: ${PADDING_TOP};
@@ -88,9 +89,10 @@ const GridContainer = styled.div`
   align-items: center;
 `
 
-const SmallText = styled.div`
-  text-align: center;
-`
+// const SmallText = styled.div`
+//   text-align: center;
+// `
+
 const MiddleText = styled.div`
   text-align: center;
   padding: 0.5rem;
@@ -98,6 +100,7 @@ const MiddleText = styled.div`
   border-radius: 1rem;
   background-color: #fff5f5;
 `
+
 const StyledSlider = styled(Slider)`
   margin-bottom: 1rem;
   object-fit: cover;
@@ -121,7 +124,7 @@ const AdTextDiv = styled.div`
   font-size: 1.6rem;
 `
 
-const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
+export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
@@ -158,7 +161,7 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-const PhotoOnlyButton = styled.button`
+export const PhotoOnlyButton = styled.button`
   background-color: #f3c7ab;
   align-items: center;
   font-size: 13px;
@@ -177,8 +180,6 @@ const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  /* right: 50%;
-  transform: translateX(50%); */
   bottom: ${HEADER_HEIGHT};
   z-index: 1;
   width: 100%;
@@ -187,18 +188,30 @@ const FixedPosition = styled.div`
 `
 
 function HomePage() {
+  const { user, loading } = useContext(GlobalContext)
+
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const { data, fetchMore, networkStatus, refetch } = useMenusQuery({
-    onError: handleApolloError,
+  const menusQueryResult = useMenusQuery({
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
   })
 
-  const isEventsLoading = networkStatus < 7
+  const userPreferencesQueryResult = useUserPreferencesQuery({
+    notifyOnNetworkStatusChange: true,
+    skip: !user,
+  })
+
+  const menus = menusQueryResult.data?.menus
+  const isMenusLoading = menusQueryResult.networkStatus < 7
+
+  const preferences = userPreferencesQueryResult.data?.me.preferences
+  const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
 
   async function fetchMoreMenus() {
-    if (data?.menus.length) {
+    if (menus?.length) {
       await sleep(5000) // fetchMore({ variables: { from, count } })
       setHasMoreMenus(false)
     } else {
@@ -207,19 +220,17 @@ function HomePage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isEventsLoading,
+    loading: isMenusLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
-
-  const goToSearchPage = useGoToPage('/search')
 
   return (
     <PageHead>
       <PageLayout>
         <FlexContainerBetweenCenter>
           <div>
-            <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
+            <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
             <TuneRoundedIcon style={StyledTuneRoundedIcon} />
           </div>
           <FlexContainerAlignCenter>
@@ -228,8 +239,12 @@ function HomePage() {
             <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
           </FlexContainerAlignCenter>
           <div>
-            <SearchRoundedIcon style={StyledSearchRoundedIcon} onClick={goToSearchPage as any} />
-            <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+            <ClientSideLink href="/users/username/notifications">
+              <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+            </ClientSideLink>
+            <ClientSideLink href="/search">
+              <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+            </ClientSideLink>
           </div>
         </FlexContainerBetweenCenter>
         <PaddingTop />
@@ -285,14 +300,45 @@ function HomePage() {
           <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         </GridContainer>
 
-        <MiddleText>김빵순님이 설정하신 취향 : #딸기 #초코 #말차 #저탄수 #비건</MiddleText>
+        <MiddleText>
+          {loading ? (
+            'user authenticating...'
+          ) : !user ? (
+            <div>
+              맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+            </div>
+          ) : isUserPreferencesLoading ? (
+            'user preferences loading...'
+          ) : preferences?.length ? (
+            <div>
+              김빵순님의 취향:{' '}
+              {preferences.map((hashtag) => (
+                <Fragment key={hashtag}>
+                  <li>
+                    <Link href={`/search/${hashtag.slice(1)}`}>
+                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                        {hashtag}
+                      </BoldA>
+                    </Link>
+                  </li>
+                  &nbsp;
+                </Fragment>
+              ))}
+            </div>
+          ) : (
+            <div>
+              설정한 취향이 아직 없어요.{' '}
+              <ClientSideLink href="/users/username/preferences">취향 설정하러 가기</ClientSideLink>
+            </div>
+          )}
+        </MiddleText>
 
         <GridContainerUl onlyImage={onlyImage}>
-          {data?.menus.map((menu) => (
+          {menus?.map((menu) => (
             <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
           ))}
         </GridContainerUl>
-        {(isEventsLoading || hasMoreMenus) && (
+        {(isMenusLoading || hasMoreMenus) && (
           <div ref={sentryRef}>
             <MenuLoadingCard onlyImage={onlyImage} />
           </div>

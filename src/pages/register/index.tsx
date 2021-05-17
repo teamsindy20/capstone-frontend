@@ -2,21 +2,31 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
-import { useCallback, useContext } from 'react'
-import { Input } from 'antd'
 import { handleApolloError } from 'src/apollo/error'
 import { useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
+import { Button, Input } from 'antd'
+import { useContext, useCallback } from 'react'
+import { toast } from 'react-toastify'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
 `
+
+export const GridContainerColumn3 = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  margin: 0.5rem 0;
+`
+
 const RegisterButton = styled.button`
   background-color: #ffc9c3;
   border: none;
@@ -95,14 +105,12 @@ function RegisterPage() {
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      if (data.register) {
-        console.log(data.register)
-        localStorage.setItem('token', data.register)
-        refetchUser()
-        router.push('/')
-      } else {
-        console.warn('이메일 또는 비밀번호를 잘못 입력했습니다.')
-      }
+      toast('디저트핏에 가입한 것을 환영합니다!')
+
+      sessionStorage.setItem('token', data.register)
+
+      refetchUser()
+      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })
@@ -135,13 +143,15 @@ function RegisterPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <HeadMessage>
-          내가 원하는 디저트를
-          <br />
-          쉽고 빠르게
-          <br />
-          <b>신디에 가입해보세요.</b>
-        </HeadMessage>
+        <ClientSideLink href="/">
+          <HeadMessage>
+            내게 딱 맞는
+            <br />
+            디저트 핏!
+            <br />
+            <b>신디에 가입해보세요.</b>
+          </HeadMessage>
+        </ClientSideLink>
 
         <HeadRegister>SIGN UP</HeadRegister>
 
@@ -194,7 +204,7 @@ function RegisterPage() {
                 <Input.Password
                   disabled={loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 재입력해주세요."
+                  placeholder="비밀번호를 다시 한 번 입력해주세요."
                   size="large"
                   type="password"
                   {...field}
@@ -205,7 +215,23 @@ function RegisterPage() {
             <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
           </label>
 
-          <RegisterButton type="submit">확인</RegisterButton>
+          <GridContainerColumn3>
+            <ClientSideLink href="/login">
+              <Button type="link">로그인</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/email">
+              <Button type="link">아이디 찾기</Button>
+            </ClientSideLink>
+
+            <ClientSideLink href="/find/password">
+              <Button type="link">비밀번호 찾기</Button>
+            </ClientSideLink>
+          </GridContainerColumn3>
+
+          <RegisterButton disabled={loading} type="submit">
+            확인
+          </RegisterButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

@@ -1,17 +1,23 @@
 {
   "Page Component": {
-    "prefix": "pc",
+    "prefix": "page",
     "body": [
       "import PageHead from 'src/components/layouts/PageHead'",
       "",
-      "function Page() {",
-      "  return <PageHead>{}</PageHead>",
+      "const description = ''",
+      "",
+      "function $1Page() {",
+      "  return (",
+      "    <PageHead title=\"디저트핏 - \" description={description}>",
+      "      {}",
+      "    </PageHead>",
+      "  )",
       "}",
       "",
-      "export default Page",
+      "export default $1Page",
       ""
     ],
-    "description": "Function Component"
+    "description": "Page Component"
   },
   "Function Component": {
     "prefix": "fc",

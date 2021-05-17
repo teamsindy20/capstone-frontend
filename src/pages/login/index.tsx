@@ -132,7 +132,7 @@ function LoginPage() {
       }
 
       refetchUser()
-      router.push(decodeURIComponent((router.query.afterLoginGoTo as string | undefined) ?? '/'))
+      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })

@@ -110,7 +110,7 @@ function RegisterPage() {
       sessionStorage.setItem('token', data.register)
 
       refetchUser()
-      router.push(decodeURIComponent((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
+      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })

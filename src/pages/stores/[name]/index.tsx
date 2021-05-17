@@ -22,9 +22,23 @@ function StoreMenusPage() {
   const [pickStore, { loading }] = usePickStoreMutation({
     onCompleted: (data) => {
       if (data.pickStore) {
-        toast.success('매장을 찜했어요')
+        toast.success(
+          <div>
+            매장을 찜했어요
+            <span onClick={() => pickStore({ variables: { id: storeId ?? '' } })} role="alert">
+              찜 해제하기
+            </span>
+          </div>
+        )
       } else {
-        toast.success('매장 찜을 해제했어요')
+        toast.success(
+          <div>
+            매장 찜을 해제했어요
+            <span onClick={() => pickStore({ variables: { id: storeId ?? '' } })} role="alert">
+              다시 찜하기
+            </span>
+          </div>
+        )
       }
       fetchStore({ variables: { id: storeId ?? '' } }) // button disabled 로 항상 not null
     },

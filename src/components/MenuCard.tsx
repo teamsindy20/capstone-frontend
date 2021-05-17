@@ -227,22 +227,36 @@ function MenuCard({ menu, onlyImage }: Props) {
     onError: handleApolloError,
   })
 
-  const [pickMenuMutation, { loading: isPickingMenuLoading }] = usePickMenuMutation({
+  const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
       if (data.pickMenu) {
-        toast.success('메뉴를 찜했어요')
+        toast.success(
+          <div>
+            메뉴를 찜했어요{' '}
+            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+              찜 해제하기
+            </span>
+          </div>
+        )
       } else {
-        toast.success('메뉴 찜을 해제했어요')
+        toast.success(
+          <div>
+            메뉴 찜을 해제했어요
+            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+              다시 찜하기
+            </span>
+          </div>
+        )
       }
       fetchMenu({ variables: { id: menu.id } })
     },
     onError: handleApolloError,
   })
 
-  function pickMenu(e: MouseEvent) {
+  function pickMenuStopPropagation(e: MouseEvent) {
     e.stopPropagation()
     if (!isPickingMenuLoading && !isMenuLoading) {
-      pickMenuMutation({ variables: { id: menu.id } })
+      pickMenu({ variables: { id: menu.id } })
     }
   }
 
@@ -273,11 +287,14 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} onClick={pickMenu} />
+            <FavoriteRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={pickMenuStopPropagation}
+            />
           ) : (
             <FavoriteBorderRoundedIcon
               style={{ fontSize: 30, color: grey[800] }}
-              onClick={pickMenu}
+              onClick={pickMenuStopPropagation}
             />
           )}
         </AbsolutePosition>

@@ -95,7 +95,7 @@ function FeedPage() {
         <TopHeader>
           <FlexContainerCenterCenter>
             <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-            <NoMarginH3>매장소식</NoMarginH3>
+            <NoMarginH3>매장 소식 · 리뷰 소식</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
 

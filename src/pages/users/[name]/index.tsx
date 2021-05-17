@@ -18,7 +18,7 @@ const GridContainerUl = styled.ul`
   gap: 1rem;
 `
 
-const description = '내 취향이 반영된 나만의 DessertFit을 만나보세요.'
+const description = '내게 딱 맞는 디저트핏!을 만나보세요.'
 
 function MyDessertFitPage() {
   const { user, loading, refetchUser } = useContext(GlobalContext)

@@ -1,6 +1,6 @@
 import PageHead from 'src/components/layouts/PageHead'
 
-const description = '나의 취향을 선택해봐요.'
+const description = '홈 화면에 표시될 메뉴의 취향을 선택해봐요.'
 
 function UserPreferencesPage() {
   return (

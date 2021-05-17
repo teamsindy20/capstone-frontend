@@ -1,14 +1,12 @@
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
-import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
-import BookmarkBorderRoundedIcon from '@material-ui/icons/BookmarkBorderRounded'
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
-import MotorcycleRoundedIcon from '@material-ui/icons/MotorcycleRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
-import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { Fragment, MouseEvent } from 'react'
-import { formatPrice, formatNumber, formatPricesWithFree } from 'src/utils/price'
+import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
@@ -134,11 +132,6 @@ const NormalH5 = styled.h5`
   font-weight: normal;
 `
 
-const GridContainerColumn = styled(GridContainerGap)`
-  grid-template-columns: repeat(3, 1fr);
-  width: fit-content;
-`
-
 const NoMarginH4 = styled.h4`
   margin: 0;
   font-weight: bold;
@@ -184,7 +177,6 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   padding: min(2vw, 0.5rem);
 `
 
-const StyledBookmarkBorderRoundedIcon = { fontSize: 25, color: grey[800] }
 const StyledLocationOnRoundedIcon = { fontSize: 18, color: grey[800] }
 
 type Props2 = {
@@ -275,49 +267,44 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <BookmarkRoundedIcon fontSize="large" onClick={pickMenu} />
+            <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} onClick={pickMenu} />
           ) : (
-            <BookmarkBorderRoundedIcon style={StyledBookmarkBorderRoundedIcon} onClick={pickMenu} />
+            <FavoriteBorderRoundedIcon
+              style={{ fontSize: 30, color: grey[800] }}
+              onClick={pickMenu}
+            />
           )}
         </AbsolutePosition>
-        <GridContainer>
+
+        <GridContainerGap>
+          <FlexContainerAlignCenter>
+            <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
+            <LighterH5>{store.name}</LighterH5>
+          </FlexContainerAlignCenter>
+
           <NoMarginH3>{menu.name}</NoMarginH3>
-          <FlexContainerUl>
-            {menu.hashtags?.map((hashtag) => (
-              <Fragment key={hashtag}>
-                <li>
-                  <Link href={`/search/${hashtag.slice(1)}`}>
-                    <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                      {hashtag}
-                    </BoldA>
-                  </Link>
-                </li>
-                &nbsp;
-              </Fragment>
-            ))}
-          </FlexContainerUl>
-          <GridContainerColumn>
-            <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-              <LighterH5>{store.name}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <MotorcycleRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{formatPricesWithFree([store.deliveryCharge])}</LighterH5>
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              <LighterH5>{`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}</LighterH5>
-            </FlexContainerAlignCenter>
-          </GridContainerColumn>
-        </GridContainer>
+          <GridContainer>
+            <FlexContainerUl>
+              {menu.hashtags?.map((hashtag) => (
+                <Fragment key={hashtag}>
+                  <li>
+                    <Link href={`/search/${hashtag.slice(1)}`}>
+                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                        {hashtag}
+                      </BoldA>
+                    </Link>
+                  </li>
+                  &nbsp;
+                </Fragment>
+              ))}
+            </FlexContainerUl>
+          </GridContainer>
+        </GridContainerGap>
+
         <GridContainer>
           <FlexContainerBetween>
-            <FlexContainerAlignCenter>
-              <TimerRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-              {`${store.minimumDeliveryTime}-${store.maximumDeliveryTime}분`}
-            </FlexContainerAlignCenter>
             <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
+            <div>^</div>
           </FlexContainerBetween>
           <HorizontalBorder />
         </GridContainer>

@@ -229,9 +229,7 @@ function HomePage() {
       <PageLayout>
         <FlexContainerBetweenCenter>
           <div>
-            <ClientSideLink href="/users/username/menus">
-              <BookmarkRoundedIcon style={StyledBookmarkRoundedIcon} />
-            </ClientSideLink>
+            <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
             <TuneRoundedIcon style={StyledTuneRoundedIcon} />
           </div>
           <FlexContainerAlignCenter>
@@ -240,11 +238,11 @@ function HomePage() {
             <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
           </FlexContainerAlignCenter>
           <div>
-            <ClientSideLink href="/search">
-              <SearchRoundedIcon style={StyledSearchRoundedIcon} />
-            </ClientSideLink>
             <ClientSideLink href="/users/username/notifications">
               <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+            </ClientSideLink>
+            <ClientSideLink href="/search">
+              <SearchRoundedIcon style={StyledSearchRoundedIcon} />
             </ClientSideLink>
           </div>
         </FlexContainerBetweenCenter>
@@ -305,7 +303,9 @@ function HomePage() {
           {loading ? (
             'user authenticating...'
           ) : !user ? (
-            <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+            <div>
+              맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+            </div>
           ) : isUserPreferencesLoading ? (
             'user preferences loading...'
           ) : preferences?.length ? (

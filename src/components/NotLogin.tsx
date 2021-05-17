@@ -4,9 +4,9 @@ import useGoToPage from 'src/hooks/useGoToPage'
 function NotLogin() {
   const { asPath } = useRouter()
 
-  const goToRegisterPage = useGoToPage(`/register?afterRegisterGoTo=${encodeURIComponent(asPath)}`)
+  const goToRegisterPage = useGoToPage(`/register?redirectUrl=${encodeURIComponent(asPath)}`)
 
-  const goToLoginPage = useGoToPage(`/login?afterLoginGoTo=${encodeURIComponent(asPath)}`)
+  const goToLoginPage = useGoToPage(`/login?redirectUrl=${encodeURIComponent(asPath)}`)
 
   return (
     <>

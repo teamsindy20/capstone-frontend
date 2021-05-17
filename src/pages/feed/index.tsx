@@ -90,12 +90,12 @@ function FeedPage() {
   })
 
   return (
-    <PageHead title="Deple - 새 소식" description={description}>
+    <PageHead title="디저트핏 - 새 소식" description={description}>
       <PageLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
             <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-            <NoMarginH3>매장소식</NoMarginH3>
+            <NoMarginH3>매장 소식 · 리뷰 소식</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
 

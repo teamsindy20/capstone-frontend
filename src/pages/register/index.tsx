@@ -105,10 +105,12 @@ function RegisterPage() {
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
-      toast.success('디저트핏에 가입한 것을 환영합니다!')
+      toast('디저트핏에 가입한 것을 환영합니다!')
+
       sessionStorage.setItem('token', data.register)
+
       refetchUser()
-      router.push(decodeURI((router.query.afterRegisterGoTo as string | undefined) ?? '/'))
+      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
     },
     onError: handleApolloError,
   })
@@ -137,8 +139,6 @@ function RegisterPage() {
     },
     [register]
   )
-
-  const notify = () => toast('디저트핏에 가입한 것을 환영합니다!')
 
   return (
     <PageHead>

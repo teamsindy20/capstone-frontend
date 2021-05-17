@@ -16,7 +16,7 @@ function StoreMenusPage() {
   const [pickStore, { loading }] = usePickStoreMutation({ onError: handleApolloError })
 
   return (
-    <PageHead title="Deple - 매장 메뉴" description={`${storeName} ${description}`}>
+    <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
       <PageLayout>
         <button
           disabled={loading || !storeId}

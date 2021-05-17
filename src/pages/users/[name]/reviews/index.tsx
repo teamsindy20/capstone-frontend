@@ -38,7 +38,7 @@ function UserReviewsPage() {
   })
 
   return (
-    <PageHead title="Deple - 내 리뷰" description={description}>
+    <PageHead title="디저트핏 - 내 리뷰" description={description}>
       <PageLayout>
         <button onClick={toggleOnlyImage}>사진만 보기</button>
 

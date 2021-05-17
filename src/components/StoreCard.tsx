@@ -32,7 +32,7 @@ function StoreCard({ store }: Props) {
   const router = useRouter()
 
   function goToStoreMenuPage() {
-    router.push(`/stores/${store.name}`)
+    router.push(`/stores/${store.name}-${store.id}`)
   }
 
   return (

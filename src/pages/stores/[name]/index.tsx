@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import { usePickStoreMutation } from 'src/graphql/generated/types-and-hooks'
+import { usePickStoreMutation, useStoreLazyQuery } from 'src/graphql/generated/types-and-hooks'
 
 const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
@@ -13,7 +14,22 @@ function StoreMenusPage() {
   const storeId = storeNameWithId?.substring(storeNameWithId.lastIndexOf('-') + 1)
   console.log(storeName, storeId)
 
-  const [pickStore, { loading }] = usePickStoreMutation({ onError: handleApolloError })
+  const [fetchStore, { loading: isStoreLoading }] = useStoreLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  const [pickStore, { loading }] = usePickStoreMutation({
+    onCompleted: (data) => {
+      if (data.pickStore) {
+        toast.success('매장을 찜했어요')
+      } else {
+        toast.success('매장 찜을 해제했어요')
+      }
+      fetchStore({ variables: { id: storeId ?? '' } }) // button disabled 로 항상 not null
+    },
+    onError: handleApolloError,
+  })
 
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>

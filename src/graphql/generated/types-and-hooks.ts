@@ -198,6 +198,7 @@ export type Mutation = {
   /** 사용자 배달 주소를 업데이트한다. */
   updateDeliveryAddress: Scalars['Boolean']
   updatePrimaryDeliveryAddress: Scalars['Boolean']
+  /** 사용자 선호 해시태그를 입력값 그대로 설정한다. */
   updatePreferences: Array<Scalars['NonEmptyString']>
 }
 
@@ -352,6 +353,12 @@ export type PostCreationInput = {
 
 export type Query = {
   __typename?: 'Query'
+  searchMenus?: Maybe<Array<Menu>>
+  searchStores?: Maybe<Array<Store>>
+  searchPosts?: Maybe<Array<Post>>
+  searchReviews?: Maybe<Array<Review>>
+  /** 특정 메뉴의 세부 정보를 반환한다. */
+  menu?: Maybe<Menu>
   /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
   menus: Array<Menu>
   /** 특정 카테고리에 속하는 메뉴 목록을 반환한다. */
@@ -360,8 +367,6 @@ export type Query = {
   menusByTheme: Array<Menu>
   /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
   menusByStore: Array<Menu>
-  /** 특정 메뉴의 세부 정보를 반환한다. */
-  menu?: Maybe<Menu>
   /** 메뉴 카테고리 목록을 반환한다. */
   menuCategories: Array<Scalars['String']>
   /** 메뉴 테마 목록을 반환한다. */
@@ -400,6 +405,26 @@ export type Query = {
   verifyUniqueEmail: Scalars['Boolean']
 }
 
+export type QuerySearchMenusArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchStoresArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchPostsArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchReviewsArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QueryMenuArgs = {
+  id: Scalars['ID']
+}
+
 export type QueryMenusByCategoryArgs = {
   category: Scalars['String']
 }
@@ -410,10 +435,6 @@ export type QueryMenusByThemeArgs = {
 
 export type QueryMenusByStoreArgs = {
   storeId: Scalars['ID']
-}
-
-export type QueryMenuArgs = {
-  id: Scalars['ID']
 }
 
 export type QueryOrderArgs = {
@@ -478,8 +499,16 @@ export type Review = {
   modificationDate: Scalars['DateTime']
   helpingOthersCount: Scalars['Int']
   rating: Rating
+  isReviewEvent: Scalars['Boolean']
+  userId: Scalars['ID']
+  /** nullable */
   goodPointContent?: Maybe<Scalars['String']>
   desiredPointContent?: Maybe<Scalars['String']>
+  /** from other table */
+  menus: Array<Menu>
+  order: Order
+  store: Store
+  user: User
 }
 
 export type ReviewCreationInput = {
@@ -534,6 +563,8 @@ export type Store = {
   minimumDeliveryTime?: Maybe<Scalars['Int']>
   maximumDeliveryTime?: Maybe<Scalars['Int']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 로그인 상태일 때 요청하면 사용자가 해당 매장을 찜한 여부를 반환한다. */
+  favorite: Scalars['Boolean']
   /** 해당 매장에서 판매 중인 메뉴 목록을 반환한다. */
   menus: Array<Menu>
   /** 해당 매장을 소유한 사용자 정보를 반환한다. */
@@ -715,6 +746,14 @@ export type RegularStoresQuery = { __typename?: 'Query' } & {
     }
 }
 
+export type StoreQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type StoreQuery = { __typename?: 'Query' } & {
+  store?: Maybe<{ __typename?: 'Store' } & Pick<Store, 'id'>>
+}
+
 export type StorePostsQueryVariables = Exact<{
   id: Scalars['ID']
 }>
@@ -730,7 +769,7 @@ export type StorePostsQuery = { __typename?: 'Query' } & {
 export type UserPreferencesQueryVariables = Exact<{ [key: string]: never }>
 
 export type UserPreferencesQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & Pick<User, 'id' | 'preferences'>
+  me: { __typename?: 'User' } & Pick<User, 'id' | 'name' | 'preferences'>
 }
 
 export const MenuCardFragmentDoc = gql`
@@ -1289,6 +1328,45 @@ export type RegularStoresQueryResult = Apollo.QueryResult<
   RegularStoresQuery,
   RegularStoresQueryVariables
 >
+export const StoreDocument = gql`
+  query Store($id: ID!) {
+    store(id: $id) {
+      id
+    }
+  }
+`
+
+/**
+ * __useStoreQuery__
+ *
+ * To run a query within a React component, call `useStoreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStoreQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStoreQuery(
+  baseOptions: Apollo.QueryHookOptions<StoreQuery, StoreQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<StoreQuery, StoreQueryVariables>(StoreDocument, options)
+}
+export function useStoreLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<StoreQuery, StoreQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<StoreQuery, StoreQueryVariables>(StoreDocument, options)
+}
+export type StoreQueryHookResult = ReturnType<typeof useStoreQuery>
+export type StoreLazyQueryHookResult = ReturnType<typeof useStoreLazyQuery>
+export type StoreQueryResult = Apollo.QueryResult<StoreQuery, StoreQueryVariables>
 export const StorePostsDocument = gql`
   query StorePosts($id: ID!) {
     store(id: $id) {
@@ -1336,6 +1414,7 @@ export const UserPreferencesDocument = gql`
   query UserPreferences {
     me {
       id
+      name
       preferences
     }
   }

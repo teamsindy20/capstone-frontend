@@ -22,6 +22,7 @@ import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
+import { toast } from 'react-toastify'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -227,7 +228,12 @@ function MenuCard({ menu, onlyImage }: Props) {
   })
 
   const [pickMenuMutation, { loading: isPickingMenuLoading }] = usePickMenuMutation({
-    onCompleted: () => {
+    onCompleted: (data) => {
+      if (data.pickMenu) {
+        toast.success('메뉴를 찜했어요')
+      } else {
+        toast.success('메뉴 찜을 해제했어요')
+      }
       fetchMenu({ variables: { id: menu.id } })
     },
     onError: handleApolloError,
@@ -242,11 +248,11 @@ function MenuCard({ menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}-${store.id}`)
+  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
 
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true} onClick={goToStoreMenusPage}>
+      <GridContainerLi onlyImage={true} onClick={goToStoreMenuPage}>
         <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
           <ImageRatioWrapper paddingTop="100%">
             <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
@@ -257,7 +263,7 @@ function MenuCard({ menu, onlyImage }: Props) {
   }
 
   return (
-    <GridContainerLi onlyImage={false} onClick={goToStoreMenusPage}>
+    <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
       <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
         <ImageRatioWrapper paddingTop="100%">
           <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
@@ -277,10 +283,12 @@ function MenuCard({ menu, onlyImage }: Props) {
         </AbsolutePosition>
 
         <GridContainerGap>
-          <FlexContainerAlignCenter>
-            <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-            <LighterH5>{store.name}</LighterH5>
-          </FlexContainerAlignCenter>
+          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+            <FlexContainerAlignCenter>
+              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
+              <LighterH5>{store.name}</LighterH5>
+            </FlexContainerAlignCenter>
+          </ClientSideLink>
 
           <NoMarginH3>{menu.name}</NoMarginH3>
           <GridContainer>

@@ -194,6 +194,7 @@ function HomePage() {
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
   const menusQueryResult = useMenusQuery({
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     onError: handleApolloError,
   })

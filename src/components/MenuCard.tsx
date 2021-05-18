@@ -15,6 +15,7 @@ import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
 import {
   MenuCardFragment,
+  useFavoriteMenusLazyQuery,
   useMenuLazyQuery,
   usePickMenuMutation,
 } from 'src/graphql/generated/types-and-hooks'
@@ -216,45 +217,49 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
+  afterPickingMenu: () => void
   menu: MenuCardFragment
   onlyImage: boolean
 }
 
-function MenuCard({ menu, onlyImage }: Props) {
-  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
-
+function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
       if (data.pickMenu) {
         toast.success(
           <div>
-            메뉴를 찜했어요{' '}
-            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+            {`${menu.name} 메뉴를 찜했어요 `}
+            <button
+              onClick={() => {
+                pickMenu({ variables: { id: menu.id } })
+              }}
+            >
               찜 해제하기
-            </span>
+            </button>
           </div>
         )
       } else {
         toast.success(
           <div>
-            메뉴 찜을 해제했어요{' '}
-            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+            {`${menu.name} 메뉴 찜을 헤제했어요 `}
+            <button
+              onClick={() => {
+                pickMenu({ variables: { id: menu.id } })
+              }}
+            >
               다시 찜하기
-            </span>
+            </button>
           </div>
         )
       }
-      fetchMenu({ variables: { id: menu.id } })
+      afterPickingMenu()
     },
     onError: handleApolloError,
   })
 
   function pickMenuStopPropagation(e: MouseEvent) {
     e.stopPropagation()
-    if (!isPickingMenuLoading && !isMenuLoading) {
+    if (!isPickingMenuLoading) {
       pickMenu({ variables: { id: menu.id } })
     }
   }

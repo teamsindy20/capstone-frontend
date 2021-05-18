@@ -13,18 +13,26 @@ import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
+import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep, stopPropagation } from 'src/utils/commons'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { useMenusQuery, useUserPreferencesQuery } from 'src/graphql/generated/types-and-hooks'
+import {
+  useMenuLazyQuery,
+  useMenusQuery,
+  useUserPreferencesQuery,
+} from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
+import { useReactiveVar } from '@apollo/client'
+import { cartMenusVar } from 'src/apollo/cache'
+import { toast } from 'react-toastify'
 
 const PADDING_TOP = '3rem'
 
@@ -32,18 +40,8 @@ const BORDER_HEIGHT = '2px'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 50%;
-  z-index: 1;
-  width: 100%;
-  max-width: ${TABLET_MIN_WIDTH};
-  height: ${PADDING_TOP};
-  transform: translateX(-50%);
-  background: #ffffff;
+  height: 100%;
 `
-
-const StyledBookmarkRoundedIcon = { fontSize: 30, color: red[500] }
 
 const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
@@ -190,12 +188,21 @@ const FixedPosition = styled.div`
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
+  const cart = useReactiveVar(cartMenusVar)
+
+  // console.log(cart)
+
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
   const menusQueryResult = useMenusQuery({
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
+  })
+
+  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
+    fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
 
@@ -228,27 +235,28 @@ function HomePage() {
   return (
     <PageHead>
       <PageLayout>
-        <FlexContainerBetweenCenter>
-          <div>
-            <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
-            <TuneRoundedIcon style={StyledTuneRoundedIcon} />
-          </div>
-          <FlexContainerAlignCenter>
-            <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-            흑석동
-            <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
-          </FlexContainerAlignCenter>
-          <div>
-            <ClientSideLink href="/users/username/notifications">
-              <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
-            </ClientSideLink>
-            <ClientSideLink href="/search">
-              <SearchRoundedIcon style={StyledSearchRoundedIcon} />
-            </ClientSideLink>
-          </div>
-        </FlexContainerBetweenCenter>
-        <PaddingTop />
-        <HorizontalBorder />
+        <TopHeader>
+          <FlexContainerBetweenCenter>
+            <FlexContainerAlignCenter>
+              <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
+              <TuneRoundedIcon style={StyledTuneRoundedIcon} />
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
+              흑석동
+              <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
+            </FlexContainerAlignCenter>
+            <div>
+              <ClientSideLink href="/users/username/notifications">
+                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+              </ClientSideLink>
+              <ClientSideLink href="/search">
+                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+              </ClientSideLink>
+            </div>
+          </FlexContainerBetweenCenter>
+        </TopHeader>
+
         <StyledSlider {...settings}>
           <BannerAd>
             <Img src="/banner.png" alt="banner advertisement"></Img>
@@ -335,7 +343,12 @@ function HomePage() {
 
         <GridContainerUl onlyImage={onlyImage}>
           {menus?.map((menu) => (
-            <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
+            <MenuCard
+              key={menu.id}
+              afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+              menu={menu}
+              onlyImage={onlyImage}
+            />
           ))}
         </GridContainerUl>
         {(isMenusLoading || hasMoreMenus) && (

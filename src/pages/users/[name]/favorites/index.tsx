@@ -104,10 +104,16 @@ function UserFavoritesPage() {
         <Tabs defaultActiveKey="1" centered>
           <Tabs.TabPane tab="메뉴" key="1">
             <div>
+              {/* <button onClick={() => favoriteMenusQueryResult.refetch()}>refetch</button> */}
               <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
               <GridContainerUl onlyImage={onlyImage}>
                 {favoriteMenus?.map((favoriteMenu) => (
-                  <MenuCard key={favoriteMenu.id} menu={favoriteMenu} onlyImage={onlyImage} />
+                  <MenuCard
+                    key={favoriteMenu.id}
+                    afterPickingMenu={() => favoriteMenusQueryResult.refetch()}
+                    menu={favoriteMenu}
+                    onlyImage={onlyImage}
+                  />
                 ))}
               </GridContainerUl>
               {loading || hasMoreMenus ? (

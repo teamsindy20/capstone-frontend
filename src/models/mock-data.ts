@@ -1,6 +1,5 @@
 import TMenu from 'src/types/Menu'
 import TOrder from 'src/types/Order'
-import TPost from 'src/types/Post'
 import TReview from 'src/types/Review'
 import TStore from 'src/types/Store'
 
@@ -352,98 +351,6 @@ export const menus: TMenu[] = [
     hashtags: ['#슈크림', '#달달', '#봄음료', '#달콤'],
     bookmark: false,
     store: store2,
-  },
-]
-
-export const posts: TPost[] = [
-  {
-    id: '0',
-    creationDate: new Date().toISOString(),
-    modificationDate: new Date().toISOString(),
-    contents: [
-      '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
-    ],
-    imageUrl: [
-      'https://post-phinf.pstatic.net/MjAxNzAzMDJfMzIg/MDAxNDg4NDQwNzg5NjQz.PjCwCa-LsK0JhSj-YWuoMMQlhxNfOg5_fgzyCYHCPysg.aTQVrQ5QFduqEfsKc8BCh0CblDOf_vfezzM-dp7Qo3Ig.JPEG/image_4562399321488440004463.jpg?type=w1200',
-    ],
-    likeCount: 422,
-    commentCount: 14,
-    store: store,
-  },
-  {
-    id: '1',
-    creationDate: new Date().toISOString(),
-    modificationDate: new Date().toISOString(),
-    contents: [
-      '재판매 요청이 많아서 딸기 프레지에 소량 준비해뒀어요!',
-      '금, 토, 일 3일간 프레지에 홀케이크 미니사이즈로 판매합니다😁',
-      '예쁜 하트초 같이 넣어드릴게요❤️',
-      '',
-      '오늘의 라인업 입니다!',
-      '',
-      '딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
-    ],
-    imageUrl: [
-      'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200726_219%2F1595757353365bKuBp_JPEG%2FiT6243NPDzm9e0aPxell_Nsj.jpg&type=sc960_832',
-    ],
-    likeCount: 6788,
-    commentCount: 176,
-    store: store4,
-  },
-  {
-    id: '2',
-    creationDate: new Date().toISOString(),
-    modificationDate: new Date().toISOString(),
-    contents: [
-      '오늘의 마카롱&디저트 라인업이에요!💛',
-      '파베생초코, 레드벨벳, 크림브륄레, 투게더바닐라, 피넛버터크런치,오레오, 찰떡인절미, 바나나누텔라, 블루베리크림치즈, 치즈케이크, 황치즈샌드, 뽀또황치즈, 쏠티드카라멜, 생딸기요거트',
-      '',
-      '나미네양과점은 전 제품에 프랑스산 최고급 천연발효 버터만을 사용하고 있어요😊',
-    ],
-    imageUrl: [
-      'https://postfiles.pstatic.net/MjAyMTAzMDZfMjk0/MDAxNjE1MDMzMDQyNzA4.jPJOE8sRiVbwwjWyPOjXp50sHg2MX77adLnTU4IsqMcg.UK5yXB6p44sIB00sUzsrMJ7-oEnitai16uMwWwjvpW4g.JPEG.luckygirl1004/SE-86ed3f06-c723-449b-966b-4985cd3a10da.jpg?type=w966',
-    ],
-    likeCount: 234,
-    commentCount: 74,
-    store: store7,
-  },
-  {
-    id: '3',
-    creationDate: new Date().toISOString(),
-    modificationDate: new Date().toISOString(),
-    contents: [
-      '오늘의 스콘이 모두 소진되었습니당!😅',
-      '고메플레인, 옥수수, 얼그레이, 체다치즈파슬리, 오레오, 로투스, 녹차',
-      '',
-      '넘나 빠른 소진,,🤣',
-      '여러분들의 성원에 힘입어 스콘이 모두 소진되었습니다..',
-      '이 공지 꼭 보시고 헛된 발걸음 하시지 않길 바라요 🙏🏻',
-      '내일 더 맛있는 스콘으로 찾아뵐게요! 오늘도 좋은 하루 보내세요 :)',
-    ],
-    imageUrl: [
-      'https://postfiles.pstatic.net/MjAyMDAyMjNfMSAg/MDAxNTgyNDUxNTAyNjg0.YRIRqMCLjopSGmTimCWEBs56u_G8MzIpQxFbXNm18dkg.gkD4Gkt1frAPAwWpKp9AOkaYkxppHYDaxri5q2UTN9kg.JPEG.lisagracie7762/SE-250bf5e3-3e63-45c1-8cdd-9b90ed3a5b85.jpg?type=w966',
-    ],
-    likeCount: 58,
-    commentCount: 19,
-    store: store8,
-  },
-  {
-    id: '4',
-    creationDate: new Date().toISOString(),
-    modificationDate: new Date().toISOString(),
-    contents: [
-      '4월 일정 공지합니다!',
-      '💛 = 베이킹 클래스',
-      '🖤 = 카페 정상 운영 기간',
-      '일정 꼭 확인하셔서 헛걸음 없으시길 바라요🙏🏻',
-      '오늘도 좋은 하루 보내세요 :)',
-    ],
-    imageUrl: [
-      'https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/83008531_824166611387598_471126081900830500_n.jpg?tp=1&amp;_nc_ht=scontent-ssn1-1.cdninstagram.com&amp;_nc_cat=106&amp;_nc_ohc=LCMp4ciQMmoAX8GEXd7&amp;edm=AP_V10EAAAAA&amp;ccb=7-4&amp;oh=bfb7305175710157b62836f4b38ca7b8&amp;oe=609A30FD&amp;_nc_sid=4f375e',
-    ],
-    likeCount: 160,
-    commentCount: 50,
-    store: store9,
   },
 ]
 

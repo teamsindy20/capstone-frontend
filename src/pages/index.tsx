@@ -345,9 +345,11 @@ function HomePage() {
         )}
 
         <FixedPosition>
-          <IconButton color="default" aria-label="shopping cart" component="div">
-            <StyledLocalGroceryStoreRoundedIcon />
-          </IconButton>
+          <ClientSideLink href="/cart">
+            <IconButton aria-label="shopping cart" color="default" component="div">
+              <StyledLocalGroceryStoreRoundedIcon />
+            </IconButton>
+          </ClientSideLink>
         </FixedPosition>
       </PageLayout>
     </PageHead>

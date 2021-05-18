@@ -24,7 +24,7 @@ function StoreMenusPage() {
       if (data.pickStore) {
         toast.success(
           <div>
-            매장을 찜했어요
+            매장을 찜했어요{' '}
             <span onClick={() => pickStore({ variables: { id: storeId ?? '' } })} role="alert">
               찜 해제하기
             </span>
@@ -33,7 +33,7 @@ function StoreMenusPage() {
       } else {
         toast.success(
           <div>
-            매장 찜을 해제했어요
+            매장 찜을 해제했어요{' '}
             <span onClick={() => pickStore({ variables: { id: storeId ?? '' } })} role="alert">
               다시 찜하기
             </span>

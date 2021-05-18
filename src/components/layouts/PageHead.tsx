@@ -11,8 +11,8 @@ type Props = {
 
 function PageHead({
   children,
-  title = 'DessertFit: Dessert Pleasure',
-  description = '디플은 내가 원하는 디저트를 쉽고 빠르게 고를 수 있는 온라인 디저트 검색 및 배달 서비스입니다.',
+  title = '디저트핏 (Dessert Fit)',
+  description = '디저트핏은 내가 원하는 디저트를 쉽고 빠르게 고를 수 있는 온라인 디저트 검색 및 배달 서비스입니다.',
 }: Props) {
   const { pathname } = useRouter()
 
@@ -25,7 +25,7 @@ function PageHead({
         <meta property="og:description" content={description} />
         <meta property="og:image" content="/sindy.jpeg" />
         <meta property="og:url" content={`${canonicalUrl}${pathname.slice(1)}`} />
-        <meta property="og:site_name" content="DessertFit: Dessert Pleasure" />
+        <meta property="og:site_name" content="디저트핏 (Dessert Fit)" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image:alt" content="Sindy Logo" />

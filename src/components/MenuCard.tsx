@@ -80,7 +80,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   cursor: pointer;
   background: #f1f6fa;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 1vw);
+  border-radius: min(10px, 1vw);
   overflow: hidden;
 `
 
@@ -96,7 +96,6 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: max(10px, 1vw);
 
   background: #f3ccc7;
 `
@@ -241,7 +240,7 @@ function MenuCard({ menu, onlyImage }: Props) {
       } else {
         toast.success(
           <div>
-            메뉴 찜을 해제했어요
+            메뉴 찜을 해제했어요{' '}
             <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
               다시 찜하기
             </span>

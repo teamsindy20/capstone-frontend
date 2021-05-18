@@ -4,7 +4,7 @@ schema:
   - ${NEXT_PUBLIC_GRAPHQL_API_URL}
 
   # Client Schema
-  - src/models/*.graphql
+  - src/graphql/schema/*.graphql
 documents: src/graphql/**/*.graphql
 generates:
   src/graphql/generated/types-and-hooks.ts:

@@ -1,45 +1,39 @@
-import { useState } from 'react'
-import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { Tabs } from 'antd'
+import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import OrderCard, { OrderLoadingCard } from 'src/components/OrderCard'
-import { orders, store } from 'src/models/mock-data'
-import { sleep } from 'src/utils/commons'
-import styled from 'styled-components'
-import grey from '@material-ui/core/colors/grey'
-import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
-import TopHeader from 'src/components/TopHeader'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
-const description = '내가 지금까지 주문한 내역을 확인해보세요.'
-
-const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }
-
-const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
-  justify-content: center;
-  height: 100%;
-`
-
-const NoMarginH3 = styled.h3`
-  margin: 0;
-`
+const description = '매장의 소식을 확인해보세요'
 
 function StoreFeedPage() {
+  const router = useRouter()
+
+  function goToPage(activeKey: string) {
+    switch (activeKey) {
+      case 'menus':
+        return `/stores/${router.query.name}`
+      case 'feed':
+      case 'reviews':
+        return `/stores/${router.query.name}/${activeKey}`
+      default:
+        return ''
+    }
+  }
+
   return (
-    <>
-      <>여기서 피드 상세를 모달로 띄우고 왼쪽 오른쪽 화살표로 피드 간 이동. 이동 시 url은 고정</>
-      <>왼쪽 오른쪽 버튼에 prevPostId, nextPostId를 가진 리스너 걸어서 클릭 시 데이터 요청</>
-      <PageHead title="디저트핏 - 주문 내역" description={description}>
-        <PageLayout>
-          <TopHeader>
-            <FlexContainerCenterCenter>
-              <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-              <NoMarginH3>{store.name}</NoMarginH3>
-            </FlexContainerCenterCenter>
-          </TopHeader>
-        </PageLayout>
-      </PageHead>
-    </>
+    <PageHead title="디저트핏 - 매장 소식" description={description}>
+      <PageLayout>
+        <Tabs
+          defaultActiveKey="feed"
+          centered
+          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+        >
+          <Tabs.TabPane tab="메뉴" key="menus" />
+          <Tabs.TabPane tab="소식" key="feed" />
+          <Tabs.TabPane tab="리뷰" key="reviews" />
+        </Tabs>
+      </PageLayout>
+    </PageHead>
   )
 }
 

@@ -30,9 +30,6 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { useReactiveVar } from '@apollo/client'
-import { cartMenusVar } from 'src/apollo/cache'
-import { toast } from 'react-toastify'
 
 const PADDING_TOP = '3rem'
 
@@ -61,16 +58,6 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   border-radius: 50%;
   padding: 10px;
   //font-color: #3c3c3c;
-`
-
-// const WrapIconDiv = styled.div`
-//   font-size: 90px;
-//   background-color: #fff;
-//   border-radius: 50%;
-// `
-
-const PaddingTop = styled.div`
-  padding-top: ${PADDING_TOP};
 `
 
 const settings = {
@@ -170,10 +157,6 @@ export const PhotoOnlyButton = styled.button`
   margin: auto;
 `
 
-const HorizontalBorder = styled.div`
-  border: ${BORDER_HEIGHT} solid #ddd;
-`
-
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -187,10 +170,6 @@ const FixedPosition = styled.div`
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
-
-  const cart = useReactiveVar(cartMenusVar)
-
-  // console.log(cart)
 
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
@@ -238,22 +217,21 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
-              <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
-              <TuneRoundedIcon style={StyledTuneRoundedIcon} />
-            </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
               <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
               흑석동
               <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
             </FlexContainerAlignCenter>
-            <div>
+            <FlexContainerAlignCenter>
+              <FlexContainerAlignCenter>
+                <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
+              </FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/notifications">
                 <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
               </ClientSideLink>
               <ClientSideLink href="/search">
                 <SearchRoundedIcon style={StyledSearchRoundedIcon} />
               </ClientSideLink>
-            </div>
+            </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
 
@@ -346,7 +324,7 @@ function HomePage() {
             <MenuCard
               key={menu.id}
               afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-              menu={menu}
+              menu={menu as any}
               onlyImage={onlyImage}
             />
           ))}

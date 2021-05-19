@@ -69,7 +69,7 @@ function Header() {
             <NoMarginH6>소식</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href={`/users/${username}/favorites`}>
+        <ClientSideLink href={`/users/${username}/favorite-menus`}>
           <FlexContainerColumnCenterCenter>
             <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
             <NoMarginH6>찜</NoMarginH6>

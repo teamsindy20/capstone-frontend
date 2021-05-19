@@ -89,6 +89,7 @@ export type Menu = {
   categoryId: Scalars['ID']
   storeId: Scalars['ID']
   /** nullable */
+  content?: Maybe<Scalars['String']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
   options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
@@ -100,6 +101,7 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  /** 메뉴에 달린 옵션을 반환한다. */
   menuOptions?: Maybe<Array<MenuOption>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
@@ -150,6 +152,15 @@ export type MenuOption = {
   menu: Menu
 }
 
+export type MenuOptionCategory = {
+  __typename?: 'MenuOptionCategory'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  type: MenuOptionType
+}
+
 export type MenuOptionInput = {
   name: Scalars['String']
   price: Scalars['Int']
@@ -160,6 +171,13 @@ export type MenuOptionInput = {
 export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
   text?: Maybe<Scalars['String']>
+}
+
+export enum MenuOptionType {
+  BinarySelection = 'BINARY_SELECTION',
+  SingleSelection = 'SINGLE_SELECTION',
+  MultiSelection = 'MULTI_SELECTION',
+  Text = 'TEXT',
 }
 
 export type MenuSelectionInput = {
@@ -742,7 +760,14 @@ export type MenuDetailQueryVariables = Exact<{
 }>
 
 export type MenuDetailQuery = { __typename?: 'Query' } & {
-  menu?: Maybe<{ __typename?: 'Menu' } & Pick<Menu, 'id'>>
+  menu?: Maybe<
+    { __typename?: 'Menu' } & Pick<Menu, 'content'> & {
+        menuOptions?: Maybe<
+          Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
+        >
+        store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'minimumDeliveryAmount'>
+      } & MenuCardFragment
+  >
 }
 
 export type MenusQueryVariables = Exact<{ [key: string]: never }>
@@ -774,7 +799,19 @@ export type StoreQueryVariables = Exact<{
 }>
 
 export type StoreQuery = { __typename?: 'Query' } & {
-  store?: Maybe<{ __typename?: 'Store' } & Pick<Store, 'id'>>
+  store?: Maybe<{ __typename?: 'Store' } & StoreCardFragment>
+}
+
+export type StoreMenusQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type StoreMenusQuery = { __typename?: 'Query' } & {
+  store?: Maybe<
+    { __typename?: 'Store' } & Pick<Store, 'id'> & {
+        menus: Array<{ __typename?: 'Menu' } & MenuCardFragment>
+      }
+  >
 }
 
 export type StorePostsQueryVariables = Exact<{
@@ -1248,9 +1285,21 @@ export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>
 export const MenuDetailDocument = gql`
   query MenuDetail($id: ID!) {
     menu(id: $id) {
-      id
+      ...menuCard
+      content
+      menuOptions {
+        id
+        name
+        price
+      }
+      store {
+        id
+        name
+        minimumDeliveryAmount
+      }
     }
   }
+  ${MenuCardFragmentDoc}
 `
 
 /**
@@ -1431,9 +1480,10 @@ export type RegularStoresQueryResult = Apollo.QueryResult<
 export const StoreDocument = gql`
   query Store($id: ID!) {
     store(id: $id) {
-      id
+      ...storeCard
     }
   }
+  ${StoreCardFragmentDoc}
 `
 
 /**
@@ -1467,6 +1517,49 @@ export function useStoreLazyQuery(
 export type StoreQueryHookResult = ReturnType<typeof useStoreQuery>
 export type StoreLazyQueryHookResult = ReturnType<typeof useStoreLazyQuery>
 export type StoreQueryResult = Apollo.QueryResult<StoreQuery, StoreQueryVariables>
+export const StoreMenusDocument = gql`
+  query StoreMenus($id: ID!) {
+    store(id: $id) {
+      id
+      menus {
+        ...menuCard
+      }
+    }
+  }
+  ${MenuCardFragmentDoc}
+`
+
+/**
+ * __useStoreMenusQuery__
+ *
+ * To run a query within a React component, call `useStoreMenusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStoreMenusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStoreMenusQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStoreMenusQuery(
+  baseOptions: Apollo.QueryHookOptions<StoreMenusQuery, StoreMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<StoreMenusQuery, StoreMenusQueryVariables>(StoreMenusDocument, options)
+}
+export function useStoreMenusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<StoreMenusQuery, StoreMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<StoreMenusQuery, StoreMenusQueryVariables>(StoreMenusDocument, options)
+}
+export type StoreMenusQueryHookResult = ReturnType<typeof useStoreMenusQuery>
+export type StoreMenusLazyQueryHookResult = ReturnType<typeof useStoreMenusLazyQuery>
+export type StoreMenusQueryResult = Apollo.QueryResult<StoreMenusQuery, StoreMenusQueryVariables>
 export const StorePostsDocument = gql`
   query StorePosts($id: ID!) {
     store(id: $id) {

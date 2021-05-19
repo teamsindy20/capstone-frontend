@@ -7,11 +7,8 @@ import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLogin from 'src/components/NotLogin'
-import {
-  useFavoriteMenusQuery,
-  useFavoriteStoresQuery,
-  useMenuLazyQuery,
-} from 'src/graphql/generated/types-and-hooks'
+import TopHeader from 'src/components/TopHeader'
+import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { PhotoOnlyButton, GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
@@ -71,14 +68,16 @@ function UserFavoriteMenusPage() {
   return (
     <PageHead title="디저트핏 - 찜 메뉴" description={description}>
       <PageLayout>
-        <Tabs
-          defaultActiveKey="favorite-menus"
-          centered
-          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
-        >
-          <Tabs.TabPane tab="메뉴" key="favorite-menus" />
-          <Tabs.TabPane tab="매장" key="favorite-stores" />
-        </Tabs>
+        <TopHeader>
+          <Tabs
+            defaultActiveKey="favorite-menus"
+            centered
+            onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          >
+            <Tabs.TabPane tab="메뉴" key="favorite-menus" />
+            <Tabs.TabPane tab="매장" key="favorite-stores" />
+          </Tabs>
+        </TopHeader>
 
         <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
         <GridContainerUl onlyImage={onlyImage}>

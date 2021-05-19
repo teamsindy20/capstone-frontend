@@ -2,28 +2,17 @@ import { useContext, useState } from 'react'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import TopHeader from 'src/components/TopHeader'
 import NotLogin from 'src/components/NotLogin'
 import StoreCard from 'src/components/StoreCard'
-import {
-  useFavoriteMenusQuery,
-  useFavoriteStoresQuery,
-  useMenuLazyQuery,
-} from 'src/graphql/generated/types-and-hooks'
+import { useFavoriteStoresQuery } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { GlobalContext } from '../../../_app'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
-import grey from '@material-ui/core/colors/grey'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import useBoolean from 'src/hooks/useBoolean'
 import { sleep } from 'src/utils/commons'
-import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
-import { PhotoOnlyButton, GridContainerUl } from 'src/pages'
 import { Tabs } from 'antd'
 import { useRouter } from 'next/router'
-
-const StyledFavoriteRoundedIcon = { fontSize: 22, color: grey[800] }
+import TopHeader from 'src/components/TopHeader'
 
 const GridContainerBackground = styled.div`
   display: grid;
@@ -31,15 +20,6 @@ const GridContainerBackground = styled.div`
 
   background: #eee;
   border: 1px solid #eee;
-`
-
-const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
-  justify-content: center;
-  height: 100%;
-`
-
-const NoMarginH3 = styled.h3`
-  margin: 0;
 `
 
 const description = '내가 찜한 매장 및 찜한 메뉴를 모아서 볼 수 있어요.'
@@ -96,14 +76,16 @@ function UserFavoritesPage() {
   return (
     <PageHead title="디저트핏 - 찜 매장" description={description}>
       <PageLayout>
-        <Tabs
-          defaultActiveKey="favorite-stores"
-          centered
-          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
-        >
-          <Tabs.TabPane tab="메뉴" key="favorite-menus" />
-          <Tabs.TabPane tab="매장" key="favorite-stores" />
-        </Tabs>
+        <TopHeader>
+          <Tabs
+            defaultActiveKey="favorite-stores"
+            centered
+            onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          >
+            <Tabs.TabPane tab="메뉴" key="favorite-menus" />
+            <Tabs.TabPane tab="매장" key="favorite-stores" />
+          </Tabs>
+        </TopHeader>
 
         <GridContainerBackground>
           {favoriteStores?.map((regularStore) => (

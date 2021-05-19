@@ -1,6 +1,5 @@
 import { Tabs } from 'antd'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
@@ -22,7 +21,6 @@ function StoreMenusPage() {
   const storeNameWithId = (router.query.name ?? '') as string
   const storeName = storeNameWithId?.substring(0, storeNameWithId.lastIndexOf('-'))
   const storeId = storeNameWithId?.substring(storeNameWithId.lastIndexOf('-') + 1)
-  console.log(storeName, storeId)
 
   function goToPage(activeKey: string) {
     switch (activeKey) {
@@ -73,7 +71,7 @@ function StoreMenusPage() {
           </div>
         )
       }
-      fetchStore({ variables: { id: storeId } }) // button disabled 로 항상 not null
+      fetchStore({ variables: { id: storeId } }) // storeId는 button disabled 로 항상 not null
     },
     onError: handleApolloError,
   })

@@ -19,6 +19,7 @@ import useBoolean from 'src/hooks/useBoolean'
 import { sleep } from 'src/utils/commons'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import { PhotoOnlyButton, GridContainerUl } from 'src/pages'
+import { Tabs } from 'antd'
 
 const StyledFavoriteRoundedIcon = { fontSize: 22, color: grey[800] }
 
@@ -100,35 +101,39 @@ function UserFavoritesPage() {
   return (
     <PageHead title="디저트핏 - 찜" description={description}>
       <PageLayout>
-        <TopHeader>
-          <FlexContainerCenterCenter>
-            <FavoriteRoundedIcon style={StyledFavoriteRoundedIcon} />
-            <NoMarginH3>찜</NoMarginH3>
-          </FlexContainerCenterCenter>
-        </TopHeader>
-
-        <h3>찜한 메뉴</h3>
-        <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
-        <GridContainerUl onlyImage={onlyImage}>
-          {favoriteMenus?.map((favoriteMenu) => (
-            <MenuCard key={favoriteMenu.id} menu={favoriteMenu} onlyImage={onlyImage} />
-          ))}
-        </GridContainerUl>
-        {loading || hasMoreMenus ? (
-          <div ref={sentryRef}>
-            <MenuLoadingCard onlyImage={onlyImage} />
-          </div>
-        ) : (
-          !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
-        )}
-
-        <h3>찜한 매장</h3>
-        <GridContainerBackground>
-          {favoriteStores?.map((regularStore) => (
-            <StoreCard key={regularStore.id} store={regularStore} />
-          ))}
-          {!favoriteStores?.length && <h4>찜한 매장이 없어요</h4>}
-        </GridContainerBackground>
+        <Tabs defaultActiveKey="1" centered>
+          <Tabs.TabPane tab="메뉴" key="1">
+            <div>
+              {/* <button onClick={() => favoriteMenusQueryResult.refetch()}>refetch</button> */}
+              <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
+              <GridContainerUl onlyImage={onlyImage}>
+                {favoriteMenus?.map((favoriteMenu) => (
+                  <MenuCard
+                    key={favoriteMenu.id}
+                    afterPickingMenu={() => favoriteMenusQueryResult.refetch()}
+                    menu={favoriteMenu}
+                    onlyImage={onlyImage}
+                  />
+                ))}
+              </GridContainerUl>
+              {loading || hasMoreMenus ? (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              ) : (
+                !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
+              )}
+            </div>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="매장" key="2">
+            <GridContainerBackground>
+              {favoriteStores?.map((regularStore) => (
+                <StoreCard key={regularStore.id} store={regularStore} />
+              ))}
+              {!favoriteStores?.length && <h4>찜한 매장이 없어요</h4>}
+            </GridContainerBackground>
+          </Tabs.TabPane>
+        </Tabs>
       </PageLayout>
     </PageHead>
   )

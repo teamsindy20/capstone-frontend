@@ -1,0 +1,5 @@
+query MenuDetail($id: ID!) {
+  menu(id: $id) {
+    id
+  }
+}

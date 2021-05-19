@@ -2,12 +2,12 @@ import { ApolloProvider } from '@apollo/client'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { createContext, ReactNode, useEffect } from 'react'
+import { createContext, ReactNode, useEffect, useMemo } from 'react'
 import { client } from 'src/apollo/client'
 import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
@@ -82,6 +82,11 @@ function GlobalProvider({ children }: GlobalProviderProps) {
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
+const MaxWidth = styled.div`
+  max-width: ${TABLET_MIN_WIDTH};
+  margin: 0 auto;
+`
+
 function DessertFitApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
@@ -108,7 +113,11 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
       <GlobalStyle />
       <ApolloProvider client={client}>
         <GlobalProvider>
-          <Component {...pageProps} />
+          <main>
+            <div style={{ maxWidth: TABLET_MIN_WIDTH, margin: '0 auto' }}>
+              <Component {...pageProps} />
+            </div>
+          </main>
         </GlobalProvider>
       </ApolloProvider>
       <ToastContainer position="top-center" />

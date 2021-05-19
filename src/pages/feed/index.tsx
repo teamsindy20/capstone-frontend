@@ -11,6 +11,7 @@ import TopHeader from 'src/components/TopHeader'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { Tabs } from 'antd'
 
 const PADDING_TOP = '3rem'
 
@@ -92,48 +93,54 @@ function FeedPage() {
   return (
     <PageHead title="디저트핏 - 새 소식" description={description}>
       <PageLayout>
-        <TopHeader>
-          <FlexContainerCenterCenter>
-            <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-            <NoMarginH3>매장 소식 · 리뷰 소식</NoMarginH3>
-          </FlexContainerCenterCenter>
-        </TopHeader>
+        <Tabs defaultActiveKey="1" centered>
+          <Tabs.TabPane tab="매장 소식" key="1">
+            <div>
+              <Div>
+                <Tag
+                  color="rgb(190, 235, 253)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  이벤트
+                </Tag>
+                <Tag
+                  color="rgb(247, 231, 177)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  메뉴 소식
+                </Tag>
+                <Tag
+                  color="rgb(169, 160, 252)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  영업 공지
+                </Tag>
 
-        <Div>
-          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-            오늘의라인업
-          </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-            신메뉴소식
-          </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
-            할인/이벤트
-          </Tag>
-
-          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-            휴무일정
-          </Tag>
-          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
-            빵나오는시간
-          </Tag>
-          <Tag color="#99E9F2" onClick={(e: any) => console.log(e.target.textContent)}>
-            일상
-          </Tag>
-          <Tag color="#F1F3F5" onClick={(e: any) => console.log(e.target.textContent)}>
-            기타
-          </Tag>
-        </Div>
-        <HorizontalBorder />
-        <GridContainerUl>
-          {data?.postsByAddress.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-          {(isPostsLoading || hasMorePosts) && (
-            <div ref={sentryRef}>
-              <PostLoadingCard />
+                <Tag
+                  color="rgb(207, 195, 181)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  원데이 클래스
+                </Tag>
+                <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+                  이모저모
+                </Tag>
+              </Div>
+              <HorizontalBorder />
+              <GridContainerUl>
+                {data?.postsByAddress.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+                {(isPostsLoading || hasMorePosts) && (
+                  <div ref={sentryRef}>
+                    <PostLoadingCard />
+                  </div>
+                )}
+              </GridContainerUl>
             </div>
-          )}
-        </GridContainerUl>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="리뷰 소식" key="2"></Tabs.TabPane>
+        </Tabs>
       </PageLayout>
     </PageHead>
   )

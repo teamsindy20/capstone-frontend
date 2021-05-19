@@ -4,7 +4,7 @@ const description = ''
 
 function SearchResultPage() {
   return (
-    <PageHead title="디저트핏 - " description={description}>
+    <PageHead title={`디저트핏 - `} description={description}>
       {}
     </PageHead>
   )

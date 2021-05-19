@@ -14,6 +14,7 @@ import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
 import {
+  Menu,
   MenuCardFragment,
   useFavoriteMenusLazyQuery,
   useMenuLazyQuery,
@@ -24,6 +25,7 @@ import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
+import useBoolean from 'src/hooks/useBoolean'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -161,7 +163,8 @@ export const BoldA = styled.a`
   }
 `
 
-const HorizontalBorder = styled.div`
+const HorizontalBorder = styled.div<{ show?: boolean }>`
+  ${(p) => (p.show ? '' : 'visibility: hidden;')}
   border: 1px solid #ddd;
 `
 
@@ -218,11 +221,13 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   afterPickingMenu: () => void
-  menu: MenuCardFragment
+  menu: Menu
   onlyImage: boolean
 }
 
 function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+  const [isCardDetailOpened, toggleCardDetail] = useBoolean(true)
+
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
       if (data.pickMenu) {
@@ -267,11 +272,12 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
   const store = menu.store
 
   const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+  const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true} onClick={goToStoreMenuPage}>
-        <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+      <GridContainerLi onlyImage onClick={goToStoreMenuPage}>
+        <ClientSideLink href={storeReviewsPage}>
           <ImageRatioWrapper paddingTop="100%">
             <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
           </ImageRatioWrapper>
@@ -282,7 +288,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
-      <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+      <ClientSideLink href={storeReviewsPage}>
         <ImageRatioWrapper paddingTop="100%">
           <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
         </ImageRatioWrapper>
@@ -333,33 +339,52 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         <GridContainer>
           <FlexContainerBetween>
             <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
-            <div>^</div>
+            <button onClick={toggleCardDetail}>{isCardDetailOpened ? '▲' : '▼'}</button>
           </FlexContainerBetween>
-          <HorizontalBorder />
+          <HorizontalBorder show={isCardDetailOpened} />
         </GridContainer>
       </FlexContainerColumnBetween>
 
-      <FlexContainerWrapAround>
-        <FlexContainerAlignCenter>
-          <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-        </FlexContainerAlignCenter>
-      </FlexContainerWrapAround>
+      {isCardDetailOpened && (
+        <FlexContainerWrapAround>
+          {menu.positiveReviewRatio !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.reorderRatio !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.totalReviewCount !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.totalOrderCount !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
+              </FlexContainerAlignCenter>
+            </>
+          )}
+          {/* {&&<></>} */}
+        </FlexContainerWrapAround>
+      )}
     </GridContainerLi>
   )
 }

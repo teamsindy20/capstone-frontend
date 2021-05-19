@@ -40,8 +40,8 @@ function StoresFeedPage() {
   const [hasMorePosts, setHasMorePosts] = useState(true)
 
   const { data, fetchMore, networkStatus, refetch } = usePostsByAddressQuery({
-    onError: handleApolloError,
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
   })
 
   const isPostsLoading = networkStatus < 7

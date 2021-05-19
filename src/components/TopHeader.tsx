@@ -24,7 +24,7 @@ const Height = styled.div`
   height: calc(${TOP_HEADER_HEIGHT} - ${BORDER_HEIGHT});
 `
 
-const HorizontalBorder = styled.div`
+export const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
 `
 

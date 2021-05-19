@@ -675,7 +675,7 @@ export type PostCardFragment = { __typename?: 'Post' } & Pick<
   | 'commentCount'
   | 'likeCount'
   | 'imageUrls'
->
+> & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address' | 'imageUrls'> }
 
 export type StoreCardFragment = { __typename?: 'Store' } & Pick<
   Store,
@@ -779,11 +779,15 @@ export type MenusQuery = { __typename?: 'Query' } & {
 export type PostsByAddressQueryVariables = Exact<{ [key: string]: never }>
 
 export type PostsByAddressQuery = { __typename?: 'Query' } & {
-  postsByAddress: Array<
-    { __typename?: 'Post' } & {
-      store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'address' | 'imageUrls'>
-    } & PostCardFragment
-  >
+  postsByAddress: Array<{ __typename?: 'Post' } & PostCardFragment>
+}
+
+export type PostsByStoreQueryVariables = Exact<{
+  storeId: Scalars['ID']
+}>
+
+export type PostsByStoreQuery = { __typename?: 'Query' } & {
+  postsByStore: Array<{ __typename?: 'Post' } & PostCardFragment>
 }
 
 export type RegularStoresQueryVariables = Exact<{ [key: string]: never }>
@@ -810,18 +814,6 @@ export type StoreMenusQuery = { __typename?: 'Query' } & {
   store?: Maybe<
     { __typename?: 'Store' } & Pick<Store, 'id'> & {
         menus: Array<{ __typename?: 'Menu' } & MenuCardFragment>
-      }
-  >
-}
-
-export type StorePostsQueryVariables = Exact<{
-  id: Scalars['ID']
-}>
-
-export type StorePostsQuery = { __typename?: 'Query' } & {
-  store?: Maybe<
-    { __typename?: 'Store' } & Pick<Store, 'id'> & {
-        posts?: Maybe<Array<{ __typename?: 'Post' } & PostCardFragment>>
       }
   >
 }
@@ -862,6 +854,12 @@ export const PostCardFragmentDoc = gql`
     commentCount
     likeCount
     imageUrls
+    store {
+      id
+      name
+      address
+      imageUrls
+    }
   }
 `
 export const StoreCardFragmentDoc = gql`
@@ -1376,12 +1374,6 @@ export const PostsByAddressDocument = gql`
   query PostsByAddress {
     postsByAddress(address: "") {
       ...postCard
-      store {
-        id
-        name
-        address
-        imageUrls
-      }
     }
   }
   ${PostCardFragmentDoc}
@@ -1425,6 +1417,55 @@ export type PostsByAddressLazyQueryHookResult = ReturnType<typeof usePostsByAddr
 export type PostsByAddressQueryResult = Apollo.QueryResult<
   PostsByAddressQuery,
   PostsByAddressQueryVariables
+>
+export const PostsByStoreDocument = gql`
+  query PostsByStore($storeId: ID!) {
+    postsByStore(storeId: $storeId) {
+      ...postCard
+    }
+  }
+  ${PostCardFragmentDoc}
+`
+
+/**
+ * __usePostsByStoreQuery__
+ *
+ * To run a query within a React component, call `usePostsByStoreQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsByStoreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsByStoreQuery({
+ *   variables: {
+ *      storeId: // value for 'storeId'
+ *   },
+ * });
+ */
+export function usePostsByStoreQuery(
+  baseOptions: Apollo.QueryHookOptions<PostsByStoreQuery, PostsByStoreQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PostsByStoreQuery, PostsByStoreQueryVariables>(
+    PostsByStoreDocument,
+    options
+  )
+}
+export function usePostsByStoreLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PostsByStoreQuery, PostsByStoreQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PostsByStoreQuery, PostsByStoreQueryVariables>(
+    PostsByStoreDocument,
+    options
+  )
+}
+export type PostsByStoreQueryHookResult = ReturnType<typeof usePostsByStoreQuery>
+export type PostsByStoreLazyQueryHookResult = ReturnType<typeof usePostsByStoreLazyQuery>
+export type PostsByStoreQueryResult = Apollo.QueryResult<
+  PostsByStoreQuery,
+  PostsByStoreQueryVariables
 >
 export const RegularStoresDocument = gql`
   query RegularStores {
@@ -1560,49 +1601,6 @@ export function useStoreMenusLazyQuery(
 export type StoreMenusQueryHookResult = ReturnType<typeof useStoreMenusQuery>
 export type StoreMenusLazyQueryHookResult = ReturnType<typeof useStoreMenusLazyQuery>
 export type StoreMenusQueryResult = Apollo.QueryResult<StoreMenusQuery, StoreMenusQueryVariables>
-export const StorePostsDocument = gql`
-  query StorePosts($id: ID!) {
-    store(id: $id) {
-      id
-      posts {
-        ...postCard
-      }
-    }
-  }
-  ${PostCardFragmentDoc}
-`
-
-/**
- * __useStorePostsQuery__
- *
- * To run a query within a React component, call `useStorePostsQuery` and pass it any options that fit your needs.
- * When your component renders, `useStorePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useStorePostsQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useStorePostsQuery(
-  baseOptions: Apollo.QueryHookOptions<StorePostsQuery, StorePostsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<StorePostsQuery, StorePostsQueryVariables>(StorePostsDocument, options)
-}
-export function useStorePostsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<StorePostsQuery, StorePostsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<StorePostsQuery, StorePostsQueryVariables>(StorePostsDocument, options)
-}
-export type StorePostsQueryHookResult = ReturnType<typeof useStorePostsQuery>
-export type StorePostsLazyQueryHookResult = ReturnType<typeof useStorePostsLazyQuery>
-export type StorePostsQueryResult = Apollo.QueryResult<StorePostsQuery, StorePostsQueryVariables>
 export const UserPreferencesDocument = gql`
   query UserPreferences {
     me {

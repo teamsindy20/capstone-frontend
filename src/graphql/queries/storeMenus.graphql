@@ -1,0 +1,8 @@
+query StoreMenus($id: ID!) {
+  store(id: $id) {
+    id
+    menus {
+      ...menuCard
+    }
+  }
+}

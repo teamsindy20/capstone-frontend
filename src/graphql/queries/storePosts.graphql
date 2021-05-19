@@ -1,8 +1,0 @@
-query StorePosts($id: ID!) {
-  store(id: $id) {
-    id
-    posts {
-      ...postCard
-    }
-  }
-}

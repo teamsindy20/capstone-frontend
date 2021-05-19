@@ -1,15 +1,11 @@
 import styled from 'styled-components'
-import PageLayout from '../components/layouts/PageLayout'
-import PageHead from '../components/layouts/PageHead'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { TOP_HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { ReactNode } from 'react'
 
-const PADDING_TOP = '3rem'
 const BORDER_HEIGHT = '2px'
 
 const PaddingTop = styled.div`
-  padding-top: ${PADDING_TOP};
+  padding-top: ${TOP_HEADER_HEIGHT};
 `
 
 const FixedPosition = styled.div`
@@ -19,18 +15,17 @@ const FixedPosition = styled.div`
   z-index: 1;
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
-  height: ${PADDING_TOP};
+  height: ${TOP_HEADER_HEIGHT};
   transform: translateX(-50%);
   background: #ffffff;
 `
 
 const Height = styled.div`
-  height: calc(${PADDING_TOP} - ${BORDER_HEIGHT});
+  height: calc(${TOP_HEADER_HEIGHT} - ${BORDER_HEIGHT});
 `
 
-const HorizontalBorder = styled.div`
+export const HorizontalBorder = styled.div`
   border: ${BORDER_HEIGHT} solid #ddd;
-  /* position: fixed; */
 `
 
 type Props = {

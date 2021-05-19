@@ -3,7 +3,6 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
-import Link from 'next/link'
 import { memo } from 'react'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { username } from 'src/models/mock-data'
@@ -69,7 +68,7 @@ function Header() {
             <NoMarginH6>소식</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href={`/users/${username}/favorites`}>
+        <ClientSideLink href={`/users/${username}/favorite-menus`}>
           <FlexContainerColumnCenterCenter>
             <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
             <NoMarginH6>찜</NoMarginH6>

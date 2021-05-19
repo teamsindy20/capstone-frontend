@@ -77,8 +77,8 @@ function UserFavoritesPage() {
 
   function goToPage(activeKey: string) {
     switch (activeKey) {
-      case 'favoriteMenus':
-      case 'favoriteStores':
+      case 'favorite-menus':
+      case 'favorite-stores':
         return `/users/${router.query.name}/${activeKey}`
       default:
         return ''
@@ -97,12 +97,12 @@ function UserFavoritesPage() {
     <PageHead title="디저트핏 - 찜 매장" description={description}>
       <PageLayout>
         <Tabs
-          defaultActiveKey="favoriteStores"
+          defaultActiveKey="favorite-stores"
           centered
           onTabClick={(activeKey) => router.push(goToPage(activeKey))}
         >
-          <Tabs.TabPane tab="메뉴" key="favoriteMenus" />
-          <Tabs.TabPane tab="매장" key="favoriteStores" />
+          <Tabs.TabPane tab="메뉴" key="favorite-menus" />
+          <Tabs.TabPane tab="매장" key="favorite-stores" />
         </Tabs>
 
         <GridContainerBackground>

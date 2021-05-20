@@ -5,6 +5,9 @@ import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded'
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
+import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
+import IconButton from '@material-ui/core/IconButton'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { Fragment, MouseEvent } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
@@ -113,6 +116,10 @@ const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   padding: 0.5rem 0.5rem 0;
 `
 
+const StyledFlexContainerBetween = styled(FlexContainerBetween)`
+  margin-left: 1rem;
+`
+
 const AbsolutePosition = styled.div`
   position: absolute;
   top: 0.2rem;
@@ -167,6 +174,7 @@ const FlexContainerUl = styled.ul`
   flex-flow: row wrap;
   list-style: none;
   padding-left: 0;
+  margin-left: 1rem;
 `
 
 export const BoldA = styled.a`
@@ -210,14 +218,24 @@ const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
   color: #ff8e77;
 `
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 30px;
+  font-size: 40px !important;
   color: #ff8e77;
   margin: 0.2em;
 `
 const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 30px;
+  font-size: 40px !important;
   color: #ff8e77;
   margin: 0.2em;
+`
+const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
+  font-size: 40px !important;
+  color: #929393;
+  padding: 0;
+`
+const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
+  font-size: 40px !important;
+  color: #929393;
+  padding: 0;
 `
 
 type Props2 = {
@@ -368,10 +386,16 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         </GridContainerGap>
 
         <GridContainer>
-          <FlexContainerBetween>
+          <StyledFlexContainerBetween>
             <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-            <button onClick={toggleCardDetail}>{isCardDetailOpened ? '▲' : '▼'}</button>
-          </FlexContainerBetween>
+            <IconButton onClick={toggleCardDetail}>
+              {isCardDetailOpened ? (
+                <StyledArrowDropUpRoundedIcon />
+              ) : (
+                <StyledArrowDropDownRoundedIcon />
+              )}
+            </IconButton>
+          </StyledFlexContainerBetween>
           <HorizontalBorder show={isCardDetailOpened} />
         </GridContainer>
       </FlexContainerColumnBetween>

@@ -4,6 +4,7 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { Fragment, MouseEvent } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
@@ -81,9 +82,9 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
 
   cursor: pointer;
-  background: #f1f6fa;
+  background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: min(10px, 1vw);
+  border-radius: min(20px, 2vw);
   overflow: hidden;
 `
 
@@ -91,6 +92,7 @@ export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
   width: 100%;
   position: relative;
   padding-top: ${(p) => p.paddingTop};
+  margin-right: 100px;
 `
 
 export const AbsolutePositionImage = styled.img`
@@ -100,7 +102,7 @@ export const AbsolutePositionImage = styled.img`
   height: 100%;
   object-fit: cover;
 
-  background: #f3ccc7;
+  background: #ffffff;
 `
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
@@ -121,7 +123,19 @@ const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
 `
-
+const MenuName = styled.h2`
+  margin: 0;
+  font-weight: normal;
+`
+const StoreName = styled.h4`
+  color: #929393;
+  margin: 0;
+  font-weight: normal;
+`
+const MenuPrice = styled.h2`
+  margin: 0;
+  font-weight: normal;
+`
 const NoMarginH3 = styled.h3`
   margin: 0;
 `
@@ -131,6 +145,11 @@ const LighterH5 = styled.h5`
   font-weight: lighter;
 `
 const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
+`
+
+const NormalH4 = styled.h4`
   margin: 0;
   font-weight: normal;
 `
@@ -151,9 +170,9 @@ const FlexContainerUl = styled.ul`
 `
 
 export const BoldA = styled.a`
-  font-size: 0.83em;
+  font-size: 1em;
   font-weight: bold;
-  color: #fe6661;
+  color: #ff8e77;
   word-break: keep-all;
 
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -181,7 +200,25 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   padding: min(2vw, 0.5rem);
 `
 
-const StyledLocationOnRoundedIcon = { fontSize: 18, color: grey[800] }
+const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
+  font-size: 10px;
+  color: #929393;
+`
+
+const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
+  font-size: 20px;
+  color: #ff8e77;
+`
+const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+  font-size: 30px;
+  color: #ff8e77;
+  margin: 0.2em;
+`
+const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+  font-size: 30px;
+  color: #ff8e77;
+  margin: 0.2em;
+`
 
 type Props2 = {
   onlyImage: boolean
@@ -297,27 +334,21 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <FavoriteRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={pickMenuStopPropagation}
-            />
+            <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
           ) : (
-            <FavoriteBorderRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={pickMenuStopPropagation}
-            />
+            <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
           )}
         </AbsolutePosition>
 
         <GridContainerGap>
           <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-              <LighterH5>{store.name}</LighterH5>
+              <StoreName>{store.name}</StoreName>
+              <StyledArrowForwardIosRoundedIcon />
             </FlexContainerAlignCenter>
           </ClientSideLink>
 
-          <NoMarginH3>{menu.name}</NoMarginH3>
+          <MenuName>{menu.name}</MenuName>
           <GridContainer>
             <FlexContainerUl>
               {menu.hashtags?.map((hashtag) => (
@@ -338,7 +369,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
         <GridContainer>
           <FlexContainerBetween>
-            <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
+            <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
             <button onClick={toggleCardDetail}>{isCardDetailOpened ? '▲' : '▼'}</button>
           </FlexContainerBetween>
           <HorizontalBorder show={isCardDetailOpened} />

@@ -5,6 +5,7 @@ import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import IconButton from '@material-ui/core/IconButton'
+import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
@@ -39,6 +40,8 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   height: 100%;
 `
+
+const StyledLocalActivityRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
@@ -223,7 +226,11 @@ function HomePage() {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <FlexContainerAlignCenter>
-                <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
+                <ClientSideLink href="/users/username/regulars">
+                  <LocalActivityRoundedIcon
+                    style={StyledLocalActivityRoundedIcon}
+                  ></LocalActivityRoundedIcon>
+                </ClientSideLink>
               </FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/notifications">
                 <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />

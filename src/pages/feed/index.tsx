@@ -82,40 +82,54 @@ function StoresFeedPage() {
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
           >
-            <Tabs.TabPane tab="매장 소식" key="feed" />
-            <Tabs.TabPane tab="리뷰 소식" key="review-feed" />
+            <Tabs.TabPane tab="매장 소식" key="feed">
+              <Div>
+                <Tag
+                  color="rgb(190, 235, 253)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  메뉴 소식
+                </Tag>
+                <Tag
+                  color="rgb(247, 231, 177)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  영업 공지
+                </Tag>
+                <Tag
+                  color="rgb(169, 160, 252)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  이벤트
+                </Tag>
+
+                <Tag
+                  color="rgb(207, 195, 181)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  원데이 클래스
+                </Tag>
+                <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+                  이모저모
+                </Tag>
+              </Div>
+              <HorizontalBorder />
+              <GridContainerUl onlyImage={false}>
+                {data?.postsByAddress.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+                {(isPostsLoading || hasMorePosts) && (
+                  <div ref={sentryRef}>
+                    <PostLoadingCard />
+                  </div>
+                )}
+              </GridContainerUl>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="리뷰 소식" key="review-feed">
+              리뷰 모아보기
+            </Tabs.TabPane>
           </Tabs>
         </TopHeader>
-
-        <Div>
-          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-            이벤트
-          </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-            메뉴 소식
-          </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
-            영업 공지
-          </Tag>
-
-          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-            원데이 클래스
-          </Tag>
-          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
-            이모저모
-          </Tag>
-        </Div>
-        <HorizontalBorder />
-        <GridContainerUl onlyImage={false}>
-          {data?.postsByAddress.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-          {(isPostsLoading || hasMorePosts) && (
-            <div ref={sentryRef}>
-              <PostLoadingCard />
-            </div>
-          )}
-        </GridContainerUl>
       </PageLayout>
     </PageHead>
   )

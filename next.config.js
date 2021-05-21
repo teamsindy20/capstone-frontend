@@ -25,9 +25,10 @@ module.exports = withPWA({
       'search.pstatic.net/common',
     ],
   },
+  poweredByHeader: process.env.NODE_ENV === 'development',
   pwa: {
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
   },
-  reactStrictMode: true,
+  reactStrictMode: process.env.NODE_ENV === 'development',
 })

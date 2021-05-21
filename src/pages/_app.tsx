@@ -13,14 +13,20 @@ import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import 'react-toastify/dist/ReactToastify.min.css'
-import { ToastContainer } from 'react-toastify'
+import 'animate.css/animate.min.css'
+import { ToastContainer, cssTransition } from 'react-toastify'
+
+export const fade = cssTransition({
+  enter: 'animate__animated animate__fadeIn',
+  exit: 'animate__animated animate__fadeOut',
+})
 
 const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     color: ${DARK_CHOCO_COLOR};
     font-size: 14px;
-    font-family: -apple-system, 'Noto Sans KR', BlinkMacSystemFont, Roboto,
+    font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Roboto',
       'Helvetica Neue', sans-serif;
     line-height: normal;
     word-break: keep-all;
@@ -105,22 +111,16 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
       </Head>
       <GlobalStyle />
       <ApolloProvider client={client}>
         <GlobalProvider>
-          <main>
-            <div style={{ maxWidth: TABLET_MIN_WIDTH, margin: '0 auto' }}>
-              <Component {...pageProps} />
-            </div>
+          <main style={{ maxWidth: TABLET_MIN_WIDTH, margin: '0 auto' }}>
+            <Component {...pageProps} />
           </main>
         </GlobalProvider>
       </ApolloProvider>
-      <ToastContainer position="top-center" />
+      <ToastContainer autoClose={3000} hideProgressBar position="top-center" transition={fade} />
     </>
   )
 }

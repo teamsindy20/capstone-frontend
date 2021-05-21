@@ -3,7 +3,7 @@ import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/do
 import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
-export const canonicalUrl = 'https://disin.vercel.app/'
+export const canonicalUrl = 'https://dessert.fit/'
 
 // 최대 10개
 const keywords = '디저트핏,DessertFit,디핏,디저트,검색,맞춤,추천,배달,픽업,예약'
@@ -38,6 +38,17 @@ export default class CapstoneDocument extends Document {
     return (
       <Html>
         <Head>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+          />
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-startup-image" href="/splash.png" />
+          <link rel="apple-touch-icon" href="/favicon.ico" />
+          <link rel="canonical" href={canonicalUrl} />
+          <link rel="manifest" href="/manifest.json" />
           <meta name="author" content="sindy" />
           <meta name="keywords" content={keywords} />
           <meta name="application-name" content="디저트핏" />
@@ -45,12 +56,6 @@ export default class CapstoneDocument extends Document {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link rel="shortcut icon" href="/favicon.ico" />
-          <link rel="icon" href="/favicon.ico" />
-          <link rel="apple-touch-startup-image" href="/splash.png" />
-          <link rel="apple-touch-icon" href="/favicon.ico" />
-          <link rel="canonical" href={canonicalUrl} />
-          <link rel="manifest" href="/manifest.json" />
           {process.env.NODE_ENV === 'production' && (
             <>
               <script

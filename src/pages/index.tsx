@@ -5,6 +5,7 @@ import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import IconButton from '@material-ui/core/IconButton'
+import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
@@ -30,6 +31,7 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
+import { Tabs } from 'antd'
 
 const PADDING_TOP = '3rem'
 
@@ -39,6 +41,8 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   height: 100%;
 `
+
+const StyledLocalActivityRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
@@ -168,6 +172,14 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
+const { TabPane } = styled(Tabs)`
+  position: fixed;
+`
+
+function callback(key: any) {
+  console.log(key)
+}
+
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
@@ -223,7 +235,11 @@ function HomePage() {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <FlexContainerAlignCenter>
-                <ClientSideLink href="/users/username/regulars">단골</ClientSideLink>
+                <ClientSideLink href="/users/username/regulars">
+                  <LocalActivityRoundedIcon
+                    style={StyledLocalActivityRoundedIcon}
+                  ></LocalActivityRoundedIcon>
+                </ClientSideLink>
               </FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/notifications">
                 <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
@@ -234,106 +250,154 @@ function HomePage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
+        <Tabs defaultActiveKey="1" onChange={callback} size="large">
+          <TabPane tab="디저트핏" key="1">
+            <StyledSlider {...settings}>
+              <BannerAd>
+                <Img src="/banner.png" alt="banner advertisement"></Img>
+                <AdTextDiv>
+                  <b>OPEN EVENT!</b> <br />
+                  초코칩쿠키 무조건 증정!
+                </AdTextDiv>
+              </BannerAd>
+              <BannerAd>
+                <Img src="/banner.png" alt="banner advertisement"></Img>
+                <AdTextDiv>쿠폰증정2</AdTextDiv>
+              </BannerAd>
+              <BannerAd>
+                <Img src="/banner.png" alt="banner advertisement"></Img>
+                <AdTextDiv>쿠폰증정3</AdTextDiv>
+              </BannerAd>
+              <BannerAd>
+                <Img src="/banner.png" alt="banner advertisement"></Img>
+                <AdTextDiv>쿠폰증정4</AdTextDiv>
+              </BannerAd>
+            </StyledSlider>
+            <GridContainer>
+              <FixedDiv>정렬방식</FixedDiv>
+              <Div>
+                <Tag
+                  color="rgb(190, 235, 253)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  맞춤추천
+                </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  좋아요순
+                </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  재주문율순
+                </Tag>
 
-        <StyledSlider {...settings}>
-          <BannerAd>
-            <Img src="/banner.png" alt="banner advertisement"></Img>
-            <AdTextDiv>
-              <b>OPEN EVENT!</b> <br />
-              초코칩쿠키 무조건 증정!
-            </AdTextDiv>
-          </BannerAd>
-          <BannerAd>
-            <Img src="/banner.png" alt="banner advertisement"></Img>
-            <AdTextDiv>쿠폰증정2</AdTextDiv>
-          </BannerAd>
-          <BannerAd>
-            <Img src="/banner.png" alt="banner advertisement"></Img>
-            <AdTextDiv>쿠폰증정3</AdTextDiv>
-          </BannerAd>
-          <BannerAd>
-            <Img src="/banner.png" alt="banner advertisement"></Img>
-            <AdTextDiv>쿠폰증정4</AdTextDiv>
-          </BannerAd>
-        </StyledSlider>
-        <GridContainer>
-          <FixedDiv>정렬방식</FixedDiv>
-          <Div>
-            <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-              맞춤추천
-            </Tag>
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              좋아요순
-            </Tag>
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              재주문율순
-            </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  주문수순
+                </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  배달팁적은순
+                </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  리뷰수순
+                </Tag>
+                <Tag
+                  color="rgb(230, 230, 230)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  거리순
+                </Tag>
+              </Div>
 
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              주문수순
-            </Tag>
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              배달팁적은순
-            </Tag>
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              리뷰수순
-            </Tag>
-            <Tag color="rgb(230, 230, 230)" onClick={(e: any) => console.log(e.target.textContent)}>
-              거리순
-            </Tag>
-          </Div>
-
-          <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
-        </GridContainer>
-
-        <MiddleText>
-          {loading ? (
-            'user authenticating...'
-          ) : !user ? (
-            <div>
-              맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
-            </div>
-          ) : isUserPreferencesLoading ? (
-            'user preferences loading...'
-          ) : preferences?.length ? (
-            <div>
-              김빵순님의 취향:{' '}
-              {preferences.map((hashtag) => (
-                <Fragment key={hashtag}>
-                  <li>
-                    <Link href={`/search/${hashtag.slice(1)}`}>
-                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                        {hashtag}
-                      </BoldA>
-                    </Link>
-                  </li>
-                  &nbsp;
-                </Fragment>
+              <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
+            </GridContainer>
+            <MiddleText>
+              {loading ? (
+                'user authenticating...'
+              ) : !user ? (
+                <div>
+                  맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+                </div>
+              ) : isUserPreferencesLoading ? (
+                'user preferences loading...'
+              ) : preferences?.length ? (
+                <div>
+                  김빵순님의 취향:{' '}
+                  {preferences.map((hashtag) => (
+                    <Fragment key={hashtag}>
+                      <li>
+                        <Link href={`/search/${hashtag.slice(1)}`}>
+                          <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                            {hashtag}
+                          </BoldA>
+                        </Link>
+                      </li>
+                      &nbsp;
+                    </Fragment>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  설정한 취향이 아직 없어요.{' '}
+                  <ClientSideLink href="/users/username/preferences">
+                    취향 설정하러 가기
+                  </ClientSideLink>
+                </div>
+              )}
+            </MiddleText>
+            <GridContainerUl onlyImage={onlyImage}>
+              {menus?.map((menu) => (
+                <MenuCard
+                  key={menu.id}
+                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                  menu={menu as any}
+                  onlyImage={onlyImage}
+                />
               ))}
-            </div>
-          ) : (
-            <div>
-              설정한 취향이 아직 없어요.{' '}
-              <ClientSideLink href="/users/username/preferences">취향 설정하러 가기</ClientSideLink>
-            </div>
-          )}
-        </MiddleText>
-
-        <GridContainerUl onlyImage={onlyImage}>
-          {menus?.map((menu) => (
-            <MenuCard
-              key={menu.id}
-              afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-              menu={menu as any}
-              onlyImage={onlyImage}
-            />
-          ))}
-        </GridContainerUl>
-        {(isMenusLoading || hasMoreMenus) && (
-          <div ref={sentryRef}>
-            <MenuLoadingCard onlyImage={onlyImage} />
-          </div>
-        )}
+            </GridContainerUl>
+            {(isMenusLoading || hasMoreMenus) && (
+              <div ref={sentryRef}>
+                <MenuLoadingCard onlyImage={onlyImage} />
+              </div>
+            )}
+          </TabPane>
+          <TabPane tab="카테고리" key="2">
+            카테고리 선택
+          </TabPane>
+          <TabPane tab="트렌드" key="3">
+            트렌드 디저트
+          </TabPane>
+          <TabPane tab="베스트" key="4">
+            베스트 메뉴들 순위
+            <GridContainerUl onlyImage={onlyImage}>
+              {menus?.map((menu) => (
+                <MenuCard
+                  key={menu.id}
+                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                  menu={menu as any}
+                  onlyImage={onlyImage}
+                />
+              ))}
+            </GridContainerUl>
+            {(isMenusLoading || hasMoreMenus) && (
+              <div ref={sentryRef}>
+                <MenuLoadingCard onlyImage={onlyImage} />
+              </div>
+            )}
+          </TabPane>
+        </Tabs>
 
         <FixedPosition>
           <ClientSideLink href="/cart">

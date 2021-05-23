@@ -1,7 +1,0 @@
-query Cart {
-  cart @client {
-    id
-    name
-    price
-  }
-}

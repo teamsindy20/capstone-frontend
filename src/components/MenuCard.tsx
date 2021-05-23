@@ -9,7 +9,7 @@ import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
 import IconButton from '@material-ui/core/IconButton'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { Fragment, MouseEvent } from 'react'
+import { Fragment, MouseEvent, ReactText, useRef } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -17,13 +17,7 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import {
-  Menu,
-  MenuCardFragment,
-  useFavoriteMenusLazyQuery,
-  useMenuLazyQuery,
-  usePickMenuMutation,
-} from 'src/graphql/generated/types-and-hooks'
+import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
@@ -81,8 +75,7 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 `
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
-  display: grid;
-  ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
+  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1fr 2fr;')}
 
   cursor: pointer;
   background: #ffffff;
@@ -281,12 +274,14 @@ type Props = {
 }
 
 function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+  const toastId = useRef<ReactText>('')
   const [isCardDetailOpened, toggleCardDetail] = useBoolean(true)
 
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
       if (data.pickMenu) {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast(
           <div>
             {`${menu.name} 메뉴를 찜했어요 `}
             <button
@@ -299,7 +294,8 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
           </div>
         )
       } else {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast(
           <div>
             {`${menu.name} 메뉴 찜을 헤제했어요 `}
             <button

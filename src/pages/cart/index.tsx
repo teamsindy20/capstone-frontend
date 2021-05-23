@@ -9,8 +9,15 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import Link from 'next/link'
+import styled from 'styled-components'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const FlexContainerBetween1 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+`
 
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
@@ -20,7 +27,7 @@ function CartPage() {
   return (
     <PageHead>
       <TopHeader>
-        <FlexContainerBetween>
+        <FlexContainerBetween1>
           <FlexContainerAlignCenter>
             <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goMainPage} />
           </FlexContainerAlignCenter>
@@ -30,7 +37,7 @@ function CartPage() {
               전체삭제
             </Button>
           </FlexContainerAlignCenter>
-        </FlexContainerBetween>
+        </FlexContainerBetween1>
       </TopHeader>
 
       {cartMenus.map((cartMenu) => (

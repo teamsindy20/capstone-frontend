@@ -62,13 +62,13 @@ export const BoldA = styled.a`
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 `
 
-const OptionA = styled.a`
+const OptionA = styled.h4`
   font-size: 1em;
   color: #a8a8a8;
   word-break: keep-all;
 `
-const PriceA = styled.a`
-  font-size: 1.5em;
+const PriceA = styled.h2`
+  font-size: 1.3em;
   color: #161f27;
   word-break: keep-all;
 `
@@ -94,14 +94,16 @@ const MinusNoClick = styled(Minus)`
 const Plus = styled(Minus)`
   background-size: 40% 2px, 2px 40%;
 `
-const CountNumber = styled.a`
+const CountNumber = styled.h3`
   display: inline-block;
-  width: 32px;
-  height: 32px;
   text-align: center;
-  
+  padding: 5px 0;
 `
-
+const Quantity = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  text-align: center;
+`
 function CartMenuCard({ menu }: Props) {
   const cartMenus = useReactiveVar(cartMenusVar)
 
@@ -119,15 +121,16 @@ function CartMenuCard({ menu }: Props) {
               <MenuName>{menu.name}</MenuName>
               <br />
               <OptionA>기본 : 150g</OptionA>
-              <br />
               <OptionA>추가메뉴 추가선택 : 생크림 추가</OptionA>
               <br />
-              <PriceA>{formatPrice(menu.price)}</PriceA>
-              <div>
-                <Minus />
-                <CountNumber>1</CountNumber>
-                <Plus />
-              </div>
+              <FlexContainerBetween>
+                <PriceA>총 {formatPrice(menu.price)}</PriceA>
+                <Quantity>
+                  <Minus />
+                  <CountNumber>1</CountNumber>
+                  <Plus />
+                </Quantity>
+              </FlexContainerBetween>
             </div>
           </GridContainerGap>
         </FlexContainerColumnBetween>

@@ -99,7 +99,7 @@ const PASSWORD_INPUT_ICONS = [
 ]
 
 async function handleClick() {
-  window.location.href = 'http://localhost:4000/auth/google'
+  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
 }
 
 export function renderPasswordInputIcon(visible: boolean) {

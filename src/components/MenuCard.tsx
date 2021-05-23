@@ -83,7 +83,6 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
   ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
-
   cursor: pointer;
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
@@ -111,7 +110,6 @@ export const AbsolutePositionImage = styled.img`
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
   gap: 0.3rem;
-
   position: relative;
   padding: 0.5rem 0.5rem 0;
 `

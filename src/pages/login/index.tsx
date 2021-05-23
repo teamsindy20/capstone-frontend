@@ -216,11 +216,9 @@ function LoginPage() {
             <ClientSideLink href="/register">
               <Button type="link">회원가입</Button>
             </ClientSideLink>
-
             <ClientSideLink href="/find/email">
               <Button type="link">아이디 찾기</Button>
             </ClientSideLink>
-
             <ClientSideLink href="/find/password">
               <Button type="link">비밀번호 찾기</Button>
             </ClientSideLink>
@@ -229,11 +227,11 @@ function LoginPage() {
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>
-          <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
-          <SNSLoginButton>네이버로 로그인하기</SNSLoginButton>
           <SNSLoginButton onClick={handleClick} type="button">
             구글로 로그인하기
           </SNSLoginButton>
+          <SNSLoginButton type="button">네이버로 로그인하기</SNSLoginButton>
+          <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

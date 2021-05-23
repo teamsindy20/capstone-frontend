@@ -29,6 +29,8 @@ import Link from 'next/link'
 import { GlobalContext } from './_app'
 import { Tabs } from 'antd'
 
+const { TabPane } = Tabs
+
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   height: 100%;
@@ -40,13 +42,9 @@ const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
-const StyledTuneRoundedIcon = { fontSize: 30, color: '#ffffff' }
-
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
-
-// const StyledLocalGroceryStoreRoundedIcon = { fontSize: 40, color: 'default', variant: 'outlined' }
 
 const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   font-size: 55px !important;
@@ -164,14 +162,6 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
-const { TabPane } = styled(Tabs)`
-  position: fixed;
-`
-
-function callback(key: any) {
-  console.log(key)
-}
-
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
@@ -184,7 +174,7 @@ function HomePage() {
     onError: handleApolloError,
   })
 
-  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
+  const [fetchMenu] = useMenuLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
@@ -242,7 +232,7 @@ function HomePage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
-        <Tabs defaultActiveKey="1" onChange={callback} size="large">
+        <Tabs defaultActiveKey="1" size="large">
           <TabPane tab="디저트핏" key="1">
             <StyledSlider {...settings}>
               <BannerAd>
@@ -365,12 +355,15 @@ function HomePage() {
               </div>
             )}
           </TabPane>
+
           <TabPane tab="카테고리" key="2">
             카테고리 선택
           </TabPane>
+
           <TabPane tab="트렌드" key="3">
             트렌드 디저트
           </TabPane>
+
           <TabPane tab="베스트" key="4">
             베스트 메뉴들 순위
             <GridContainerUl onlyImage={onlyImage}>

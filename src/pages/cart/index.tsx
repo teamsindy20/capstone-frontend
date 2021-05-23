@@ -15,7 +15,6 @@ const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
   const goMainPage = useGoToPage('/')
-
   const cartMenus = useReactiveVar(cartMenusVar)
 
   return (

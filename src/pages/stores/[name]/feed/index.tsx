@@ -60,6 +60,8 @@ function StoreFeedPage() {
   const posts = data?.postsByStore
   const isPostsLoading = networkStatus < 7
 
+  console.log(posts)
+
   async function fetchMorePosts() {
     if (posts?.length) {
       await sleep(5000) // fetchMore({ variables: { from, count } })
@@ -116,6 +118,7 @@ function StoreFeedPage() {
               <PostLoadingCard />
             </div>
           )}
+          {posts?.length === 0 && '매장 소식이 없어요...'}
         </GridContainerUl>
       </PageLayout>
     </PageHead>

@@ -19,8 +19,7 @@ import useBoolean from 'src/hooks/useBoolean'
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
-import { sleep, stopPropagation } from 'src/utils/commons'
-import useGoToPage from 'src/hooks/useGoToPage'
+import { removeQueryString, sleep, stopPropagation } from 'src/utils/commons'
 import {
   useMenuLazyQuery,
   useMenusQuery,
@@ -32,10 +31,7 @@ import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
 import { Tabs } from 'antd'
-
-const PADDING_TOP = '3rem'
-
-const BORDER_HEIGHT = '2px'
+import { useRouter } from 'next/router'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;

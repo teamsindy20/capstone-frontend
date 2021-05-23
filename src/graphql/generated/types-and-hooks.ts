@@ -30,6 +30,7 @@ export type CartMenu = {
   id: Scalars['ID']
   name: Scalars['String']
   price: Scalars['Int']
+  count: Scalars['Int']
 }
 
 export type Coupon = {
@@ -377,6 +378,14 @@ export type PostCreationInput = {
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
+/** OAuth 공급자 */
+export enum Provider {
+  DessertFit = 'DESSERT_FIT',
+  Google = 'GOOGLE',
+  Naver = 'NAVER',
+  Kakao = 'KAKAO',
+}
+
 export type Query = {
   __typename?: 'Query'
   cart?: Maybe<Array<CartMenu>>
@@ -619,7 +628,9 @@ export type User = {
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
   email: Scalars['EmailAddress']
+  providers: Array<Provider>
   point: Scalars['Int']
+  isEmailVerified: Scalars['Boolean']
   /** nullable */
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>

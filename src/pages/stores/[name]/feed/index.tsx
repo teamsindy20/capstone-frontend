@@ -11,6 +11,7 @@ import { usePostsByStoreQuery } from 'src/graphql/generated/types-and-hooks'
 import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 
 const Div = styled.div`
   overflow: scroll hidden;

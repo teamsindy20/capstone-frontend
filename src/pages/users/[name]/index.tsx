@@ -5,8 +5,10 @@ import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import NotLogin from 'src/components/NotLogin'
 import { GlobalContext } from 'src/pages/_app'
-
+import { Button } from 'antd'
 import styled from 'styled-components'
+import TopHeader from 'src/components/TopHeader'
+import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
 const FlexContainer = styled.div`
   display: flex;
@@ -19,6 +21,15 @@ const GridContainerUl = styled.ul`
 `
 
 const description = '내게 딱 맞는 디저트핏!을 만나보세요.'
+
+const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
+  justify-content: center;
+  height: 100%;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
+`
 
 function MyDessertFitPage() {
   const { user, loading, refetchUser } = useContext(GlobalContext)
@@ -45,9 +56,13 @@ function MyDessertFitPage() {
   return (
     <PageHead title="디저트핏 - 내 DessertFit" description={description}>
       <PageLayout>
-        <h2>마이페이지</h2>
+        <TopHeader>
+          <FlexContainerCenterCenter>
+            <NoMarginH3>마이페이지</NoMarginH3>
+          </FlexContainerCenterCenter>
+        </TopHeader>
         <div>
-          <button>환경 설정</button>
+          <Button>환경 설정</Button>
         </div>
         <FlexContainer>
           <Image src="/sindy.jpeg" alt="user profile" width="128" height="128" />
@@ -60,39 +75,42 @@ function MyDessertFitPage() {
 
         <GridContainerUl>
           <li>
-            <button>디플 포인트 324원</button>
+            <Button>디플 포인트 324원</Button>
           </li>
           <li>
-            <button>쿠폰함 (3개)</button>
+            <Button>쿠폰함 (3개)</Button>
           </li>
           <li>
-            <button>결제 수단</button>
+            <Button>결제 수단</Button>
           </li>
           <li>
-            <button>공지사항</button>
+            <Button>공지사항</Button>
           </li>
           <li>
-            <button>이벤트</button>
+            <Button>이벤트</Button>
           </li>
           <li>
-            <button>디플 팀</button>
+            <Button>디플 팀</Button>
           </li>
           <li>
-            <button>고객 지원</button>
+            <Button>고객 지원</Button>
           </li>
           <li>
-            <button>약관·정책</button>
+            <Button>약관·정책</Button>
           </li>
         </GridContainerUl>
-        <button
+        <Button
           onClick={() => {
             localStorage.removeItem('token')
             sessionStorage.removeItem('token')
             refetchUser()
           }}
+          size="large"
+          type="primary"
+          danger
         >
           로그아웃
-        </button>
+        </Button>
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
       </PageLayout>
     </PageHead>

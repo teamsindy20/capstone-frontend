@@ -22,7 +22,7 @@ const FixedHeader = styled.header`
   max-width: ${TABLET_MIN_WIDTH};
   height: ${HEADER_HEIGHT};
 
-  background-color: #ffc9c3;
+  background-color: #ff9a87;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
 `
 

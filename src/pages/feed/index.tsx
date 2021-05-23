@@ -1,45 +1,19 @@
+import { Tabs } from 'antd'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import PostCard, { PostLoadingCard } from 'src/components/PostCard'
+import TopHeader from 'src/components/TopHeader'
 import { usePostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
+import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
-import TopHeader from 'src/components/TopHeader'
-import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
-import grey from '@material-ui/core/colors/grey'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-
-const PADDING_TOP = '3rem'
-
-const BORDER_HEIGHT = '2px'
-
-const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }
-
-const GridContainerUl = styled.ul`
-  display: grid;
-  gap: 3rem;
-`
-
-const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
-
-const TopContainer = styled.div`
-  width: 100%;
-  height: 60px;
-  background-color: #fff5f5;
-  margin-bottom: 10px;
-  text-align: center;
-`
-
-const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
-  justify-content: center;
-  height: 100%;
-`
+import PostCard, { PostLoadingCard } from '../../components/PostCard'
 
 const HorizontalBorder = styled.div`
-  border: ${BORDER_HEIGHT} solid #ddd;
+  border: 2px solid #ddd;
   margin-bottom: 15px;
 `
 
@@ -60,22 +34,21 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-const NoMarginH3 = styled.h3`
-  margin: 0;
-`
+const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
 
-function FeedPage() {
+function StoresFeedPage() {
   const [hasMorePosts, setHasMorePosts] = useState(true)
 
   const { data, fetchMore, networkStatus, refetch } = usePostsByAddressQuery({
-    onError: handleApolloError,
     notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
   })
 
+  const posts = data?.postsByAddress
   const isPostsLoading = networkStatus < 7
 
   async function fetchMorePosts() {
-    if (data?.postsByAddress.length) {
+    if (posts?.length) {
       await sleep(5000) // fetchMore({ variables: { from, count } })
       setHasMorePosts(false)
     } else {
@@ -89,54 +62,80 @@ function FeedPage() {
     onLoadMore: fetchMorePosts,
   })
 
+  const router = useRouter()
+
+  function goToPage(activeKey: string) {
+    switch (activeKey) {
+      case 'feed':
+      case 'review-feed':
+        return `/${activeKey}`
+      default:
+        return ''
+    }
+  }
+
   return (
-    <PageHead title="디저트핏 - 새 소식" description={description}>
+    <PageHead title="디저트핏 - 매장 소식" description={description}>
       <PageLayout>
         <TopHeader>
-          <FlexContainerCenterCenter>
-            <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-            <NoMarginH3>매장 소식 · 리뷰 소식</NoMarginH3>
-          </FlexContainerCenterCenter>
+          <Tabs
+            defaultActiveKey="feed"
+            centered
+            onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          >
+            <Tabs.TabPane tab="매장 소식" key="feed">
+              <Div>
+                <Tag
+                  color="rgb(190, 235, 253)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  메뉴 소식
+                </Tag>
+                <Tag
+                  color="rgb(247, 231, 177)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  영업 공지
+                </Tag>
+                <Tag
+                  color="rgb(169, 160, 252)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  이벤트
+                </Tag>
+
+                <Tag
+                  color="rgb(207, 195, 181)"
+                  onClick={(e: any) => console.log(e.target.textContent)}
+                >
+                  원데이 클래스
+                </Tag>
+                <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+                  이모저모
+                </Tag>
+              </Div>
+              <HorizontalBorder />
+              <GridContainerUl onlyImage={false}>
+                {posts?.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+                {isPostsLoading || hasMorePosts ? (
+                  <div ref={sentryRef}>
+                    <PostLoadingCard />
+                  </div>
+                ) : (
+                  posts?.length === 0 && '매장 소식이 없어요...'
+                )}
+              </GridContainerUl>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="리뷰 소식" key="review-feed">
+              리뷰 모아보기
+            </Tabs.TabPane>
+          </Tabs>
         </TopHeader>
-
-        <Div>
-          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-            오늘의라인업
-          </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-            신메뉴소식
-          </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
-            할인/이벤트
-          </Tag>
-
-          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-            휴무일정
-          </Tag>
-          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
-            빵나오는시간
-          </Tag>
-          <Tag color="#99E9F2" onClick={(e: any) => console.log(e.target.textContent)}>
-            일상
-          </Tag>
-          <Tag color="#F1F3F5" onClick={(e: any) => console.log(e.target.textContent)}>
-            기타
-          </Tag>
-        </Div>
-        <HorizontalBorder />
-        <GridContainerUl>
-          {data?.postsByAddress.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-          {(isPostsLoading || hasMorePosts) && (
-            <div ref={sentryRef}>
-              <PostLoadingCard />
-            </div>
-          )}
-        </GridContainerUl>
       </PageLayout>
     </PageHead>
   )
 }
 
-export default FeedPage
+export default StoresFeedPage

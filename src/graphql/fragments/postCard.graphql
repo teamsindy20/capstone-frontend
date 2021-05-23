@@ -6,4 +6,10 @@ fragment postCard on Post {
   commentCount
   likeCount
   imageUrls
+  store {
+    id
+    name
+    address
+    imageUrls
+  }
 }

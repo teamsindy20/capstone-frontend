@@ -4,8 +4,12 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
+import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded'
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
+import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
+import IconButton from '@material-ui/core/IconButton'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { Fragment, MouseEvent } from 'react'
+import { Fragment, MouseEvent, ReactText, useRef } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -13,16 +17,13 @@ import { GridContainerGap } from '../styles/GridContainer'
 import { CHOCO_COLOR } from 'src/models/constants'
 import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import {
-  MenuCardFragment,
-  useMenuLazyQuery,
-  usePickMenuMutation,
-} from 'src/graphql/generated/types-and-hooks'
+import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
+import useBoolean from 'src/hooks/useBoolean'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -74,13 +75,11 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 `
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
-  display: grid;
-  ${(p) => (p.onlyImage ? '' : 'grid-template-columns: 1fr 2fr;')}
-
+  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1fr 2fr;')}
   cursor: pointer;
-  background: #f1f6fa;
+  background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 1vw);
+  border-radius: min(20px, 2vw);
   overflow: hidden;
 `
 
@@ -88,6 +87,7 @@ export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
   width: 100%;
   position: relative;
   padding-top: ${(p) => p.paddingTop};
+  margin-right: 100px;
 `
 
 export const AbsolutePositionImage = styled.img`
@@ -96,17 +96,19 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: max(10px, 1vw);
 
-  background: #f3ccc7;
+  background: #ffffff;
 `
 
 const FlexContainerColumnBetween = styled(FlexContainerBetween)`
   flex-flow: column nowrap;
   gap: 0.3rem;
-
   position: relative;
   padding: 0.5rem 0.5rem 0;
+`
+
+const StyledFlexContainerBetween = styled(FlexContainerBetween)`
+  margin-left: 1rem;
 `
 
 const AbsolutePosition = styled.div`
@@ -119,7 +121,19 @@ const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
 `
-
+const MenuName = styled.h2`
+  margin: 0;
+  font-weight: normal;
+`
+const StoreName = styled.h4`
+  color: #929393;
+  margin: 0;
+  font-weight: normal;
+`
+const MenuPrice = styled.h2`
+  margin: 0;
+  font-weight: normal;
+`
 const NoMarginH3 = styled.h3`
   margin: 0;
 `
@@ -129,6 +143,11 @@ const LighterH5 = styled.h5`
   font-weight: lighter;
 `
 const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
+`
+
+const NormalH4 = styled.h4`
   margin: 0;
   font-weight: normal;
 `
@@ -146,12 +165,13 @@ const FlexContainerUl = styled.ul`
   flex-flow: row wrap;
   list-style: none;
   padding-left: 0;
+  margin-left: 1rem;
 `
 
 export const BoldA = styled.a`
-  font-size: 0.83em;
+  font-size: 1em;
   font-weight: bold;
-  color: #fe6661;
+  color: #ff8e77;
   word-break: keep-all;
 
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -161,7 +181,8 @@ export const BoldA = styled.a`
   }
 `
 
-const HorizontalBorder = styled.div`
+const HorizontalBorder = styled.div<{ show?: boolean }>`
+  ${(p) => (p.show ? '' : 'visibility: hidden;')}
   border: 1px solid #ddd;
 `
 
@@ -178,7 +199,35 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
   padding: min(2vw, 0.5rem);
 `
 
-const StyledLocationOnRoundedIcon = { fontSize: 18, color: grey[800] }
+const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
+  font-size: 10px;
+  color: #929393;
+`
+
+const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
+  font-size: 20px;
+  color: #ff8e77;
+`
+const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+  font-size: 40px !important;
+  color: #ff8e77;
+  margin: 0.2em;
+`
+const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+  font-size: 40px !important;
+  color: #ff8e77;
+  margin: 0.2em;
+`
+const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
+  font-size: 40px !important;
+  color: #929393;
+  padding: 0;
+`
+const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
+  font-size: 40px !important;
+  color: #929393;
+  padding: 0;
+`
 
 type Props2 = {
   onlyImage: boolean
@@ -217,45 +266,54 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  menu: MenuCardFragment
+  afterPickingMenu: () => void
+  menu: Menu
   onlyImage: boolean
 }
 
-function MenuCard({ menu, onlyImage }: Props) {
-  const [fetchMenu, { loading: isMenuLoading }] = useMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
+function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+  const toastId = useRef<ReactText>('')
+  const [isCardDetailOpened, toggleCardDetail] = useBoolean(true)
 
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
       if (data.pickMenu) {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast(
           <div>
-            메뉴를 찜했어요{' '}
-            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+            {`${menu.name} 메뉴를 찜했어요 `}
+            <button
+              onClick={() => {
+                pickMenu({ variables: { id: menu.id } })
+              }}
+            >
               찜 해제하기
-            </span>
+            </button>
           </div>
         )
       } else {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast(
           <div>
-            메뉴 찜을 해제했어요
-            <span onClick={() => pickMenu({ variables: { id: menu.id } })} role="alert">
+            {`${menu.name} 메뉴 찜을 헤제했어요 `}
+            <button
+              onClick={() => {
+                pickMenu({ variables: { id: menu.id } })
+              }}
+            >
               다시 찜하기
-            </span>
+            </button>
           </div>
         )
       }
-      fetchMenu({ variables: { id: menu.id } })
+      afterPickingMenu()
     },
     onError: handleApolloError,
   })
 
   function pickMenuStopPropagation(e: MouseEvent) {
     e.stopPropagation()
-    if (!isPickingMenuLoading && !isMenuLoading) {
+    if (!isPickingMenuLoading) {
       pickMenu({ variables: { id: menu.id } })
     }
   }
@@ -263,11 +321,12 @@ function MenuCard({ menu, onlyImage }: Props) {
   const store = menu.store
 
   const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+  const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true} onClick={goToStoreMenuPage}>
-        <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+      <GridContainerLi onlyImage onClick={goToStoreMenuPage}>
+        <ClientSideLink href={storeReviewsPage}>
           <ImageRatioWrapper paddingTop="100%">
             <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
           </ImageRatioWrapper>
@@ -278,7 +337,7 @@ function MenuCard({ menu, onlyImage }: Props) {
 
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
-      <ClientSideLink href={`/stores/${menu.store.name}}/reviews?menu=${menu.name}`}>
+      <ClientSideLink href={storeReviewsPage}>
         <ImageRatioWrapper paddingTop="100%">
           <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
         </ImageRatioWrapper>
@@ -287,27 +346,21 @@ function MenuCard({ menu, onlyImage }: Props) {
       <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
-            <FavoriteRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={pickMenuStopPropagation}
-            />
+            <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
           ) : (
-            <FavoriteBorderRoundedIcon
-              style={{ fontSize: 30, color: grey[800] }}
-              onClick={pickMenuStopPropagation}
-            />
+            <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
           )}
         </AbsolutePosition>
 
         <GridContainerGap>
           <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-              <LighterH5>{store.name}</LighterH5>
+              <StoreName>{store.name}</StoreName>
+              <StyledArrowForwardIosRoundedIcon />
             </FlexContainerAlignCenter>
           </ClientSideLink>
 
-          <NoMarginH3>{menu.name}</NoMarginH3>
+          <MenuName>{menu.name}</MenuName>
           <GridContainer>
             <FlexContainerUl>
               {menu.hashtags?.map((hashtag) => (
@@ -327,35 +380,60 @@ function MenuCard({ menu, onlyImage }: Props) {
         </GridContainerGap>
 
         <GridContainer>
-          <FlexContainerBetween>
-            <NoMarginH4>{formatPrice(menu.price)}</NoMarginH4>
-            <div>^</div>
-          </FlexContainerBetween>
-          <HorizontalBorder />
+          <StyledFlexContainerBetween>
+            <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
+            <IconButton onClick={toggleCardDetail}>
+              {isCardDetailOpened ? (
+                <StyledArrowDropUpRoundedIcon />
+              ) : (
+                <StyledArrowDropDownRoundedIcon />
+              )}
+            </IconButton>
+          </StyledFlexContainerBetween>
+          <HorizontalBorder show={isCardDetailOpened} />
         </GridContainer>
       </FlexContainerColumnBetween>
 
-      <FlexContainerWrapAround>
-        <FlexContainerAlignCenter>
-          <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-        </FlexContainerAlignCenter>
-        <VerticalBorder />
-        <FlexContainerAlignCenter>
-          <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-          <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-        </FlexContainerAlignCenter>
-      </FlexContainerWrapAround>
+      {isCardDetailOpened && (
+        <FlexContainerWrapAround>
+          {menu.positiveReviewRatio !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.reorderRatio !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.totalReviewCount !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
+              </FlexContainerAlignCenter>
+              <VerticalBorder />
+            </>
+          )}
+          {menu.totalOrderCount !== undefined && (
+            <>
+              <FlexContainerAlignCenter>
+                <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+                <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
+              </FlexContainerAlignCenter>
+            </>
+          )}
+          {/* {&&<></>} */}
+        </FlexContainerWrapAround>
+      )}
     </GridContainerLi>
   )
 }

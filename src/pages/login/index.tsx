@@ -98,6 +98,10 @@ const PASSWORD_INPUT_ICONS = [
   <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
 ]
 
+async function handleClick() {
+  window.location.href = 'http://localhost:4000/auth/google'
+}
+
 export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
 }
@@ -212,11 +216,9 @@ function LoginPage() {
             <ClientSideLink href="/register">
               <Button type="link">회원가입</Button>
             </ClientSideLink>
-
             <ClientSideLink href="/find/email">
               <Button type="link">아이디 찾기</Button>
             </ClientSideLink>
-
             <ClientSideLink href="/find/password">
               <Button type="link">비밀번호 찾기</Button>
             </ClientSideLink>
@@ -225,16 +227,11 @@ function LoginPage() {
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>
-          <SNSLoginButton>카카오톡으로 로그인하기</SNSLoginButton>
-          <SNSLoginButton>네이버로 로그인하기</SNSLoginButton>
-          <SNSLoginButton /* onClick={() => signIn()} */>구글로 로그인하기</SNSLoginButton>
-          <a
-            href="https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fiam.test&response_type=code&client_id=474655697521-d85qu38fas6r0pumm6llt59d208n5nuf.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fgoogle"
-            target="_blank"
-            rel="noreferrer"
-          >
-            구글 로그인
-          </a>
+          <SNSLoginButton onClick={handleClick} type="button">
+            구글로 로그인하기
+          </SNSLoginButton>
+          <SNSLoginButton type="button">네이버로 로그인하기</SNSLoginButton>
+          <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

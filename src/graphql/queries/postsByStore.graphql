@@ -1,0 +1,5 @@
+query PostsByStore($storeId: ID!) {
+  postsByStore(storeId: $storeId) {
+    ...postCard
+  }
+}

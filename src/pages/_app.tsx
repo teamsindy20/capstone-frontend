@@ -7,20 +7,26 @@ import { client } from 'src/apollo/client'
 import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import 'react-toastify/dist/ReactToastify.min.css'
-import { ToastContainer } from 'react-toastify'
+import 'animate.css/animate.min.css'
+import { ToastContainer, cssTransition } from 'react-toastify'
+
+export const fade = cssTransition({
+  enter: 'animate__animated animate__fadeIn',
+  exit: 'animate__animated animate__fadeOut',
+})
 
 const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     color: ${DARK_CHOCO_COLOR};
     font-size: 14px;
-    font-family: -apple-system, 'Noto Sans KR', BlinkMacSystemFont, Roboto,
+    font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Roboto',
       'Helvetica Neue', sans-serif;
     line-height: normal;
     word-break: keep-all;
@@ -82,6 +88,11 @@ function GlobalProvider({ children }: GlobalProviderProps) {
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
+const MaxWidth = styled.main`
+  max-width: ${TABLET_MIN_WIDTH};
+  margin: 0 auto;
+`
+
 function DessertFitApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
@@ -100,18 +111,16 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
       </Head>
       <GlobalStyle />
       <ApolloProvider client={client}>
         <GlobalProvider>
-          <Component {...pageProps} />
+          <MaxWidth>
+            <Component {...pageProps} />
+          </MaxWidth>
         </GlobalProvider>
       </ApolloProvider>
-      <ToastContainer position="top-center" />
+      <ToastContainer autoClose={3000} hideProgressBar position="top-center" transition={fade} />
     </>
   )
 }

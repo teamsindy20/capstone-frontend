@@ -79,6 +79,15 @@ function StoreMenusPage() {
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
       <PageLayout>
+        <button
+          disabled={loading || !storeId}
+          onClick={() => {
+            pickStore({ variables: { id: storeId ?? '' } })
+          }}
+        >
+          매장 찜하기
+        </button>
+
         <Tabs
           defaultActiveKey="menus"
           centered
@@ -88,14 +97,6 @@ function StoreMenusPage() {
           <Tabs.TabPane tab="소식" key="feed" />
           <Tabs.TabPane tab="리뷰" key="reviews" />
         </Tabs>
-        <button
-          disabled={loading || !storeId}
-          onClick={() => {
-            pickStore({ variables: { id: storeId ?? '' } })
-          }}
-        >
-          매장 찜하기
-        </button>
 
         <GridContainerUl onlyImage={onlyImage}>
           {menus?.map((menu) => (

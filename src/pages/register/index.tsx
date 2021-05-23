@@ -65,6 +65,10 @@ const HeadRegister = styled.h3`
 
 export const validateEmail = {
   required: '필수 항목입니다.',
+  maxLength: {
+    value: 64,
+    message: '최대 64글자 이하로 입력해주세요.',
+  },
   pattern: {
     value: /\S+@\S+\.\S+/,
     message: '이메일을 형식에 맞게 입력해주세요.',

@@ -1,14 +1,11 @@
-import BookmarkRoundedIcon from '@material-ui/icons/BookmarkRounded'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
-import TuneRoundedIcon from '@material-ui/icons/TuneRounded'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import IconButton from '@material-ui/core/IconButton'
 import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
-import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
@@ -16,11 +13,10 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState, useEffect, useContext } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep, stopPropagation } from 'src/utils/commons'
-import useGoToPage from 'src/hooks/useGoToPage'
 import {
   useMenuLazyQuery,
   useMenusQuery,
@@ -32,10 +28,6 @@ import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
 import { Tabs } from 'antd'
-
-const PADDING_TOP = '3rem'
-
-const BORDER_HEIGHT = '2px'
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;

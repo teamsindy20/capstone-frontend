@@ -88,7 +88,7 @@ function GlobalProvider({ children }: GlobalProviderProps) {
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
 }
 
-const MaxWidth = styled.div`
+const MaxWidth = styled.main`
   max-width: ${TABLET_MIN_WIDTH};
   margin: 0 auto;
 `
@@ -115,9 +115,9 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
       <GlobalStyle />
       <ApolloProvider client={client}>
         <GlobalProvider>
-          <main style={{ maxWidth: TABLET_MIN_WIDTH, margin: '0 auto' }}>
+          <MaxWidth>
             <Component {...pageProps} />
-          </main>
+          </MaxWidth>
         </GlobalProvider>
       </ApolloProvider>
       <ToastContainer autoClose={3000} hideProgressBar position="top-center" transition={fade} />

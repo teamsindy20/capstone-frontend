@@ -44,10 +44,11 @@ function StoresFeedPage() {
     onError: handleApolloError,
   })
 
+  const posts = data?.postsByAddress
   const isPostsLoading = networkStatus < 7
 
   async function fetchMorePosts() {
-    if (data?.postsByAddress.length) {
+    if (posts?.length) {
       await sleep(5000) // fetchMore({ variables: { from, count } })
       setHasMorePosts(false)
     } else {
@@ -115,13 +116,15 @@ function StoresFeedPage() {
               </Div>
               <HorizontalBorder />
               <GridContainerUl onlyImage={false}>
-                {data?.postsByAddress.map((post) => (
+                {posts?.map((post) => (
                   <PostCard key={post.id} post={post} />
                 ))}
-                {(isPostsLoading || hasMorePosts) && (
+                {isPostsLoading || hasMorePosts ? (
                   <div ref={sentryRef}>
                     <PostLoadingCard />
                   </div>
+                ) : (
+                  posts?.length === 0 && '매장 소식이 없어요...'
                 )}
               </GridContainerUl>
             </Tabs.TabPane>

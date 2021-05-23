@@ -4,6 +4,12 @@ import TopHeader from 'src/components/TopHeader'
 import { useReactiveVar } from '@apollo/client'
 import { cartMenusVar, setCartMenus } from 'src/apollo/cache'
 import CartMenuCard from 'src/components/CartMenuCard'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
+import grey from '@material-ui/core/colors/grey'
+import { Button } from 'antd'
+
+const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
@@ -13,7 +19,17 @@ function CartPage() {
   return (
     <PageHead>
       <TopHeader>
-        장바구니 <button onClick={() => setCartMenus([])}>전체삭제</button>
+        <FlexContainerBetween>
+          <FlexContainerAlignCenter>
+            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
+          </FlexContainerAlignCenter>
+          <FlexContainerAlignCenter>장바구니</FlexContainerAlignCenter>
+          <FlexContainerAlignCenter>
+            <Button size="small" onClick={() => setCartMenus([])}>
+              전체삭제
+            </Button>
+          </FlexContainerAlignCenter>
+        </FlexContainerBetween>
       </TopHeader>
 
       {cartMenus.map((cartMenu) => (

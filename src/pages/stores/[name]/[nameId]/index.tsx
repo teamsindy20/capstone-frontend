@@ -12,6 +12,9 @@ import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { CountNumber, Minus, Plus, MinusNoClick, Quantity } from 'src/components/CartMenuCard'
+import useGoToPage from 'src/hooks/useGoToPage'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import useGoBack from 'src/hooks/useGoBack'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -31,6 +34,8 @@ const FixedButton = styled(Button)`
   background-color: #fdfdfc;
 `
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const StyledArrowBackIosRoundedIcon2 = { fontSize: 20, color: grey[800], visible: 'hidden' }
 
 const FlexContainerBetween1 = styled.div`
   display: flex;
@@ -74,25 +79,32 @@ function StoreMenuPage() {
 
   const menu = data?.menu
 
+  const goToMenuReviewPage = useGoToPage(`/stores/${router.query.name}/reviews?menu=${menu?.name}`)
+  const goBack = useGoBack()
+
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
       <TopHeader>
         <FlexContainerBetween1>
-          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
+          <ArrowBackIosRoundedIcon onClick={goBack} style={StyledArrowBackIosRoundedIcon} />
           <h4>메뉴옵션</h4>
-          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
+          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon2} />
         </FlexContainerBetween1>
       </TopHeader>
-      <div>메뉴사진</div>
+      <img src={menu?.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
       <HorizontalBorder />
       <MarginContainer>
         <GridOption>
-          <GreyNoMarginH3>매장이름</GreyNoMarginH3>
+          <ClientSideLink href={`/stores/${router.query.name}`}>
+            <GreyNoMarginH3>{menu?.store.name}</GreyNoMarginH3>
+          </ClientSideLink>
           <NoMarginH2>{menuName}</NoMarginH2>
           <GreyLighterNoMarginH3>
             100%유기농 아몬드가루로 만든 쫀득하고 촉촉한 꼬끄, 비정제 설탕을 사용하여 달지 않아요.
           </GreyLighterNoMarginH3>
-          <Button>리뷰보기</Button>
+          <Button disabled={loading} onClick={goToMenuReviewPage}>
+            리뷰보기
+          </Button>
         </GridOption>
       </MarginContainer>
       <HorizontalBorder />
@@ -102,7 +114,9 @@ function StoreMenuPage() {
             <NoMarginH2>가격</NoMarginH2>
             <NoMarginH2>3,000원</NoMarginH2>
           </FlexContainerBetween>
-          <GreyLighterNoMarginH4>*최소주문금액 : 13,000원</GreyLighterNoMarginH4>
+          <GreyLighterNoMarginH4>
+            *최소주문금액 : {menu?.store.minimumDeliveryAmount}
+          </GreyLighterNoMarginH4>
           <FlexContainerBetween>
             <NoMarginH2>옵션</NoMarginH2>
             <NoMarginH2></NoMarginH2>

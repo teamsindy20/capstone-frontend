@@ -72,7 +72,7 @@ const PriceA = styled.h2`
   color: #161f27;
   word-break: keep-all;
 `
-const Minus = styled.div`
+export const Minus = styled.div`
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -85,21 +85,21 @@ const Minus = styled.div`
   cursor: pointer;
 `
 
-const MinusNoClick = styled(Minus)`
+export const MinusNoClick = styled(Minus)`
   opacity: 0.15;
   border: 1px solid rgba(0, 0, 0, 0.8);
   cursor: default;
 `
 
-const Plus = styled(Minus)`
+export const Plus = styled(Minus)`
   background-size: 40% 2px, 2px 40%;
 `
-const CountNumber = styled.h3`
+export const CountNumber = styled.h3`
   display: inline-block;
   text-align: center;
   padding: 5px 0;
 `
-const Quantity = styled.div`
+export const Quantity = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   text-align: center;

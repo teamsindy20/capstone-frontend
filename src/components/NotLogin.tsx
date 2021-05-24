@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import useGoToPage from 'src/hooks/useGoToPage'
+import { Button } from 'antd'
 
 function NotLogin() {
   const { asPath } = useRouter()
@@ -10,9 +11,14 @@ function NotLogin() {
 
   return (
     <>
-      <h3>로그인이 필요합니다ㅜㅠ</h3>
-      <button onClick={goToRegisterPage}>회원가입 페이지 이동</button>
-      <button onClick={goToLoginPage}>로그인 페이지 이동</button>
+      <h1>
+        로그인이 필요합니다 <br />
+        디저트핏에 가입해보세요!
+      </h1>
+      <Button onClick={goToRegisterPage} type="primary">
+        회원가입
+      </Button>
+      <Button onClick={goToLoginPage} type="danger">로그인</Button>
     </>
   )
 }

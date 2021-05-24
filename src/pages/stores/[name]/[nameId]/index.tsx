@@ -11,11 +11,14 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import React from 'react'
 import { CountNumber, Minus, Plus, MinusNoClick, Quantity } from 'src/components/CartMenuCard'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
+const MarginContainer = styled.div`
+  margin: 0.5rem;
+  weight: 100%;
+`
 const FixedButton = styled(Button)`
   position: fixed;
   left: 50%;
@@ -38,11 +41,25 @@ const FlexContainerBetween1 = styled.div`
 const GridOption = styled.div`
   display: grid;
   grid-template-rows: auto;
-  margin: 0.2rem;
+  row-gap: 1em;
 `
 
-const NoMarginH3 = styled.h3`
+const NoMarginH2 = styled.h2`
   margin: 0;
+`
+const GreyLighterNoMarginH3 = styled.h3`
+  margin: 0;
+  color: #929393;
+  font-weight: lighter;
+`
+const GreyLighterNoMarginH4 = styled.h4`
+  margin: 0;
+  color: #929393;
+  font-weight: lighter;
+`
+const GreyNoMarginH3 = styled.h3`
+  margin: 0;
+  color: #929393;
 `
 function StoreMenuPage() {
   const router = useRouter()
@@ -63,38 +80,48 @@ function StoreMenuPage() {
         <FlexContainerBetween1>
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
           <h4>메뉴옵션</h4>
-          <div></div>
+          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
         </FlexContainerBetween1>
       </TopHeader>
       <div>메뉴사진</div>
       <HorizontalBorder />
-      <div>매장이름</div>
-      <div>{menuName}</div>
-      <div>메뉴설명</div>
-      <Button>리뷰보기</Button>
+      <MarginContainer>
+        <GridOption>
+          <GreyNoMarginH3>매장이름</GreyNoMarginH3>
+          <NoMarginH2>{menuName}</NoMarginH2>
+          <GreyLighterNoMarginH3>
+            100%유기농 아몬드가루로 만든 쫀득하고 촉촉한 꼬끄, 비정제 설탕을 사용하여 달지 않아요.
+          </GreyLighterNoMarginH3>
+          <Button>리뷰보기</Button>
+        </GridOption>
+      </MarginContainer>
       <HorizontalBorder />
-      <GridOption>
-        <FlexContainerBetween>
-          <NoMarginH3>가격</NoMarginH3>
-          <NoMarginH3>3,000원</NoMarginH3>
-        </FlexContainerBetween>
-        <FlexContainerBetween>
-          <NoMarginH3>옵션</NoMarginH3>
-          <NoMarginH3></NoMarginH3>
-        </FlexContainerBetween>
-        <FlexContainerBetween>
-          <NoMarginH3>수량</NoMarginH3>
-          <Quantity>
-            <MinusNoClick />
-            <CountNumber>1</CountNumber>
-            <Plus />
-          </Quantity>
-        </FlexContainerBetween>
-        <FlexContainerBetween>
-          <NoMarginH3>총가격</NoMarginH3>
-          <NoMarginH3>3,000원</NoMarginH3>
-        </FlexContainerBetween>
-      </GridOption>
+      <MarginContainer>
+        <GridOption>
+          <FlexContainerBetween>
+            <NoMarginH2>가격</NoMarginH2>
+            <NoMarginH2>3,000원</NoMarginH2>
+          </FlexContainerBetween>
+          <GreyLighterNoMarginH4>*최소주문금액 : 13,000원</GreyLighterNoMarginH4>
+          <FlexContainerBetween>
+            <NoMarginH2>옵션</NoMarginH2>
+            <NoMarginH2></NoMarginH2>
+          </FlexContainerBetween>
+          <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
+          <FlexContainerBetween>
+            <NoMarginH2>수량</NoMarginH2>
+            <Quantity>
+              <MinusNoClick />
+              <CountNumber>1</CountNumber>
+              <Plus />
+            </Quantity>
+          </FlexContainerBetween>
+          <FlexContainerBetween>
+            <NoMarginH2>총가격</NoMarginH2>
+            <NoMarginH2>3,000원</NoMarginH2>
+          </FlexContainerBetween>
+        </GridOption>
+      </MarginContainer>
       <FixedButton
         onClick={() => {
           setCartMenus([...cartMenusVar(), { id: menuId, name: menuName, price: menu?.price }])
@@ -102,7 +129,7 @@ function StoreMenuPage() {
           router.back()
         }}
       >
-        장바구니 추가
+        1개 담기 (3,000원)
       </FixedButton>
     </PageHead>
   )

@@ -19,16 +19,23 @@ const MarginContainer = styled.div`
   margin: 0.5rem;
   weight: 100%;
 `
-const FixedButton = styled(Button)`
+const ReviewButton = styled(Button)`
+  background-color: #ff9a87;
+  border-radius: 7px;
+  color: #ffffff;
+  height: 45px;
+  font-size: 1rem;
+`
+
+const FixedButton = styled(ReviewButton)`
   position: fixed;
+  border-radius: 0;
   left: 50%;
   bottom: 0;
   z-index: 1;
   transform: translateX(-50%);
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
-  height: 50px;
-  background-color: #fdfdfc;
 `
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -61,6 +68,7 @@ const GreyNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
 `
+
 function StoreMenuPage() {
   const router = useRouter()
   const menuNameId = (router.query.nameId as string | undefined) ?? ''
@@ -92,7 +100,7 @@ function StoreMenuPage() {
           <GreyLighterNoMarginH3>
             100%유기농 아몬드가루로 만든 쫀득하고 촉촉한 꼬끄, 비정제 설탕을 사용하여 달지 않아요.
           </GreyLighterNoMarginH3>
-          <Button>리뷰보기</Button>
+          <ReviewButton>리뷰보기</ReviewButton>
         </GridOption>
       </MarginContainer>
       <MarginContainer>

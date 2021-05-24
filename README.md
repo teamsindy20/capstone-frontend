@@ -32,6 +32,8 @@
 
 ```
 NEXT_PUBLIC_GRAPHQL_API_URL=
+NEXT_PUBLIC_BACKEND_URL=
+NEXT_PUBLIC_GOOGLE_ANALITICS_ID=
 ```
 
 프로젝트 루트 경로에 `.env.development`과 `.env.production` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.

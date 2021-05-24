@@ -12,6 +12,7 @@ import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { CountNumber, Minus, Plus, MinusNoClick, Quantity } from 'src/components/CartMenuCard'
+import useGoToPage from 'src/hooks/useGoToPage'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -71,6 +72,7 @@ const GreyNoMarginH3 = styled.h3`
 
 function StoreMenuPage() {
   const router = useRouter()
+  const goMainPage = useGoToPage('/')
   const menuNameId = (router.query.nameId as string | undefined) ?? ''
   const menuName = menuNameId.substring(0, menuNameId.lastIndexOf('-'))
   const menuId = menuNameId.substring(menuNameId.lastIndexOf('-') + 1)
@@ -86,7 +88,7 @@ function StoreMenuPage() {
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
       <TopHeader>
         <FlexContainerBetween1>
-          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
+          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goMainPage} />
           <h4>메뉴옵션</h4>
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
         </FlexContainerBetween1>

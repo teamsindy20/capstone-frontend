@@ -9,8 +9,10 @@ import styled from 'styled-components'
 import { Button } from 'antd'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
-import TopHeader from 'src/components/TopHeader'
+import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import React from 'react'
+import { CountNumber, Minus, Plus, MinusNoClick, Quantity } from 'src/components/CartMenuCard'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -29,8 +31,18 @@ const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const FlexContainerBetween1 = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   height: 100%;
+`
+const GridOption = styled.div`
+  display: grid;
+  grid-template-rows: auto;
+  margin: 0.2rem;
+`
+
+const NoMarginH3 = styled.h3`
+  margin: 0;
 `
 function StoreMenuPage() {
   const router = useRouter()
@@ -47,15 +59,42 @@ function StoreMenuPage() {
 
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
-      {}
       <TopHeader>
         <FlexContainerBetween1>
-          <FlexContainerAlignCenter>
-            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
-            <h4>메뉴옵션</h4>
-          </FlexContainerAlignCenter>
+          <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} />
+          <h4>메뉴옵션</h4>
+          <div></div>
         </FlexContainerBetween1>
       </TopHeader>
+      <div>메뉴사진</div>
+      <HorizontalBorder />
+      <div>매장이름</div>
+      <div>{menuName}</div>
+      <div>메뉴설명</div>
+      <Button>리뷰보기</Button>
+      <HorizontalBorder />
+      <GridOption>
+        <FlexContainerBetween>
+          <NoMarginH3>가격</NoMarginH3>
+          <NoMarginH3>3,000원</NoMarginH3>
+        </FlexContainerBetween>
+        <FlexContainerBetween>
+          <NoMarginH3>옵션</NoMarginH3>
+          <NoMarginH3></NoMarginH3>
+        </FlexContainerBetween>
+        <FlexContainerBetween>
+          <NoMarginH3>수량</NoMarginH3>
+          <Quantity>
+            <MinusNoClick />
+            <CountNumber>1</CountNumber>
+            <Plus />
+          </Quantity>
+        </FlexContainerBetween>
+        <FlexContainerBetween>
+          <NoMarginH3>총가격</NoMarginH3>
+          <NoMarginH3>3,000원</NoMarginH3>
+        </FlexContainerBetween>
+      </GridOption>
       <FixedButton
         onClick={() => {
           setCartMenus([...cartMenusVar(), { id: menuId, name: menuName, price: menu?.price }])

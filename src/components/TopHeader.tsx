@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { TOP_HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { ReactNode } from 'react'
 
-const BORDER_HEIGHT = '2px'
+export const BORDER_HEIGHT = '2px'
 
 const PaddingTop = styled.div`
   padding-top: ${TOP_HEADER_HEIGHT};

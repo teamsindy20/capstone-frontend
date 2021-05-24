@@ -11,10 +11,31 @@ import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import Link from 'next/link'
 import styled from 'styled-components'
+import { toast } from 'react-toastify'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledKeyboardArrowRightRoundedIcon = { fontSize: 20, color: grey[800] }
+
+export const ReviewButton = styled(Button)`
+  background-color: #ff9a87;
+  border-radius: 7px;
+  color: #ffffff;
+  height: 45px;
+  font-size: 1rem;
+`
+
+export const FixedButton = styled(ReviewButton)`
+  position: fixed;
+  border-radius: 0;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: ${TABLET_MIN_WIDTH};
+`
 
 const FlexContainerBetween1 = styled.div`
   display: flex;
@@ -82,8 +103,7 @@ function CartPage() {
       {cartMenus.map((cartMenu) => (
         <CartMenuCard key={cartMenu.id} menu={cartMenu} />
       ))}
-
-      <Button onClick={goToOrderPage}>주문하기</Button>
+      <FixedButton onClick={goToOrderPage}>주문하기</FixedButton>
     </PageHead>
   )
 }

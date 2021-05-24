@@ -20,7 +20,7 @@ const MarginContainer = styled.div`
   margin: 0.5rem;
   weight: 100%;
 `
-const ReviewButton = styled(Button)`
+export const ReviewButton = styled(Button)`
   background-color: #ff9a87;
   border-radius: 7px;
   color: #ffffff;
@@ -28,7 +28,7 @@ const ReviewButton = styled(Button)`
   font-size: 1rem;
 `
 
-const FixedButton = styled(ReviewButton)`
+export const FixedButton = styled(ReviewButton)`
   position: fixed;
   border-radius: 0;
   left: 50%;

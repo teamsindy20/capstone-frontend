@@ -6,7 +6,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import styled from 'styled-components'
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
@@ -84,7 +84,7 @@ function StoreMenuPage() {
         </FlexContainerBetween1>
       </TopHeader>
       <div>메뉴사진</div>
-      <HorizontalBorder />
+      <Divider />
       <MarginContainer>
         <GridOption>
           <GreyNoMarginH3>매장이름</GreyNoMarginH3>
@@ -95,19 +95,21 @@ function StoreMenuPage() {
           <Button>리뷰보기</Button>
         </GridOption>
       </MarginContainer>
-      <HorizontalBorder />
       <MarginContainer>
         <GridOption>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>가격</NoMarginH2>
             <NoMarginH2>3,000원</NoMarginH2>
           </FlexContainerBetween>
           <GreyLighterNoMarginH4>*최소주문금액 : 13,000원</GreyLighterNoMarginH4>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>옵션</NoMarginH2>
             <NoMarginH2></NoMarginH2>
           </FlexContainerBetween>
           <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>수량</NoMarginH2>
             <Quantity>
@@ -116,10 +118,12 @@ function StoreMenuPage() {
               <Plus />
             </Quantity>
           </FlexContainerBetween>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>총가격</NoMarginH2>
             <NoMarginH2>3,000원</NoMarginH2>
           </FlexContainerBetween>
+          <Divider />
         </GridOption>
       </MarginContainer>
       <FixedButton

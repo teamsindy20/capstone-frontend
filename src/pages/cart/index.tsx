@@ -11,6 +11,7 @@ import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import Link from 'next/link'
 import styled from 'styled-components'
+import useGoBack from 'src/hooks/useGoBack'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -48,7 +49,9 @@ const NoMarginH5 = styled.h5`
 
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
-  const goMainPage = useGoToPage('/')
+  const goToStorePage = useGoToPage('/stores/${}')
+  const goBack = useGoBack()
+
   const cartMenus = useReactiveVar(cartMenusVar)
 
   return (
@@ -56,7 +59,7 @@ function CartPage() {
       <TopHeader>
         <FlexContainerBetween1>
           <FlexContainerAlignCenter>
-            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goMainPage} />
+            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
           </FlexContainerAlignCenter>
           <FlexContainerAlignCenter>장바구니</FlexContainerAlignCenter>
           <FlexContainerAlignCenter>
@@ -67,7 +70,7 @@ function CartPage() {
         </FlexContainerBetween1>
       </TopHeader>
       <TopContainer>
-        <Button size="small" onClick={goMainPage}>
+        <Button size="small" onClick={goBack}>
           더담으러가기
         </Button>
         <StoreGrid>

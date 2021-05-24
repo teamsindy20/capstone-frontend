@@ -14,6 +14,7 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
+import useGoBack from 'src/hooks/useGoBack'
 
 const GridContainerBackground = styled.div`
   display: grid;
@@ -47,7 +48,7 @@ function UserRegularStoresPage() {
 
   const regularStores = regularStoresQueryResult.data?.me.regularStores
 
-  const goMainPage = useGoToPage('/')
+  const goBack = useGoBack()
 
   return (
     <PageHead title="디저트핏 - 단골 매장" description={description}>
@@ -55,7 +56,7 @@ function UserRegularStoresPage() {
         <TopHeader>
           <FlexContainerCenterCenter>
             <FlexContainerAlignCenter>
-              <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goMainPage} />
+              <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
             </FlexContainerAlignCenter>
             <LocalActivityRoundedIcon style={StyledLocalActivityRoundedIcon} />
             <NoMarginH3>단골</NoMarginH3>

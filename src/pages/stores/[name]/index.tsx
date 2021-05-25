@@ -1,6 +1,6 @@
 import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { Tabs, Divider, Button, Tooltip } from 'antd'
+import { Tabs, Divider, Button, Tooltip, Popover } from 'antd'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
@@ -48,6 +48,18 @@ function StoreMenusPage() {
   const storeName = storeNameWithId?.substring(0, storeNameWithId.lastIndexOf('-'))
   const storeId = storeNameWithId?.substring(storeNameWithId.lastIndexOf('-') + 1)
   const goToHomePage = useGoToPage('/')
+
+  const VIPcontent = (
+    <div>
+      <p>30일 동안 5회 주문 시 단골 등극!</p>
+      <p>10%할인쿠폰 증정</p>
+    </div>
+  )
+  const ReOrderContent = (
+    <div>
+      <p>재주문율 설명</p>
+    </div>
+  )
 
   function goToPage(activeKey: string) {
     switch (activeKey) {
@@ -136,7 +148,9 @@ function StoreMenusPage() {
         <FlexContainerSpaceEvenly>
           <FlexContainerAlignCenter>
             <ReloadOutlined />
-            <NoMarginH3>재주문율 70%</NoMarginH3>
+            <Popover title="재주문율이란?" content={ReOrderContent}>
+              <NoMarginH3>재주문율 70%</NoMarginH3>
+            </Popover>
           </FlexContainerAlignCenter>
           <Divider type="vertical" />
           <FlexContainerAlignCenter>
@@ -146,7 +160,9 @@ function StoreMenusPage() {
           <Divider type="vertical" />
           <FlexContainerAlignCenter>
             <StarOutlined />
-            <NoMarginH3>단골 10</NoMarginH3>
+            <Popover title="단골 혜택" content={VIPcontent}>
+              <NoMarginH3>단골 10</NoMarginH3>
+            </Popover>
           </FlexContainerAlignCenter>
         </FlexContainerSpaceEvenly>
         <Divider />

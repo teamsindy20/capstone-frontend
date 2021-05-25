@@ -1,6 +1,6 @@
 import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { Tabs } from 'antd'
+import { Tabs, Divider, Button, Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
@@ -20,6 +20,7 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { store } from 'src/models/mock-data'
+import { HeartOutlined, BellOutlined } from '@ant-design/icons'
 
 const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
@@ -104,18 +105,25 @@ function StoreMenusPage() {
               />
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>{store.name}</FlexContainerAlignCenter>
-            <FlexContainerAlignCenter></FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <Tooltip title="매장 찜하기">
+                <Button
+                  shape="circle"
+                  icon={<HeartOutlined />}
+                  disabled={loading || !storeId}
+                  onClick={() => {
+                    pickStore({ variables: { id: storeId ?? '' } })
+                  }}
+                />
+              </Tooltip>
+              <Tooltip title="알림설정">
+                <Button shape="circle" icon={<BellOutlined />} />
+              </Tooltip>
+            </FlexContainerAlignCenter>
           </FlexContainerBetween1>
         </TopHeader>
-        <button
-          disabled={loading || !storeId}
-          onClick={() => {
-            pickStore({ variables: { id: storeId ?? '' } })
-          }}
-        >
-          매장 찜하기
-        </button>
-
+        
+        <Divider />
         <Tabs
           defaultActiveKey="menus"
           centered
@@ -125,7 +133,6 @@ function StoreMenusPage() {
           <Tabs.TabPane tab="소식" key="feed" />
           <Tabs.TabPane tab="리뷰" key="reviews" />
         </Tabs>
-
         <GridContainerUl onlyImage={onlyImage}>
           {menus?.map((menu) => (
             <MenuCard

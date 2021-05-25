@@ -31,6 +31,10 @@ const FlexContainerBetween1 = styled.div`
   justify-content: space-between;
   height: 100%;
 `
+const FlexContainerSpaceEvenly = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
 
 function StoreMenusPage() {
   const router = useRouter()
@@ -123,13 +127,21 @@ function StoreMenusPage() {
           </FlexContainerBetween1>
         </TopHeader>
         <Divider />
-        <ReloadOutlined />
-        재주문율 70%
-        <Divider type="vertical" />
-        <HeartOutlined />찜 34
-        <Divider type="vertical" />
-        <StarOutlined />
-        단골 10
+        <FlexContainerSpaceEvenly>
+          <FlexContainerAlignCenter>
+            <ReloadOutlined />
+            재주문율 70%
+          </FlexContainerAlignCenter>
+          <Divider type="vertical" />
+          <FlexContainerAlignCenter>
+            <HeartOutlined />찜 34
+          </FlexContainerAlignCenter>
+          <Divider type="vertical" />
+          <FlexContainerAlignCenter>
+            <StarOutlined />
+            단골 10
+          </FlexContainerAlignCenter>
+        </FlexContainerSpaceEvenly>
         <Divider />
         <Divider />
         <Tabs

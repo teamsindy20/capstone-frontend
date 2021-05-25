@@ -112,7 +112,7 @@ function OrderCard({ order, store }: Props) {
   const { name } = router.query
 
   const goToUserOrderPage = useGoToPage(`/users/${name}/orders/${order.id}`)
-  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}/`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}`)
 
   function goToUserReviewPage(reviewId: number) {
     return (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {

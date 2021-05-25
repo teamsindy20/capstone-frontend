@@ -92,7 +92,6 @@ export type Menu = {
   /** nullable */
   content?: Maybe<Scalars['String']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
-  options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -732,12 +731,6 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
 
-export type CartQueryVariables = Exact<{ [key: string]: never }>
-
-export type CartQuery = { __typename?: 'Query' } & {
-  cart?: Maybe<Array<{ __typename?: 'CartMenu' } & Pick<CartMenu, 'id' | 'name' | 'price'>>>
-}
-
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
@@ -1077,44 +1070,6 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >
-export const CartDocument = gql`
-  query Cart {
-    cart @client {
-      id
-      name
-      price
-    }
-  }
-`
-
-/**
- * __useCartQuery__
- *
- * To run a query within a React component, call `useCartQuery` and pass it any options that fit your needs.
- * When your component renders, `useCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCartQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCartQuery(baseOptions?: Apollo.QueryHookOptions<CartQuery, CartQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options)
-}
-export function useCartLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<CartQuery, CartQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options)
-}
-export type CartQueryHookResult = ReturnType<typeof useCartQuery>
-export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>
-export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {

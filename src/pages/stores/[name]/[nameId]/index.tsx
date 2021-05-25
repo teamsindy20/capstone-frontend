@@ -6,7 +6,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import styled from 'styled-components'
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
@@ -22,16 +22,23 @@ const MarginContainer = styled.div`
   margin: 0.5rem;
   weight: 100%;
 `
-const FixedButton = styled(Button)`
+export const ReviewButton = styled(Button)`
+  background-color: #ff9a87;
+  border-radius: 7px;
+  color: #ffffff;
+  height: 45px;
+  font-size: 1rem;
+`
+
+export const FixedButton = styled(ReviewButton)`
   position: fixed;
+  border-radius: 0;
   left: 50%;
   bottom: 0;
   z-index: 1;
   transform: translateX(-50%);
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
-  height: 50px;
-  background-color: #fdfdfc;
 `
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -66,8 +73,10 @@ const GreyNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
 `
+
 function StoreMenuPage() {
   const router = useRouter()
+  const goMainPage = useGoToPage('/')
   const menuNameId = (router.query.nameId as string | undefined) ?? ''
   const menuName = menuNameId.substring(0, menuNameId.lastIndexOf('-'))
   const menuId = menuNameId.substring(menuNameId.lastIndexOf('-') + 1)
@@ -107,13 +116,14 @@ function StoreMenuPage() {
           </Button>
         </GridOption>
       </MarginContainer>
-      <HorizontalBorder />
       <MarginContainer>
         <GridOption>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>가격</NoMarginH2>
             <NoMarginH2>3,000원</NoMarginH2>
           </FlexContainerBetween>
+          <Divider />
           <GreyLighterNoMarginH4>
             *최소주문금액 : {menu?.store.minimumDeliveryAmount}
           </GreyLighterNoMarginH4>
@@ -122,6 +132,7 @@ function StoreMenuPage() {
             <NoMarginH2></NoMarginH2>
           </FlexContainerBetween>
           <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>수량</NoMarginH2>
             <Quantity>
@@ -130,10 +141,12 @@ function StoreMenuPage() {
               <Plus />
             </Quantity>
           </FlexContainerBetween>
+          <Divider />
           <FlexContainerBetween>
             <NoMarginH2>총가격</NoMarginH2>
             <NoMarginH2>3,000원</NoMarginH2>
           </FlexContainerBetween>
+          <Divider />
         </GridOption>
       </MarginContainer>
       <FixedButton

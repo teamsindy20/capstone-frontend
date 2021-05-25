@@ -35,6 +35,12 @@ const FlexContainerSpaceEvenly = styled.div`
   display: flex;
   justify-content: space-evenly;
 `
+const NoMarginH3 = styled.h3`
+  margin: 0;
+`
+const NoMarginH4 = styled.h4`
+  margin: 0;
+`
 
 function StoreMenusPage() {
   const router = useRouter()
@@ -130,19 +136,23 @@ function StoreMenusPage() {
         <FlexContainerSpaceEvenly>
           <FlexContainerAlignCenter>
             <ReloadOutlined />
-            재주문율 70%
+            <NoMarginH3>재주문율 70%</NoMarginH3>
           </FlexContainerAlignCenter>
           <Divider type="vertical" />
           <FlexContainerAlignCenter>
-            <HeartOutlined />찜 34
+            <HeartOutlined />
+            <NoMarginH3>찜 34</NoMarginH3>
           </FlexContainerAlignCenter>
           <Divider type="vertical" />
           <FlexContainerAlignCenter>
             <StarOutlined />
-            단골 10
+            <NoMarginH3>단골 10</NoMarginH3>
           </FlexContainerAlignCenter>
         </FlexContainerSpaceEvenly>
         <Divider />
+        <NoMarginH4>배달시간 : 10분 ~ 20분</NoMarginH4>
+        <NoMarginH4>배달료 : 3,000원</NoMarginH4>
+        <NoMarginH4>최소주문금액 : 7,000원</NoMarginH4>
         <Divider />
         <Tabs
           defaultActiveKey="feed"

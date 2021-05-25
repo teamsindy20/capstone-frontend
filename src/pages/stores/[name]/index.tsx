@@ -20,7 +20,7 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { store } from 'src/models/mock-data'
-import { HeartOutlined, BellOutlined } from '@ant-design/icons'
+import { HeartOutlined, BellOutlined, ReloadOutlined, StarOutlined } from '@ant-design/icons'
 
 const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
@@ -122,27 +122,35 @@ function StoreMenusPage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetween1>
         </TopHeader>
-        
+        <Divider />
+        <ReloadOutlined />
+        재주문율 70%
+        <Divider type="vertical" />
+        <HeartOutlined />찜 34
+        <Divider type="vertical" />
+        <StarOutlined />
+        단골 10
+        <Divider />
         <Divider />
         <Tabs
-          defaultActiveKey="menus"
+          defaultActiveKey="feed"
           centered
           onTabClick={(activeKey) => router.push(goToPage(activeKey))}
         >
+          <Tabs.TabPane tab="매장소식" key="feed" />
           <Tabs.TabPane tab="메뉴" key="menus" />
-          <Tabs.TabPane tab="소식" key="feed" />
+          <GridContainerUl onlyImage={onlyImage}>
+            {menus?.map((menu) => (
+              <MenuCard
+                key={menu.id}
+                afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                menu={menu as any}
+                onlyImage={onlyImage}
+              />
+            ))}
+          </GridContainerUl>
           <Tabs.TabPane tab="리뷰" key="reviews" />
         </Tabs>
-        <GridContainerUl onlyImage={onlyImage}>
-          {menus?.map((menu) => (
-            <MenuCard
-              key={menu.id}
-              afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-              menu={menu as any}
-              onlyImage={onlyImage}
-            />
-          ))}
-        </GridContainerUl>
       </PageLayout>
     </PageHead>
   )

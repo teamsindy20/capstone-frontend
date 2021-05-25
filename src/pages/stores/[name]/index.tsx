@@ -1,6 +1,9 @@
+import TopHeader from 'src/components/TopHeader'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { Tabs } from 'antd'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
+import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
@@ -13,14 +16,27 @@ import {
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl } from 'src/pages'
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
+import grey from '@material-ui/core/colors/grey'
+import useGoToPage from 'src/hooks/useGoToPage'
+import { store } from 'src/models/mock-data'
 
 const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
+
+const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
+
+const FlexContainerBetween1 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+`
 
 function StoreMenusPage() {
   const router = useRouter()
   const storeNameWithId = (router.query.name ?? '') as string
   const storeName = storeNameWithId?.substring(0, storeNameWithId.lastIndexOf('-'))
   const storeId = storeNameWithId?.substring(storeNameWithId.lastIndexOf('-') + 1)
+  const goToHomePage = useGoToPage('/')
 
   function goToPage(activeKey: string) {
     switch (activeKey) {
@@ -79,6 +95,18 @@ function StoreMenusPage() {
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
       <PageLayout>
+        <TopHeader>
+          <FlexContainerBetween1>
+            <FlexContainerAlignCenter>
+              <ArrowBackIosRoundedIcon
+                style={StyledArrowBackIosRoundedIcon}
+                onClick={goToHomePage}
+              />
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>{store.name}</FlexContainerAlignCenter>
+            <FlexContainerAlignCenter></FlexContainerAlignCenter>
+          </FlexContainerBetween1>
+        </TopHeader>
         <button
           disabled={loading || !storeId}
           onClick={() => {

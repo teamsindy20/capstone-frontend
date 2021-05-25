@@ -124,7 +124,7 @@ function OrderPage() {
         <GridOption>
           <NoMarginH2>배달정보</NoMarginH2>
           <FlexContainerBetween>
-            <Tooltip title="이 주소가 맞으신가요?">
+            <Tooltip defaultVisible="true" title="이 주소가 맞으신가요?">
               <NoMarginH3>
                 <EnvironmentOutlined />
                 동작구 흑석동 221 208관 1층

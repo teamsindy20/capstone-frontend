@@ -27,9 +27,17 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Select } from 'antd'
+import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
+
+const contentStyle = {
+  height: '150px',
+  color: '#929393',
+  lineHeight: '150px',
+  background: '#EAEAEA',
+}
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -52,6 +60,11 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   border-radius: 50%;
   padding: 10px;
   //font-color: #3c3c3c;
+`
+const { Option } = Select
+
+const StyledTab = styled(Tabs)`
+  color: #f57961;
 `
 
 const settings = {
@@ -129,7 +142,7 @@ const FixedDiv = styled.div`
   line-height: 60px;
   background-color: #fff;
 `
-const Tag = styled.span<{ color: string }>`
+const StyledTag = styled.span<{ color: string }>`
   margin: 10px;
   padding: 5px 10px;
   white-space: nowrap;
@@ -232,9 +245,24 @@ function HomePage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
-        <Tabs defaultActiveKey="1" size="large">
+        <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
           <TabPane tab="디저트핏" key="1">
-            <StyledSlider {...settings}>
+            <Carousel autoplay>
+              <div>
+                <h3 style={contentStyle}>내게 딱 맞는 디저트핏!</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>Dessert Fit!</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>김빵순 사랑해</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>Hi~ </h3>
+              </div>
+            </Carousel>
+
+            {/* <StyledSlider {...settings}>
               <BannerAd>
                 <Img src="/banner.png" alt="banner advertisement"></Img>
                 <AdTextDiv>
@@ -254,53 +282,53 @@ function HomePage() {
                 <Img src="/banner.png" alt="banner advertisement"></Img>
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
-            </StyledSlider>
+            </StyledSlider> */}
             <GridContainer>
               <FixedDiv>정렬방식</FixedDiv>
               <Div>
-                <Tag
+                <StyledTag
                   color="rgb(190, 235, 253)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   맞춤추천
-                </Tag>
-                <Tag
+                </StyledTag>
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   좋아요순
-                </Tag>
-                <Tag
+                </StyledTag>
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   재주문율순
-                </Tag>
+                </StyledTag>
 
-                <Tag
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   주문수순
-                </Tag>
-                <Tag
+                </StyledTag>
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   배달팁적은순
-                </Tag>
-                <Tag
+                </StyledTag>
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   리뷰수순
-                </Tag>
-                <Tag
+                </StyledTag>
+                <StyledTag
                   color="rgb(230, 230, 230)"
                   onClick={(e: any) => console.log(e.target.textContent)}
                 >
                   거리순
-                </Tag>
+                </StyledTag>
               </Div>
 
               <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
@@ -339,6 +367,23 @@ function HomePage() {
                 </div>
               )}
             </MiddleText>
+            <Divider orientation="left">
+              <SmileOutlined />
+              김빵순님이 설정한 취향은?
+            </Divider>
+            <div>
+              <Tag color="#F57961">#딸기</Tag>
+              <Tag color="#C4C4C4">#저탄수</Tag>
+              <Tag color="#2ECCBA">#말차</Tag>
+              <Tag color="#FF9A87">#슈가프리</Tag>
+              <Tag color="#5C4D42">#초코</Tag>
+            </div>
+            <Divider />
+            <Select defaultValue="1" style={{ width: 140 }}>
+              <Option value="1">프렌차이즈 제외</Option>
+              <Option value="2">프렌차이즈 포함</Option>
+              <Option value="3">사진만보기</Option>
+            </Select>
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

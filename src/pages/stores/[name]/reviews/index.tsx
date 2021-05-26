@@ -1,9 +1,13 @@
-import { Tabs } from 'antd'
+import { Tabs, Input, Space } from 'antd'
 import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
+
+const { Search } = Input
+
+const onSearch = (value) => console.log(value)
 
 function StoreReviewsPage() {
   const router = useRouter()
@@ -34,6 +38,14 @@ function StoreReviewsPage() {
         </Tabs>
         <div>리뷰 페이지</div>
         <div>메뉴 검색: {router.query.menu}</div>
+        <Space direction="vertical">
+          <Search
+            placeholder="input search text"
+            allowClear
+            onSearch={onSearch}
+            style={{ width: 200 }}
+          />
+        </Space>
       </PageLayout>
     </PageHead>
   )

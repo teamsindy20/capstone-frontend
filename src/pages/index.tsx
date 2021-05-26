@@ -36,7 +36,7 @@ const contentStyle = {
   height: '150px',
   color: '#929393',
   lineHeight: '150px',
-  textAlign: 'center',
+  textalign: 'center',
   background: '#EAEAEA',
 }
 

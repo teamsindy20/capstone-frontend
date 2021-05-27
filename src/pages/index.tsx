@@ -13,7 +13,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep, stopPropagation } from 'src/utils/commons'
@@ -32,12 +32,17 @@ import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
 
-const contentStyle = {
+const contentStyle: CSSProperties = {
   height: '150px',
   color: '#929393',
   lineHeight: '150px',
   background: '#EAEAEA',
+  textAlign: 'center',
 }
+
+const MarginDiv = styled.div`
+  margin: 0.5rem;
+`
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -258,7 +263,7 @@ function HomePage() {
                 <h3 style={contentStyle}>김빵순 사랑해</h3>
               </div>
               <div>
-                <h3 style={contentStyle}>Hi~ </h3>
+                <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
               </div>
             </Carousel>
 
@@ -283,122 +288,129 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
-            <GridContainer>
-              <FixedDiv>정렬방식</FixedDiv>
-              <Div>
-                <StyledTag
-                  color="rgb(190, 235, 253)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  맞춤추천
-                </StyledTag>
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  좋아요순
-                </StyledTag>
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  재주문율순
-                </StyledTag>
+            <MarginDiv>
+              <GridContainer>
+                <FixedDiv>정렬방식</FixedDiv>
+                <Div>
+                  <StyledTag
+                    color="rgb(190, 235, 253)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    맞춤추천
+                  </StyledTag>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    좋아요순
+                  </StyledTag>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    재주문율순
+                  </StyledTag>
 
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  주문수순
-                </StyledTag>
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  배달팁적은순
-                </StyledTag>
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  리뷰수순
-                </StyledTag>
-                <StyledTag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  거리순
-                </StyledTag>
-              </Div>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    주문수순
+                  </StyledTag>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    배달팁적은순
+                  </StyledTag>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    리뷰수순
+                  </StyledTag>
+                  <StyledTag
+                    color="rgb(230, 230, 230)"
+                    onClick={(e: any) => console.log(e.target.textContent)}
+                  >
+                    거리순
+                  </StyledTag>
+                </Div>
 
-              <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
-            </GridContainer>
-            <MiddleText>
-              {loading ? (
-                'user authenticating...'
-              ) : !user ? (
-                <div>
-                  맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
-                </div>
-              ) : isUserPreferencesLoading ? (
-                'user preferences loading...'
-              ) : preferences?.length ? (
-                <div>
-                  김빵순님의 취향:{' '}
-                  {preferences.map((hashtag) => (
-                    <Fragment key={hashtag}>
-                      <li>
-                        <Link href={`/search/${hashtag.slice(1)}`}>
-                          <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                            {hashtag}
-                          </BoldA>
-                        </Link>
-                      </li>
-                      &nbsp;
-                    </Fragment>
-                  ))}
-                </div>
-              ) : (
-                <div>
-                  설정한 취향이 아직 없어요.{' '}
-                  <ClientSideLink href="/users/username/preferences">
-                    취향 설정하러 가기
-                  </ClientSideLink>
+                <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
+              </GridContainer>
+              <MiddleText>
+                {loading ? (
+                  'user authenticating...'
+                ) : !user ? (
+                  <div>
+                    맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
+                  </div>
+                ) : isUserPreferencesLoading ? (
+                  'user preferences loading...'
+                ) : preferences?.length ? (
+                  <div>
+                    김빵순님의 취향:{' '}
+                    {preferences.map((hashtag) => (
+                      <Fragment key={hashtag}>
+                        <li>
+                          <Link href={`/search/${hashtag.slice(1)}`}>
+                            <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                              {hashtag}
+                            </BoldA>
+                          </Link>
+                        </li>
+                        &nbsp;
+                      </Fragment>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    설정한 취향이 아직 없어요.{' '}
+                    <ClientSideLink href="/users/username/preferences">
+                      취향 설정하러 가기
+                    </ClientSideLink>
+                  </div>
+                )}
+              </MiddleText>
+              <Divider orientation="left">
+                <SmileOutlined />
+                김빵순님이 설정한 취향은?
+              </Divider>
+              <div>
+                <Tag color="#F57961">#딸기</Tag>
+                <Tag color="#C4C4C4">#저탄수</Tag>
+                <Tag color="#2ECCBA">#말차</Tag>
+                <Tag color="#FF9A87">#슈가프리</Tag>
+                <Tag color="#5C4D42">#초코</Tag>
+              </div>
+              <Divider />
+              <Select defaultValue="1" style={{ width: 140 }}>
+                <Option value="1">프렌차이즈 제외</Option>
+                <Option value="2">프렌차이즈 포함</Option>
+                <Option value="3">사진만보기</Option>
+              </Select>
+              <Select defaultValue="1" style={{ width: 140 }}>
+                <Option value="1">프렌차이즈 제외</Option>
+                <Option value="2">프렌차이즈 포함</Option>
+                <Option value="3">사진만보기</Option>
+              </Select>
+              <GridContainerUl onlyImage={onlyImage}>
+                {menus?.map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
+              </GridContainerUl>
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
                 </div>
               )}
-            </MiddleText>
-            <Divider orientation="left">
-              <SmileOutlined />
-              김빵순님이 설정한 취향은?
-            </Divider>
-            <div>
-              <Tag color="#F57961">#딸기</Tag>
-              <Tag color="#C4C4C4">#저탄수</Tag>
-              <Tag color="#2ECCBA">#말차</Tag>
-              <Tag color="#FF9A87">#슈가프리</Tag>
-              <Tag color="#5C4D42">#초코</Tag>
-            </div>
-            <Divider />
-            <Select defaultValue="1" style={{ width: 140 }}>
-              <Option value="1">프렌차이즈 제외</Option>
-              <Option value="2">프렌차이즈 포함</Option>
-              <Option value="3">사진만보기</Option>
-            </Select>
-            <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
-            </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
+            </MarginDiv>
           </TabPane>
 
           <TabPane tab="카테고리" key="2">

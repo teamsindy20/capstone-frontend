@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Tabs, Divider, Button } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -11,16 +11,24 @@ import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import PostCard, { PostLoadingCard } from '../../components/PostCard'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
 const HorizontalBorder = styled.div`
   border: 2px solid #ddd;
   margin-bottom: 15px;
 `
 
-const Div = styled.div`
+const ScrollDiv = styled.div`
   overflow: scroll hidden;
   display: flex;
   margin: 6px 0px;
+`
+const MarginDiv = styled.div`
+  margin: 0.5rem;
+`
+
+const NoMarginh3 = styled.h3`
+  margin: 0;
 `
 
 const Tag = styled.span<{ color: string }>`
@@ -87,7 +95,7 @@ function StoresFeedPage() {
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />
           </Tabs>
         </TopHeader>
-        <Div>
+        <ScrollDiv>
           <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
             메뉴 소식
           </Tag>
@@ -104,20 +112,48 @@ function StoresFeedPage() {
           <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
             이모저모
           </Tag>
-        </Div>
+        </ScrollDiv>
         <HorizontalBorder />
-        <GridContainerUl onlyImage={false}>
-          {posts?.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-          {isPostsLoading || hasMorePosts ? (
-            <div ref={sentryRef}>
-              <PostLoadingCard />
-            </div>
-          ) : (
-            posts?.length === 0 && '매장 소식이 없어요...'
-          )}
-        </GridContainerUl>
+        <Divider />
+        <MarginDiv>
+          <FlexContainerBetween>
+            <NoMarginh3>찜한 매장 소식</NoMarginh3>
+            <Button type="text">더보기</Button>
+          </FlexContainerBetween>
+          <Divider />
+          <GridContainerUl onlyImage={false}>
+            {posts?.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+            {isPostsLoading || hasMorePosts ? (
+              <div ref={sentryRef}>
+                <PostLoadingCard />
+              </div>
+            ) : (
+              posts?.length === 0 && '매장 소식이 없어요...'
+            )}
+          </GridContainerUl>
+        </MarginDiv>
+        <Divider />
+        <MarginDiv>
+          <FlexContainerBetween>
+            <NoMarginh3>전체 매장 소식</NoMarginh3>
+            <Button type="text">더보기</Button>
+          </FlexContainerBetween>
+          <Divider />
+          <GridContainerUl onlyImage={false}>
+            {posts?.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+            {isPostsLoading || hasMorePosts ? (
+              <div ref={sentryRef}>
+                <PostLoadingCard />
+              </div>
+            ) : (
+              posts?.length === 0 && '매장 소식이 없어요...'
+            )}
+          </GridContainerUl>
+        </MarginDiv>
       </PageLayout>
     </PageHead>
   )

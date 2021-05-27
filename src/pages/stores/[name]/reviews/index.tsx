@@ -5,7 +5,7 @@ import PageLayout from 'src/components/layouts/PageLayout'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
 
@@ -26,7 +26,11 @@ function handleChange(value: any) {
 function StoreReviewsPage() {
   const router = useRouter()
 
-  const [searchTerm, setSearchTerm] = useState(decodeURIComponent(window.location.search.slice(6)))
+  const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    setSearchTerm(decodeURIComponent(window.location.search.slice(6)))
+  }, [])
 
   function goToPage(activeKey: string) {
     switch (activeKey) {

@@ -5,6 +5,7 @@ import PageLayout from 'src/components/layouts/PageLayout'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
+import { useState } from 'react'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
 
@@ -24,6 +25,8 @@ function handleChange(value: any) {
 
 function StoreReviewsPage() {
   const router = useRouter()
+
+  const [searchTerm, setSearchTerm] = useState(decodeURIComponent(window.location.search.slice(6)))
 
   function goToPage(activeKey: string) {
     switch (activeKey) {
@@ -49,8 +52,6 @@ function StoreReviewsPage() {
           <Tabs.TabPane tab="소식" key="feed" />
           <Tabs.TabPane tab="리뷰" key="reviews" />
         </Tabs>
-        <div>리뷰 페이지</div>
-        <div>메뉴 검색: {router.query.menu}</div>
         <MarginDiv>
           <FlexContainerBetween>
             <Search
@@ -58,6 +59,8 @@ function StoreReviewsPage() {
               allowClear
               onSearch={onSearch}
               style={{ width: 230 }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Select defaultValue="like" style={{ width: 120 }} onChange={handleChange}>
               <Option value="like">좋아요순</Option>
@@ -66,7 +69,7 @@ function StoreReviewsPage() {
             </Select>
           </FlexContainerBetween>
           <Divider />
-          <ReviewCard />
+          <ReviewCard onlyImage={false} review={1 as any} />
         </MarginDiv>
       </PageLayout>
     </PageHead>

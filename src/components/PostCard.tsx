@@ -82,7 +82,6 @@ const GridInCardColumn2 = styled.div`
 const ImgInCard = styled.img`
   overflow: hidden;
   border-radius: 5%;
-
   display: flex;
   align-items: center;
   justify-content: center;

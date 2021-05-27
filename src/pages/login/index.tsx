@@ -14,8 +14,6 @@ import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
-// import { signIn, signOut, useSession } from 'next-auth/client'
-
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
@@ -98,7 +96,7 @@ const PASSWORD_INPUT_ICONS = [
   <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
 ]
 
-async function handleClick() {
+function handleClick() {
   window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
 }
 
@@ -136,7 +134,8 @@ function LoginPage() {
       }
 
       refetchUser()
-      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
+      router.replace(sessionStorage.getItem('redirectUrlAfterLogin') ?? '/')
+      sessionStorage.removeItem('redirectUrlAfterLogin')
     },
     onError: handleApolloError,
   })
@@ -207,7 +206,7 @@ function LoginPage() {
             name="remember"
             render={({ field }) => (
               <Checkbox checked={field.value} disabled={loading} {...field}>
-                로그인 상태 유지
+                로그인 유지하기
               </Checkbox>
             )}
           />

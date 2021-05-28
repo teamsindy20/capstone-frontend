@@ -229,6 +229,7 @@ function LoginPage() {
           <SNSLoginButton onClick={handleClick} type="button">
             구글로 로그인하기
           </SNSLoginButton>
+          <SNSLoginButton type="button">페이스북으로 로그인하기</SNSLoginButton>
           <SNSLoginButton type="button">네이버로 로그인하기</SNSLoginButton>
           <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
         </GridContainerForm>

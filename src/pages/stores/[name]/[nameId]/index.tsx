@@ -4,23 +4,25 @@ import { setCartMenus, cartMenusVar } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
-import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import styled from 'styled-components'
 import { Button, Divider } from 'antd'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import { CountNumber, Minus, Plus, MinusNoClick, Quantity } from 'src/components/CartMenuCard'
+import { FlexContainerBetween } from 'src/styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import useGoBack from 'src/hooks/useGoBack'
+import { formatPrice } from 'src/utils/price'
+import { useState, CSSProperties } from 'react'
+import CountButton from 'src/components/atoms/CountButton'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
 const MarginContainer = styled.div`
   margin: 0.5rem;
-  weight: 100%;
+  width: 100%;
 `
 export const ReviewButton = styled(Button)`
   background-color: #ff9a87;
@@ -31,18 +33,22 @@ export const ReviewButton = styled(Button)`
 `
 
 export const FixedButton = styled(ReviewButton)`
-  position: fixed;
-  border-radius: 0;
-  left: 50%;
+  position: fixed !important;
   bottom: 0;
   z-index: 1;
-  transform: translateX(-50%);
+
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
+  border-radius: 0;
 `
-const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
-const StyledArrowBackIosRoundedIcon2 = { fontSize: 20, color: grey[800], visible: 'hidden' }
+const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800], cursor: 'pointer' }
+
+const StyledArrowBackIosRoundedIcon2: CSSProperties = {
+  fontSize: 20,
+  color: grey[800],
+  visibility: 'hidden',
+}
 
 const FlexContainerBetween1 = styled.div`
   display: flex;
@@ -76,9 +82,7 @@ const GreyNoMarginH3 = styled.h3`
 
 function StoreMenuPage() {
   const router = useRouter()
-  const goMainPage = useGoToPage('/')
   const menuNameId = (router.query.nameId as string | undefined) ?? ''
-  const menuName = menuNameId.substring(0, menuNameId.lastIndexOf('-'))
   const menuId = menuNameId.substring(menuNameId.lastIndexOf('-') + 1)
 
   const { data, loading, error } = useMenuDetailQuery({
@@ -91,6 +95,8 @@ function StoreMenuPage() {
   const goToMenuReviewPage = useGoToPage(`/stores/${router.query.name}/reviews?menu=${menu?.name}`)
   const goBack = useGoBack()
 
+  const [count, setCount] = useState(1)
+
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
       <TopHeader>
@@ -100,64 +106,85 @@ function StoreMenuPage() {
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon2} />
         </FlexContainerBetween1>
       </TopHeader>
-      <img src={menu?.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
-      <HorizontalBorder />
-      <MarginContainer>
-        <GridOption>
-          <ClientSideLink href={`/stores/${router.query.name}`}>
-            <GreyNoMarginH3>{menu?.store.name}</GreyNoMarginH3>
-          </ClientSideLink>
-          <NoMarginH2>{menuName}</NoMarginH2>
-          <GreyLighterNoMarginH3>
-            100%유기농 아몬드가루로 만든 쫀득하고 촉촉한 꼬끄, 비정제 설탕을 사용하여 달지 않아요.
-          </GreyLighterNoMarginH3>
-          <Button disabled={loading} onClick={goToMenuReviewPage}>
-            리뷰보기
-          </Button>
-        </GridOption>
-      </MarginContainer>
-      <MarginContainer>
-        <GridOption>
-          <Divider />
-          <FlexContainerBetween>
-            <NoMarginH2>가격</NoMarginH2>
-            <NoMarginH2>3,000원</NoMarginH2>
-          </FlexContainerBetween>
-          <Divider />
-          <GreyLighterNoMarginH4>
-            *최소주문금액 : {menu?.store.minimumDeliveryAmount}
-          </GreyLighterNoMarginH4>
-          <FlexContainerBetween>
-            <NoMarginH2>옵션</NoMarginH2>
-            <NoMarginH2></NoMarginH2>
-          </FlexContainerBetween>
-          <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
-          <Divider />
-          <FlexContainerBetween>
-            <NoMarginH2>수량</NoMarginH2>
-            <Quantity>
-              <MinusNoClick />
-              <CountNumber>1</CountNumber>
-              <Plus />
-            </Quantity>
-          </FlexContainerBetween>
-          <Divider />
-          <FlexContainerBetween>
-            <NoMarginH2>총가격</NoMarginH2>
-            <NoMarginH2>3,000원</NoMarginH2>
-          </FlexContainerBetween>
-          <Divider />
-        </GridOption>
-      </MarginContainer>
-      <FixedButton
-        onClick={() => {
-          setCartMenus([...cartMenusVar(), { id: menuId, name: menuName, price: menu?.price }])
-          toast.success(`${menuName} 장바구니 추가 완료!`)
-          router.back()
-        }}
-      >
-        1개 담기 (3,000원)
-      </FixedButton>
+      {loading || !menu ? (
+        <>
+          <div>menu loading...</div>
+          <FixedButton loading={true}>장바구니에 담기</FixedButton>
+        </>
+      ) : !error ? (
+        <>
+          <img src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
+          <HorizontalBorder />
+          <MarginContainer>
+            <GridOption>
+              <ClientSideLink href={`/stores/${router.query.name}`}>
+                <GreyNoMarginH3>{menu.store.name}</GreyNoMarginH3>
+              </ClientSideLink>
+              <NoMarginH2>{menu.name}</NoMarginH2>
+              <GreyLighterNoMarginH3>
+                {menu.content}
+                100%유기농 아몬드가루로 만든 쫀득하고 촉촉한 꼬끄, 비정제 설탕을 사용하여 달지
+                않아요.
+              </GreyLighterNoMarginH3>
+              <Button disabled={loading} onClick={goToMenuReviewPage}>
+                리뷰보기
+              </Button>
+            </GridOption>
+          </MarginContainer>
+          <MarginContainer>
+            <GridOption>
+              <Divider />
+              <FlexContainerBetween>
+                <NoMarginH2>가격</NoMarginH2>
+                <NoMarginH2>{formatPrice(menu.price)}</NoMarginH2>
+              </FlexContainerBetween>
+              <Divider />
+              <GreyLighterNoMarginH4>
+                *최소주문금액 : {menu.store.minimumDeliveryAmount}
+              </GreyLighterNoMarginH4>
+              <FlexContainerBetween>
+                <NoMarginH2>옵션</NoMarginH2>
+                <NoMarginH2></NoMarginH2>
+              </FlexContainerBetween>
+              <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
+              <Divider />
+              <FlexContainerBetween>
+                <NoMarginH2>수량</NoMarginH2>
+                <CountButton onClick={setCount} value={count} />
+              </FlexContainerBetween>
+              <Divider />
+              <FlexContainerBetween>
+                <NoMarginH2>총가격</NoMarginH2>
+                <NoMarginH2>{formatPrice(menu.price * count)}</NoMarginH2>
+              </FlexContainerBetween>
+              <Divider />
+            </GridOption>
+          </MarginContainer>
+          <FixedButton
+            onClick={() => {
+              setCartMenus([
+                ...cartMenusVar(),
+                {
+                  id: menuId,
+                  name: menu.name,
+                  price: menu.price + 0 /* 메뉴 옵션 가격도 추가 */,
+                  count: count,
+                },
+              ])
+              toast(
+                <div>
+                  <b>{menu.name}</b> 장바구니 추가 완료!
+                </div>
+              )
+              router.back()
+            }}
+          >
+            1개 담기 ({formatPrice(menu.price * count)})
+          </FixedButton>
+        </>
+      ) : (
+        <div>error</div>
+      )}
     </PageHead>
   )
 }

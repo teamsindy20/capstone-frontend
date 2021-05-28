@@ -1,6 +1,13 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
 // import { persistCache, SessionStorageWrapper } from 'apollo3-cache-persist'
 
+type CartMenu = {
+  id: string
+  name: string
+  price: number
+  amount: number
+}
+
 export const cartMenusVar = makeVar<any[]>(
   typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartMenus') ?? '[]') : []
 )

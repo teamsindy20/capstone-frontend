@@ -27,7 +27,7 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs, Carousel, Divider, Tag, Select } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
@@ -180,6 +180,7 @@ function HomePage() {
 
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
+  const [doesFranchiseIncluded, toggleWhetherIncludeFranchise] = useBoolean(false)
 
   const menusQueryResult = useMenusQuery({
     fetchPolicy: 'cache-and-network',
@@ -367,6 +368,7 @@ function HomePage() {
                 </div>
               )}
             </MiddleText>
+
             <Divider orientation="left">
               <SmileOutlined />
               김빵순님이 설정한 취향은?
@@ -378,12 +380,18 @@ function HomePage() {
               <Tag color="#FF9A87">#슈가프리</Tag>
               <Tag color="#5C4D42">#초코</Tag>
             </div>
+
             <Divider />
-            <Select defaultValue="1" style={{ width: 140 }}>
-              <Option value="1">프렌차이즈 제외</Option>
-              <Option value="2">프렌차이즈 포함</Option>
-              <Option value="3">사진만보기</Option>
-            </Select>
+
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+
+            <Divider />
+
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

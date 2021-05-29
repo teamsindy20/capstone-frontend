@@ -149,6 +149,10 @@ function OrderCard({ order, store }: Props) {
           title={`${store.name} >`}
           description={order.orderStatus}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+          onClick={goToStoreMenusPage}
+>>>>>>> Stashed changes
 =======
           onClick={goToStoreMenusPage}
 >>>>>>> Stashed changes
@@ -208,6 +212,7 @@ function OrderCard({ order, store }: Props) {
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <Button
           onClick={(e) => {
             e.stopPropagation()
@@ -231,6 +236,10 @@ function OrderCard({ order, store }: Props) {
             리뷰쓰기
           </Button>
         )}
+=======
+        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
+        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
+>>>>>>> Stashed changes
 =======
         <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
         {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}

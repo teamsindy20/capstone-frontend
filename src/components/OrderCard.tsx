@@ -134,7 +134,6 @@ function OrderCard({ order, store }: Props) {
           avatar={<Avatar src={order.menus[0].imageUrl} />}
           title={`${store.name} >`}
           description={order.orderStatus}
-          onClick={(e: any) => e.goToStoreMenusPage()}
         />
         <Divider />
         <div>
@@ -191,19 +190,24 @@ function OrderCard({ order, store }: Props) {
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
         <Button
-          onClick={(e) => e.stopPropagation()}
-          variant="contained"
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+          // variant="contained"
           color="primary"
-          startIcon={<ReplayRoundedIcon />}
+          // startIcon={<ReplayRoundedIcon />}
         >
           재주문하기
         </Button>
         {order.review && (
           <Button
-            onClick={goToUserReviewPage(+order.review.id)}
-            variant="contained"
+            onClick={(e) => {
+              e.stopPropagation()
+              goToUserReviewPage(+order.review.id)
+            }}
+            // variant="contained"
             color="primary"
-            startIcon={<RateReviewRoundedIcon />}
+            // startIcon={<RateReviewRoundedIcon />}
           >
             리뷰쓰기
           </Button>

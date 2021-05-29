@@ -20,8 +20,8 @@ import CountButton from 'src/components/atoms/CountButton'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
-const MarginContainer = styled.div`
-  margin: 0.5rem;
+const Padding = styled.div`
+  padding: 0.5rem;
   width: 100%;
 `
 export const ReviewButton = styled(Button)`
@@ -148,7 +148,7 @@ function StoreMenuPage() {
         <>
           <img src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
           <HorizontalBorder />
-          <MarginContainer>
+          <Padding>
             <GridOption>
               <ClientSideLink href={`/stores/${router.query.name}`}>
                 <GreyNoMarginH3>{store.name}</GreyNoMarginH3>
@@ -163,8 +163,8 @@ function StoreMenuPage() {
                 리뷰보기
               </Button>
             </GridOption>
-          </MarginContainer>
-          <MarginContainer>
+          </Padding>
+          <Padding>
             <GridOption>
               <Divider />
               <FlexContainerBetween>
@@ -192,7 +192,7 @@ function StoreMenuPage() {
               </FlexContainerBetween>
               <Divider />
             </GridOption>
-          </MarginContainer>
+          </Padding>
           <FixedButton onClick={addToCart}>
             {count}개 담기 ({formatPrice(menu.price * count)})
           </FixedButton>

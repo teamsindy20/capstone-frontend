@@ -37,7 +37,7 @@ const GridContainer = styled.div`
 `
 
 type Props = {
-  onClick: (e: (prevState: number) => number) => void
+  onClick: (getNewValue: (prevValue: number) => number) => void
   value: number
 }
 

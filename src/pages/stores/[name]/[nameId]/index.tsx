@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
-import { setCartMenus, cartMenusVar } from 'src/apollo/cache'
+import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
@@ -91,11 +91,44 @@ function StoreMenuPage() {
   })
 
   const menu = data?.menu
+  const store = menu?.store
 
   const goToMenuReviewPage = useGoToPage(`/stores/${router.query.name}/reviews?menu=${menu?.name}`)
   const goBack = useGoBack()
 
   const [count, setCount] = useState(1)
+
+  function addToCart() {
+    if (menu && store) {
+      const cartStore = cartStoreVar()
+
+      if (cartStore && cartStore.id !== store.id) {
+        // TODO: 다른 매장의 메뉴를 담으면 경고 모달 띄우기
+        setCartMenus([])
+      }
+
+      setCartStore({
+        id: store.id,
+        name: store.name,
+        imageUrl: store.imageUrls ? store.imageUrls[0] : '',
+      })
+      setCartMenus([
+        ...cartMenusVar(),
+        {
+          id: menu.id,
+          name: menu.name,
+          price: menu.price,
+          count: count,
+        },
+      ])
+      toast(
+        <div>
+          <b>{menu.name}</b> 장바구니 추가 완료!
+        </div>
+      )
+      router.back()
+    }
+  }
 
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
@@ -106,7 +139,7 @@ function StoreMenuPage() {
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon2} />
         </FlexContainerBetween1>
       </TopHeader>
-      {loading || !menu ? (
+      {loading || !menu || !store ? (
         <>
           <div>menu loading...</div>
           <FixedButton loading={true}>장바구니에 담기</FixedButton>
@@ -118,7 +151,7 @@ function StoreMenuPage() {
           <MarginContainer>
             <GridOption>
               <ClientSideLink href={`/stores/${router.query.name}`}>
-                <GreyNoMarginH3>{menu.store.name}</GreyNoMarginH3>
+                <GreyNoMarginH3>{store.name}</GreyNoMarginH3>
               </ClientSideLink>
               <NoMarginH2>{menu.name}</NoMarginH2>
               <GreyLighterNoMarginH3>
@@ -140,7 +173,7 @@ function StoreMenuPage() {
               </FlexContainerBetween>
               <Divider />
               <GreyLighterNoMarginH4>
-                *최소주문금액 : {menu.store.minimumDeliveryAmount}
+                *최소주문금액 : {store.minimumDeliveryAmount}
               </GreyLighterNoMarginH4>
               <FlexContainerBetween>
                 <NoMarginH2>옵션</NoMarginH2>
@@ -154,32 +187,14 @@ function StoreMenuPage() {
               </FlexContainerBetween>
               <Divider />
               <FlexContainerBetween>
-                <NoMarginH2>총가격</NoMarginH2>
+                <NoMarginH2>총 가격</NoMarginH2>
                 <NoMarginH2>{formatPrice(menu.price * count)}</NoMarginH2>
               </FlexContainerBetween>
               <Divider />
             </GridOption>
           </MarginContainer>
-          <FixedButton
-            onClick={() => {
-              setCartMenus([
-                ...cartMenusVar(),
-                {
-                  id: menuId,
-                  name: menu.name,
-                  price: menu.price + 0 /* 메뉴 옵션 가격도 추가 */,
-                  count: count,
-                },
-              ])
-              toast(
-                <div>
-                  <b>{menu.name}</b> 장바구니 추가 완료!
-                </div>
-              )
-              router.back()
-            }}
-          >
-            1개 담기 ({formatPrice(menu.price * count)})
+          <FixedButton onClick={addToCart}>
+            {count}개 담기 ({formatPrice(menu.price * count)})
           </FixedButton>
         </>
       ) : (

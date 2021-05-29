@@ -11,12 +11,11 @@ import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
 import styles from '../styles/NextImage.module.css'
 import { SkeletonImage, SkeletonText } from './MenuCard'
-import Button from '@material-ui/core/Button'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
-import { Card, Avatar, Divider } from 'antd'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { Card, Avatar, Divider, Button } from 'antd'
+import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
 
 const { Meta } = Card
 
@@ -128,21 +127,35 @@ function OrderCard({ order, store }: Props) {
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
       <Card
-        style={{ width: 300 }}
-        actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
-        ]}
+        style={{ width: 360 }}
+        actions={[<ReloadOutlined key="ellipsis" />, <EditOutlined key="review" />]}
       >
         <Meta
           avatar={<Avatar src={order.menus[0].imageUrl} />}
-          title={store.name}
-          description="This is the description"
+          title={`${store.name} >`}
+          description={order.orderStatus}
+          onClick={(e: any) => e.goToStoreMenusPage()}
         />
         <Divider />
         <div>
-          <FlexContainerBetween>메뉴이름</FlexContainerBetween>
+          <FlexContainerBetween>
+            <ul>
+              {order.menus.map((menu) => (
+                <li key={menu.id}>- {menu.name}</li>
+              ))}
+            </ul>
+            <div>{formatPrice(order.orderTotal)}</div>
+          </FlexContainerBetween>
+          <FlexContainerBetween>
+            <div>
+              {`${formatRegularOrderDate(order.regularOrderDate)}까지 
+        ${order.regularOrderCount}번 더 주문 시 단골이 될 수 있어요!`}
+            </div>
+          </FlexContainerBetween>
+          <FlexContainerBetween>
+            <div>주문일자</div>
+            <div>{formatOrderDate(order.orderDate)}</div>
+          </FlexContainerBetween>
         </div>
       </Card>
 

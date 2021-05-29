@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { MouseEvent as ReactMouseEvent } from 'react'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import { formatPrice } from 'src/utils/price'
@@ -15,6 +15,10 @@ import Button from '@material-ui/core/Button'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
+import { Card, Avatar, Divider } from 'antd'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+
+const { Meta } = Card
 
 const GridContainerLi = styled.li`
   display: grid;
@@ -123,6 +127,25 @@ function OrderCard({ order, store }: Props) {
 
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
+      <Card
+        style={{ width: 300 }}
+        actions={[
+          <SettingOutlined key="setting" />,
+          <EditOutlined key="edit" />,
+          <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <Meta
+          avatar={<Avatar src={order.menus[0].imageUrl} />}
+          title={store.name}
+          description="This is the description"
+        />
+        <Divider />
+        <div>
+          <FlexContainerBetween>메뉴이름</FlexContainerBetween>
+        </div>
+      </Card>
+
       <RelativePosition onClick={goToStoreMenusPage}>
         <Image
           src={order.menus[0].imageUrl}

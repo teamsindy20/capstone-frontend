@@ -27,7 +27,7 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs, Carousel, Divider, Tag, Select } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
@@ -185,6 +185,7 @@ function HomePage() {
 
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
+  const [doesFranchiseIncluded, toggleWhetherIncludeFranchise] = useBoolean(false)
 
   const menusQueryResult = useMenusQuery({
     fetchPolicy: 'cache-and-network',
@@ -250,6 +251,7 @@ function HomePage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
+
         <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
           <TabPane tab="디저트핏" key="1">
             <Carousel autoplay>
@@ -288,6 +290,7 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
+
             <MarginDiv>
               <GridContainer>
                 <FixedDiv>정렬방식</FixedDiv>
@@ -336,9 +339,8 @@ function HomePage() {
                     거리순
                   </StyledTag>
                 </Div>
-
-                <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
               </GridContainer>
+
               <MiddleText>
                 {loading ? (
                   'user authenticating...'
@@ -373,44 +375,46 @@ function HomePage() {
                   </div>
                 )}
               </MiddleText>
-              <Divider orientation="left">
-                <SmileOutlined />
-                김빵순님이 설정한 취향은?
-              </Divider>
-              <div>
-                <Tag color="#F57961">#딸기</Tag>
-                <Tag color="#C4C4C4">#저탄수</Tag>
-                <Tag color="#2ECCBA">#말차</Tag>
-                <Tag color="#FF9A87">#슈가프리</Tag>
-                <Tag color="#5C4D42">#초코</Tag>
-              </div>
-              <Divider />
-              <Select defaultValue="1" style={{ width: 140 }}>
-                <Option value="1">프렌차이즈 제외</Option>
-                <Option value="2">프렌차이즈 포함</Option>
-                <Option value="3">사진만보기</Option>
-              </Select>
-              <Select defaultValue="1" style={{ width: 140 }}>
-                <Option value="1">프렌차이즈 제외</Option>
-                <Option value="2">프렌차이즈 포함</Option>
-                <Option value="3">사진만보기</Option>
-              </Select>
-              <GridContainerUl onlyImage={onlyImage}>
-                {menus?.map((menu) => (
-                  <MenuCard
-                    key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
-                    onlyImage={onlyImage}
-                  />
-                ))}
-              </GridContainerUl>
-              {(isMenusLoading || hasMoreMenus) && (
-                <div ref={sentryRef}>
-                  <MenuLoadingCard onlyImage={onlyImage} />
-                </div>
-              )}
             </MarginDiv>
+
+            <Divider orientation="left">
+              <SmileOutlined />
+              김빵순님이 설정한 취향은?
+            </Divider>
+            <div>
+              <Tag color="#F57961">#딸기</Tag>
+              <Tag color="#C4C4C4">#저탄수</Tag>
+              <Tag color="#2ECCBA">#말차</Tag>
+              <Tag color="#FF9A87">#슈가프리</Tag>
+              <Tag color="#5C4D42">#초코</Tag>
+            </div>
+
+            <Divider />
+
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+
+            <Divider />
+
+            <GridContainerUl onlyImage={onlyImage}>
+              {menus?.map((menu) => (
+                <MenuCard
+                  key={menu.id}
+                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                  menu={menu as any}
+                  onlyImage={onlyImage}
+                />
+              ))}
+            </GridContainerUl>
+            {(isMenusLoading || hasMoreMenus) && (
+              <div ref={sentryRef}>
+                <MenuLoadingCard onlyImage={onlyImage} />
+              </div>
+            )}
           </TabPane>
 
           <TabPane tab="카테고리" key="2">

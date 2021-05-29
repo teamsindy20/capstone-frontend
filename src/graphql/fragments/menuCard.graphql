@@ -11,9 +11,7 @@ fragment menuCard on Menu {
   store {
     id
     name
-    deliveryCharge
-    minimumDeliveryTime
-    maximumDeliveryTime
+    isFranchise
   }
   hashtags
 }

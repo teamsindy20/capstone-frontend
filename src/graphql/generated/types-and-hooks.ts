@@ -170,6 +170,7 @@ export type MenuOptionInput = {
 
 export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
+  /** 서술형 옵션 선택 시 입력할 텍스트 */
   text?: Maybe<Scalars['String']>
 }
 
@@ -375,6 +376,12 @@ export type PostCreationInput = {
   /** nullable */
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
+export type PromotionInput = {
+  promotionId: Scalars['ID']
+  name: Scalars['String']
+  amount: Scalars['Int']
 }
 
 /** OAuth 공급자 */
@@ -649,11 +656,13 @@ export type User = {
 
 export type UserInfoInput = {
   deliveryAddress: Scalars['String']
+  deliveryPhoneNumber: Scalars['String']
+  storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
-  storeRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
+  promotion?: Maybe<Array<PromotionInput>>
   coupon?: Maybe<Scalars['ID']>
 }
 
@@ -769,7 +778,10 @@ export type MenuDetailQuery = { __typename?: 'Query' } & {
         menuOptions?: Maybe<
           Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
         >
-        store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'minimumDeliveryAmount'>
+        store: { __typename?: 'Store' } & Pick<
+          Store,
+          'id' | 'name' | 'minimumDeliveryAmount' | 'imageUrls'
+        >
       } & MenuCardFragment
   >
 }
@@ -1260,6 +1272,7 @@ export const MenuDetailDocument = gql`
         id
         name
         minimumDeliveryAmount
+        imageUrls
       }
     }
   }

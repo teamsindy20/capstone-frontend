@@ -112,9 +112,9 @@ function RegisterPage() {
       toast('디저트핏에 가입한 것을 환영합니다!')
 
       sessionStorage.setItem('token', data.register)
-
       refetchUser()
-      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
+      router.replace(sessionStorage.getItem('redirectUrlAfterLogin') ?? '/')
+      sessionStorage.removeItem('redirectUrlAfterLogin')
     },
     onError: handleApolloError,
   })

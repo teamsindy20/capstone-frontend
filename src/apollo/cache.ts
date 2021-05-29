@@ -1,6 +1,21 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
 // import { persistCache, SessionStorageWrapper } from 'apollo3-cache-persist'
 
+// 나중에 GraphQL API 타입으로 연동하기
+type MenuOption = {
+  id: string
+  name: string
+  price: number
+}
+
+type CartMenu = {
+  id: string
+  name: string
+  price: number
+  options: MenuOption[]
+  amount: number
+}
+
 export const cartMenusVar = makeVar<any[]>(
   typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartMenus') ?? '[]') : []
 )
@@ -8,6 +23,21 @@ export const cartMenusVar = makeVar<any[]>(
 export function setCartMenus(menus: any[]) {
   cartMenusVar(menus)
   localStorage.setItem('cartMenus', JSON.stringify(menus))
+}
+
+type CartStore = {
+  id: string
+  name: string
+  imageUrl: string
+}
+
+export const cartStoreVar = makeVar<CartStore | null>(
+  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartStore') ?? 'null') : null
+)
+
+export function setCartStore(store: CartStore | null) {
+  cartStoreVar(store)
+  localStorage.setItem('cartStore', JSON.stringify(store))
 }
 
 const cache = new InMemoryCache({

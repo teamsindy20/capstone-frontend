@@ -1,22 +1,23 @@
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import useGoToPage from 'src/hooks/useGoToPage'
-import { Button, Image } from 'antd'
-import styled from 'styled-components'
+import { Button } from 'antd'
 
 function NotLogin() {
-  const { asPath } = useRouter()
+  const router = useRouter()
 
-  const goToRegisterPage = useGoToPage(`/register?redirectUrl=${encodeURIComponent(asPath)}`)
+  function goToRegisterPage() {
+    sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
+    router.push('/register')
+  }
 
-  const goToLoginPage = useGoToPage(`/login?redirectUrl=${encodeURIComponent(asPath)}`)
+  function goToLoginPage() {
+    sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
+    router.push('/login')
+  }
 
-  const CenterDiv = styled.div`
-    justify-content: center;
-    margin: 20%;
-  `
   return (
-    <CenterDiv>
-      <Image width={200} src="/DessertFit.png" />
+    <>
+      <Image src="/DessertFit.png" alt="logo" width={124} height={124} />
       <h2>로그인이 필요합니다</h2>
       <Button onClick={goToLoginPage}>로그인 하러가기</Button>
 
@@ -24,7 +25,7 @@ function NotLogin() {
       <Button onClick={goToRegisterPage} type="default">
         디저트핏 가입하기
       </Button>
-    </CenterDiv>
+    </>
   )
 }
 

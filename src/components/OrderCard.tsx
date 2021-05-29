@@ -16,6 +16,7 @@ import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
 import { Card, Avatar, Divider, Button } from 'antd'
 import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
+import * as dateFns from 'date-fns'
 
 const { Meta } = Card
 
@@ -128,12 +129,29 @@ function OrderCard({ order, store }: Props) {
     <GridContainerLi onClick={goToUserOrderPage}>
       <Card
         style={{ width: 360 }}
-        actions={[<ReloadOutlined key="ellipsis" />, <EditOutlined key="review" />]}
+        actions={[
+          <Button
+            shape="circle"
+            icon={<ReloadOutlined />}
+            key="reorder"
+            onClick={(e) => e.stopPropagation()}
+          />,
+          <Button
+            shape="circle"
+            icon={<EditOutlined />}
+            key="review"
+            onClick={goToUserReviewPage(+order.review.id)}
+          />,
+        ]}
       >
         <Meta
           avatar={<Avatar src={order.menus[0].imageUrl} />}
           title={`${store.name} >`}
           description={order.orderStatus}
+<<<<<<< Updated upstream
+=======
+          onClick={goToStoreMenusPage}
+>>>>>>> Stashed changes
         />
         <Divider />
         <div>
@@ -153,7 +171,7 @@ function OrderCard({ order, store }: Props) {
           </FlexContainerBetween>
           <FlexContainerBetween>
             <div>주문일자</div>
-            <div>{formatOrderDate(order.orderDate)}</div>
+            <div>{dateFns.format({order.orderDate}, 'yyyy.MM.dd')}</div>
           </FlexContainerBetween>
         </div>
       </Card>
@@ -189,6 +207,7 @@ function OrderCard({ order, store }: Props) {
       </GridItemColumn2>
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
+<<<<<<< Updated upstream
         <Button
           onClick={(e) => {
             e.stopPropagation()
@@ -212,6 +231,10 @@ function OrderCard({ order, store }: Props) {
             리뷰쓰기
           </Button>
         )}
+=======
+        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
+        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
+>>>>>>> Stashed changes
       </GridContainerSpan2>
     </GridContainerLi>
   )

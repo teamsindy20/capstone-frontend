@@ -148,14 +148,7 @@ function OrderCard({ order, store }: Props) {
           avatar={<Avatar src={order.menus[0].imageUrl} />}
           title={`${store.name} >`}
           description={order.orderStatus}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
           onClick={goToStoreMenusPage}
->>>>>>> Stashed changes
-=======
-          onClick={goToStoreMenusPage}
->>>>>>> Stashed changes
         />
         <Divider />
         <div>
@@ -211,39 +204,8 @@ function OrderCard({ order, store }: Props) {
       </GridItemColumn2>
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        <Button
-          onClick={(e) => {
-            e.stopPropagation()
-          }}
-          // variant="contained"
-          color="primary"
-          // startIcon={<ReplayRoundedIcon />}
-        >
-          재주문하기
-        </Button>
-        {order.review && (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation()
-              goToUserReviewPage(+order.review.id)
-            }}
-            // variant="contained"
-            color="primary"
-            // startIcon={<RateReviewRoundedIcon />}
-          >
-            리뷰쓰기
-          </Button>
-        )}
-=======
         <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
         {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
->>>>>>> Stashed changes
-=======
-        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
-        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
->>>>>>> Stashed changes
       </GridContainerSpan2>
     </GridContainerLi>
   )

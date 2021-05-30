@@ -401,14 +401,16 @@ function HomePage() {
             <Divider />
 
             <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
+              {menus
+                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                .map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
             </GridContainerUl>
             {(isMenusLoading || hasMoreMenus) && (
               <div ref={sentryRef}>

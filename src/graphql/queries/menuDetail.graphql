@@ -2,10 +2,15 @@ query MenuDetail($id: ID!) {
   menu(id: $id) {
     ...menuCard
     content
-    menuOptions {
+    optionCategories {
       id
       name
-      price
+      type
+      menuOptions {
+        id
+        name
+        price
+      }
     }
     store {
       id

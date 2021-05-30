@@ -174,7 +174,6 @@ function OrderCard({ order, store }: Props) {
             </MintText>
             <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
           </FlexContainerBetween>
-          
         </div>
       </Card>
 

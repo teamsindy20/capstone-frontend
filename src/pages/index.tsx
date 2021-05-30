@@ -313,7 +313,7 @@ function HomePage() {
               {loading ? (
                 '사용자 인증 중'
               ) : !user ? (
-                '로그인 하고 디저트핏을 설정해보세요!'
+                '로그인 후 나만의 디저트핏을 설정해보세요!'
               ) : isUserPreferencesLoading || !preferences ? (
                 '디저트핏 로딩 중...'
               ) : preferences.length ? (

@@ -1,7 +1,7 @@
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { MouseEvent as ReactMouseEvent } from 'react'
+import { MouseEvent } from 'react'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -78,6 +78,13 @@ const AbsolutePosition = styled.div`
   right: 0.5rem;
 `
 
+const MintText = styled.h4`
+  color: #2eccba; ;
+`
+const GreyText = styled.h4`
+  color: #a8a8a8; ;
+`
+
 function formatOrderDate(orderDate: string) {
   return orderDate
 }
@@ -118,8 +125,13 @@ function OrderCard({ order, store }: Props) {
   const goToUserOrderPage = useGoToPage(`/users/${name}/orders/${order.id}`)
   const goToStoreMenusPage = useGoToPage(`/stores/${store.name}`)
 
+  function reorder(e: MouseEvent) {
+    e.stopPropagation()
+    console.log('재주문하기')
+  }
+
   function goToUserReviewPage(reviewId: number) {
-    return (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
+    return (e: MouseEvent) => {
       e.stopPropagation()
       router.push(`/users/${name}/reviews/${reviewId}`)
     }
@@ -130,12 +142,7 @@ function OrderCard({ order, store }: Props) {
       <Card
         style={{ width: 360 }}
         actions={[
-          <Button
-            shape="circle"
-            icon={<ReloadOutlined />}
-            key="reorder"
-            onClick={(e) => e.stopPropagation()}
-          />,
+          <Button shape="circle" icon={<ReloadOutlined />} key="reorder" onClick={reorder} />,
           <Button
             shape="circle"
             icon={<EditOutlined />}
@@ -146,7 +153,7 @@ function OrderCard({ order, store }: Props) {
       >
         <Meta
           avatar={<Avatar src={order.store.imageUrl} />}
-          title={`${store.name} >`}
+          title={`${store.name}`}
           description={order.orderStatus}
           // onClick={goToStoreMenusPage}
         />
@@ -161,19 +168,17 @@ function OrderCard({ order, store }: Props) {
             <div>{formatPrice(order.orderTotal)}</div>
           </FlexContainerBetween>
           <FlexContainerBetween>
-            <div>
+            <MintText>
               {`D-${differenceInDays(new Date(order.regularOrderDate), new Date())}, 
-        ${order.regularOrderCount}번 더 주문 시 단골이 될 수 있어요!`}
-            </div>
+        ${order.regularOrderCount}번 더 주문 시 단골이예요!`}
+            </MintText>
+            <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
           </FlexContainerBetween>
-          <FlexContainerBetween>
-            <div>주문일자</div>
-            <div>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</div>
-          </FlexContainerBetween>
+          
         </div>
       </Card>
 
-      <RelativePosition onClick={goToStoreMenusPage}>
+      {/* <RelativePosition onClick={goToStoreMenusPage}>
         <Image
           src={order.menus[0].imageUrl}
           alt="store"
@@ -206,7 +211,7 @@ function OrderCard({ order, store }: Props) {
       <GridContainerSpan2 hasReview={!!order.review}>
         <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
         {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
-      </GridContainerSpan2>
+      </GridContainerSpan2> */}
     </GridContainerLi>
   )
 }

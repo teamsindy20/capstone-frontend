@@ -145,7 +145,7 @@ function OrderCard({ order, store }: Props) {
         ]}
       >
         <Meta
-          avatar={<Avatar src={order.menus[0].imageUrl} />}
+          avatar={<Avatar src={order.store.imageUrl} />}
           title={`${store.name} >`}
           description={order.orderStatus}
           // onClick={goToStoreMenusPage}
@@ -172,42 +172,41 @@ function OrderCard({ order, store }: Props) {
           </FlexContainerBetween>
         </div>
       </Card>
+
+      <RelativePosition onClick={goToStoreMenusPage}>
+        <Image
+          src={order.menus[0].imageUrl}
+          alt="store"
+          layout="fill"
+          objectFit="cover"
+          className={styles.storeCard}
+        />
+      </RelativePosition>
       <div>
-        <RelativePosition onClick={goToStoreMenusPage}>
-          <Image
-            src={order.menus[0].imageUrl}
-            alt="store"
-            layout="fill"
-            objectFit="cover"
-            className={styles.storeCard}
-          />
-        </RelativePosition>
-        <div>
-          <AbsolutePosition>
-            <FlexContainerAlignCenter>
-              <TimerRoundedIcon />
-              {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
-            </FlexContainerAlignCenter>
-          </AbsolutePosition>
-          <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
-          <ul>
-            {order.menus.map((menu) => (
-              <li key={menu.id}>- {menu.name}</li>
-            ))}
-          </ul>
-          <div>{formatOrderDate(order.orderDate)}</div>
-          <div>{formatPrice(order.orderTotal)}</div>
-        </div>
-        <GridItemColumn2>
-          {`${formatRegularOrderDate(order.regularOrderDate)}까지 
-        ${order.regularOrderCount}번 만 더 주문하면 단골이 될 수 있어요!`}
-        </GridItemColumn2>
-        <div>{order.orderStatus}</div>
-        <GridContainerSpan2 hasReview={!!order.review}>
-          <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
-          {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
-        </GridContainerSpan2>
+        <AbsolutePosition>
+          <FlexContainerAlignCenter>
+            <TimerRoundedIcon />
+            {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
+          </FlexContainerAlignCenter>
+        </AbsolutePosition>
+        <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
+        <ul>
+          {order.menus.map((menu) => (
+            <li key={menu.id}>- {menu.name}</li>
+          ))}
+        </ul>
+        <div>{formatOrderDate(order.orderDate)}</div>
+        <div>{formatPrice(order.orderTotal)}</div>
       </div>
+      <GridItemColumn2>
+        {`${formatRegularOrderDate(order.regularOrderDate)}까지 
+        ${order.regularOrderCount}번 만 더 주문하면 단골이 될 수 있어요!`}
+      </GridItemColumn2>
+      <div>{order.orderStatus}</div>
+      <GridContainerSpan2 hasReview={!!order.review}>
+        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
+        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
+      </GridContainerSpan2>
     </GridContainerLi>
   )
 }

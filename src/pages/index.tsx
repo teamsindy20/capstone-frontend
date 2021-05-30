@@ -179,6 +179,9 @@ const FixedPosition = styled.div`
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
 `
+function handleChange(value: any) {
+  console.log(`selected ${value}`)
+}
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
@@ -268,7 +271,6 @@ function HomePage() {
                 <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
               </div>
             </Carousel>
-
             {/* <StyledSlider {...settings}>
               <BannerAd>
                 <Img src="/banner.png" alt="banner advertisement"></Img>
@@ -290,7 +292,75 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
+            <Divider orientation="left">
+              {loading ? (
+                '사용자 인증 중...'
+              ) : (
+                <>
+                  <SmileOutlined />
+                  &nbsp;김빵순님이 설정한 취향은?
+                </>
+              )}
+            </Divider>
+            <MiddleText>
+              {loading ? (
+                '사용자 인증 중'
+              ) : isUserPreferencesLoading || !preferences ? (
+                '취향 로딩 중'
+              ) : preferences.length ? (
+                preferences.map((hashtag) => (
+                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </NormalA>
+                  </Link>
+                ))
+              ) : (
+                <>
+                  설정한 취향이 아직 없어요.{' '}
+                  <ClientSideLink href="/users/username/preferences">
+                    취향 설정하러 가기
+                  </ClientSideLink>
+                </>
+              )}
+            </MiddleText>
+            <Divider />
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+            <Divider />
+            <MarginDiv>
+              <GridContainerUl onlyImage={onlyImage}>
+                {menus?.map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
+              </GridContainerUl>
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
+            </MarginDiv>
+          </TabPane>
 
+          <TabPane tab="카테고리" key="2">
+            카테고리 선택
+          </TabPane>
+
+          <TabPane tab="트렌드" key="3">
+            트렌드 디저트
+          </TabPane>
+
+          <TabPane tab="베스트" key="4">
+            베스트 메뉴들 순위
             <MarginDiv>
               <GridContainer>
                 <FixedDiv>정렬방식</FixedDiv>
@@ -339,80 +409,13 @@ function HomePage() {
                     거리순
                   </StyledTag>
                 </Div>
+                <Select defaultValue="fit" style={{ width: 120 }} onChange={handleChange}>
+                  <Option value="fit">맞춤추천</Option>
+                  <Option value="like">좋아요</Option>
+                  <Option value="Yiminghe">거리</Option>
+                </Select>
               </GridContainer>
             </MarginDiv>
-
-            <Divider orientation="left">
-              {loading ? (
-                '사용자 인증 중...'
-              ) : (
-                <>
-                  <SmileOutlined />
-                  &nbsp;김빵순님이 설정한 취향은?
-                </>
-              )}
-            </Divider>
-            <MiddleText>
-              {loading ? (
-                '사용자 인증 중'
-              ) : isUserPreferencesLoading || !preferences ? (
-                '취향 로딩 중'
-              ) : preferences.length ? (
-                preferences.map((hashtag) => (
-                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                      <Tag color="#F57961">{hashtag}</Tag>
-                    </NormalA>
-                  </Link>
-                ))
-              ) : (
-                <>
-                  설정한 취향이 아직 없어요.{' '}
-                  <ClientSideLink href="/users/username/preferences">
-                    취향 설정하러 가기
-                  </ClientSideLink>
-                </>
-              )}
-            </MiddleText>
-
-            <Divider />
-
-            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
-              프렌차이즈 포함
-            </Checkbox>
-            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-              사진만 보기
-            </Checkbox>
-
-            <Divider />
-
-            <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
-            </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
-          </TabPane>
-
-          <TabPane tab="카테고리" key="2">
-            카테고리 선택
-          </TabPane>
-
-          <TabPane tab="트렌드" key="3">
-            트렌드 디저트
-          </TabPane>
-
-          <TabPane tab="베스트" key="4">
-            베스트 메뉴들 순위
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

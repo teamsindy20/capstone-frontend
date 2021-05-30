@@ -227,6 +227,8 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
+  console.log(isUserPreferencesLoading, preferences)
+
   return (
     <PageHead>
       <PageLayout>
@@ -294,19 +296,26 @@ function HomePage() {
             </StyledSlider> */}
             <Divider orientation="left">
               {loading ? (
-                '사용자 인증 중...'
+                ''
+              ) : !user ? (
+                ''
+              ) : isUserPreferencesLoading || !preferences ? (
+                ''
               ) : (
                 <>
                   <SmileOutlined />
-                  &nbsp;김빵순님이 설정한 취향은?
+                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}님이 설정한
+                  디저트핏은?
                 </>
               )}
             </Divider>
             <MiddleText>
               {loading ? (
                 '사용자 인증 중'
+              ) : !user ? (
+                '로그인 하고 디저트핏을 설정해보세요!'
               ) : isUserPreferencesLoading || !preferences ? (
-                '취향 로딩 중'
+                '디저트핏 로딩 중...'
               ) : preferences.length ? (
                 preferences.map((hashtag) => (
                   <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
@@ -316,12 +325,9 @@ function HomePage() {
                   </Link>
                 ))
               ) : (
-                <>
-                  설정한 취향이 아직 없어요.{' '}
-                  <ClientSideLink href="/users/username/preferences">
-                    취향 설정하러 가기
-                  </ClientSideLink>
-                </>
+                <ClientSideLink href="/users/username/preferences">
+                  내게 딱 맞는 디저트핏을 설정해보세요!
+                </ClientSideLink>
               )}
             </MiddleText>
             <Divider />

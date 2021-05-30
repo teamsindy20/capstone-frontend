@@ -7,7 +7,7 @@ import { StoreCardFragment } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
-import { BoldA } from './MenuCard'
+import { NormalA } from './MenuCard'
 
 const BackgroundColorLi = styled.li`
   background: #fff;
@@ -52,10 +52,10 @@ function StoreCard({ store }: Props) {
           {store.hashtags?.map((hashtag) => (
             <li key={hashtag}>
               <Link href={`/search/${hashtag.slice(1)}`}>
-                <BoldA
+                <NormalA
                   href={`/search/${hashtag.slice(1)}`}
                   onClick={(e) => e.stopPropagation()}
-                >{`${hashtag}`}</BoldA>
+                >{`${hashtag}`}</NormalA>
               </Link>
             </li>
           ))}

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { NormalA, MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
 import { Fragment, useState, useContext, CSSProperties } from 'react'
@@ -340,54 +340,40 @@ function HomePage() {
                   </StyledTag>
                 </Div>
               </GridContainer>
-
-              <MiddleText>
-                {loading ? (
-                  'user authenticating...'
-                ) : !user ? (
-                  <div>
-                    맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
-                  </div>
-                ) : isUserPreferencesLoading ? (
-                  'user preferences loading...'
-                ) : preferences?.length ? (
-                  <div>
-                    김빵순님의 취향:{' '}
-                    {preferences.map((hashtag) => (
-                      <Fragment key={hashtag}>
-                        <li>
-                          <Link href={`/search/${hashtag.slice(1)}`}>
-                            <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                              {hashtag}
-                            </BoldA>
-                          </Link>
-                        </li>
-                        &nbsp;
-                      </Fragment>
-                    ))}
-                  </div>
-                ) : (
-                  <div>
-                    설정한 취향이 아직 없어요.{' '}
-                    <ClientSideLink href="/users/username/preferences">
-                      취향 설정하러 가기
-                    </ClientSideLink>
-                  </div>
-                )}
-              </MiddleText>
             </MarginDiv>
 
             <Divider orientation="left">
-              <SmileOutlined />
-              김빵순님이 설정한 취향은?
+              {loading ? (
+                '사용자 인증 중...'
+              ) : (
+                <>
+                  <SmileOutlined />
+                  &nbsp;김빵순님이 설정한 취향은?
+                </>
+              )}
             </Divider>
-            <div>
-              <Tag color="#F57961">#딸기</Tag>
-              <Tag color="#C4C4C4">#저탄수</Tag>
-              <Tag color="#2ECCBA">#말차</Tag>
-              <Tag color="#FF9A87">#슈가프리</Tag>
-              <Tag color="#5C4D42">#초코</Tag>
-            </div>
+            <MiddleText>
+              {loading ? (
+                '사용자 인증 중'
+              ) : isUserPreferencesLoading || !preferences ? (
+                '취향 로딩 중'
+              ) : preferences.length ? (
+                preferences.map((hashtag) => (
+                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </NormalA>
+                  </Link>
+                ))
+              ) : (
+                <>
+                  설정한 취향이 아직 없어요.{' '}
+                  <ClientSideLink href="/users/username/preferences">
+                    취향 설정하러 가기
+                  </ClientSideLink>
+                </>
+              )}
+            </MiddleText>
 
             <Divider />
 

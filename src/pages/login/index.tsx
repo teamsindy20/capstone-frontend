@@ -1,13 +1,21 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox, Modal } from 'antd'
-import { useCallback, useContext, useState } from 'react'
+import { Input, Button, Checkbox } from 'antd'
+import { useCallback, useContext } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { continueWithGoogleOAuth, GridContainerColumn3, HeadMessage, RedText } from '../register'
+import {
+  continueWithGoogleOAuth,
+  GridContainerColumn3,
+  HeadMessage,
+  RedText,
+  SNSLoginButton,
+  validateEmail,
+  validatePassword,
+} from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
@@ -41,26 +49,6 @@ const LoginButton = styled.button`
     color: #ffc9c3;
   }
 `
-const SNSLoginButton = styled.button`
-  background-color: #f1f6fa;
-  border: none;
-  color: #3c3c3c;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  margin: 1px 1px;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
-
-  &:hover {
-    background-color: #f1f6fa;
-    border: #ffc9c3;
-    color: #ffc9c3;
-  }
-`
 
 const HeadLogin = styled.h2`
   color: #3c3c3c;
@@ -69,22 +57,6 @@ const HeadLogin = styled.h2`
   margin: 1rem 1rem 0.2rem;
   letter-spacing: 0.3rem;
 `
-
-export const validateEmail = {
-  required: '필수 항목입니다.',
-  pattern: {
-    value: /\S+@\S+\.\S+/,
-    message: '이메일을 형식에 맞게 입력해주세요.',
-  },
-}
-
-export const validatePassword = {
-  required: '필수 항목입니다.',
-  minLength: {
-    value: 5,
-    message: '최소 5글자 이상 입력해주세요.',
-  },
-}
 
 const PASSWORD_INPUT_ICONS = [
   <UnlockTwoTone key={1} style={{ fontSize: '1.2rem' }} twoToneColor="#c4801a" />,

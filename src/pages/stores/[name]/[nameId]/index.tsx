@@ -1,6 +1,6 @@
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
-import { Button, Divider } from 'antd'
+import { Button, Checkbox, Divider, Radio } from 'antd'
 import { useRouter } from 'next/router'
 import { Fragment, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
@@ -8,16 +8,17 @@ import styled from 'styled-components'
 import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
+import { MenuOptionCategoryType, useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
-import { FlexContainerBetween } from 'src/styles/FlexContainer'
+import { FlexContainerAlignCenter, FlexContainerBetween } from 'src/styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import useGoBack from 'src/hooks/useGoBack'
 import { formatPrice } from 'src/utils/price'
 import CountButton from 'src/components/atoms/CountButton'
 import { GridContainerGap } from 'src/styles/GridContainer'
+import { useForm } from 'react-hook-form'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -81,12 +82,17 @@ const GreyLighterNoMarginH3 = styled.h3`
 const GreyLighterNoMarginH4 = styled.h4`
   margin: 0;
   color: #929393;
-  font-weight: lighter;
+  font-weight: normal;
 `
 
 const GreyNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
+`
+
+const RedText = styled.span`
+  margin: 0.5rem;
+  color: #a00000;
 `
 
 function StoreMenuPage() {
@@ -140,6 +146,11 @@ function StoreMenuPage() {
     }
   }
 
+  const { control } = useForm()
+  const [options, setOptions] = useState([])
+
+  console.log(123)
+
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
       <TopHeader>
@@ -184,24 +195,64 @@ function StoreMenuPage() {
               <NoMarginH2>{formatPrice(menu.price)}</NoMarginH2>
             </FlexContainerBetween>
 
-            {menu.optionCategories && (
-              <>
-                <Divider />
-                {menu.optionCategories.map((optionCategory) => (
-                  <Fragment key={optionCategory.id}>
-                    <NoMarginH3>{optionCategory.name}</NoMarginH3>
-                    {optionCategory.menuOptions?.map((menuOption) => (
-                      <FlexContainerBetween key={menuOption.id}>
-                        <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
-                        <GreyLighterNoMarginH4>
-                          {`+ ${formatPrice(menuOption.price)}`}
-                        </GreyLighterNoMarginH4>
-                      </FlexContainerBetween>
-                    ))}
-                  </Fragment>
-                ))}
-              </>
-            )}
+            {menu.optionCategories && <Divider />}
+            {menu.optionCategories?.map((optionCategory) => (
+              <Fragment key={optionCategory.id}>
+                <NoMarginH3>
+                  {optionCategory.name}
+                  {optionCategory.isNecessary && <RedText>*</RedText>}
+                </NoMarginH3>
+                {optionCategory.type === MenuOptionCategoryType.SingleSelection ? (
+                  <Radio.Group
+                    name={optionCategory.id}
+                    onChange={(e) => console.log(e.target.value)}
+                    style={{ fontSize: '1rem' }}
+                  >
+                    <GridContainerGap>
+                      {optionCategory.menuOptions.map((menuOption) => (
+                        <FlexContainerBetween key={menuOption.id}>
+                          <FlexContainerAlignCenter>
+                            <Radio
+                              key={menuOption.id}
+                              value={{ id: menuOption.id, price: menuOption.price }}
+                            />
+                            <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
+                          </FlexContainerAlignCenter>
+                          <GreyLighterNoMarginH4>
+                            {`+ ${formatPrice(menuOption.price)}`}
+                          </GreyLighterNoMarginH4>
+                        </FlexContainerBetween>
+                      ))}
+                    </GridContainerGap>
+                  </Radio.Group>
+                ) : optionCategory.type === MenuOptionCategoryType.MultiSelection ? (
+                  <Checkbox.Group
+                    onChange={(values) => console.log(values)}
+                    style={{ fontSize: '1rem' }}
+                  >
+                    <GridContainerGap>
+                      {optionCategory.menuOptions.map((menuOption) => (
+                        <FlexContainerBetween key={menuOption.id}>
+                          <FlexContainerAlignCenter>
+                            <Checkbox
+                              key={menuOption.id}
+                              value={{ id: menuOption.id, price: menuOption.price }}
+                            />
+                            &nbsp;
+                            <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
+                          </FlexContainerAlignCenter>
+                          <GreyLighterNoMarginH4>
+                            {`+ ${formatPrice(menuOption.price)}`}
+                          </GreyLighterNoMarginH4>
+                        </FlexContainerBetween>
+                      ))}
+                    </GridContainerGap>
+                  </Checkbox.Group>
+                ) : (
+                  ''
+                )}
+              </Fragment>
+            ))}
 
             <Divider />
             <FlexContainerBetween>
@@ -221,7 +272,7 @@ function StoreMenuPage() {
           </FixedButton>
         </>
       ) : (
-        <div>데이터 불러오기 오류 발생</div>
+        <div>메뉴 상세 정보 불러오기 오류 발생</div>
       )}
     </PageHead>
   )

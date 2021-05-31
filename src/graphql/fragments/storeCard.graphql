@@ -10,4 +10,5 @@ fragment storeCard on Store {
   maximumDeliveryTime
   imageUrls
   hashtags
+  favorite
 }

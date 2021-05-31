@@ -14,6 +14,9 @@ const description = '홈 화면에 표시될 메뉴의 취향을 선택해봐요
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
+const WhiteText = styled.h5`
+  color: #ffffff;
+`
 const MarginDiv = styled.div`
   margin: 0.5rem;
 `
@@ -70,7 +73,7 @@ function UserPreferencesPage() {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>취향설정</FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <Button size="small">ㅇ</Button>
+              <WhiteText>ㅇ</WhiteText>
             </FlexContainerAlignCenter>
           </FlexContainerBetween1>
         </TopHeader>

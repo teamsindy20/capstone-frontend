@@ -17,7 +17,7 @@ import TopHeader from 'src/components/TopHeader'
 const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
-  border: 1px solid #eee;
+  margin: 0.5rem 0.5rem;
 `
 
 const description = '내가 찜한 매장 및 찜한 메뉴를 모아서 볼 수 있어요.'

@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client'
-import { cartMenusVar, setCartMenus } from 'src/apollo/cache'
+import { CartMenu, cartMenusVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
@@ -7,7 +7,7 @@ import ClientSideLink from './atoms/ClientSideLink'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import CountButton from './atoms/CountButton'
-import { SetStateAction } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 
 const Li = styled.li`
   background: #ffffff;
@@ -73,22 +73,24 @@ const PriceA = styled.h2`
 type Func = (arg: number) => number
 
 type Props = {
-  menu: any
+  cartMenu: CartMenu
 }
 
-function CartMenuCard({ menu }: Props) {
+function CartMenuCard({ cartMenu }: Props) {
   const cartMenus = useReactiveVar(cartMenusVar)
 
-  const count = cartMenus.find((cartMenu) => cartMenu.id === menu.id).count
+  const count = cartMenu.count
 
   function removeCartMenu() {
-    setCartMenus(cartMenus.filter((cartMenu) => cartMenu.id !== menu.id))
+    if (cartMenus.length === 1) setCartStore(null)
+    setCartMenus(cartMenus.filter((newCartMenu) => newCartMenu.id !== cartMenu.id))
   }
 
   function updateCartMenuCount(getNewCount: Func) {
     const newCount = getNewCount(count)
     const newCartMenus = [...cartMenus]
-    newCartMenus.find((cartMenu) => cartMenu.id === menu.id).count = newCount
+    const newCartMenu = newCartMenus.find((newCartMenu) => newCartMenu.id === cartMenu.id)
+    if (newCartMenu) newCartMenu.count = newCount
     setCartMenus(newCartMenus)
   }
 
@@ -100,13 +102,13 @@ function CartMenuCard({ menu }: Props) {
         </AbsolutePosition>
         <GridContainerGap>
           <div>
-            <MenuName>{menu.name}</MenuName>
+            <MenuName>{cartMenu.name}</MenuName>
             <br />
             <OptionA>기본 : 150g</OptionA>
             <OptionA>추가메뉴 추가선택 : 생크림 추가</OptionA>
             <br />
             <FlexContainerBetween>
-              <PriceA>총 {formatPrice(menu.price * menu.count)}</PriceA>
+              <PriceA>총 {formatPrice(cartMenu.price * count)}</PriceA>
               <CountButton onClick={updateCartMenuCount} value={count} />
             </FlexContainerBetween>
           </div>

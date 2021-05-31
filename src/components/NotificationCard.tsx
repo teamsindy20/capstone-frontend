@@ -2,6 +2,8 @@ import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexC
 import styled from 'styled-components'
 import { ShopOutlined } from '@ant-design/icons'
 
+const StyledShopOutlined = { fontSize: '27px', color: '#FF9A87' }
+
 const Li = styled.li`
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
@@ -23,17 +25,13 @@ const Icon = styled.div`
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
+  padding: 10px;
 `
 
 const Text = styled.h4`
   padding: 0;
 `
-const TimeAbsolutePosition = styled.div`
-  position: absolute;
-  top: 0.2rem;
-  right: 0.2rem;
-  color: #ff9a87;
-`
+
 const TimeText = styled.h4`
   top: 0.2rem;
   right: 0.2rem;
@@ -45,7 +43,7 @@ function NotificationCard() {
     <Li>
       <Grid>
         <Icon>
-          <ShopOutlined />
+          <ShopOutlined style={StyledShopOutlined} />
         </Icon>
         <Text>
           내가 찜한 매장 "핏마카롱"의 <br /> 오늘의 라인업 소식이 올라왔어요!

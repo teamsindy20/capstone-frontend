@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { NormalA, MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
 import { Fragment, useState, useContext, CSSProperties } from 'react'
@@ -179,6 +179,9 @@ const FixedPosition = styled.div`
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
 `
+function handleChange(value: any) {
+  console.log(`selected ${value}`)
+}
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
@@ -224,6 +227,8 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
+  console.log(isUserPreferencesLoading, preferences)
+
   return (
     <PageHead>
       <PageLayout>
@@ -268,7 +273,6 @@ function HomePage() {
                 <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
               </div>
             </Carousel>
-
             {/* <StyledSlider {...settings}>
               <BannerAd>
                 <Img src="/banner.png" alt="banner advertisement"></Img>
@@ -290,7 +294,84 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
+            
+            <Divider orientation="left">
+              {loading ? (
+                ''
+              ) : !user ? (
+                ''
+              ) : isUserPreferencesLoading || !preferences ? (
+                ''
+              ) : (
+                <>
+                  <SmileOutlined />
+                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}님이 설정한
+                  디저트핏은?
+                </>
+              )}
+            </Divider>
+            <MiddleText>
+              {loading ? (
+                '사용자 인증 중'
+              ) : !user ? (
+                '로그인 후 나만의 디저트핏을 설정해보세요!'
+              ) : isUserPreferencesLoading || !preferences ? (
+                '디저트핏 로딩 중...'
+              ) : preferences.length ? (
+                preferences.map((hashtag) => (
+                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </NormalA>
+                  </Link>
+                ))
+              ) : (
+                <ClientSideLink href="/users/username/preferences">
+                  내게 딱 맞는 디저트핏을 설정해보세요!
+                </ClientSideLink>
+              )}
+            </MiddleText>
+            
+            <Divider />
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+            
+            <Divider />
+            <MarginDiv>
+              <GridContainerUl onlyImage={onlyImage}>
+                {menus
+                  ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                  .map((menu) => (
+                    <MenuCard
+                      key={menu.id}
+                      afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                      menu={menu as any}
+                      onlyImage={onlyImage}
+                    />
+                  ))}
+              </GridContainerUl>
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
+            </MarginDiv>
+          </TabPane>
 
+          <TabPane tab="카테고리" key="2">
+            카테고리 선택
+          </TabPane>
+
+          <TabPane tab="트렌드" key="3">
+            트렌드 디저트
+          </TabPane>
+
+          <TabPane tab="베스트" key="4">
+            베스트 메뉴들 순위
             <MarginDiv>
               <GridContainer>
                 <FixedDiv>정렬방식</FixedDiv>
@@ -340,95 +421,8 @@ function HomePage() {
                   </StyledTag>
                 </Div>
               </GridContainer>
-
-              <MiddleText>
-                {loading ? (
-                  'user authenticating...'
-                ) : !user ? (
-                  <div>
-                    맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
-                  </div>
-                ) : isUserPreferencesLoading ? (
-                  'user preferences loading...'
-                ) : preferences?.length ? (
-                  <div>
-                    김빵순님의 취향:{' '}
-                    {preferences.map((hashtag) => (
-                      <Fragment key={hashtag}>
-                        <li>
-                          <Link href={`/search/${hashtag.slice(1)}`}>
-                            <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                              {hashtag}
-                            </BoldA>
-                          </Link>
-                        </li>
-                        &nbsp;
-                      </Fragment>
-                    ))}
-                  </div>
-                ) : (
-                  <div>
-                    설정한 취향이 아직 없어요.{' '}
-                    <ClientSideLink href="/users/username/preferences">
-                      취향 설정하러 가기
-                    </ClientSideLink>
-                  </div>
-                )}
-              </MiddleText>
             </MarginDiv>
-
-            <Divider orientation="left">
-              <SmileOutlined />
-              김빵순님이 설정한 취향은?
-            </Divider>
-            <div>
-              <Tag color="#F57961">#딸기</Tag>
-              <Tag color="#C4C4C4">#저탄수</Tag>
-              <Tag color="#2ECCBA">#말차</Tag>
-              <Tag color="#FF9A87">#슈가프리</Tag>
-              <Tag color="#5C4D42">#초코</Tag>
-            </div>
-
-            <Divider />
-
-            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
-              프렌차이즈 포함
-            </Checkbox>
-            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-              사진만 보기
-            </Checkbox>
-
-            <Divider />
-
-            <GridContainerUl onlyImage={onlyImage}>
-              {menus
-                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
-                .map((menu) => (
-                  <MenuCard
-                    key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
-                    onlyImage={onlyImage}
-                  />
-                ))}
-            </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
-          </TabPane>
-
-          <TabPane tab="카테고리" key="2">
-            카테고리 선택
-          </TabPane>
-
-          <TabPane tab="트렌드" key="3">
-            트렌드 디저트
-          </TabPane>
-
-          <TabPane tab="베스트" key="4">
-            베스트 메뉴들 순위
+            
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

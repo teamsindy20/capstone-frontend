@@ -80,12 +80,6 @@ const settings = {
   slidesToScroll: 1,
 }
 
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
-  align-items: center;
-`
-
 // const SmallText = styled.div`
 //   text-align: center;
 // `
@@ -132,10 +126,11 @@ const Img = styled.img`
   overflow: hidden;
 `
 
-const Div = styled.div`
-  overflow: scroll hidden;
+const FlexContainerOverflowScroll = styled.div`
   display: flex;
-  margin: 6px 0px;
+  align-items: center;
+  overflow: scroll hidden;
+  margin: 0 1rem 0 0;
 `
 
 const FixedDiv = styled.div`
@@ -227,8 +222,6 @@ function HomePage() {
     onLoadMore: fetchMoreMenus,
   })
 
-  console.log(isUserPreferencesLoading, preferences)
-
   return (
     <PageHead>
       <PageLayout>
@@ -294,7 +287,7 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
-            
+
             <Divider orientation="left">
               {loading ? (
                 ''
@@ -305,7 +298,7 @@ function HomePage() {
               ) : (
                 <>
                   <SmileOutlined />
-                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}님이 설정한
+                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'} 님이 설정한
                   디저트핏은?
                 </>
               )}
@@ -314,7 +307,9 @@ function HomePage() {
               {loading ? (
                 '사용자 인증 중'
               ) : !user ? (
-                '로그인 후 나만의 디저트핏을 설정해보세요!'
+                <ClientSideLink href="/login">
+                  로그인 후 나만의 디저트핏을 설정해보세요!
+                </ClientSideLink>
               ) : isUserPreferencesLoading || !preferences ? (
                 '디저트핏 로딩 중...'
               ) : preferences.length ? (
@@ -331,7 +326,7 @@ function HomePage() {
                 </ClientSideLink>
               )}
             </MiddleText>
-            
+
             <Divider />
             <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
               프렌차이즈 포함
@@ -339,7 +334,7 @@ function HomePage() {
             <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
               사진만 보기
             </Checkbox>
-            
+
             <Divider />
             <MarginDiv>
               <GridContainerUl onlyImage={onlyImage}>
@@ -371,67 +366,72 @@ function HomePage() {
           </TabPane>
 
           <TabPane tab="베스트" key="4">
-            베스트 메뉴들 순위
-            <MarginDiv>
-              <GridContainer>
-                <FixedDiv>정렬방식</FixedDiv>
-                <Div>
-                  <StyledTag
-                    color="rgb(190, 235, 253)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    맞춤추천
-                  </StyledTag>
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    좋아요순
-                  </StyledTag>
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    재주문율순
-                  </StyledTag>
+            <FlexContainerOverflowScroll>
+              <StyledTag
+                color="rgb(190, 235, 253)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                좋아요비율 높은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                재주문율 높은 순
+              </StyledTag>
 
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    주문수순
-                  </StyledTag>
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    배달팁적은순
-                  </StyledTag>
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    리뷰수순
-                  </StyledTag>
-                  <StyledTag
-                    color="rgb(230, 230, 230)"
-                    onClick={(e: any) => console.log(e.target.textContent)}
-                  >
-                    거리순
-                  </StyledTag>
-                </Div>
-              </GridContainer>
-            </MarginDiv>
-            
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                주문 많은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                배달팁 적은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                리뷰 많은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                가까운 거리 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                단골 많은 순
+              </StyledTag>
+            </FlexContainerOverflowScroll>
+
+            <Divider />
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+
+            <Divider />
             <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
+              {menus
+                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                .map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
             </GridContainerUl>
             {(isMenusLoading || hasMoreMenus) && (
               <div ref={sentryRef}>

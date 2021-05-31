@@ -10,6 +10,7 @@ const Li = styled.li`
   border-radius: min(20px, 2vw);
   overflow: hidden;
   padding: 0.8rem;
+  margin: 0.8rem 0.5rem;
 `
 
 const Grid = styled.div`

@@ -50,6 +50,8 @@ function UserNotificationsPage() {
       </TopHeader>
       <MarginDiv>
         <NotificationCard />
+        <NotificationCard />
+        <NotificationCard />
       </MarginDiv>
     </PageHead>
   )

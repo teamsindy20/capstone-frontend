@@ -1,22 +1,20 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
+import { MenuOptionCategory } from 'src/graphql/generated/types-and-hooks'
 // import { persistCache, SessionStorageWrapper } from 'apollo3-cache-persist'
 
-// 나중에 GraphQL API 타입으로 연동하기
-type MenuOption = {
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends Record<string, any> ? DeepPartial<T[P]> : T[P]
+}
+
+export type CartMenu = {
   id: string
   name: string
   price: number
+  optionCategories?: DeepPartial<MenuOptionCategory[]>
+  count: number
 }
 
-type CartMenu = {
-  id: string
-  name: string
-  price: number
-  options: MenuOption[]
-  amount: number
-}
-
-export const cartMenusVar = makeVar<any[]>(
+export const cartMenusVar = makeVar<CartMenu[]>(
   typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartMenus') ?? '[]') : []
 )
 

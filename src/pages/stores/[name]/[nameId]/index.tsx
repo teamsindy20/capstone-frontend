@@ -1,30 +1,27 @@
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
-import { Button, Divider } from 'antd'
+import { Button, Checkbox, Divider, Radio } from 'antd'
 import { useRouter } from 'next/router'
-import { Fragment, useState, CSSProperties } from 'react'
+import { Fragment, useState, CSSProperties, useMemo } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import { useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
+import { MenuOptionCategoryType, useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
-import { FlexContainerBetween } from 'src/styles/FlexContainer'
+import { FlexContainerAlignCenter, FlexContainerBetween } from 'src/styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import useGoBack from 'src/hooks/useGoBack'
 import { formatPrice } from 'src/utils/price'
 import CountButton from 'src/components/atoms/CountButton'
 import { GridContainerGap } from 'src/styles/GridContainer'
+import { Controller, useForm } from 'react-hook-form'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
-const Padding = styled.div`
-  padding: 0.5rem;
-  width: 100%;
-`
 export const ReviewButton = styled(Button)`
   background-color: #ff9a87;
   border-radius: 7px;
@@ -81,13 +78,25 @@ const GreyLighterNoMarginH3 = styled.h3`
 const GreyLighterNoMarginH4 = styled.h4`
   margin: 0;
   color: #929393;
-  font-weight: lighter;
+  font-weight: normal;
 `
 
 const GreyNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
 `
+
+const RedText = styled.span`
+  margin: 0.5rem;
+  color: #a00000;
+`
+
+export function getSelectedOptionsPrice(a: { [x: string]: any }): number {
+  return Object.values(a)
+    .filter((selectedOption) => selectedOption)
+    .flat()
+    .reduce((acc, current) => acc + current.price, 0)
+}
 
 function StoreMenuPage() {
   const router = useRouter()
@@ -106,10 +115,13 @@ function StoreMenuPage() {
   const goBack = useGoBack()
 
   const [count, setCount] = useState(1)
+  const [isAddingToCartButtonDisabled, setIsAddingToCartButtonDisabled] = useState(false)
 
-  function addToCart() {
+  function addToCart(selectedOptionCategories: Record<string, any>) {
     // 아래 if문은 항상 true지만 menu와 store의 nullable을 없애기 위해 넣어줌
     if (menu && store) {
+      setIsAddingToCartButtonDisabled(true)
+
       const cartStore = cartStoreVar()
 
       if (cartStore && cartStore.id !== store.id) {
@@ -129,6 +141,7 @@ function StoreMenuPage() {
           name: menu.name,
           price: menu.price,
           count: count,
+          optionCategories: selectedOptionCategories,
         },
       ])
       toast(
@@ -139,6 +152,12 @@ function StoreMenuPage() {
       router.back()
     }
   }
+
+  const { control, handleSubmit, watch } = useForm()
+
+  const selectedOptionsPrice = getSelectedOptionsPrice(watch())
+
+  const totalAmount = formatPrice(((menu?.price ?? 0) + selectedOptionsPrice) * count)
 
   return (
     <PageHead title="디저트핏 - 메뉴 상세" description={description}>
@@ -184,44 +203,99 @@ function StoreMenuPage() {
               <NoMarginH2>{formatPrice(menu.price)}</NoMarginH2>
             </FlexContainerBetween>
 
-            {menu.optionCategories && (
-              <>
-                <Divider />
-                {menu.optionCategories.map((optionCategory) => (
-                  <Fragment key={optionCategory.id}>
-                    <NoMarginH3>{optionCategory.name}</NoMarginH3>
-                    {optionCategory.menuOptions?.map((menuOption) => (
-                      <FlexContainerBetween key={menuOption.id}>
-                        <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
-                        <GreyLighterNoMarginH4>
-                          {`+ ${formatPrice(menuOption.price)}`}
-                        </GreyLighterNoMarginH4>
-                      </FlexContainerBetween>
-                    ))}
-                  </Fragment>
-                ))}
-              </>
-            )}
+            {menu.optionCategories && <Divider />}
+            {menu.optionCategories?.map((optionCategory) => (
+              <Fragment key={optionCategory.id}>
+                <NoMarginH3>
+                  {optionCategory.name}
+                  {optionCategory.isNecessary && <RedText>*</RedText>}
+                </NoMarginH3>
+                {optionCategory.type === MenuOptionCategoryType.SingleSelection ? (
+                  <Controller
+                    control={control}
+                    defaultValue={''}
+                    name={`${optionCategory.name}`}
+                    render={({ field }) => (
+                      <Radio.Group style={{ fontSize: '1rem' }} {...field}>
+                        <GridContainerGap>
+                          {optionCategory.menuOptions.map((menuOption) => (
+                            <FlexContainerBetween key={menuOption.id}>
+                              <FlexContainerAlignCenter>
+                                <Radio key={menuOption.id} value={menuOption} />
+                                <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
+                              </FlexContainerAlignCenter>
+                              <GreyLighterNoMarginH4>
+                                {`+ ${formatPrice(menuOption.price)}`}
+                              </GreyLighterNoMarginH4>
+                            </FlexContainerBetween>
+                          ))}
+                        </GridContainerGap>
+                      </Radio.Group>
+                    )}
+                    rules={{
+                      required: optionCategory.isNecessary && `${optionCategory.name}`,
+                    }}
+                  />
+                ) : optionCategory.type === MenuOptionCategoryType.MultiSelection ? (
+                  <Controller
+                    control={control}
+                    defaultValue={[]}
+                    name={`${optionCategory.name}`}
+                    render={({ field }) => (
+                      <Checkbox.Group style={{ fontSize: '1rem' }} {...field}>
+                        <GridContainerGap>
+                          {optionCategory.menuOptions.map((menuOption) => (
+                            <FlexContainerBetween key={menuOption.id}>
+                              <FlexContainerAlignCenter>
+                                <Checkbox key={menuOption.id} value={menuOption} />
+                                &nbsp;
+                                <GreyLighterNoMarginH4>{menuOption.name}</GreyLighterNoMarginH4>
+                              </FlexContainerAlignCenter>
+                              <GreyLighterNoMarginH4>
+                                {`+ ${formatPrice(menuOption.price)}`}
+                              </GreyLighterNoMarginH4>
+                            </FlexContainerBetween>
+                          ))}
+                        </GridContainerGap>
+                      </Checkbox.Group>
+                    )}
+                  />
+                ) : (
+                  '나머지 메뉴 옵션 종류 (서술형, 양자택일형)'
+                )}
+              </Fragment>
+            ))}
 
             <Divider />
             <FlexContainerBetween>
               <NoMarginH3>수량</NoMarginH3>
               <CountButton onClick={setCount} value={count} />
             </FlexContainerBetween>
+
             <Divider />
             <FlexContainerBetween>
               <NoMarginH2>총 가격</NoMarginH2>
-              <NoMarginH2>{formatPrice(menu.price * count)}</NoMarginH2>
+              <NoMarginH2>{totalAmount}</NoMarginH2>
             </FlexContainerBetween>
+
             <Divider />
           </GridContainerPadding>
 
-          <FixedButton onClick={addToCart}>
-            {count}개 담기 ({formatPrice(menu.price * count)})
+          <FixedButton
+            loading={isAddingToCartButtonDisabled}
+            onClick={handleSubmit(addToCart, (errors) =>
+              toast.warning(
+                <>
+                  <b>{Object.values(errors).map((error) => error.message)}</b>을 선택해주세요
+                </>
+              )
+            )}
+          >
+            {count}개 담기 ({totalAmount})
           </FixedButton>
         </>
       ) : (
-        <div>데이터 불러오기 오류 발생</div>
+        <div>메뉴 상세 정보 불러오기 오류 발생</div>
       )}
     </PageHead>
   )

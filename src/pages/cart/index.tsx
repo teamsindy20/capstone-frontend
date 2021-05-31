@@ -117,7 +117,7 @@ function CartPage() {
 
       <GridContainerUl>
         {cartMenus.map((cartMenu) => (
-          <CartMenuCard key={cartMenu.id} menu={cartMenu} />
+          <CartMenuCard key={cartMenu.id} cartMenu={cartMenu} />
         ))}
       </GridContainerUl>
       <FixedButton onClick={goToOrderPage}>주문하기</FixedButton>

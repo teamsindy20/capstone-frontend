@@ -7,7 +7,7 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { GridContainerColumn3, HeadMessage } from '../register'
+import { continueWithGoogleOAuth, GridContainerColumn3, HeadMessage, RedText } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
@@ -70,11 +70,6 @@ const HeadLogin = styled.h2`
   letter-spacing: 0.3rem;
 `
 
-export const RedText = styled.h5`
-  margin: 0.5rem 0.2rem;
-  color: #800000;
-`
-
 export const validateEmail = {
   required: '필수 항목입니다.',
   pattern: {
@@ -95,10 +90,6 @@ const PASSWORD_INPUT_ICONS = [
   <UnlockTwoTone key={1} style={{ fontSize: '1.2rem' }} twoToneColor="#c4801a" />,
   <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
 ]
-
-function handleClick() {
-  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
-}
 
 export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
@@ -226,7 +217,7 @@ function LoginPage() {
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>
-          <SNSLoginButton onClick={handleClick} type="button">
+          <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
             구글로 로그인하기
           </SNSLoginButton>
           <SNSLoginButton type="button">페이스북으로 로그인하기</SNSLoginButton>

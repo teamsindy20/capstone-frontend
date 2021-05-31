@@ -1,13 +1,41 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
+import { MenuOptionCategory } from 'src/graphql/generated/types-and-hooks'
 // import { persistCache, SessionStorageWrapper } from 'apollo3-cache-persist'
 
-export const cartMenusVar = makeVar<any[]>(
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends Record<string, any> ? DeepPartial<T[P]> : T[P]
+}
+
+export type CartMenu = {
+  id: string
+  name: string
+  price: number
+  optionCategories?: DeepPartial<MenuOptionCategory[]>
+  count: number
+}
+
+export const cartMenusVar = makeVar<CartMenu[]>(
   typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartMenus') ?? '[]') : []
 )
 
 export function setCartMenus(menus: any[]) {
   cartMenusVar(menus)
   localStorage.setItem('cartMenus', JSON.stringify(menus))
+}
+
+type CartStore = {
+  id: string
+  name: string
+  imageUrl: string
+}
+
+export const cartStoreVar = makeVar<CartStore | null>(
+  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('cartStore') ?? 'null') : null
+)
+
+export function setCartStore(store: CartStore | null) {
+  cartStoreVar(store)
+  localStorage.setItem('cartStore', JSON.stringify(store))
 }
 
 const cache = new InMemoryCache({

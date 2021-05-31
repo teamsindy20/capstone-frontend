@@ -10,10 +10,10 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { BoldA, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { NormalA, MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep, stopPropagation } from 'src/utils/commons'
@@ -27,9 +27,22 @@ import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
+import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
+
+const contentStyle: CSSProperties = {
+  height: '150px',
+  color: '#929393',
+  lineHeight: '150px',
+  background: '#EAEAEA',
+  textAlign: 'center',
+}
+
+const MarginDiv = styled.div`
+  margin: 0.5rem;
+`
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -53,6 +66,11 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   //font-color: #3c3c3c;
 `
+const { Option } = Select
+
+const StyledTab = styled(Tabs)`
+  color: #f57961;
+`
 
 const settings = {
   dots: true,
@@ -68,16 +86,16 @@ const GridContainer = styled.div`
   align-items: center;
 `
 
-// const SmallText = styled.div`
-//   text-align: center;
-// `
-
-const MiddleText = styled.div`
+const PreferenceText = styled.div`
   text-align: center;
-  padding: 0.5rem;
-  margin: 0rem 0.5rem 0.5rem 0.5rem;
+  margin: 0.5rem;
   border-radius: 1rem;
-  background-color: #fff5f5;
+`
+const BrownText = styled.div`
+  color: #5c4d42;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.05rem;
 `
 
 const StyledSlider = styled(Slider)`
@@ -114,10 +132,11 @@ const Img = styled.img`
   overflow: hidden;
 `
 
-const Div = styled.div`
-  overflow: scroll hidden;
+const FlexContainerOverflowScroll = styled.div`
   display: flex;
-  margin: 6px 0px;
+  align-items: center;
+  overflow: scroll hidden;
+  margin: 0 1rem 0 0;
 `
 
 const FixedDiv = styled.div`
@@ -129,7 +148,7 @@ const FixedDiv = styled.div`
   line-height: 60px;
   background-color: #fff;
 `
-const Tag = styled.span<{ color: string }>`
+const StyledTag = styled.span<{ color: string }>`
   margin: 10px;
   padding: 5px 10px;
   white-space: nowrap;
@@ -161,12 +180,16 @@ const FixedPosition = styled.div`
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
 `
+function handleChange(value: any) {
+  console.log(`selected ${value}`)
+}
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
+  const [doesFranchiseIncluded, toggleWhetherIncludeFranchise] = useBoolean(false)
 
   const menusQueryResult = useMenusQuery({
     fetchPolicy: 'cache-and-network',
@@ -232,128 +255,89 @@ function HomePage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
-        <Tabs defaultActiveKey="1" size="large">
+
+        <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
           <TabPane tab="디저트핏" key="1">
-            <StyledSlider {...settings}>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>
-                  <b>OPEN EVENT!</b> <br />
-                  초코칩쿠키 무조건 증정!
-                </AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정2</AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정3</AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정4</AdTextDiv>
-              </BannerAd>
-            </StyledSlider>
-            <GridContainer>
-              <FixedDiv>정렬방식</FixedDiv>
-              <Div>
-                <Tag
-                  color="rgb(190, 235, 253)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  맞춤추천
-                </Tag>
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  좋아요순
-                </Tag>
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  재주문율순
-                </Tag>
+            <Carousel autoplay>
+              <div>
+                <h3 style={contentStyle}>내게 딱 맞는 디저트핏!</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>Dessert Fit!</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>김빵순 사랑해</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
+              </div>
+            </Carousel>
 
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  주문수순
-                </Tag>
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  배달팁적은순
-                </Tag>
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  리뷰수순
-                </Tag>
-                <Tag
-                  color="rgb(230, 230, 230)"
-                  onClick={(e: any) => console.log(e.target.textContent)}
-                >
-                  거리순
-                </Tag>
-              </Div>
-
-              <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
-            </GridContainer>
-            <MiddleText>
+            <Divider orientation="left">
               {loading ? (
-                'user authenticating...'
+                ''
               ) : !user ? (
-                <div>
-                  맞춤 추천: <ClientSideLink href="/login">로그인 필요</ClientSideLink>
-                </div>
-              ) : isUserPreferencesLoading ? (
-                'user preferences loading...'
-              ) : preferences?.length ? (
-                <div>
-                  김빵순님의 취향:{' '}
-                  {preferences.map((hashtag) => (
-                    <Fragment key={hashtag}>
-                      <li>
-                        <Link href={`/search/${hashtag.slice(1)}`}>
-                          <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                            {hashtag}
-                          </BoldA>
-                        </Link>
-                      </li>
-                      &nbsp;
-                    </Fragment>
-                  ))}
-                </div>
+                ''
+              ) : isUserPreferencesLoading || !preferences ? (
+                ''
               ) : (
-                <div>
-                  설정한 취향이 아직 없어요.{' '}
-                  <ClientSideLink href="/users/username/preferences">
-                    취향 설정하러 가기
-                  </ClientSideLink>
+                <>
+                  <SmileOutlined />
+                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'} 님이 설정한
+                  디저트핏은?
+                </>
+              )}
+            </Divider>
+            <PreferenceText>
+              {loading ? (
+                '사용자 인증 중'
+              ) : !user ? (
+                <ClientSideLink href="/login">
+                  로그인 후 나만의 디저트핏을 설정해보세요!
+                </ClientSideLink>
+              ) : isUserPreferencesLoading || !preferences ? (
+                '디저트핏 로딩 중...'
+              ) : preferences.length ? (
+                preferences.map((hashtag) => (
+                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </NormalA>
+                  </Link>
+                ))
+              ) : (
+                <ClientSideLink href="/users/username/preferences">
+                  <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
+                </ClientSideLink>
+              )}
+            </PreferenceText>
+            <Divider orientation="right">
+              <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+                프랜차이즈 포함
+              </Checkbox>
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
+            <MarginDiv>
+              <GridContainerUl onlyImage={onlyImage}>
+                {menus
+                  ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                  .map((menu) => (
+                    <MenuCard
+                      key={menu.id}
+                      afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                      menu={menu as any}
+                      onlyImage={onlyImage}
+                    />
+                  ))}
+              </GridContainerUl>
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
                 </div>
               )}
-            </MiddleText>
-            <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
-            </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
+            </MarginDiv>
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
@@ -365,16 +349,72 @@ function HomePage() {
           </TabPane>
 
           <TabPane tab="베스트" key="4">
-            베스트 메뉴들 순위
+            <FlexContainerOverflowScroll>
+              <StyledTag
+                color="rgb(190, 235, 253)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                좋아요비율 높은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                재주문율 높은 순
+              </StyledTag>
+
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                주문 많은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                배달팁 적은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                리뷰 많은 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                가까운 거리 순
+              </StyledTag>
+              <StyledTag
+                color="rgb(230, 230, 230)"
+                onClick={(e: any) => console.log(e.target.textContent)}
+              >
+                단골 많은 순
+              </StyledTag>
+            </FlexContainerOverflowScroll>
+
+            <Divider />
+            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+              프렌차이즈 포함
+            </Checkbox>
+            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+              사진만 보기
+            </Checkbox>
+
+            <Divider />
             <GridContainerUl onlyImage={onlyImage}>
-              {menus?.map((menu) => (
-                <MenuCard
-                  key={menu.id}
-                  afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                  menu={menu as any}
-                  onlyImage={onlyImage}
-                />
-              ))}
+              {menus
+                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                .map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
             </GridContainerUl>
             {(isMenusLoading || hasMoreMenus) && (
               <div ref={sentryRef}>

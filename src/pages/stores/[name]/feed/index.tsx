@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Tabs, Divider } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -110,6 +110,7 @@ function StoreFeedPage() {
           </Tag>
         </Div>
         <HorizontalBorder />
+        <Divider />
         <GridContainerUl onlyImage={false}>
           {posts?.map((post) => (
             <PostCard key={post.id} post={post} />

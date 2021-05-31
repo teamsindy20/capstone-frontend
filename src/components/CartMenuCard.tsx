@@ -1,29 +1,27 @@
 import { useReactiveVar } from '@apollo/client'
-import { cartMenusVar, setCartMenus } from 'src/apollo/cache'
+import { CartMenu, cartMenusVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import ClientSideLink from './atoms/ClientSideLink'
-import { Fragment } from 'react'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice, formatNumber } from 'src/utils/price'
+import CountButton from './atoms/CountButton'
+import { SetStateAction, useEffect, useState } from 'react'
+import { getSelectedOptionsPrice } from 'src/pages/stores/[name]/[nameId]'
 
-type Props = {
-  menu: any
-}
-const GridContainerLi = styled.li`
-  display: grid;
+const Li = styled.li`
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: min(20px, 2vw);
   overflow: hidden;
-  margin: 0.5rem;
   padding: 0.5rem;
 `
 
 const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
   font-size: 10px;
   color: #929393;
+  cursor: pointer;
 `
 
 const AbsolutePosition = styled.div`
@@ -72,70 +70,65 @@ const PriceA = styled.h2`
   color: #161f27;
   word-break: keep-all;
 `
-const Minus = styled.div`
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(#000, #000), linear-gradient(#000, #000);
-  background-position: center;
-  background-size: 40% 2px;
-  background-repeat: no-repeat;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-  cursor: pointer;
-`
 
-const MinusNoClick = styled(Minus)`
-  opacity: 0.15;
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  cursor: default;
-`
+function formatSelectedOption(option: any) {
+  if (Array.isArray(option)) {
+    return option.map((multiSelectingOption) => multiSelectingOption.name).join(', ')
+  } else {
+    return option.name
+  }
+}
 
-const Plus = styled(Minus)`
-  background-size: 40% 2px, 2px 40%;
-`
-const CountNumber = styled.h3`
-  display: inline-block;
-  text-align: center;
-  padding: 5px 0;
-`
-const Quantity = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  text-align: center;
-`
-function CartMenuCard({ menu }: Props) {
+type Func = (arg: number) => number
+
+type Props = {
+  cartMenu: CartMenu
+}
+
+function CartMenuCard({ cartMenu }: Props) {
   const cartMenus = useReactiveVar(cartMenusVar)
 
+  const count = cartMenu.count
+  const selectedOptionCategories = cartMenu?.optionCategories ?? {}
+  const selectedOptionsPrice = getSelectedOptionsPrice(selectedOptionCategories)
+
+  function removeCartMenu() {
+    if (cartMenus.length === 1) setCartStore(null)
+    setCartMenus(cartMenus.filter((newCartMenu) => newCartMenu.id !== cartMenu.id))
+  }
+
+  function updateCartMenuCount(getNewCount: Func) {
+    const newCartMenus = [...cartMenus]
+    const newCartMenu = newCartMenus.find((newCartMenu) => newCartMenu.id === cartMenu.id)
+    if (newCartMenu) newCartMenu.count = getNewCount(count)
+    setCartMenus(newCartMenus)
+  }
+
   return (
-    <div>
-      <GridContainerLi>
-        <FlexContainerColumnBetween>
-          <AbsolutePosition>
-            <StyledCloseRoundedIcon
-              onClick={() => setCartMenus(cartMenus.filter((cartMenu) => cartMenu.id !== menu.id))}
-            />
-          </AbsolutePosition>
-          <GridContainerGap>
-            <div>
-              <MenuName>{menu.name}</MenuName>
-              <br />
-              <OptionA>기본 : 150g</OptionA>
-              <OptionA>추가메뉴 추가선택 : 생크림 추가</OptionA>
-              <br />
-              <FlexContainerBetween>
-                <PriceA>총 {formatPrice(menu.price)}</PriceA>
-                <Quantity>
-                  <Minus />
-                  <CountNumber>1</CountNumber>
-                  <Plus />
-                </Quantity>
-              </FlexContainerBetween>
-            </div>
-          </GridContainerGap>
-        </FlexContainerColumnBetween>
-      </GridContainerLi>
-    </div>
+    <Li>
+      <FlexContainerColumnBetween>
+        <AbsolutePosition>
+          <StyledCloseRoundedIcon onClick={removeCartMenu} />
+        </AbsolutePosition>
+        <GridContainerGap>
+          <div>
+            <MenuName>{cartMenu.name}</MenuName>
+            <br />
+            <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
+            {Object.entries(selectedOptionCategories).map((optionCategory) => (
+              <OptionA key={optionCategory[0]}>
+                {`${optionCategory[0]} : ${formatSelectedOption(optionCategory[1])}`}
+              </OptionA>
+            ))}
+            <br />
+            <FlexContainerBetween>
+              <PriceA>총 {formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
+              <CountButton onClick={updateCartMenuCount} value={count} />
+            </FlexContainerBetween>
+          </div>
+        </GridContainerGap>
+      </FlexContainerColumnBetween>
+    </Li>
   )
 }
 

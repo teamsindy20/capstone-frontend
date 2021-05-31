@@ -79,7 +79,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   cursor: pointer;
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: min(20px, 2vw);
+  border-radius: max(10px, 1vw);
   overflow: hidden;
 `
 
@@ -96,7 +96,6 @@ export const AbsolutePositionImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-
   background: #ffffff;
 `
 
@@ -121,16 +120,16 @@ const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
 `
-const MenuName = styled.h2`
+const MenuName = styled.h3`
   margin: 0;
-  font-weight: normal;
+  font-weight: bold;
 `
 const StoreName = styled.h4`
   color: #929393;
   margin: 0;
   font-weight: normal;
 `
-const MenuPrice = styled.h2`
+const MenuPrice = styled.h3`
   margin: 0;
   font-weight: normal;
 `
@@ -168,9 +167,9 @@ const FlexContainerUl = styled.ul`
   margin-left: 1rem;
 `
 
-export const BoldA = styled.a`
+export const NormalA = styled.a`
   font-size: 1em;
-  font-weight: bold;
+  font-weight: normal;
   color: #ff8e77;
   word-break: keep-all;
 
@@ -200,8 +199,9 @@ const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
 `
 
 const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
-  font-size: 10px;
+  font-size: 1.2rem !important;
   color: #929393;
+  font-weight: lighter;
 `
 
 const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
@@ -209,22 +209,22 @@ const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
   color: #ff8e77;
 `
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 40px !important;
+  font-size: 1.8rem !important;
   color: #ff8e77;
   margin: 0.2em;
 `
 const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 40px !important;
+  font-size: 1.8rem !important;
   color: #ff8e77;
   margin: 0.2em;
 `
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
-  font-size: 40px !important;
+  font-size: 1.8rem !important;
   color: #929393;
   padding: 0;
 `
 const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
-  font-size: 40px !important;
+  font-size: 1.8rem !important;
   color: #929393;
   padding: 0;
 `
@@ -295,7 +295,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
-            {`${menu.name} 메뉴 찜을 헤제했어요 `}
+            {`${menu.name} 메뉴 찜을 해제했어요 `}
             <button
               onClick={() => {
                 pickMenu({ variables: { id: menu.id } })
@@ -367,9 +367,9 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
                 <Fragment key={hashtag}>
                   <li>
                     <Link href={`/search/${hashtag.slice(1)}`}>
-                      <BoldA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
                         {hashtag}
-                      </BoldA>
+                      </NormalA>
                     </Link>
                   </li>
                   &nbsp;

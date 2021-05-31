@@ -11,7 +11,7 @@ import grey from '@material-ui/core/colors/grey'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import TopHeader from 'src/components/TopHeader'
 import { GlobalContext } from 'src/pages/_app'
-import NotLogin from 'src/components/NotLogin'
+import NotLoginModal from 'src/components/NotLoginModal'
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -57,7 +57,7 @@ function UserOrdersPage() {
     return (
       <PageHead title="디저트핏 - 주문 내역" description={description}>
         <PageLayout>
-          <NotLogin />
+          <NotLoginModal />
         </PageLayout>
       </PageHead>
     )

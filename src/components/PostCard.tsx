@@ -13,6 +13,10 @@ import {
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
+import { Card, Avatar } from 'antd'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+
+const { Meta } = Card
 
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
@@ -26,8 +30,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 `
 
 const ShadowingLi = styled.li`
-  background-color: #f1f6fa;
-  border-radius: 15px;
+  background-color: #dddbdb;
 `
 
 const GridContainerPadding = styled(GridContainerGap)`
@@ -79,7 +82,6 @@ const GridInCardColumn2 = styled.div`
 const ImgInCard = styled.img`
   overflow: hidden;
   border-radius: 5%;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +92,7 @@ const TextInCard = styled.div`
   padding: 20px;
   font-size: 1rem;
   overflow: visible auto;
-  height: 270px;
+  height: 150px;
 `
 
 const Tag = styled.span<{ color: string }>`
@@ -141,7 +143,27 @@ function PostCard({ post }: Props) {
 
   return (
     <ShadowingLi>
-      <GridInCardColumn2>
+      <Card
+        style={{ width: 360 }}
+        cover={<img alt="post" src={post.imageUrls ? post.imageUrls[0] : ''} />}
+        actions={[
+          <SettingOutlined key="setting" />,
+          <EditOutlined key="edit" />,
+          <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <Meta
+          avatar={<Avatar src={store.imageUrls ? store.imageUrls[0] : ''} />}
+          title={store.name}
+          description="메뉴 소식"
+        />
+        <TextInCard>
+          {post.contents.map((content, i) =>
+            content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
+          )}
+        </TextInCard>
+      </Card>
+      {/* <GridInCardColumn2>
         <div>
           <StyledImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
           <NoMarginH5>{store.name}</NoMarginH5>
@@ -166,7 +188,7 @@ function PostCard({ post }: Props) {
       </FlexContainerBottomCard>
       <FlexContainerBottomCard>
         <input placeholder="댓글을 입력해주세요." />
-      </FlexContainerBottomCard>
+      </FlexContainerBottomCard> */}
 
       {/* <div>
         <img src="https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C133784715_672813013398326_5083752991447256061_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3DkKzoh7bNOMsAX_yPtQp%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Dd3276fb2af511a2070378be742c0d0aa%26oe%3D60BCEDE6%26_nc_sid%3D7bff83"></img>

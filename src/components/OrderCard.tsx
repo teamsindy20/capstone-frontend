@@ -1,20 +1,24 @@
 import TimerRoundedIcon from '@material-ui/icons/TimerRounded'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { MouseEvent as ReactMouseEvent } from 'react'
+import { MouseEvent } from 'react'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
 import styles from '../styles/NextImage.module.css'
 import { SkeletonImage, SkeletonText } from './MenuCard'
-import Button from '@material-ui/core/Button'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
+import { Card, Avatar, Divider, Button } from 'antd'
+import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
+import { differenceInDays, format } from 'date-fns'
+
+const { Meta } = Card
 
 const GridContainerLi = styled.li`
   display: grid;
@@ -74,6 +78,13 @@ const AbsolutePosition = styled.div`
   right: 0.5rem;
 `
 
+const MintText = styled.h4`
+  color: #2eccba; ;
+`
+const GreyText = styled.h4`
+  color: #a8a8a8; ;
+`
+
 function formatOrderDate(orderDate: string) {
   return orderDate
 }
@@ -112,10 +123,15 @@ function OrderCard({ order, store }: Props) {
   const { name } = router.query
 
   const goToUserOrderPage = useGoToPage(`/users/${name}/orders/${order.id}`)
-  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}/`)
+  const goToStoreMenusPage = useGoToPage(`/stores/${store.name}`)
+
+  function reorder(e: MouseEvent) {
+    e.stopPropagation()
+    console.log('재주문하기')
+  }
 
   function goToUserReviewPage(reviewId: number) {
-    return (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
+    return (e: MouseEvent) => {
       e.stopPropagation()
       router.push(`/users/${name}/reviews/${reviewId}`)
     }
@@ -123,7 +139,45 @@ function OrderCard({ order, store }: Props) {
 
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
-      <RelativePosition onClick={goToStoreMenusPage}>
+      <Card
+        style={{ width: 360 }}
+        actions={[
+          <Button shape="circle" icon={<ReloadOutlined />} key="reorder" onClick={reorder} />,
+          <Button
+            shape="circle"
+            icon={<EditOutlined />}
+            key="review"
+            onClick={goToUserReviewPage(+order.review.id)}
+          />,
+        ]}
+      >
+        <Meta
+          avatar={<Avatar src={order.store.imageUrl} />}
+          title={`${store.name}`}
+          description={order.orderStatus}
+          // onClick={goToStoreMenusPage}
+        />
+        <Divider />
+        <div>
+          <FlexContainerBetween>
+            <ul>
+              {order.menus.map((menu) => (
+                <li key={menu.id}>- {menu.name}</li>
+              ))}
+            </ul>
+            <div>{formatPrice(order.orderTotal)}</div>
+          </FlexContainerBetween>
+          <FlexContainerBetween>
+            <MintText>
+              {`D-${differenceInDays(new Date(order.regularOrderDate), new Date())}, 
+        ${order.regularOrderCount}번 더 주문 시 단골이예요!`}
+            </MintText>
+            <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
+          </FlexContainerBetween>
+        </div>
+      </Card>
+
+      {/* <RelativePosition onClick={goToStoreMenusPage}>
         <Image
           src={order.menus[0].imageUrl}
           alt="store"
@@ -154,25 +208,9 @@ function OrderCard({ order, store }: Props) {
       </GridItemColumn2>
       <div>{order.orderStatus}</div>
       <GridContainerSpan2 hasReview={!!order.review}>
-        <Button
-          onClick={(e) => e.stopPropagation()}
-          variant="contained"
-          color="primary"
-          startIcon={<ReplayRoundedIcon />}
-        >
-          재주문하기
-        </Button>
-        {order.review && (
-          <Button
-            onClick={goToUserReviewPage(+order.review.id)}
-            variant="contained"
-            color="primary"
-            startIcon={<RateReviewRoundedIcon />}
-          >
-            리뷰쓰기
-          </Button>
-        )}
-      </GridContainerSpan2>
+        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
+        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
+      </GridContainerSpan2> */}
     </GridContainerLi>
   )
 }

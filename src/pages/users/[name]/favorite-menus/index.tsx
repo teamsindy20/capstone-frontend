@@ -6,7 +6,7 @@ import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
-import NotLogin from 'src/components/NotLogin'
+import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
 import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
@@ -60,7 +60,7 @@ function UserFavoriteMenusPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 찜 메뉴" description={description}>
-        <PageLayout>{loading ? 'user loading...' : <NotLogin />}</PageLayout>
+        <PageLayout>{loading ? 'user loading...' : <NotLoginModal />}</PageLayout>
       </PageHead>
     )
   }

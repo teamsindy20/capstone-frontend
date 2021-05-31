@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import NotLogin from 'src/components/NotLogin'
+import NotLoginModal from 'src/components/NotLoginModal'
 import { GlobalContext } from 'src/pages/_app'
 import { Button } from 'antd'
 import styled from 'styled-components'
@@ -47,7 +47,7 @@ function MyDessertFitPage() {
     return (
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
         <PageLayout>
-          <NotLogin />
+          <NotLoginModal />
         </PageLayout>
       </PageHead>
     )

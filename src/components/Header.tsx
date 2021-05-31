@@ -13,10 +13,8 @@ import { grey } from '@material-ui/core/colors'
 
 const FixedHeader = styled.header`
   position: fixed;
-  left: 50%;
   bottom: 0;
   z-index: 1;
-  transform: translateX(-50%);
 
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};

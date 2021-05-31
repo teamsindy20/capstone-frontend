@@ -63,6 +63,32 @@ const HeadRegister = styled.h3`
   letter-spacing: 0.3rem;
 `
 
+export const SNSLoginButton = styled.button`
+  background-color: #f1f6fa;
+  border: none;
+  color: #3c3c3c;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5em 0.5rem;
+  font-size: 1rem;
+  margin: 1px 1px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: inline-block;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: #f1f6fa;
+    border: #ffc9c3;
+    color: #ffc9c3;
+  }
+`
+
+export const RedText = styled.h5`
+  margin: 0.5rem 0.2rem;
+  color: #800000;
+`
+
 export const validateEmail = {
   required: '필수 항목입니다.',
   maxLength: {
@@ -92,10 +118,9 @@ export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
 }
 
-export const RedText = styled.h5`
-  margin: 0.5rem 0.2rem;
-  color: #800000;
-`
+export function continueWithGoogleOAuth() {
+  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
+}
 
 type FormValues = {
   email: string
@@ -112,9 +137,9 @@ function RegisterPage() {
       toast('디저트핏에 가입한 것을 환영합니다!')
 
       sessionStorage.setItem('token', data.register)
-
       refetchUser()
-      router.push(decodeURIComponent((router.query.redirectUrl as string | undefined) ?? '/'))
+      router.replace(sessionStorage.getItem('redirectUrlAfterLogin') ?? '/')
+      sessionStorage.removeItem('redirectUrlAfterLogin')
     },
     onError: handleApolloError,
   })
@@ -236,6 +261,9 @@ function RegisterPage() {
           <RegisterButton disabled={loading} type="submit">
             확인
           </RegisterButton>
+          <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
+            구글로 계속하기
+          </SNSLoginButton>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

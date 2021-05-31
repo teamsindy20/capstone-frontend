@@ -25,14 +25,6 @@ export type Scalars = {
   URL: any
 }
 
-export type CartMenu = {
-  __typename?: 'CartMenu'
-  id: Scalars['ID']
-  name: Scalars['String']
-  price: Scalars['Int']
-  count: Scalars['Int']
-}
-
 export type Coupon = {
   __typename?: 'Coupon'
   id: Scalars['ID']
@@ -92,7 +84,6 @@ export type Menu = {
   /** nullable */
   content?: Maybe<Scalars['String']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
-  options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -102,8 +93,8 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
-  /** 메뉴에 달린 옵션을 반환한다. */
-  menuOptions?: Maybe<Array<MenuOption>>
+  /** 메뉴에 달린 옵션 카테고리을 반환한다. */
+  optionCategories?: Maybe<Array<MenuOptionCategory>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
 }
@@ -148,9 +139,9 @@ export type MenuOption = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   price: Scalars['Int']
-  menuId: Scalars['ID']
+  categoryId: Scalars['ID']
   /** from other table */
-  menu: Menu
+  category: MenuOptionCategory
 }
 
 export type MenuOptionCategory = {
@@ -159,7 +150,19 @@ export type MenuOptionCategory = {
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
-  type: MenuOptionType
+  type: MenuOptionCategoryType
+  isNecessary: Scalars['Boolean']
+  menuId: Scalars['ID']
+  /** from other table */
+  menu: Menu
+  menuOptions: Array<MenuOption>
+}
+
+export enum MenuOptionCategoryType {
+  BinarySelection = 'BINARY_SELECTION',
+  SingleSelection = 'SINGLE_SELECTION',
+  MultiSelection = 'MULTI_SELECTION',
+  Text = 'TEXT',
 }
 
 export type MenuOptionInput = {
@@ -171,14 +174,8 @@ export type MenuOptionInput = {
 
 export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
+  /** 서술형 옵션 선택 시 입력할 텍스트 */
   text?: Maybe<Scalars['String']>
-}
-
-export enum MenuOptionType {
-  BinarySelection = 'BINARY_SELECTION',
-  SingleSelection = 'SINGLE_SELECTION',
-  MultiSelection = 'MULTI_SELECTION',
-  Text = 'TEXT',
 }
 
 export type MenuSelectionInput = {
@@ -378,6 +375,12 @@ export type PostCreationInput = {
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
+export type PromotionInput = {
+  promotionId: Scalars['ID']
+  name: Scalars['String']
+  amount: Scalars['Int']
+}
+
 /** OAuth 공급자 */
 export enum Provider {
   DessertFit = 'DESSERT_FIT',
@@ -388,49 +391,48 @@ export enum Provider {
 
 export type Query = {
   __typename?: 'Query'
-  cart?: Maybe<Array<CartMenu>>
-  /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me: User
+  searchMenus?: Maybe<Array<Menu>>
+  searchStores?: Maybe<Array<Store>>
+  searchPosts?: Maybe<Array<Post>>
+  searchReviews?: Maybe<Array<Review>>
   /** 특정 메뉴의 세부 정보를 반환한다. */
   menu?: Maybe<Menu>
-  /** 메뉴 카테고리 목록을 반환한다. */
-  menuCategories: Array<Scalars['String']>
-  /** 메뉴 테마 목록을 반환한다. */
-  menuThemes: Array<Scalars['String']>
   /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
   menus: Array<Menu>
   /** 특정 카테고리에 속하는 메뉴 목록을 반환한다. */
   menusByCategory: Array<Menu>
-  /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
-  menusByStore: Array<Menu>
   /** 특정 테마에 속하는 메뉴 목록을 반환한다. */
   menusByTheme: Array<Menu>
-  /** 특정 주문에 대한 상세 정보를 반환한다. */
-  order?: Maybe<Order>
+  /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
+  menusByStore: Array<Menu>
+  /** 메뉴 카테고리 목록을 반환한다. */
+  menuCategories: Array<Scalars['String']>
+  /** 메뉴 테마 목록을 반환한다. */
+  menuThemes: Array<Scalars['String']>
   /** 사용자의 주문 목록을 반환한다. */
   orders?: Maybe<Array<Order>>
-  /** 특정 글 정보를 반환한다. */
-  post?: Maybe<Post>
-  /** 특정 주소 기반 여러 매장이 쓴 글을 반환한다. */
-  postsByAddress: Array<Post>
+  /** 특정 주문에 대한 상세 정보를 반환한다. */
+  order?: Maybe<Order>
   /** 특정 매장이 쓴 글을 반환한다. */
   postsByStore: Array<Post>
+  /** 특정 주소 기반 여러 매장이 쓴 글을 반환한다. */
+  postsByAddress: Array<Post>
   /** 특정 글 정보를 반환한다. */
-  review?: Maybe<Post>
+  post?: Maybe<Post>
   /** 사용자가 작성한 리뷰 목록을 반환한다. */
   reviews?: Maybe<Array<Post>>
-  /** 여러 메뉴의 리뷰 목록을 반환한다. */
-  reviewsByMenu?: Maybe<Array<Post>>
   /** 특정 매장의 리뷰 목록을 반환한다. */
   reviewsByStore?: Maybe<Array<Post>>
-  searchMenus?: Maybe<Array<Menu>>
-  searchPosts?: Maybe<Array<Post>>
-  searchReviews?: Maybe<Array<Review>>
-  searchStores?: Maybe<Array<Store>>
-  /** 특정 매장을 반환한다. */
-  store?: Maybe<Store>
+  /** 여러 메뉴의 리뷰 목록을 반환한다. */
+  reviewsByMenu?: Maybe<Array<Post>>
+  /** 특정 글 정보를 반환한다. */
+  review?: Maybe<Post>
   /** 매장 목록을 반환한다. */
   stores?: Maybe<Array<Store>>
+  /** 특정 매장을 반환한다. */
+  store?: Maybe<Store>
+  /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
+  me: User
   /**
    * 이메일 중복 여부를 검사한다.
    *
@@ -441,51 +443,11 @@ export type Query = {
   verifyUniqueEmail: Scalars['Boolean']
 }
 
-export type QueryMenuArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryMenusByCategoryArgs = {
-  category: Scalars['String']
-}
-
-export type QueryMenusByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
-export type QueryMenusByThemeArgs = {
-  theme: Scalars['String']
-}
-
-export type QueryOrderArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryPostArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryPostsByAddressArgs = {
-  address: Scalars['String']
-}
-
-export type QueryPostsByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
-export type QueryReviewArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryReviewsByMenuArgs = {
-  menuIds: Array<Scalars['ID']>
-}
-
-export type QueryReviewsByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
 export type QuerySearchMenusArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchStoresArgs = {
   hashtag: Scalars['NonEmptyString']
 }
 
@@ -497,8 +459,48 @@ export type QuerySearchReviewsArgs = {
   hashtag: Scalars['NonEmptyString']
 }
 
-export type QuerySearchStoresArgs = {
-  hashtag: Scalars['NonEmptyString']
+export type QueryMenuArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryMenusByCategoryArgs = {
+  category: Scalars['String']
+}
+
+export type QueryMenusByThemeArgs = {
+  theme: Scalars['String']
+}
+
+export type QueryMenusByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryOrderArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryPostsByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryPostsByAddressArgs = {
+  address: Scalars['String']
+}
+
+export type QueryPostArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryReviewsByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryReviewsByMenuArgs = {
+  menuIds: Array<Scalars['ID']>
+}
+
+export type QueryReviewArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryStoreArgs = {
@@ -568,6 +570,7 @@ export type Store = {
   businessRegistrationNumber: Scalars['String']
   businessRegistrationAddress: Scalars['String']
   businessRepresentativeName: Scalars['String']
+  isFranchise: Scalars['Boolean']
   deliveryCharge: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
@@ -650,11 +653,13 @@ export type User = {
 
 export type UserInfoInput = {
   deliveryAddress: Scalars['String']
+  deliveryPhoneNumber: Scalars['String']
+  storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
-  storeRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
+  promotion?: Maybe<Array<PromotionInput>>
   coupon?: Maybe<Scalars['ID']>
 }
 
@@ -670,12 +675,7 @@ export type MenuCardFragment = { __typename?: 'Menu' } & Pick<
   | 'imageUrls'
   | 'favorite'
   | 'hashtags'
-> & {
-    store: { __typename?: 'Store' } & Pick<
-      Store,
-      'id' | 'name' | 'deliveryCharge' | 'minimumDeliveryTime' | 'maximumDeliveryTime'
-    >
-  }
+> & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'isFranchise'> }
 
 export type PostCardFragment = { __typename?: 'Post' } & Pick<
   Post,
@@ -732,12 +732,6 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
 
-export type CartQueryVariables = Exact<{ [key: string]: never }>
-
-export type CartQuery = { __typename?: 'Query' } & {
-  cart?: Maybe<Array<{ __typename?: 'CartMenu' } & Pick<CartMenu, 'id' | 'name' | 'price'>>>
-}
-
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
@@ -773,10 +767,22 @@ export type MenuDetailQueryVariables = Exact<{
 export type MenuDetailQuery = { __typename?: 'Query' } & {
   menu?: Maybe<
     { __typename?: 'Menu' } & Pick<Menu, 'content'> & {
-        menuOptions?: Maybe<
-          Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
+        optionCategories?: Maybe<
+          Array<
+            { __typename?: 'MenuOptionCategory' } & Pick<
+              MenuOptionCategory,
+              'id' | 'name' | 'type' | 'isNecessary'
+            > & {
+                menuOptions: Array<
+                  { __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>
+                >
+              }
+          >
         >
-        store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'minimumDeliveryAmount'>
+        store: { __typename?: 'Store' } & Pick<
+          Store,
+          'id' | 'name' | 'minimumDeliveryAmount' | 'imageUrls'
+        >
       } & MenuCardFragment
   >
 }
@@ -849,9 +855,7 @@ export const MenuCardFragmentDoc = gql`
     store {
       id
       name
-      deliveryCharge
-      minimumDeliveryTime
-      maximumDeliveryTime
+      isFranchise
     }
     hashtags
   }
@@ -1077,44 +1081,6 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >
-export const CartDocument = gql`
-  query Cart {
-    cart @client {
-      id
-      name
-      price
-    }
-  }
-`
-
-/**
- * __useCartQuery__
- *
- * To run a query within a React component, call `useCartQuery` and pass it any options that fit your needs.
- * When your component renders, `useCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCartQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCartQuery(baseOptions?: Apollo.QueryHookOptions<CartQuery, CartQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options)
-}
-export function useCartLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<CartQuery, CartQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options)
-}
-export type CartQueryHookResult = ReturnType<typeof useCartQuery>
-export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>
-export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {
@@ -1296,15 +1262,22 @@ export const MenuDetailDocument = gql`
     menu(id: $id) {
       ...menuCard
       content
-      menuOptions {
+      optionCategories {
         id
         name
-        price
+        type
+        isNecessary
+        menuOptions {
+          id
+          name
+          price
+        }
       }
       store {
         id
         name
         minimumDeliveryAmount
+        imageUrls
       }
     }
   }

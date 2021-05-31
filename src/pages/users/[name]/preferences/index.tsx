@@ -4,7 +4,7 @@ import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 import grey from '@material-ui/core/colors/grey'
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import useGoBack from 'src/hooks/useGoBack'
 
@@ -18,7 +18,20 @@ const MarginDiv = styled.div`
 const FlexContainerBetween1 = styled(FlexContainerBetween)`
   height: 100%;
 `
+const TopGrid = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+`
 
+const TopImage = styled.img`
+  border-radius: 50%;
+  width: 4rem;
+  align-items: center;
+`
+
+const TopText = styled.h3`
+  font-weight: bold;
+`
 function UserPreferencesPage() {
   const goBack = useGoBack()
 
@@ -36,6 +49,20 @@ function UserPreferencesPage() {
             </FlexContainerAlignCenter>
           </FlexContainerBetween1>
         </TopHeader>
+        <MarginDiv>
+          <TopGrid>
+            <TopImage src="/DessertFit.png"></TopImage>
+            <TopText>
+              홈 화면에서 보고싶은 <br /> 디저트 핏을 설정해보세요!
+            </TopText>
+          </TopGrid>
+          <Divider orientation="left">#맛</Divider>
+          <Button shape="round">달콤</Button>
+          <Button shape="round">달콤</Button>
+          <Button shape="round">달콤</Button>
+          <Button shape="round">달콤</Button>
+          <Divider />
+        </MarginDiv>
       </PageLayout>
     </PageHead>
   )

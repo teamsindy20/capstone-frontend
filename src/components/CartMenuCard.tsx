@@ -8,6 +8,7 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import CountButton from './atoms/CountButton'
 import { SetStateAction, useEffect, useState } from 'react'
+import { getSelectedOptionsPrice } from 'src/pages/stores/[name]/[nameId]'
 
 const Li = styled.li`
   background: #ffffff;
@@ -70,6 +71,14 @@ const PriceA = styled.h2`
   word-break: keep-all;
 `
 
+function formatSelectedOption(option: any) {
+  if (Array.isArray(option)) {
+    return option.map((multiSelectingOption) => multiSelectingOption.name).join(', ')
+  } else {
+    return option.name
+  }
+}
+
 type Func = (arg: number) => number
 
 type Props = {
@@ -80,6 +89,8 @@ function CartMenuCard({ cartMenu }: Props) {
   const cartMenus = useReactiveVar(cartMenusVar)
 
   const count = cartMenu.count
+  const selectedOptionCategories = cartMenu?.optionCategories ?? {}
+  const selectedOptionsPrice = getSelectedOptionsPrice(selectedOptionCategories)
 
   function removeCartMenu() {
     if (cartMenus.length === 1) setCartStore(null)
@@ -87,10 +98,9 @@ function CartMenuCard({ cartMenu }: Props) {
   }
 
   function updateCartMenuCount(getNewCount: Func) {
-    const newCount = getNewCount(count)
     const newCartMenus = [...cartMenus]
     const newCartMenu = newCartMenus.find((newCartMenu) => newCartMenu.id === cartMenu.id)
-    if (newCartMenu) newCartMenu.count = newCount
+    if (newCartMenu) newCartMenu.count = getNewCount(count)
     setCartMenus(newCartMenus)
   }
 
@@ -104,11 +114,15 @@ function CartMenuCard({ cartMenu }: Props) {
           <div>
             <MenuName>{cartMenu.name}</MenuName>
             <br />
-            <OptionA>기본 : 150g</OptionA>
-            <OptionA>추가메뉴 추가선택 : 생크림 추가</OptionA>
+            <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
+            {Object.entries(selectedOptionCategories).map((optionCategory) => (
+              <OptionA key={optionCategory[0]}>
+                {`${optionCategory[0]} : ${formatSelectedOption(optionCategory[1])}`}
+              </OptionA>
+            ))}
             <br />
             <FlexContainerBetween>
-              <PriceA>총 {formatPrice(cartMenu.price * count)}</PriceA>
+              <PriceA>총 {formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
               <CountButton onClick={updateCartMenuCount} value={count} />
             </FlexContainerBetween>
           </div>

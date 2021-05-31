@@ -101,8 +101,8 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
-  /** 메뉴에 달린 옵션을 반환한다. */
-  menuOptions?: Maybe<Array<MenuOption>>
+  /** 메뉴에 달린 옵션 카테고리을 반환한다. */
+  optionCategories?: Maybe<Array<MenuOptionCategory>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
 }
@@ -147,9 +147,9 @@ export type MenuOption = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   price: Scalars['Int']
-  menuId: Scalars['ID']
+  categoryId: Scalars['ID']
   /** from other table */
-  menu: Menu
+  category: MenuOptionCategory
 }
 
 export type MenuOptionCategory = {
@@ -158,7 +158,19 @@ export type MenuOptionCategory = {
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
-  type: MenuOptionType
+  type: MenuOptionCategoryType
+  menuId: Scalars['ID']
+  /** from other table */
+  menu: Menu
+  /** from other table - nullable */
+  menuOptions?: Maybe<Array<MenuOption>>
+}
+
+export enum MenuOptionCategoryType {
+  BinarySelection = 'BINARY_SELECTION',
+  SingleSelection = 'SINGLE_SELECTION',
+  MultiSelection = 'MULTI_SELECTION',
+  Text = 'TEXT',
 }
 
 export type MenuOptionInput = {
@@ -172,13 +184,6 @@ export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
   /** 서술형 옵션 선택 시 입력할 텍스트 */
   text?: Maybe<Scalars['String']>
-}
-
-export enum MenuOptionType {
-  BinarySelection = 'BINARY_SELECTION',
-  SingleSelection = 'SINGLE_SELECTION',
-  MultiSelection = 'MULTI_SELECTION',
-  Text = 'TEXT',
 }
 
 export type MenuSelectionInput = {
@@ -574,6 +579,7 @@ export type Store = {
   businessRegistrationNumber: Scalars['String']
   businessRegistrationAddress: Scalars['String']
   businessRepresentativeName: Scalars['String']
+  isFranchise: Scalars['Boolean']
   deliveryCharge: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
@@ -678,12 +684,7 @@ export type MenuCardFragment = { __typename?: 'Menu' } & Pick<
   | 'imageUrls'
   | 'favorite'
   | 'hashtags'
-> & {
-    store: { __typename?: 'Store' } & Pick<
-      Store,
-      'id' | 'name' | 'deliveryCharge' | 'minimumDeliveryTime' | 'maximumDeliveryTime'
-    >
-  }
+> & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'isFranchise'> }
 
 export type PostCardFragment = { __typename?: 'Post' } & Pick<
   Post,
@@ -775,8 +776,17 @@ export type MenuDetailQueryVariables = Exact<{
 export type MenuDetailQuery = { __typename?: 'Query' } & {
   menu?: Maybe<
     { __typename?: 'Menu' } & Pick<Menu, 'content'> & {
-        menuOptions?: Maybe<
-          Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
+        optionCategories?: Maybe<
+          Array<
+            { __typename?: 'MenuOptionCategory' } & Pick<
+              MenuOptionCategory,
+              'id' | 'name' | 'type'
+            > & {
+                menuOptions?: Maybe<
+                  Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
+                >
+              }
+          >
         >
         store: { __typename?: 'Store' } & Pick<
           Store,
@@ -854,9 +864,7 @@ export const MenuCardFragmentDoc = gql`
     store {
       id
       name
-      deliveryCharge
-      minimumDeliveryTime
-      maximumDeliveryTime
+      isFranchise
     }
     hashtags
   }
@@ -1263,10 +1271,15 @@ export const MenuDetailDocument = gql`
     menu(id: $id) {
       ...menuCard
       content
-      menuOptions {
+      optionCategories {
         id
         name
-        price
+        type
+        menuOptions {
+          id
+          name
+          price
+        }
       }
       store {
         id

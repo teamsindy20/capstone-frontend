@@ -294,6 +294,7 @@ function HomePage() {
                 <AdTextDiv>쿠폰증정4</AdTextDiv>
               </BannerAd>
             </StyledSlider> */}
+            
             <Divider orientation="left">
               {loading ? (
                 ''
@@ -330,6 +331,7 @@ function HomePage() {
                 </ClientSideLink>
               )}
             </MiddleText>
+            
             <Divider />
             <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
               프렌차이즈 포함
@@ -337,17 +339,20 @@ function HomePage() {
             <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
               사진만 보기
             </Checkbox>
+            
             <Divider />
             <MarginDiv>
               <GridContainerUl onlyImage={onlyImage}>
-                {menus?.map((menu) => (
-                  <MenuCard
-                    key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
-                    onlyImage={onlyImage}
-                  />
-                ))}
+                {menus
+                  ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                  .map((menu) => (
+                    <MenuCard
+                      key={menu.id}
+                      afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                      menu={menu as any}
+                      onlyImage={onlyImage}
+                    />
+                  ))}
               </GridContainerUl>
               {(isMenusLoading || hasMoreMenus) && (
                 <div ref={sentryRef}>
@@ -415,13 +420,9 @@ function HomePage() {
                     거리순
                   </StyledTag>
                 </Div>
-                <Select defaultValue="fit" style={{ width: 120 }} onChange={handleChange}>
-                  <Option value="fit">맞춤추천</Option>
-                  <Option value="like">좋아요</Option>
-                  <Option value="Yiminghe">거리</Option>
-                </Select>
               </GridContainer>
             </MarginDiv>
+            
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

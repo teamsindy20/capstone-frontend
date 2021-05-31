@@ -79,7 +79,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   cursor: pointer;
   background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: min(20px, 2vw);
+  border-radius: max(10px, 1vw);
   overflow: hidden;
 `
 

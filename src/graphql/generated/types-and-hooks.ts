@@ -25,14 +25,6 @@ export type Scalars = {
   URL: any
 }
 
-export type CartMenu = {
-  __typename?: 'CartMenu'
-  id: Scalars['ID']
-  name: Scalars['String']
-  price: Scalars['Int']
-  count: Scalars['Int']
-}
-
 export type Coupon = {
   __typename?: 'Coupon'
   id: Scalars['ID']
@@ -159,11 +151,11 @@ export type MenuOptionCategory = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   type: MenuOptionCategoryType
+  isNecessary: Scalars['Boolean']
   menuId: Scalars['ID']
   /** from other table */
   menu: Menu
-  /** from other table - nullable */
-  menuOptions?: Maybe<Array<MenuOption>>
+  menuOptions: Array<MenuOption>
 }
 
 export enum MenuOptionCategoryType {
@@ -399,49 +391,48 @@ export enum Provider {
 
 export type Query = {
   __typename?: 'Query'
-  cart?: Maybe<Array<CartMenu>>
-  /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me: User
+  searchMenus?: Maybe<Array<Menu>>
+  searchStores?: Maybe<Array<Store>>
+  searchPosts?: Maybe<Array<Post>>
+  searchReviews?: Maybe<Array<Review>>
   /** 특정 메뉴의 세부 정보를 반환한다. */
   menu?: Maybe<Menu>
-  /** 메뉴 카테고리 목록을 반환한다. */
-  menuCategories: Array<Scalars['String']>
-  /** 메뉴 테마 목록을 반환한다. */
-  menuThemes: Array<Scalars['String']>
   /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
   menus: Array<Menu>
   /** 특정 카테고리에 속하는 메뉴 목록을 반환한다. */
   menusByCategory: Array<Menu>
-  /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
-  menusByStore: Array<Menu>
   /** 특정 테마에 속하는 메뉴 목록을 반환한다. */
   menusByTheme: Array<Menu>
-  /** 특정 주문에 대한 상세 정보를 반환한다. */
-  order?: Maybe<Order>
+  /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
+  menusByStore: Array<Menu>
+  /** 메뉴 카테고리 목록을 반환한다. */
+  menuCategories: Array<Scalars['String']>
+  /** 메뉴 테마 목록을 반환한다. */
+  menuThemes: Array<Scalars['String']>
   /** 사용자의 주문 목록을 반환한다. */
   orders?: Maybe<Array<Order>>
-  /** 특정 글 정보를 반환한다. */
-  post?: Maybe<Post>
-  /** 특정 주소 기반 여러 매장이 쓴 글을 반환한다. */
-  postsByAddress: Array<Post>
+  /** 특정 주문에 대한 상세 정보를 반환한다. */
+  order?: Maybe<Order>
   /** 특정 매장이 쓴 글을 반환한다. */
   postsByStore: Array<Post>
+  /** 특정 주소 기반 여러 매장이 쓴 글을 반환한다. */
+  postsByAddress: Array<Post>
   /** 특정 글 정보를 반환한다. */
-  review?: Maybe<Post>
+  post?: Maybe<Post>
   /** 사용자가 작성한 리뷰 목록을 반환한다. */
   reviews?: Maybe<Array<Post>>
-  /** 여러 메뉴의 리뷰 목록을 반환한다. */
-  reviewsByMenu?: Maybe<Array<Post>>
   /** 특정 매장의 리뷰 목록을 반환한다. */
   reviewsByStore?: Maybe<Array<Post>>
-  searchMenus?: Maybe<Array<Menu>>
-  searchPosts?: Maybe<Array<Post>>
-  searchReviews?: Maybe<Array<Review>>
-  searchStores?: Maybe<Array<Store>>
-  /** 특정 매장을 반환한다. */
-  store?: Maybe<Store>
+  /** 여러 메뉴의 리뷰 목록을 반환한다. */
+  reviewsByMenu?: Maybe<Array<Post>>
+  /** 특정 글 정보를 반환한다. */
+  review?: Maybe<Post>
   /** 매장 목록을 반환한다. */
   stores?: Maybe<Array<Store>>
+  /** 특정 매장을 반환한다. */
+  store?: Maybe<Store>
+  /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
+  me: User
   /**
    * 이메일 중복 여부를 검사한다.
    *
@@ -452,51 +443,11 @@ export type Query = {
   verifyUniqueEmail: Scalars['Boolean']
 }
 
-export type QueryMenuArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryMenusByCategoryArgs = {
-  category: Scalars['String']
-}
-
-export type QueryMenusByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
-export type QueryMenusByThemeArgs = {
-  theme: Scalars['String']
-}
-
-export type QueryOrderArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryPostArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryPostsByAddressArgs = {
-  address: Scalars['String']
-}
-
-export type QueryPostsByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
-export type QueryReviewArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryReviewsByMenuArgs = {
-  menuIds: Array<Scalars['ID']>
-}
-
-export type QueryReviewsByStoreArgs = {
-  storeId: Scalars['ID']
-}
-
 export type QuerySearchMenusArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchStoresArgs = {
   hashtag: Scalars['NonEmptyString']
 }
 
@@ -508,8 +459,48 @@ export type QuerySearchReviewsArgs = {
   hashtag: Scalars['NonEmptyString']
 }
 
-export type QuerySearchStoresArgs = {
-  hashtag: Scalars['NonEmptyString']
+export type QueryMenuArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryMenusByCategoryArgs = {
+  category: Scalars['String']
+}
+
+export type QueryMenusByThemeArgs = {
+  theme: Scalars['String']
+}
+
+export type QueryMenusByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryOrderArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryPostsByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryPostsByAddressArgs = {
+  address: Scalars['String']
+}
+
+export type QueryPostArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryReviewsByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryReviewsByMenuArgs = {
+  menuIds: Array<Scalars['ID']>
+}
+
+export type QueryReviewArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryStoreArgs = {
@@ -780,10 +771,10 @@ export type MenuDetailQuery = { __typename?: 'Query' } & {
           Array<
             { __typename?: 'MenuOptionCategory' } & Pick<
               MenuOptionCategory,
-              'id' | 'name' | 'type'
+              'id' | 'name' | 'type' | 'isNecessary'
             > & {
-                menuOptions?: Maybe<
-                  Array<{ __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>>
+                menuOptions: Array<
+                  { __typename?: 'MenuOption' } & Pick<MenuOption, 'id' | 'name' | 'price'>
                 >
               }
           >
@@ -1275,6 +1266,7 @@ export const MenuDetailDocument = gql`
         id
         name
         type
+        isNecessary
         menuOptions {
           id
           name

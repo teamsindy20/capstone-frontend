@@ -86,16 +86,16 @@ const GridContainer = styled.div`
   align-items: center;
 `
 
-// const SmallText = styled.div`
-//   text-align: center;
-// `
-
-const MiddleText = styled.div`
+const PreferenceText = styled.div`
   text-align: center;
-  padding: 0.5rem;
-  margin: 0rem 0.5rem 0.5rem 0.5rem;
+  margin: 0.5rem;
   border-radius: 1rem;
-  background-color: #fff5f5;
+`
+const BrownText = styled.div`
+  color: #5c4d42;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.05rem;
 `
 
 const StyledSlider = styled(Slider)`
@@ -273,28 +273,7 @@ function HomePage() {
                 <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
               </div>
             </Carousel>
-            {/* <StyledSlider {...settings}>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>
-                  <b>OPEN EVENT!</b> <br />
-                  초코칩쿠키 무조건 증정!
-                </AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정2</AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정3</AdTextDiv>
-              </BannerAd>
-              <BannerAd>
-                <Img src="/banner.png" alt="banner advertisement"></Img>
-                <AdTextDiv>쿠폰증정4</AdTextDiv>
-              </BannerAd>
-            </StyledSlider> */}
-            
+
             <Divider orientation="left">
               {loading ? (
                 ''
@@ -310,7 +289,7 @@ function HomePage() {
                 </>
               )}
             </Divider>
-            <MiddleText>
+            <PreferenceText>
               {loading ? (
                 '사용자 인증 중'
               ) : !user ? (
@@ -327,20 +306,18 @@ function HomePage() {
                 ))
               ) : (
                 <ClientSideLink href="/users/username/preferences">
-                  내게 딱 맞는 디저트핏을 설정해보세요!
+                  <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
                 </ClientSideLink>
               )}
-            </MiddleText>
-            
-            <Divider />
-            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
-              프렌차이즈 포함
-            </Checkbox>
-            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-              사진만 보기
-            </Checkbox>
-            
-            <Divider />
+            </PreferenceText>
+            <Divider orientation="right">
+              <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+                프랜차이즈 포함
+              </Checkbox>
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
             <MarginDiv>
               <GridContainerUl onlyImage={onlyImage}>
                 {menus
@@ -422,7 +399,6 @@ function HomePage() {
                 </Div>
               </GridContainer>
             </MarginDiv>
-            
             <GridContainerUl onlyImage={onlyImage}>
               {menus?.map((menu) => (
                 <MenuCard

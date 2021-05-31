@@ -15,7 +15,6 @@ import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import useGoBack from 'src/hooks/useGoBack'
-import RegularStoreCard from 'src/components/RegularStoreCard'
 
 const GridContainerBackground = styled.div`
   display: grid;

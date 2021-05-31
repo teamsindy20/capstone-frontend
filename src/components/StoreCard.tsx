@@ -8,9 +8,15 @@ import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import styles from '../styles/NextImage.module.css'
 import { NormalA } from './MenuCard'
+import { Button } from 'antd'
 
-const BackgroundColorLi = styled.li`
-  background: #fff;
+const Li = styled.li`
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  border-radius: min(20px, 2vw);
+  overflow: hidden;
+  padding: 0.8rem;
+  margin: 0.8rem 0.5rem;
 `
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
@@ -36,7 +42,7 @@ function StoreCard({ store }: Props) {
   }
 
   return (
-    <BackgroundColorLi onClick={goToStoreMenuPage}>
+    <Li onClick={goToStoreMenuPage}>
       <FlexContainerBetweenCenter>
         <RelativePosition>
           <Image
@@ -71,7 +77,7 @@ function StoreCard({ store }: Props) {
           </FlexContainerAlignCenter>
         </ul>
       </FlexContainerBetweenCenter>
-    </BackgroundColorLi>
+    </Li>
   )
 }
 

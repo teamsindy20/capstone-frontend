@@ -14,11 +14,9 @@ import { Tabs } from 'antd'
 import { useRouter } from 'next/router'
 import TopHeader from 'src/components/TopHeader'
 
-const GridContainerBackground = styled.div`
+const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
-
-  background: #eee;
   border: 1px solid #eee;
 `
 
@@ -87,12 +85,12 @@ function UserFavoritesPage() {
           </Tabs>
         </TopHeader>
 
-        <GridContainerBackground>
+        <GridContainer>
           {favoriteStores?.map((regularStore) => (
             <StoreCard key={regularStore.id} store={regularStore} />
           ))}
           {!favoriteStores?.length && <h4>찜한 매장이 없어요</h4>}
-        </GridContainerBackground>
+        </GridContainer>
       </PageLayout>
     </PageHead>
   )

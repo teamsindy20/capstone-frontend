@@ -8,6 +8,7 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import useGoBack from 'src/hooks/useGoBack'
+import NotificationCard from 'src/components/NotificationCard'
 
 const description = '알림 설정한 매장의 새로운 소식을 확인해보세요.'
 
@@ -26,6 +27,10 @@ const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
+const MarginDiv = styled.div`
+  margin: 0.5rem;
+`
+
 function UserNotificationsPage() {
   const goBack = useGoBack()
 
@@ -43,6 +48,9 @@ function UserNotificationsPage() {
           <WhiteText>ㅇ</WhiteText>
         </FlexContainerBetween1>
       </TopHeader>
+      <MarginDiv>
+        <NotificationCard />
+      </MarginDiv>
     </PageHead>
   )
 }

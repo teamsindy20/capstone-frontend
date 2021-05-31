@@ -1,9 +1,0 @@
-type CartMenu {
-  id: ID!
-  name: String!
-  price: Int!
-  count: Int!
-}
-extend type Query {
-  cart: [CartMenu!]
-}

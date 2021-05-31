@@ -6,6 +6,7 @@ query MenuDetail($id: ID!) {
       id
       name
       type
+      isNecessary
       menuOptions {
         id
         name

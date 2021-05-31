@@ -8,7 +8,7 @@ import { GlobalContext } from 'src/pages/_app'
 import styled from 'styled-components'
 import { Button } from 'antd'
 import TopHeader from 'src/components/TopHeader'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
@@ -26,9 +26,12 @@ const GridContainerBackground = styled.div`
 
 const description = '자기가 찜한 메뉴를 확인해보세요'
 
-const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
-  justify-content: center;
+const FlexContainerBetween1 = styled(FlexContainerBetween)`
   height: 100%;
+`
+
+const WhiteText = styled.h5`
+  color: #ffffff;
 `
 
 const NoMarginH3 = styled.h3`
@@ -54,14 +57,18 @@ function UserRegularStoresPage() {
     <PageHead title="디저트핏 - 단골 매장" description={description}>
       <PageLayout>
         <TopHeader>
-          <FlexContainerCenterCenter>
+          <FlexContainerBetween1>
             <FlexContainerAlignCenter>
               <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
             </FlexContainerAlignCenter>
-            <LocalActivityRoundedIcon style={StyledLocalActivityRoundedIcon} />
-            <NoMarginH3>단골</NoMarginH3>
-          </FlexContainerCenterCenter>
+            <FlexContainerAlignCenter>
+              <LocalActivityRoundedIcon style={StyledLocalActivityRoundedIcon} />
+              <NoMarginH3>단골</NoMarginH3>
+            </FlexContainerAlignCenter>
+            <WhiteText>ㅇ</WhiteText>
+          </FlexContainerBetween1>
         </TopHeader>
+
         <GridContainerBackground>
           {regularStores?.map((regularStore) => (
             <StoreCard key={regularStore.id} store={regularStore} />

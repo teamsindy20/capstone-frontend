@@ -13,7 +13,7 @@ import { useContext, useCallback } from 'react'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
-const GridContainerForm = styled.form`
+export const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
@@ -62,7 +62,7 @@ const HeadRegister = styled.h3`
   letter-spacing: 0.3rem;
 `
 
-const MarginDiv = styled.div`
+export const MarginDiv = styled.div`
   margin: 1.3rem;
 `
 
@@ -218,10 +218,8 @@ function RegisterPage() {
               />
               <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
             </label>
-
-
             <RegisterButton disabled={loading} type="submit">
-              확인
+              다음
             </RegisterButton>
           </GridContainerForm>
         </MarginDiv>

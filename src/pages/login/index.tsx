@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox } from 'antd'
+import { Input, Button, Checkbox, Divider, Modal } from 'antd'
 import { useCallback, useContext } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
@@ -30,9 +30,9 @@ const GridContainerForm = styled.form`
 `
 
 const LoginButton = styled.button`
-  background-color: #ffc9c3;
-  border: none;
-  color: #3c3c3c;
+  background-color: #ff9a88;
+  border: 1px solid #ff9a88;
+  color: white;
   text-align: center;
   text-decoration: none;
   padding: 0.5em 0.5rem;
@@ -44,9 +44,9 @@ const LoginButton = styled.button`
   transition-duration: 0.4s;
 
   &:hover {
-    background-color: #f1f6fa;
-    border: #ffc9c3;
-    color: #ffc9c3;
+    background-color: white;
+    border: #ff9a88;
+    color: #ff9a88;
   }
 `
 
@@ -56,6 +56,13 @@ const HeadLogin = styled.h2`
   font-weight: 3rem;
   margin: 1rem 1rem 0.2rem;
   letter-spacing: 0.3rem;
+`
+const RegisterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
 `
 
 const PASSWORD_INPUT_ICONS = [
@@ -174,27 +181,22 @@ function LoginPage() {
             )}
           />
 
-          <GridContainerColumn3>
-            <ClientSideLink href="/register">
-              <Button type="link">회원가입</Button>
-            </ClientSideLink>
-            <ClientSideLink href="/find/email">
-              <Button type="link">아이디 찾기</Button>
-            </ClientSideLink>
-            <ClientSideLink href="/find/password">
-              <Button type="link">비밀번호 찾기</Button>
-            </ClientSideLink>
-          </GridContainerColumn3>
-
           <LoginButton disabled={loading} type="submit">
             로그인
           </LoginButton>
           <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
             구글로 로그인하기
           </SNSLoginButton>
-          <SNSLoginButton type="button">페이스북으로 로그인하기</SNSLoginButton>
-          <SNSLoginButton type="button">네이버로 로그인하기</SNSLoginButton>
-          <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
+          <SNSLoginButton type="button">간편 로그인</SNSLoginButton>
+          <RegisterDiv>
+            <ClientSideLink href="/register">
+              <Button type="link">회원가입</Button>
+            </ClientSideLink>
+            <Divider type="vertical" />
+            <ClientSideLink href="/find/password">
+              <Button type="link">비밀번호 찾기</Button>
+            </ClientSideLink>
+          </RegisterDiv>
         </GridContainerForm>
       </LoginPageLayout>
     </PageHead>

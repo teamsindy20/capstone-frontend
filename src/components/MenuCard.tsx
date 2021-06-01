@@ -315,7 +315,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
                 pickMenu({ variables: { id: menu.id } })
               }}
             >
-              찜 해제하기
+              되돌리기
             </button>
           </div>
         )
@@ -329,7 +329,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
                 pickMenu({ variables: { id: menu.id } })
               }}
             >
-              다시 찜하기
+              되돌리기
             </button>
           </div>
         )

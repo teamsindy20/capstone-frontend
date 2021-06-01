@@ -9,9 +9,7 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRightRounded'
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
-import Link from 'next/link'
 import styled from 'styled-components'
-import { toast } from 'react-toastify'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
@@ -82,6 +80,7 @@ function CartPage() {
   const cartMenus = useReactiveVar(cartMenusVar)
 
   function clearCart() {
+    // TODO: 전체 삭제 시 되돌리기 버튼 포함한 토스트 띄우기
     setCartMenus([])
     setCartStore(null)
   }

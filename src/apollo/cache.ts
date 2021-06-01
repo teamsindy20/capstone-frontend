@@ -1,16 +1,13 @@
 import { InMemoryCache, makeVar } from '@apollo/client'
-import { MenuOptionCategory } from 'src/graphql/generated/types-and-hooks'
+import { DeepPartial } from 'react-hook-form'
+import { MenuOption } from 'src/graphql/generated/types-and-hooks'
 // import { persistCache, SessionStorageWrapper } from 'apollo3-cache-persist'
-
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends Record<string, any> ? DeepPartial<T[P]> : T[P]
-}
 
 export type CartMenu = {
   id: string
   name: string
   price: number
-  optionCategories?: DeepPartial<MenuOptionCategory[]>
+  optionCategories?: Record<string, DeepPartial<MenuOption>>
   count: number
 }
 

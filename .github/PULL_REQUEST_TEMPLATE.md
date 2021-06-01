@@ -1,10 +1,4 @@
----
-name: Feature development
-about: Describe this issue template's purpose here.
-title: ''
-labels: 'enhancement'
-assignees: ''
----
+Close #
 
 ### 개발 완료한 점 (스크린샷)
 

@@ -8,7 +8,7 @@ import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
-import { Button, Input } from 'antd'
+import { Button, Input, Divider } from 'antd'
 import { useContext, useCallback } from 'react'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
@@ -27,9 +27,9 @@ export const GridContainerColumn3 = styled.div`
 `
 
 const RegisterButton = styled.button`
-  background-color: #ffc9c3;
-  border: none;
-  color: #3c3c3c;
+  background-color: #ff9a88;
+  border: 1px solid #ff9a88;
+  color: white;
   text-align: center;
   text-decoration: none;
   padding: 0.5em 0.5rem;
@@ -41,9 +41,9 @@ const RegisterButton = styled.button`
   transition-duration: 0.4s;
 
   &:hover {
-    background-color: #f1f6fa;
-    border: #ffc9c3;
-    color: #ffc9c3;
+    background-color: white;
+    border: #ff9a88;
+    color: #ff9a88;
   }
 `
 
@@ -62,25 +62,8 @@ const HeadRegister = styled.h3`
   letter-spacing: 0.3rem;
 `
 
-export const SNSLoginButton = styled.button`
-  background-color: white;
-  color: #2eccba;
-  border: 1px solid #2eccba;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  margin: 1px 1px;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
-
-  &:hover {
-    background-color: #2eccba;
-    border: white;
-    color: white;
-  }
+const MarginDiv = styled.div`
+  margin: 1.3rem;
 `
 
 export const RedText = styled.h5`
@@ -172,98 +155,76 @@ function RegisterPage() {
     <PageHead>
       <LoginPageLayout>
         <ClientSideLink href="/">
-          <HeadMessage>
-            내게 딱 맞는
-            <br />
-            디저트 핏!
-            <br />
-            <b>신디에 가입해보세요.</b>
-          </HeadMessage>
+          <HeadMessage>회원가입</HeadMessage>
         </ClientSideLink>
 
-        <HeadRegister>SIGN UP</HeadRegister>
+        <MarginDiv>
+          <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="email">
+              <h4>이메일</h4>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <Input
+                    disabled={loading}
+                    placeholder="이메일을 입력해주세요."
+                    size="large"
+                    type="email"
+                    {...field}
+                  />
+                )}
+                rules={validateEmail}
+              />
+              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+            </label>
 
-        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="email">
-            <h4>이메일</h4>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field }) => (
-                <Input
-                  disabled={loading}
-                  placeholder="이메일을 입력해주세요."
-                  size="large"
-                  type="email"
-                  {...field}
-                />
-              )}
-              rules={validateEmail}
-            />
-            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-          </label>
+            <label htmlFor="password">
+              <h4>비밀번호</h4>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <Input.Password
+                    disabled={loading}
+                    iconRender={renderPasswordInputIcon}
+                    placeholder="비밀번호를 입력해주세요."
+                    size="large"
+                    type="password"
+                    {...field}
+                  />
+                )}
+                rules={validatePassword}
+              />
+              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+            </label>
 
-          <label htmlFor="password">
-            <h4>비밀번호</h4>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field }) => (
-                <Input.Password
-                  disabled={loading}
-                  iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 입력해주세요."
-                  size="large"
-                  type="password"
-                  {...field}
-                />
-              )}
-              rules={validatePassword}
-            />
-            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-          </label>
+            <label htmlFor="password2">
+              <h4>비밀번호 확인</h4>
+              <Controller
+                control={control}
+                name="password2"
+                render={({ field }) => (
+                  <Input.Password
+                    disabled={loading}
+                    iconRender={renderPasswordInputIcon}
+                    placeholder="비밀번호를 다시 한 번 입력해주세요."
+                    size="large"
+                    type="password"
+                    {...field}
+                  />
+                )}
+                rules={validatePassword2}
+              />
+              <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
+            </label>
 
-          <label htmlFor="password2">
-            <h4>비밀번호 확인</h4>
-            <Controller
-              control={control}
-              name="password2"
-              render={({ field }) => (
-                <Input.Password
-                  disabled={loading}
-                  iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 다시 한 번 입력해주세요."
-                  size="large"
-                  type="password"
-                  {...field}
-                />
-              )}
-              rules={validatePassword2}
-            />
-            <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
-          </label>
 
-          <GridContainerColumn3>
-            <ClientSideLink href="/login">
-              <Button type="link">로그인</Button>
-            </ClientSideLink>
-
-            <ClientSideLink href="/find/email">
-              <Button type="link">아이디 찾기</Button>
-            </ClientSideLink>
-
-            <ClientSideLink href="/find/password">
-              <Button type="link">비밀번호 찾기</Button>
-            </ClientSideLink>
-          </GridContainerColumn3>
-
-          <RegisterButton disabled={loading} type="submit">
-            확인
-          </RegisterButton>
-          <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
-            구글로 계속하기
-          </SNSLoginButton>
-        </GridContainerForm>
+            <RegisterButton disabled={loading} type="submit">
+              확인
+            </RegisterButton>
+          </GridContainerForm>
+        </MarginDiv>
       </LoginPageLayout>
     </PageHead>
   )

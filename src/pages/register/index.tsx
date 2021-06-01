@@ -23,7 +23,6 @@ const GridContainerForm = styled.form`
 export const GridContainerColumn3 = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-
   margin: 0.5rem 0;
 `
 
@@ -64,9 +63,9 @@ const HeadRegister = styled.h3`
 `
 
 export const SNSLoginButton = styled.button`
-  background-color: #f1f6fa;
-  border: none;
-  color: #3c3c3c;
+  background-color: white;
+  color: #2eccba;
+  border: 1px solid #2eccba;
   text-align: center;
   text-decoration: none;
   padding: 0.5em 0.5rem;
@@ -78,9 +77,9 @@ export const SNSLoginButton = styled.button`
   transition-duration: 0.4s;
 
   &:hover {
-    background-color: #f1f6fa;
-    border: #ffc9c3;
-    color: #ffc9c3;
+    background-color: #2eccba;
+    border: white;
+    color: white;
   }
 `
 

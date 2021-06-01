@@ -75,12 +75,24 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 `
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
-  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1fr 2fr;')}
+  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1.2fr 2fr;')}
   cursor: pointer;
-  background: #ffffff;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: max(10px, 1vw);
   overflow: hidden;
+  height: 140px;
+`
+const GridText = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  padding: 9px 9px;
+  height: 100%;
+  //grid-gap: 0.1rem;
+`
+const MenuImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
@@ -338,46 +350,43 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
       <ClientSideLink href={storeReviewsPage}>
-        <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-        </ImageRatioWrapper>
+        <MenuImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
       </ClientSideLink>
 
-      <FlexContainerColumnBetween>
+      {/* <FlexContainerColumnBetween>
         <AbsolutePosition>
           {menu.favorite ? (
             <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
           ) : (
             <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
           )}
-        </AbsolutePosition>
+        </AbsolutePosition> */}
 
-        <GridContainerGap>
-          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
-            <FlexContainerAlignCenter>
-              <StoreName>{store.name}</StoreName>
-              <StyledArrowForwardIosRoundedIcon />
-            </FlexContainerAlignCenter>
-          </ClientSideLink>
+      <GridText>
+        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+          <FlexContainerAlignCenter>
+            <StoreName>{store.name}</StoreName>
+            <StyledArrowForwardIosRoundedIcon />
+          </FlexContainerAlignCenter>
+        </ClientSideLink>
 
-          <MenuName>{menu.name}</MenuName>
-          <GridContainer>
-            <FlexContainerUl>
-              {menu.hashtags?.map((hashtag) => (
-                <Fragment key={hashtag}>
-                  <li>
-                    <Link href={`/search/${hashtag.slice(1)}`}>
-                      <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                        {hashtag}
-                      </NormalA>
-                    </Link>
-                  </li>
-                  &nbsp;
-                </Fragment>
-              ))}
-            </FlexContainerUl>
-          </GridContainer>
-        </GridContainerGap>
+        <MenuName>{menu.name}</MenuName>
+        <GridContainer>
+          <FlexContainerUl>
+            {menu.hashtags?.map((hashtag) => (
+              <Fragment key={hashtag}>
+                <li>
+                  <Link href={`/search/${hashtag.slice(1)}`}>
+                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+                      {hashtag}
+                    </NormalA>
+                  </Link>
+                </li>
+                &nbsp;
+              </Fragment>
+            ))}
+          </FlexContainerUl>
+        </GridContainer>
 
         <GridContainer>
           <StyledFlexContainerBetween>
@@ -392,7 +401,8 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
           </StyledFlexContainerBetween>
           <HorizontalBorder show={isCardDetailOpened} />
         </GridContainer>
-      </FlexContainerColumnBetween>
+      </GridText>
+      {/* </FlexContainerColumnBetween> */}
 
       {isCardDetailOpened && (
         <FlexContainerWrapAround>

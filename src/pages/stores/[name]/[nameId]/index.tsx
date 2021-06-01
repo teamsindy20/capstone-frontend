@@ -2,10 +2,10 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import { Button, Checkbox, Divider, Radio } from 'antd'
 import { useRouter } from 'next/router'
-import { Fragment, useState, CSSProperties, useMemo } from 'react'
+import { Fragment, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
-import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar } from 'src/apollo/cache'
+import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar, CartMenu } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import { MenuOptionCategoryType, useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
@@ -19,6 +19,7 @@ import { formatPrice } from 'src/utils/price'
 import CountButton from 'src/components/atoms/CountButton'
 import { GridContainerGap } from 'src/styles/GridContainer'
 import { Controller, useForm } from 'react-hook-form'
+import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -117,33 +118,44 @@ function StoreMenuPage() {
   const [count, setCount] = useState(1)
   const [isAddingToCartButtonDisabled, setIsAddingToCartButtonDisabled] = useState(false)
 
-  function addToCart(selectedOptionCategories: Record<string, any>) {
+  function addToCart(selectedOptionCategories: CartMenu['optionCategories']) {
     // 아래 if문은 항상 true지만 menu와 store의 nullable을 없애기 위해 넣어줌
     if (menu && store) {
       setIsAddingToCartButtonDisabled(true)
 
       const cartStore = cartStoreVar()
-
-      if (cartStore && cartStore.id !== store.id) {
-        // TODO: 다른 매장의 메뉴를 담으면 경고 모달 띄우기
-        setCartMenus([])
-      }
-
-      setCartStore({
+      const newCartStore = {
         id: store.id,
         name: store.name,
         imageUrl: store.imageUrls ? store.imageUrls[0] : '',
-      })
-      setCartMenus([
-        ...cartMenusVar(),
-        {
-          id: menu.id,
-          name: menu.name,
-          price: menu.price,
-          count: count,
-          optionCategories: selectedOptionCategories,
-        },
-      ])
+      }
+
+      if (cartStore && cartStore.id !== newCartStore.id) {
+        // TODO: 다른 매장의 메뉴를 담으면 경고 모달 띄우기
+        setCartMenus([])
+        setCartStore(newCartStore)
+      }
+
+      const selectedCartMenu = {
+        id: `${menu.id}-${getSelectedMenuOptionIdsFrom(selectedOptionCategories)}`,
+        name: menu.name,
+        price: menu.price,
+        count: count,
+        optionCategories: selectedOptionCategories,
+      }
+      const newCartMenus = [...cartMenusVar()]
+      const existingCartMenu = newCartMenus.find(
+        (newCartMenu) => newCartMenu.id === selectedCartMenu.id
+      )
+
+      if (existingCartMenu) {
+        existingCartMenu.count++
+      } else {
+        newCartMenus.push(selectedCartMenu)
+      }
+
+      setCartMenus(newCartMenus)
+
       toast(
         <div>
           <b>{menu.name}</b> 장바구니 추가 완료!

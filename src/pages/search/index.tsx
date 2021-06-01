@@ -51,6 +51,8 @@ const PopularGrid = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   text-align: center;
+  height: auto;
+  min-height: 100px;
 `
 
 const PopularContentGrid = styled.div`

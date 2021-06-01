@@ -114,11 +114,13 @@ function CartMenuCard({ cartMenu }: Props) {
             <MenuName>{cartMenu.name}</MenuName>
             <br />
             <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
-            {Object.entries(selectedOptionCategories).map((optionCategory) => (
-              <OptionA key={optionCategory[0]}>
-                {`${optionCategory[0]} : ${formatSelectedMenuOption(optionCategory[1])}`}
-              </OptionA>
-            ))}
+            {Object.entries(selectedOptionCategories).map((optionCategory) =>
+              Array.isArray(optionCategory[1]) && optionCategory[1].length === 0 ? null : (
+                <OptionA key={optionCategory[0]}>
+                  {`${optionCategory[0]} : ${formatSelectedMenuOption(optionCategory[1])}`}
+                </OptionA>
+              )
+            )}
             <br />
             <FlexContainerBetween>
               <PriceA>총 {formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>

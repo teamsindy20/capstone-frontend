@@ -24,6 +24,7 @@ import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
+import { Button, Divider } from 'antd'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -80,19 +81,34 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: max(10px, 1vw);
   overflow: hidden;
-  height: 140px;
+  height: 160px;
+  max-height: 190px;
+  position: relative;
 `
 const GridText = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   padding: 9px 9px;
   height: 100%;
-  //grid-gap: 0.1rem;
 `
 const MenuImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`
+
+const Hashtag = styled.h4`
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #ff9a87;
+`
+
+const DetailButton = styled(Button)`
+  margin: 0;
+  type: circle;
+  border: #ffffff;
 `
 
 export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
@@ -353,14 +369,13 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         <MenuImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
       </ClientSideLink>
 
-      {/* <FlexContainerColumnBetween>
-        <AbsolutePosition>
-          {menu.favorite ? (
-            <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
-          ) : (
-            <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
-          )}
-        </AbsolutePosition> */}
+      <AbsolutePosition>
+        {menu.favorite ? (
+          <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
+        ) : (
+          <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
+        )}
+      </AbsolutePosition>
 
       <GridText>
         <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
@@ -369,26 +384,31 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
             <StyledArrowForwardIosRoundedIcon />
           </FlexContainerAlignCenter>
         </ClientSideLink>
-
         <MenuName>{menu.name}</MenuName>
-        <GridContainer>
-          <FlexContainerUl>
-            {menu.hashtags?.map((hashtag) => (
-              <Fragment key={hashtag}>
-                <li>
-                  <Link href={`/search/${hashtag.slice(1)}`}>
-                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                      {hashtag}
-                    </NormalA>
-                  </Link>
-                </li>
-                &nbsp;
-              </Fragment>
-            ))}
-          </FlexContainerUl>
-        </GridContainer>
+        <Hashtag>
+          {menu.hashtags?.map((hashtag) => (
+            <Fragment key={hashtag}>
+              <Link href={`/search/${hashtag.slice(1)}`}>
+                <NormalA
+                  href={`/search/${hashtag.slice(1)}`}
+                  onClick={(e) => e.stopPropagation()}
+                >{`${hashtag}`}</NormalA>
+              </Link>
+            </Fragment>
+          ))}
+        </Hashtag>
+        <FlexContainerBetween>
+          <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
+          <DetailButton shape="circle" onClick={toggleCardDetail}>
+            {isCardDetailOpened ? (
+              <StyledArrowDropUpRoundedIcon />
+            ) : (
+              <StyledArrowDropDownRoundedIcon />
+            )}
+          </DetailButton>
+        </FlexContainerBetween>
 
-        <GridContainer>
+        {/* <GridContainer>
           <StyledFlexContainerBetween>
             <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
             <IconButton onClick={toggleCardDetail}>
@@ -400,9 +420,9 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
             </IconButton>
           </StyledFlexContainerBetween>
           <HorizontalBorder show={isCardDetailOpened} />
-        </GridContainer>
+        </GridContainer> */}
+      <HorizontalBorder show={isCardDetailOpened} />
       </GridText>
-      {/* </FlexContainerColumnBetween> */}
 
       {isCardDetailOpened && (
         <FlexContainerWrapAround>

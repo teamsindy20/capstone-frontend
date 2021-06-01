@@ -47,7 +47,6 @@ const StoreName = styled.h3`
 `
 const Hashtag = styled.h4`
   margin: 0;
-  //height: 1rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

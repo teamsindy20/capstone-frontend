@@ -25,7 +25,6 @@ const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 0.5rem;
 `
 
 const LoginButton = styled.button`
@@ -78,12 +77,17 @@ const LogoText = styled.h2`
 const LogoColorText = styled(LogoText)`
   color: #f57961;
   display: inline;
+  font-size: 1.6rem;
 `
 const LogoImg = styled.img`
   margin: 0;
 `
 const MarginDiv = styled.div`
   margin: 1.3rem;
+`
+
+const ContinueLoginDiv = styled.div`
+  text-align: right;
 `
 
 const HeadLogin = styled.h2`
@@ -204,20 +208,25 @@ function LoginPage() {
               />
               <RedText>{errors.password ? errors.password.message : <br />}</RedText>
             </label>
-
-            <Controller
-              control={control}
-              name="remember"
-              render={({ field }) => (
-                <Checkbox checked={field.value} disabled={loading} {...field}>
-                  로그인 유지하기
-                </Checkbox>
-              )}
-            />
-
+            <ContinueLoginDiv>
+              <Controller
+                control={control}
+                name="remember"
+                render={({ field }) => (
+                  <Checkbox checked={field.value} disabled={loading} {...field}>
+                    로그인 유지
+                  </Checkbox>
+                )}
+              />
+            </ContinueLoginDiv>
+            <br />
+            <br />
             <LoginButton disabled={loading} type="submit">
               로그인
             </LoginButton>
+            <br />
+            <br />
+            <br />
             <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
               구글로 로그인
             </SNSLoginButton>

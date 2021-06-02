@@ -250,16 +250,16 @@ function HomePage() {
                   <MenuCard
                     key={menu.id}
                     afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
+                    menu={menu}
                     onlyImage={onlyImage}
                   />
                 ))}
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
             </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
@@ -333,16 +333,16 @@ function HomePage() {
                   <MenuCard
                     key={menu.id}
                     afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
+                    menu={menu}
                     onlyImage={onlyImage}
                   />
                 ))}
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
             </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
           </TabPane>
         </Tabs>
 

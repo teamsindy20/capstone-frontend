@@ -1,5 +1,9 @@
 query Store($id: ID!) {
   store(id: $id) {
     ...storeCard
+    address
+    reorderRatio
+    regularCustomerCount
+    favoriteCount
   }
 }

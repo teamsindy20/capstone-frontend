@@ -1,4 +1,4 @@
-import { Tabs, Input, Space, Select, Divider, Row, Col } from 'antd'
+import { Tabs, Input, Select, Divider } from 'antd'
 import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
@@ -6,6 +6,11 @@ import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
 import { useEffect, useState } from 'react'
+import StoreInformation from 'src/components/StoreInformation'
+import StoreTopHeader from 'src/components/StoreTopHeader'
+import { useStoreNameIdUrl } from '..'
+import { useStoreQuery } from 'src/graphql/generated/types-and-hooks'
+import { handleApolloError } from 'src/apollo/error'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
 
@@ -25,6 +30,13 @@ function handleChange(value: any) {
 
 function StoreReviewsPage() {
   const router = useRouter()
+  const { storeId, getStoreUrl } = useStoreNameIdUrl()
+
+  // store 정보는 cache-first 로 가져오기
+  const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
+
+  const store = storeQueryResult.data?.store
+  const isStoreLoading = storeQueryResult.loading
 
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -32,25 +44,18 @@ function StoreReviewsPage() {
     setSearchTerm(decodeURIComponent(window.location.search.slice(6)))
   }, [])
 
-  function goToPage(activeKey: string) {
-    switch (activeKey) {
-      case 'menus':
-        return `/stores/${router.query.name}`
-      case 'feed':
-      case 'reviews':
-        return `/stores/${router.query.name}/${activeKey}`
-      default:
-        return ''
-    }
-  }
-
   return (
     <PageHead title="디저트핏 - 매장 리뷰" description={description}>
       <PageLayout>
+        <StoreTopHeader store={store} />
+
+        <StoreInformation loading={isStoreLoading} store={store} />
+
+        <Divider />
         <Tabs
           defaultActiveKey="reviews"
-          centered /* activeKey={activeKey} centered onTabClick={setActiveKey} */
-          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          centered
+          onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
         >
           <Tabs.TabPane tab="메뉴" key="menus" />
           <Tabs.TabPane tab="소식" key="feed" />

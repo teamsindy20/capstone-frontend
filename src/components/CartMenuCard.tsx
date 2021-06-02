@@ -6,7 +6,7 @@ import { GridContainerGap } from '../styles/GridContainer'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice } from 'src/utils/price'
 import CountButton from './atoms/CountButton'
-import { getSelectedOptionsPrice } from 'src/pages/stores/[name]/[nameId]'
+import { getSelectedOptionsPrice } from 'src/pages/stores/[nameId]/[name]'
 import { DeepPartial } from 'react-hook-form'
 import { MenuOption } from 'src/graphql/generated/types-and-hooks'
 

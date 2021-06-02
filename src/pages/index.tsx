@@ -18,8 +18,8 @@ import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexC
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import {
-  useMenuLazyQuery,
   useMenusQuery,
+  useMenuFavoriteLazyQuery,
   useUserPreferencesQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
@@ -109,6 +109,19 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
+export function useRefetchMenuFavorite() {
+  const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  function refetchMenuFavorite(menuId: string) {
+    return () => menuFavoriteLazyQuery({ variables: { id: menuId } })
+  }
+
+  return refetchMenuFavorite
+}
+
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
@@ -122,21 +135,18 @@ function HomePage() {
     onError: handleApolloError,
   })
 
-  const [fetchMenu] = useMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
+  const menus = menusQueryResult.data?.menus
+  const isMenusLoading = menusQueryResult.networkStatus < 7
 
   const userPreferencesQueryResult = useUserPreferencesQuery({
     notifyOnNetworkStatusChange: true,
     skip: !user,
   })
 
-  const menus = menusQueryResult.data?.menus
-  const isMenusLoading = menusQueryResult.networkStatus < 7
-
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
+
+  const refetchMenuFavorite = useRefetchMenuFavorite()
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -249,17 +259,17 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
+                    menu={menu}
                     onlyImage={onlyImage}
                   />
                 ))}
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
             </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
@@ -332,17 +342,17 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
+                    menu={menu}
                     onlyImage={onlyImage}
                   />
                 ))}
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
             </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
           </TabPane>
         </Tabs>
 

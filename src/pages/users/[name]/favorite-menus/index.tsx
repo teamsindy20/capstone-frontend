@@ -8,13 +8,16 @@ import PageLayout from 'src/components/layouts/PageLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
-import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import {
+  useFavoriteMenusQuery,
+  useFavoriteMenusFavoriteLazyQuery,
+} from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
 import { sleep } from 'src/utils/commons'
 
-const description = ''
+const description = '내가 찜한 메뉴를 모아서 볼 수 있어요.'
 
 function UserFavoriteMenusPage() {
   const { user, loading } = useContext(GlobalContext)
@@ -22,13 +25,19 @@ function UserFavoriteMenusPage() {
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const favoriteMenusQueryResult = useFavoriteMenusQuery({
+  const { data, fetchMore, networkStatus } = useFavoriteMenusQuery({
     fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
   })
 
-  const favoriteMenus = favoriteMenusQueryResult.data?.me.favoriteMenus
+  const favoriteMenus = data?.me.favoriteMenus
+  const isFavoriteMenusLoading = networkStatus < 7
+
+  const [refetchfavoriteMenusFavorite] = useFavoriteMenusFavoriteLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
 
   async function fetchMoreMenus() {
     if (favoriteMenus?.length) {
@@ -40,7 +49,7 @@ function UserFavoriteMenusPage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: favoriteMenusQueryResult.loading,
+    loading: isFavoriteMenusLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
@@ -57,14 +66,6 @@ function UserFavoriteMenusPage() {
     }
   }
 
-  if (!user) {
-    return (
-      <PageHead title="디저트핏 - 찜 메뉴" description={description}>
-        <PageLayout>{loading ? 'user loading...' : <NotLoginModal />}</PageLayout>
-      </PageHead>
-    )
-  }
-
   return (
     <PageHead title="디저트핏 - 찜 메뉴" description={description}>
       <PageLayout>
@@ -79,28 +80,36 @@ function UserFavoriteMenusPage() {
           </Tabs>
         </TopHeader>
 
-        <Divider orientation="right">
-          <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-            사진만 보기
-          </Checkbox>
-        </Divider>
-
-        <GridContainerUl onlyImage={onlyImage}>
-          {favoriteMenus?.map((favoriteMenu) => (
-            <MenuCard
-              key={favoriteMenu.id}
-              afterPickingMenu={() => favoriteMenusQueryResult.refetch()}
-              menu={favoriteMenu as any}
-              onlyImage={onlyImage}
-            />
-          ))}
-        </GridContainerUl>
-        {loading || hasMoreMenus ? (
-          <div ref={sentryRef}>
-            <MenuLoadingCard onlyImage={onlyImage} />
-          </div>
+        {loading ? (
+          'user loading...'
+        ) : !user ? (
+          <NotLoginModal />
         ) : (
-          !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
+          <>
+            <Divider orientation="right">
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
+
+            <GridContainerUl onlyImage={onlyImage}>
+              {favoriteMenus?.map((favoriteMenu) => (
+                <MenuCard
+                  key={favoriteMenu.id}
+                  afterPickingMenu={refetchfavoriteMenusFavorite}
+                  menu={favoriteMenu}
+                  onlyImage={onlyImage}
+                />
+              ))}
+              {isFavoriteMenusLoading || hasMoreMenus ? (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              ) : (
+                !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
+              )}
+            </GridContainerUl>
+          </>
         )}
       </PageLayout>
     </PageHead>

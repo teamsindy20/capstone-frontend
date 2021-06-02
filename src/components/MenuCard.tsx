@@ -12,7 +12,7 @@ import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { Menu, MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
@@ -20,55 +20,7 @@ import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
 import { Button } from 'antd'
 import Image from 'next/image'
-
-export const SkeletonGradient = styled.div`
-  background: #eee;
-  overflow: hidden;
-
-  ::before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -30vw;
-    top: 0;
-    height: 100%;
-    width: 30vw;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.4) 25%,
-      rgba(255, 255, 255, 0.5) 50%,
-      rgba(255, 255, 255, 0.4) 75%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    animation: shine 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-
-  @keyframes shine {
-    0% {
-      left: -30vw;
-    }
-    66% {
-      left: 100%;
-    }
-    100% {
-      left: 100%;
-    }
-  }
-`
-
-export const SkeletonImage = styled(SkeletonGradient)`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`
-
-export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: string }>`
-  position: relative;
-  width: ${({ width = '100%' }) => width};
-  height: ${({ height = '1rem' }) => height};
-`
+import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
@@ -113,9 +65,7 @@ const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
 
 const StoreName = styled.h5`
   font-size: 0.9rem;
-  font-weight: normal;
   color: #929393;
-  margin: 0;
 `
 
 const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
@@ -126,8 +76,6 @@ const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
 
 const MenuName = styled.h4`
   font-size: 1rem;
-  font-weight: bold;
-  margin: 0;
 `
 
 export const Hashtags = styled.ul`
@@ -137,8 +85,7 @@ export const Hashtags = styled.ul`
   overflow: hidden;
 `
 
-export const Hashtag = styled.h4`
-  margin: 0;
+export const Hashtag = styled.h5`
   font-size: 0.9rem;
   color: #ff9a87;
   white-space: nowrap;
@@ -150,8 +97,6 @@ const FlexContainerRelativePosition = styled.div`
 `
 
 const MenuPrice = styled.h3`
-  margin: 0;
-  font-weight: normal;
   font-size: 1.1rem;
 `
 
@@ -230,11 +175,12 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   afterPickingMenu: () => void
-  menu: Menu
+  hideStoreName?: boolean
+  menu: MenuCardFragment
   onlyImage: boolean
 }
 
-function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   const toastId = useRef<ReactText>('')
   const [isCardDetailOpened, toggleCardDetail] = useBoolean(false)
 
@@ -276,7 +222,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}`)
   const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
@@ -311,12 +257,14 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
       <FlexContainerBetweenColumn>
         <div>
-          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
-            <FlexContainerAlignCenter>
-              <StoreName>{store.name}</StoreName>&nbsp;
-              <StyledArrowForwardIosRoundedIcon />
-            </FlexContainerAlignCenter>
-          </ClientSideLink>
+          {!hideStoreName && (
+            <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+              <FlexContainerAlignCenter>
+                <StoreName>{store.name}</StoreName>&nbsp;
+                <StyledArrowForwardIosRoundedIcon />
+              </FlexContainerAlignCenter>
+            </ClientSideLink>
+          )}
 
           <AbsolutePositionTopRight>
             {menu.favorite ? (

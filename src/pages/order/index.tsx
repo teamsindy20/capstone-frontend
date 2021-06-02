@@ -126,6 +126,8 @@ function OrderPage() {
     )
   }
 
+  const deliveryAddress = '서울시 동작구 흑석동 221 208관 1층'
+
   return (
     <PageHead title={title} description={description}>
       <TopHeader>
@@ -151,7 +153,7 @@ function OrderPage() {
             <Tooltip defaultVisible title="이 주소가 맞으신가요?">
               <NoMarginH3>
                 <EnvironmentOutlined />
-                동작구 흑석동 221 208관 1층
+                {deliveryAddress}
               </NoMarginH3>
             </Tooltip>
             <Button>변경</Button>

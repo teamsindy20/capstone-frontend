@@ -109,7 +109,7 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
-export function useRefetchingMenuFavorite() {
+export function useRefetchMenuFavorite() {
   const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
@@ -146,7 +146,7 @@ function HomePage() {
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
 
-  const refetchMenuFavorite = useRefetchingMenuFavorite()
+  const refetchMenuFavorite = useRefetchMenuFavorite()
 
   async function fetchMoreMenus() {
     if (menus?.length) {

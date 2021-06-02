@@ -3,13 +3,7 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import {
-  AbsolutePositionImage,
-  ImageRatioWrapper,
-  SkeletonGradient,
-  SkeletonImage,
-  SkeletonText,
-} from './MenuCard'
+import { SkeletonGradient, SkeletonImage, SkeletonText, SquareFrame } from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
@@ -106,10 +100,6 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-const FlexContainerBottomCard = styled.div`
-  display: flex;
-`
-
 export function PostLoadingCard() {
   return (
     <ShadowingLi>
@@ -120,9 +110,9 @@ export function PostLoadingCard() {
         </GridContainerColumn2>
       </FlexContainerBetweenPadding>
 
-      <ImageRatioWrapper paddingTop="100%">
+      <SquareFrame>
         <SkeletonImage />
-      </ImageRatioWrapper>
+      </SquareFrame>
 
       <GridContainerPadding>
         <SkeletonText height="1.5rem" />

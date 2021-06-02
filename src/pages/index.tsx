@@ -25,7 +25,7 @@ import {
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { GlobalContext } from './_app'
-import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
@@ -60,7 +60,6 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   //font-color: #3c3c3c;
 `
-const { Option } = Select
 
 const PreferenceText = styled.div`
   text-align: center;

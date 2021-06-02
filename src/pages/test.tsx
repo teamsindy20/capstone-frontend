@@ -1,4 +1,3 @@
-import React from 'react'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import NewCard from 'src/components/NewCard'

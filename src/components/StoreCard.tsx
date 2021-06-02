@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {
   StoreCardFragment,
@@ -7,14 +6,14 @@ import {
 } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
-import { NormalA } from './MenuCard'
 import { Button, Layout } from 'antd'
-import { Fragment } from 'react'
 import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import { handleApolloError } from 'src/apollo/error'
 import { toast } from 'react-toastify'
+import ClientSideLink from './atoms/ClientSideLink'
+import { Hashtags } from './MenuCard'
 
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.8rem !important;
@@ -36,6 +35,7 @@ const Li = styled.li`
 `
 
 const GridText = styled.div`
+  position: relative;
   display: grid;
   grid-template-rows: 1fr 1fr 2fr;
   margin: 9px 10px;
@@ -161,30 +161,20 @@ function StoreCard({ store }: Props) {
       <StoreImage src={store.imageUrls ? store.imageUrls[0] : ''} alt="StoreImage" />
       <GridText>
         <StoreName>{store.name}</StoreName>
-        <Hashtag>
+
+        <Hashtags>
           {store.hashtags?.map((hashtag) => (
-            <Fragment key={hashtag}>
-              <Link href={`/search/${hashtag.slice(1)}`}>
-                <NormalA
-                  href={`/search/${hashtag.slice(1)}`}
-                  onClick={(e) => e.stopPropagation()}
-                >{`${hashtag}`}</NormalA>
-              </Link>
-            </Fragment>
+            <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+              <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
+            </ClientSideLink>
           ))}
-        </Hashtag>
+        </Hashtags>
+
         <div>
+          <NoMarginText>배달팁 {store.deliveryCharge}원</NoMarginText>
+          <NoMarginText>최소주문금액 {store.minimumDeliveryAmount}원</NoMarginText>
           <NoMarginText>
-            배달팁 &nbsp;
-            {store.deliveryCharge}원
-          </NoMarginText>
-          <NoMarginText>
-            최소주문금액 &nbsp;
-            {store.minimumDeliveryAmount}원
-          </NoMarginText>
-          <NoMarginText>
-            예상시간 &nbsp;
-            {store.minimumDeliveryTime}-{store.maximumDeliveryTime}분
+            예상시간 {store.minimumDeliveryTime}-{store.maximumDeliveryTime}분
           </NoMarginText>
         </div>
       </GridText>

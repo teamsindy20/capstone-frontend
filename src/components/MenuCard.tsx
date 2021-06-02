@@ -1,30 +1,24 @@
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
-import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded'
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
-import IconButton from '@material-ui/core/IconButton'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { Fragment, MouseEvent, ReactText, useRef } from 'react'
+import { MouseEvent, ReactText, useRef } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
-import { GridContainerGap } from '../styles/GridContainer'
-import { CHOCO_COLOR } from 'src/models/constants'
-import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
-import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
-import { Button, Divider } from 'antd'
+import { Button } from 'antd'
 import Image from 'next/image'
 
 export const SkeletonGradient = styled.div`
@@ -87,7 +81,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
 `
 
-const SquareFrame = styled.div`
+export const SquareFrame = styled.div`
   padding-top: 100%;
   position: relative;
 `
@@ -124,14 +118,14 @@ const MenuName = styled.h4`
   margin: 0;
 `
 
-const Hashtags = styled.ul`
+export const Hashtags = styled.ul`
   position: absolute;
   width: calc(100% - 2rem);
   display: flex;
   overflow: hidden;
 `
 
-const Hashtag = styled.h4`
+export const Hashtag = styled.h4`
   margin: 0;
   font-size: 0.9rem;
   color: #ff9a87;
@@ -182,6 +176,12 @@ const VerticalBorder = styled.div`
 const NormalH5 = styled.h5`
   margin: 0;
   font-weight: normal;
+`
+
+const FlexContainerWrapAround = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 `
 
 type Props2 = {
@@ -319,9 +319,9 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
           <MenuName>{menu.name}</MenuName>
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
-              // <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-              <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
-              // </ClientSideLink>
+              <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
+              </ClientSideLink>
             ))}
           </Hashtags>
           <br />

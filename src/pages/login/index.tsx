@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox } from 'antd'
+import { Input, Button, Checkbox, Divider, Modal } from 'antd'
 import { useCallback, useContext } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
@@ -12,7 +12,6 @@ import {
   GridContainerColumn3,
   HeadMessage,
   RedText,
-  SNSLoginButton,
   validateEmail,
   validatePassword,
 } from '../register'
@@ -26,13 +25,12 @@ const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 0.5rem;
 `
 
 const LoginButton = styled.button`
-  background-color: #ffc9c3;
-  border: none;
-  color: #3c3c3c;
+  background-color: #ff9a88;
+  border: 1px solid #ff9a88;
+  color: white;
   text-align: center;
   text-decoration: none;
   padding: 0.5em 0.5rem;
@@ -44,10 +42,52 @@ const LoginButton = styled.button`
   transition-duration: 0.4s;
 
   &:hover {
-    background-color: #f1f6fa;
-    border: #ffc9c3;
-    color: #ffc9c3;
+    background-color: white;
+    border: #ff9a88;
+    color: #ff9a88;
   }
+`
+
+const SNSLoginButton = styled.button`
+  background-color: white;
+  color: #2eccba;
+  border: 1px solid #2eccba;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5em 0.5rem;
+  font-size: 1rem;
+  margin: 1px 1px;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: inline-block;
+  transition-duration: 0.4s;
+
+  &:hover {
+    background-color: #2eccba;
+    border: white;
+    color: white;
+  }
+`
+const LogoText = styled.h2`
+  color: #ff9a87;
+  text-align: center;
+  line-height: 1.5;
+  margin: 6rem auto 3rem;
+`
+const LogoColorText = styled(LogoText)`
+  color: #f57961;
+  display: inline;
+  font-size: 1.6rem;
+`
+const LogoImg = styled.img`
+  margin: 0;
+`
+const MarginDiv = styled.div`
+  margin: 1.3rem;
+`
+
+const ContinueLoginDiv = styled.div`
+  text-align: right;
 `
 
 const HeadLogin = styled.h2`
@@ -56,6 +96,13 @@ const HeadLogin = styled.h2`
   font-weight: 3rem;
   margin: 1rem 1rem 0.2rem;
   letter-spacing: 0.3rem;
+`
+const RegisterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
 `
 
 const PASSWORD_INPUT_ICONS = [
@@ -115,87 +162,86 @@ function LoginPage() {
     <PageHead>
       <LoginPageLayout>
         <ClientSideLink href="/">
-          <HeadMessage>
-            내게 딱 맞는
+          <LogoText>
+            <LogoImg src="/DessertFit.png" />
             <br />
-            디저트 Fit!
-          </HeadMessage>
+            디저트<LogoColorText>Fit</LogoColorText>
+          </LogoText>
         </ClientSideLink>
+        <MarginDiv>
+          <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="email">
+              <h4>이메일</h4>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <Input
+                    disabled={loading}
+                    placeholder="이메일을 입력해주세요."
+                    size="large"
+                    type="email"
+                    {...field}
+                  />
+                )}
+                rules={validateEmail}
+              />
+              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+            </label>
 
-        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-          <HeadLogin>LOGIN</HeadLogin>
-
-          <label htmlFor="email">
-            <h4>이메일</h4>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field }) => (
-                <Input
-                  disabled={loading}
-                  placeholder="이메일을 입력해주세요."
-                  size="large"
-                  type="email"
-                  {...field}
-                />
-              )}
-              rules={validateEmail}
-            />
-            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-          </label>
-
-          <label htmlFor="password">
-            <h4>비밀번호</h4>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field }) => (
-                <Input.Password
-                  disabled={loading}
-                  iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 입력해주세요."
-                  size="large"
-                  type="password"
-                  {...field}
-                />
-              )}
-              rules={validatePassword}
-            />
-            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-          </label>
-
-          <Controller
-            control={control}
-            name="remember"
-            render={({ field }) => (
-              <Checkbox checked={field.value} disabled={loading} {...field}>
-                로그인 유지하기
-              </Checkbox>
-            )}
-          />
-
-          <GridContainerColumn3>
-            <ClientSideLink href="/register">
-              <Button type="link">회원가입</Button>
-            </ClientSideLink>
-            <ClientSideLink href="/find/email">
-              <Button type="link">아이디 찾기</Button>
-            </ClientSideLink>
-            <ClientSideLink href="/find/password">
-              <Button type="link">비밀번호 찾기</Button>
-            </ClientSideLink>
-          </GridContainerColumn3>
-
-          <LoginButton disabled={loading} type="submit">
-            로그인
-          </LoginButton>
-          <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
-            구글로 로그인하기
-          </SNSLoginButton>
-          <SNSLoginButton type="button">페이스북으로 로그인하기</SNSLoginButton>
-          <SNSLoginButton type="button">네이버로 로그인하기</SNSLoginButton>
-          <SNSLoginButton type="button">카카오톡으로 로그인하기</SNSLoginButton>
-        </GridContainerForm>
+            <label htmlFor="password">
+              <h4>비밀번호</h4>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <Input.Password
+                    disabled={loading}
+                    iconRender={renderPasswordInputIcon}
+                    placeholder="비밀번호를 입력해주세요."
+                    size="large"
+                    type="password"
+                    {...field}
+                  />
+                )}
+                rules={validatePassword}
+              />
+              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+            </label>
+            <ContinueLoginDiv>
+              <Controller
+                control={control}
+                name="remember"
+                render={({ field }) => (
+                  <Checkbox checked={field.value} disabled={loading} {...field}>
+                    로그인 유지
+                  </Checkbox>
+                )}
+              />
+            </ContinueLoginDiv>
+            <br />
+            <br />
+            <LoginButton disabled={loading} type="submit">
+              로그인
+            </LoginButton>
+            <br />
+            <br />
+            <br />
+            <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
+              구글로 로그인
+            </SNSLoginButton>
+            {/* <SNSLoginButton type="button">간편 로그인</SNSLoginButton> */}
+            <RegisterDiv>
+              <ClientSideLink href="/register">
+                <Button type="link">회원가입</Button>
+              </ClientSideLink>
+              <Divider type="vertical" />
+              <ClientSideLink href="/find/password">
+                <Button type="link">비밀번호 찾기</Button>
+              </ClientSideLink>
+            </RegisterDiv>
+          </GridContainerForm>
+        </MarginDiv>
       </LoginPageLayout>
     </PageHead>
   )

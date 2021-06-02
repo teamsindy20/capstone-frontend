@@ -11,6 +11,7 @@ import ClientSideLink from './atoms/ClientSideLink'
 import { Hashtag, Hashtags, SquareFrame } from './MenuCard'
 import { useRef, ReactText } from 'react'
 import Image from 'next/image'
+import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 
 const GridContainerLi = styled.li`
   display: grid;
@@ -62,6 +63,23 @@ const AbsolutePositionBottomRight = styled.div`
   bottom: 0.3rem;
   right: 0.3rem;
 `
+
+export function StoreLoadingCard() {
+  return (
+    <GridContainerLi>
+      <SquareFrame>
+        <SkeletonImage />
+      </SquareFrame>
+
+      <FlexContainerBetweenColumn>
+        <SkeletonText width="80%" />
+        <SkeletonText width="50%" height="0.9rem" />
+        <SkeletonText width="30%" height="0.9rem" />
+        <SkeletonText width="30%" height="0.9rem" />
+      </FlexContainerBetweenColumn>
+    </GridContainerLi>
+  )
+}
 
 type Props = {
   afterPickingStore: () => void

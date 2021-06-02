@@ -3,7 +3,8 @@ import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import {
   MarginDiv,
   HeadMessage,
-  GridContainerForm, RedText,
+  GridContainerForm,
+  RedText,
   validateEmail,
   validatePassword,
 } from '../../register'
@@ -42,8 +43,7 @@ function FindPasswordPage() {
         <HeadMessage>비밀번호 찾기</HeadMessage>
         <MarginDiv>
           <GridContainerForm>
-
-          <FindPWButton>확인</FindPWButton>
+            <FindPWButton>확인</FindPWButton>
           </GridContainerForm>
         </MarginDiv>
       </LoginPageLayout>

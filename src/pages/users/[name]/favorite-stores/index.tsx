@@ -8,33 +8,36 @@ import { useFavoriteStoresQuery } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { GlobalContext } from '../../../_app'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import useBoolean from 'src/hooks/useBoolean'
 import { sleep } from 'src/utils/commons'
 import { Tabs } from 'antd'
 import { useRouter } from 'next/router'
 import TopHeader from 'src/components/TopHeader'
 
-const GridContainer = styled.div`
+const GridContainerUl = styled.ul`
   display: grid;
   gap: 0.5rem;
   margin: 0.5rem 0.5rem;
 `
 
-const description = '내가 찜한 매장 및 찜한 메뉴를 모아서 볼 수 있어요.'
+const description = '내가 찜한 매장을 모아서 볼 수 있어요.'
 
 function UserFavoritesPage() {
   const { user, loading } = useContext(GlobalContext)
 
-  const [onlyImage, toggleOnlyImage] = useBoolean(false)
   const [hasMoreStores, setHasMoreStores] = useState(true)
 
-  const { data, loading: isFavoriteStoresLoading } = useFavoriteStoresQuery({
+  const { data, networkStatus, refetch } = useFavoriteStoresQuery({
     fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
   })
 
   const favoriteStores = data?.me.favoriteStores
+  const isFavoriteStoresLoading = networkStatus < 7
+
+  function refetchFavoriteStores() {
+    refetch()
+  }
 
   async function fetchMoreStores() {
     if (favoriteStores?.length) {
@@ -66,7 +69,19 @@ function UserFavoritesPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 찜 매장" description={description}>
-        <PageLayout>{loading ? 'user loading...' : <NotLoginModal />}</PageLayout>
+        <PageLayout>
+          <TopHeader>
+            <Tabs
+              defaultActiveKey="favorite-stores"
+              centered
+              onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+            >
+              <Tabs.TabPane tab="메뉴" key="favorite-menus" />
+              <Tabs.TabPane tab="매장" key="favorite-stores" />
+            </Tabs>
+          </TopHeader>
+          {loading ? 'user loading...' : <NotLoginModal />}
+        </PageLayout>
       </PageHead>
     )
   }
@@ -85,12 +100,20 @@ function UserFavoritesPage() {
           </Tabs>
         </TopHeader>
 
-        <GridContainer>
+        <GridContainerUl>
           {favoriteStores?.map((regularStore) => (
-            <StoreCard key={regularStore.id} store={regularStore} />
+            <StoreCard
+              key={regularStore.id}
+              afterPickingStore={refetchFavoriteStores}
+              store={regularStore}
+            />
           ))}
-          {!favoriteStores?.length && <h4>찜한 매장이 없어요</h4>}
-        </GridContainer>
+          {isFavoriteStoresLoading || hasMoreStores ? (
+            <div ref={sentryRef}>{/* <StoreLoadingCard /> */}</div>
+          ) : (
+            !favoriteStores?.length && <h4>찜한 매장이 없어요</h4>
+          )}
+        </GridContainerUl>
       </PageLayout>
     </PageHead>
   )

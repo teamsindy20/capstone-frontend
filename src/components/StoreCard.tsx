@@ -1,13 +1,8 @@
 import { useRouter } from 'next/router'
-import {
-  StoreCardFragment,
-  usePickStoreMutation,
-  useStoreLazyQuery,
-} from 'src/graphql/generated/types-and-hooks'
+import { StoreCardFragment, usePickStoreMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
-import { Button, Layout } from 'antd'
-import { HeartOutlined, HeartFilled } from '@ant-design/icons'
+import { FlexContainerBetween } from '../styles/FlexContainer'
+import { Button } from 'antd'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import { handleApolloError } from 'src/apollo/error'
@@ -25,7 +20,7 @@ const GridContainerLi = styled.li`
 
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  /* border-radius: min(20px, 2vw); */
+  border-radius: max(10px, 1vw);
 `
 
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
@@ -48,7 +43,7 @@ const FlexContainerBetweenColumn = styled(FlexContainerBetween)`
 `
 
 const StoreName = styled.h3`
-  margin: 0;
+  font-size: 1.1rem;
 `
 
 const AbsolutePositionTopRight = styled.div`
@@ -58,7 +53,7 @@ const AbsolutePositionTopRight = styled.div`
 `
 
 const NoMarginText = styled.h5`
-  margin: 0;
+  font-size: 0.9rem;
   color: #a8a8a8;
 `
 
@@ -69,17 +64,13 @@ const AbsolutePositionBottomRight = styled.div`
 `
 
 type Props = {
+  afterPickingStore: () => void
   store: StoreCardFragment
 }
 
-function StoreCard({ store }: Props) {
+function StoreCard({ afterPickingStore, store }: Props) {
   const toastId = useRef<ReactText>('')
   const router = useRouter()
-
-  const [fetchStore, { loading: isStoreLoading }] = useStoreLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
 
   const [pickStore, { loading: isPickingStoreLoading }] = usePickStoreMutation({
     onCompleted: (data) => {
@@ -89,7 +80,7 @@ function StoreCard({ store }: Props) {
 
       if (data.pickStore) {
         if (toastId.current) toast.dismiss(toastId.current)
-        toastId.current = toast.success(
+        toastId.current = toast(
           <div>
             <b>{store.name}</b>을 찜했어요
             <button onClick={restorePicking}>되돌리기</button>
@@ -97,14 +88,15 @@ function StoreCard({ store }: Props) {
         )
       } else {
         if (toastId.current) toast.dismiss(toastId.current)
-        toastId.current = toast.success(
+        toastId.current = toast(
           <div>
             <b>{store.name}</b>의 찜을 해제했어요
             <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       }
-      fetchStore({ variables: { id: store.id } })
+
+      afterPickingStore()
     },
     onError: handleApolloError,
   })

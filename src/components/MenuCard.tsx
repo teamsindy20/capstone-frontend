@@ -12,7 +12,7 @@ import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { Menu, MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
@@ -113,9 +113,7 @@ const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
 
 const StoreName = styled.h5`
   font-size: 0.9rem;
-  font-weight: normal;
   color: #929393;
-  margin: 0;
 `
 
 const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
@@ -126,8 +124,6 @@ const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
 
 const MenuName = styled.h4`
   font-size: 1rem;
-  font-weight: bold;
-  margin: 0;
 `
 
 export const Hashtags = styled.ul`
@@ -137,8 +133,7 @@ export const Hashtags = styled.ul`
   overflow: hidden;
 `
 
-export const Hashtag = styled.h4`
-  margin: 0;
+export const Hashtag = styled.h5`
   font-size: 0.9rem;
   color: #ff9a87;
   white-space: nowrap;
@@ -150,8 +145,6 @@ const FlexContainerRelativePosition = styled.div`
 `
 
 const MenuPrice = styled.h3`
-  margin: 0;
-  font-weight: normal;
   font-size: 1.1rem;
 `
 
@@ -230,7 +223,7 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   afterPickingMenu: () => void
-  menu: Menu
+  menu: MenuCardFragment
   onlyImage: boolean
 }
 

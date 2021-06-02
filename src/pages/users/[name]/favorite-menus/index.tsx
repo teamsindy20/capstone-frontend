@@ -14,7 +14,7 @@ import { GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
 import { sleep } from 'src/utils/commons'
 
-const description = ''
+const description = '내가 찜한 메뉴를 모아서 볼 수 있어요.'
 
 function UserFavoriteMenusPage() {
   const { user, loading } = useContext(GlobalContext)
@@ -22,13 +22,18 @@ function UserFavoriteMenusPage() {
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const favoriteMenusQueryResult = useFavoriteMenusQuery({
+  const { data, networkStatus, refetch } = useFavoriteMenusQuery({
     fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
   })
 
-  const favoriteMenus = favoriteMenusQueryResult.data?.me.favoriteMenus
+  const favoriteMenus = data?.me.favoriteMenus
+  const isFavoriteMenusLoading = networkStatus < 7
+
+  function refetchFavoriteMenus() {
+    refetch()
+  }
 
   async function fetchMoreMenus() {
     if (favoriteMenus?.length) {
@@ -40,7 +45,7 @@ function UserFavoriteMenusPage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: favoriteMenusQueryResult.loading,
+    loading: isFavoriteMenusLoading,
     hasNextPage: hasMoreMenus,
     onLoadMore: fetchMoreMenus,
   })
@@ -60,7 +65,19 @@ function UserFavoriteMenusPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 찜 메뉴" description={description}>
-        <PageLayout>{loading ? 'user loading...' : <NotLoginModal />}</PageLayout>
+        <PageLayout>
+          <TopHeader>
+            <Tabs
+              defaultActiveKey="favorite-menus"
+              centered
+              onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+            >
+              <Tabs.TabPane tab="메뉴" key="favorite-menus" />
+              <Tabs.TabPane tab="매장" key="favorite-stores" />
+            </Tabs>
+          </TopHeader>
+          {loading ? 'user loading...' : <NotLoginModal />}
+        </PageLayout>
       </PageHead>
     )
   }
@@ -79,28 +96,36 @@ function UserFavoriteMenusPage() {
           </Tabs>
         </TopHeader>
 
-        <Divider orientation="right">
-          <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-            사진만 보기
-          </Checkbox>
-        </Divider>
-
-        <GridContainerUl onlyImage={onlyImage}>
-          {favoriteMenus?.map((favoriteMenu) => (
-            <MenuCard
-              key={favoriteMenu.id}
-              afterPickingMenu={() => favoriteMenusQueryResult.refetch()}
-              menu={favoriteMenu as any}
-              onlyImage={onlyImage}
-            />
-          ))}
-        </GridContainerUl>
-        {loading || hasMoreMenus ? (
-          <div ref={sentryRef}>
-            <MenuLoadingCard onlyImage={onlyImage} />
-          </div>
+        {loading ? (
+          'user loading...'
+        ) : !user ? (
+          <NotLoginModal />
         ) : (
-          !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
+          <>
+            <Divider orientation="right">
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
+
+            <GridContainerUl onlyImage={onlyImage}>
+              {favoriteMenus?.map((favoriteMenu) => (
+                <MenuCard
+                  key={favoriteMenu.id}
+                  afterPickingMenu={refetchFavoriteMenus}
+                  menu={favoriteMenu}
+                  onlyImage={onlyImage}
+                />
+              ))}
+              {isFavoriteMenusLoading || hasMoreMenus ? (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              ) : (
+                !favoriteMenus?.length && <h4>찜한 메뉴가 없어요</h4>
+              )}
+            </GridContainerUl>
+          </>
         )}
       </PageLayout>
     </PageHead>

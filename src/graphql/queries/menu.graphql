@@ -1,5 +1,23 @@
-query Menu($id: ID!) {
-  menu(id: $id) {
+query Menu($storeId: ID!, $name: String!) {
+  menuByName(storeId: $storeId, name: $name) {
     ...menuCard
+    content
+    optionCategories {
+      id
+      name
+      type
+      isNecessary
+      menuOptions {
+        id
+        name
+        price
+      }
+    }
+    store {
+      id
+      name
+      minimumDeliveryAmount
+      imageUrls
+    }
   }
 }

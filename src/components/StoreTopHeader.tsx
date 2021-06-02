@@ -1,17 +1,33 @@
-import React, { useRef, ReactText } from 'react'
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
+import { HeartOutlined, BellOutlined } from '@ant-design/icons'
+import { grey } from '@material-ui/core/colors'
+import { Tooltip, Button } from 'antd'
+import { useRef, ReactText } from 'react'
 import { toast } from 'react-toastify'
 import { handleApolloError } from 'src/apollo/error'
 import { usePickStoreMutation, useStoreLazyQuery } from 'src/graphql/generated/types-and-hooks'
 import useGoBack from 'src/hooks/useGoBack'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import styled from 'styled-components'
+import TopHeader from './TopHeader'
+import { useStoreNameIdUrl } from 'src/pages/stores/[nameId]'
+
+const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
+  align-items: center;
+  height: 100%;
+`
+
+const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 type Props = {
-  store: string
+  store: any
 }
 
 function StoreTopHeader({ store }: Props) {
   const goBack = useGoBack()
+  const { storeId } = useStoreNameIdUrl()
 
-  const [storeLazyQuery, { loading: isStoreLoading }] = useStoreLazyQuery({
+  const [storeLazyQuery] = useStoreLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
@@ -21,7 +37,7 @@ function StoreTopHeader({ store }: Props) {
   const [pickStore, { loading }] = usePickStoreMutation({
     onCompleted: (data) => {
       function restorePicking() {
-        pickStore({ variables: { id: store.id } })
+        pickStore({ variables: { id: storeId } })
       }
 
       if (data.pickStore) {
@@ -42,7 +58,7 @@ function StoreTopHeader({ store }: Props) {
         )
       }
 
-      storeLazyQuery({ variables: { id: store.id } }) // storeId는 button disabled 로 항상 not null
+      storeLazyQuery({ variables: { id: storeId } }) // storeId는 button disabled 로 항상 not null
     },
     onError: handleApolloError,
   })
@@ -51,7 +67,7 @@ function StoreTopHeader({ store }: Props) {
     <TopHeader>
       <FlexContainerBetweenCenter>
         <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
-        <div>{store.name}</div>
+        <div>{store?.name}</div>
         <FlexContainerAlignCenter>
           <Tooltip title="매장 찜하기">
             <Button
@@ -59,7 +75,7 @@ function StoreTopHeader({ store }: Props) {
               icon={<HeartOutlined />}
               disabled={loading}
               onClick={() => {
-                pickStore({ variables: { id: store.id } })
+                pickStore({ variables: { id: storeId } })
               }}
             />
           </Tooltip>

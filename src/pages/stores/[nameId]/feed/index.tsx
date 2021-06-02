@@ -1,19 +1,19 @@
 import { Tabs, Divider } from 'antd'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import PostCard, { PostLoadingCard } from 'src/components/PostCard'
 import { HorizontalBorder } from 'src/components/TopHeader'
-import { usePostsByStoreQuery } from 'src/graphql/generated/types-and-hooks'
+import { usePostsByStoreQuery, useStoreQuery } from 'src/graphql/generated/types-and-hooks'
 import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import StoreInformation from 'src/components/StoreInformation'
 import StoreTopHeader from 'src/components/StoreTopHeader'
-import useStoreNameIdUrl from 'src/hooks/useStoreNameIdUrl'
+import { useStoreNameIdUrl } from '..'
 
 const Div = styled.div`
   overflow: scroll hidden;
@@ -37,6 +37,12 @@ const description = '매장의 소식을 확인해보세요'
 function StoreFeedPage() {
   const router = useRouter()
   const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
+
+  // store 정보는 cache-first 로 가져오기
+  const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
+
+  const store = storeQueryResult.data?.store
+  const isStoreLoading = storeQueryResult.loading
 
   const { data, networkStatus } = usePostsByStoreQuery({
     notifyOnNetworkStatusChange: true,
@@ -69,7 +75,7 @@ function StoreFeedPage() {
       <PageLayout>
         <StoreTopHeader store={store} />
 
-        <StoreInformation store={store} />
+        <StoreInformation loading={isStoreLoading} store={store} />
 
         <Tabs
           defaultActiveKey="feed"

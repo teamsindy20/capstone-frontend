@@ -1,15 +1,16 @@
-import { Tabs, Input, Space, Select, Divider, Row, Col } from 'antd'
+import { Tabs, Input, Select, Divider } from 'antd'
 import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
-import React, { useEffect, useState } from 'react'
-import useStoreNameIdUrl from 'src/hooks/useStoreNameIdUrl'
+import { useEffect, useState } from 'react'
 import StoreInformation from 'src/components/StoreInformation'
 import StoreTopHeader from 'src/components/StoreTopHeader'
-import { store } from 'src/models/mock-data'
+import { useStoreNameIdUrl } from '..'
+import { useStoreQuery } from 'src/graphql/generated/types-and-hooks'
+import { handleApolloError } from 'src/apollo/error'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
 
@@ -29,7 +30,13 @@ function handleChange(value: any) {
 
 function StoreReviewsPage() {
   const router = useRouter()
-  const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
+  const { storeId, getStoreUrl } = useStoreNameIdUrl()
+
+  // store 정보는 cache-first 로 가져오기
+  const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
+
+  const store = storeQueryResult.data?.store
+  const isStoreLoading = storeQueryResult.loading
 
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -42,7 +49,7 @@ function StoreReviewsPage() {
       <PageLayout>
         <StoreTopHeader store={store} />
 
-        <StoreInformation store={store} />
+        <StoreInformation loading={isStoreLoading} store={store} />
 
         <Divider />
         <Tabs

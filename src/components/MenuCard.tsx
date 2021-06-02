@@ -175,11 +175,12 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   afterPickingMenu: () => void
+  hideStoreName?: boolean
   menu: MenuCardFragment
   onlyImage: boolean
 }
 
-function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   const toastId = useRef<ReactText>('')
   const [isCardDetailOpened, toggleCardDetail] = useBoolean(false)
 
@@ -221,7 +222,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}`)
   const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
@@ -256,12 +257,14 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
       <FlexContainerBetweenColumn>
         <div>
-          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
-            <FlexContainerAlignCenter>
-              <StoreName>{store.name}</StoreName>&nbsp;
-              <StyledArrowForwardIosRoundedIcon />
-            </FlexContainerAlignCenter>
-          </ClientSideLink>
+          {!hideStoreName && (
+            <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+              <FlexContainerAlignCenter>
+                <StoreName>{store.name}</StoreName>&nbsp;
+                <StyledArrowForwardIosRoundedIcon />
+              </FlexContainerAlignCenter>
+            </ClientSideLink>
+          )}
 
           <AbsolutePositionTopRight>
             {menu.favorite ? (

@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar, CartMenu } from 'src/apollo/cache'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import { MenuOptionCategoryType, useMenuDetailQuery } from 'src/graphql/generated/types-and-hooks'
+import { MenuOptionCategoryType, useMenuQuery } from 'src/graphql/generated/types-and-hooks'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerAlignCenter, FlexContainerBetween } from 'src/styles/FlexContainer'
@@ -20,6 +20,7 @@ import CountButton from 'src/components/atoms/CountButton'
 import { GridContainerGap } from 'src/styles/GridContainer'
 import { Controller, useForm } from 'react-hook-form'
 import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
+import { useStoreNameIdUrl } from '..'
 
 const description = '메뉴 세부 정보를 확인해보세요'
 
@@ -101,18 +102,20 @@ export function getSelectedOptionsPrice(a: { [x: string]: any }): number {
 
 function StoreMenuPage() {
   const router = useRouter()
-  const menuNameId = (router.query.nameId as string | undefined) ?? ''
-  const menuId = menuNameId.substring(menuNameId.lastIndexOf('-') + 1)
+  const { storeId } = useStoreNameIdUrl()
+  const menuName = (router.query.name ?? '') as string
 
-  const { data, loading, error } = useMenuDetailQuery({
+  const { data, loading } = useMenuQuery({
     onError: handleApolloError,
-    variables: { id: menuId },
+    variables: { storeId, name: menuName },
   })
 
-  const menu = data?.menu
+  const menu = data?.menuByName
   const store = menu?.store
 
-  const goToMenuReviewPage = useGoToPage(`/stores/${router.query.name}/reviews?menu=${menu?.name}`)
+  const goToMenuReviewPage = useGoToPage(
+    `/stores/${router.query.nameId}/reviews?menu=${menu?.name}`
+  )
   const goBack = useGoBack()
 
   const [count, setCount] = useState(1)
@@ -185,13 +188,13 @@ function StoreMenuPage() {
           <div>menu loading...</div>
           <FixedButton loading={true}>장바구니에 담기</FixedButton>
         </>
-      ) : !error ? (
+      ) : (
         <>
           <img src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
 
           <HorizontalBorder />
           <GridContainerPadding>
-            <ClientSideLink href={`/stores/${router.query.name}`}>
+            <ClientSideLink href={`/stores/${router.query.nameId}`}>
               <GreyNoMarginH3>{store.name}</GreyNoMarginH3>
             </ClientSideLink>
             <GreyLighterNoMarginH4>
@@ -306,8 +309,6 @@ function StoreMenuPage() {
             {count}개 담기 ({totalAmount})
           </FixedButton>
         </>
-      ) : (
-        <div>메뉴 상세 정보 불러오기 오류 발생</div>
       )}
     </PageHead>
   )

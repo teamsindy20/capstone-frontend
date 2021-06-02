@@ -735,19 +735,19 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
 
-export type PickingFavoriteMenuQueryVariables = Exact<{ [key: string]: never }>
+export type FavoriteMenusFavoriteQueryVariables = Exact<{ [key: string]: never }>
 
-export type PickingFavoriteMenuQuery = { __typename?: 'Query' } & {
+export type FavoriteMenusFavoriteQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & Pick<User, 'id'> & {
       favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>>
     }
 }
 
-export type PickingMenuQueryVariables = Exact<{
+export type MenuFavoriteQueryVariables = Exact<{
   id: Scalars['ID']
 }>
 
-export type PickingMenuQuery = { __typename?: 'Query' } & {
+export type MenuFavoriteQuery = { __typename?: 'Query' } & {
   menu?: Maybe<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>
 }
 
@@ -1101,8 +1101,8 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >
-export const PickingFavoriteMenuDocument = gql`
-  query PickingFavoriteMenu {
+export const FavoriteMenusFavoriteDocument = gql`
+  query FavoriteMenusFavorite {
     me {
       id
       favoriteMenus {
@@ -1114,51 +1114,54 @@ export const PickingFavoriteMenuDocument = gql`
 `
 
 /**
- * __usePickingFavoriteMenuQuery__
+ * __useFavoriteMenusFavoriteQuery__
  *
- * To run a query within a React component, call `usePickingFavoriteMenuQuery` and pass it any options that fit your needs.
- * When your component renders, `usePickingFavoriteMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFavoriteMenusFavoriteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteMenusFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePickingFavoriteMenuQuery({
+ * const { data, loading, error } = useFavoriteMenusFavoriteQuery({
  *   variables: {
  *   },
  * });
  */
-export function usePickingFavoriteMenuQuery(
-  baseOptions?: Apollo.QueryHookOptions<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>(
-    PickingFavoriteMenuDocument,
-    options
-  )
-}
-export function usePickingFavoriteMenuLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PickingFavoriteMenuQuery,
-    PickingFavoriteMenuQueryVariables
+export function useFavoriteMenusFavoriteQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FavoriteMenusFavoriteQuery,
+    FavoriteMenusFavoriteQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>(
-    PickingFavoriteMenuDocument,
+  return Apollo.useQuery<FavoriteMenusFavoriteQuery, FavoriteMenusFavoriteQueryVariables>(
+    FavoriteMenusFavoriteDocument,
     options
   )
 }
-export type PickingFavoriteMenuQueryHookResult = ReturnType<typeof usePickingFavoriteMenuQuery>
-export type PickingFavoriteMenuLazyQueryHookResult = ReturnType<
-  typeof usePickingFavoriteMenuLazyQuery
+export function useFavoriteMenusFavoriteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FavoriteMenusFavoriteQuery,
+    FavoriteMenusFavoriteQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoriteMenusFavoriteQuery, FavoriteMenusFavoriteQueryVariables>(
+    FavoriteMenusFavoriteDocument,
+    options
+  )
+}
+export type FavoriteMenusFavoriteQueryHookResult = ReturnType<typeof useFavoriteMenusFavoriteQuery>
+export type FavoriteMenusFavoriteLazyQueryHookResult = ReturnType<
+  typeof useFavoriteMenusFavoriteLazyQuery
 >
-export type PickingFavoriteMenuQueryResult = Apollo.QueryResult<
-  PickingFavoriteMenuQuery,
-  PickingFavoriteMenuQueryVariables
+export type FavoriteMenusFavoriteQueryResult = Apollo.QueryResult<
+  FavoriteMenusFavoriteQuery,
+  FavoriteMenusFavoriteQueryVariables
 >
-export const PickingMenuDocument = gql`
-  query PickingMenu($id: ID!) {
+export const MenuFavoriteDocument = gql`
+  query MenuFavorite($id: ID!) {
     menu(id: $id) {
       id
       favorite
@@ -1167,39 +1170,45 @@ export const PickingMenuDocument = gql`
 `
 
 /**
- * __usePickingMenuQuery__
+ * __useMenuFavoriteQuery__
  *
- * To run a query within a React component, call `usePickingMenuQuery` and pass it any options that fit your needs.
- * When your component renders, `usePickingMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMenuFavoriteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMenuFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePickingMenuQuery({
+ * const { data, loading, error } = useMenuFavoriteQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function usePickingMenuQuery(
-  baseOptions: Apollo.QueryHookOptions<PickingMenuQuery, PickingMenuQueryVariables>
+export function useMenuFavoriteQuery(
+  baseOptions: Apollo.QueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<PickingMenuQuery, PickingMenuQueryVariables>(PickingMenuDocument, options)
-}
-export function usePickingMenuLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PickingMenuQuery, PickingMenuQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<PickingMenuQuery, PickingMenuQueryVariables>(
-    PickingMenuDocument,
+  return Apollo.useQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
+    MenuFavoriteDocument,
     options
   )
 }
-export type PickingMenuQueryHookResult = ReturnType<typeof usePickingMenuQuery>
-export type PickingMenuLazyQueryHookResult = ReturnType<typeof usePickingMenuLazyQuery>
-export type PickingMenuQueryResult = Apollo.QueryResult<PickingMenuQuery, PickingMenuQueryVariables>
+export function useMenuFavoriteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
+    MenuFavoriteDocument,
+    options
+  )
+}
+export type MenuFavoriteQueryHookResult = ReturnType<typeof useMenuFavoriteQuery>
+export type MenuFavoriteLazyQueryHookResult = ReturnType<typeof useMenuFavoriteLazyQuery>
+export type MenuFavoriteQueryResult = Apollo.QueryResult<
+  MenuFavoriteQuery,
+  MenuFavoriteQueryVariables
+>
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {

@@ -1,4 +1,4 @@
-query PickingFavoriteMenu {
+query FavoriteMenusFavorite {
   me {
     id
     favoriteMenus {

@@ -19,7 +19,7 @@ import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import {
   useMenusQuery,
-  usePickingMenuLazyQuery,
+  useMenuFavoriteLazyQuery,
   useUserPreferencesQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
@@ -109,6 +109,19 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
+export function useRefetchingMenuFavorite() {
+  const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  function refetchMenuFavorite(menuId: string) {
+    return () => menuFavoriteLazyQuery({ variables: { id: menuId } })
+  }
+
+  return refetchMenuFavorite
+}
+
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
 
@@ -133,14 +146,7 @@ function HomePage() {
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
 
-  const [pickingMenuLazyQuery] = usePickingMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
-
-  function refetchPickingMenu(menuId: string) {
-    return () => pickingMenuLazyQuery({ variables: { id: menuId } })
-  }
+  const refetchMenuFavorite = useRefetchingMenuFavorite()
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -253,7 +259,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={refetchPickingMenu(menu.id)}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />
@@ -336,7 +342,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={refetchPickingMenu(menu.id)}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />

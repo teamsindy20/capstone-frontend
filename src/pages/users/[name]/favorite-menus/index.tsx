@@ -10,7 +10,7 @@ import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
 import {
   useFavoriteMenusQuery,
-  usePickingFavoriteMenuLazyQuery,
+  useFavoriteMenusFavoriteLazyQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl } from 'src/pages'
@@ -34,7 +34,7 @@ function UserFavoriteMenusPage() {
   const favoriteMenus = data?.me.favoriteMenus
   const isFavoriteMenusLoading = networkStatus < 7
 
-  const [refetchPickingFavoriteMenu] = usePickingFavoriteMenuLazyQuery({
+  const [refetchfavoriteMenusFavorite] = useFavoriteMenusFavoriteLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
@@ -96,7 +96,7 @@ function UserFavoriteMenusPage() {
               {favoriteMenus?.map((favoriteMenu) => (
                 <MenuCard
                   key={favoriteMenu.id}
-                  afterPickingMenu={refetchPickingFavoriteMenu}
+                  afterPickingMenu={refetchfavoriteMenusFavorite}
                   menu={favoriteMenu}
                   onlyImage={onlyImage}
                 />

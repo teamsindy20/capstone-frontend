@@ -25,6 +25,7 @@ import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
 import { Button, Divider } from 'antd'
+import Image from 'next/image'
 
 export const SkeletonGradient = styled.div`
   background: #eee;
@@ -76,166 +77,92 @@ export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: 
 `
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
-  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1.2fr 2fr;')}
+  display: grid;
+  grid-template-columns: ${(p) => (p.onlyImage ? '1fr' : '1fr 2fr')};
+  position: relative;
+  overflow: hidden;
+
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 1vw);
-  overflow: hidden;
-  height: 160px;
-  max-height: 190px;
+  border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
+`
+
+const SquareFrame = styled.div`
+  padding-top: 100%;
   position: relative;
 `
-const GridText = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  padding: 9px 9px;
-  height: 100%;
+
+const FlexContainerBetweenColumn = styled(FlexContainerBetween)`
+  flex-flow: column nowrap;
+  position: relative;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1.5px 0 #dbdcdd;
 `
-const MenuImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+const AbsolutePositionTop = styled.div`
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+`
+
+const StoreName = styled.h5`
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #929393;
+  margin: 0;
+`
+
+const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
+  font-size: 0.9rem !important;
+  color: #929393;
+  font-weight: lighter;
+`
+
+const MenuName = styled.h4`
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+`
+
+const Hashtags = styled.ul`
+  position: absolute;
+  width: calc(100% - 2rem);
+  display: flex;
+  overflow: hidden;
 `
 
 const Hashtag = styled.h4`
   margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  font-size: 0.9rem;
   color: #ff9a87;
+  white-space: nowrap;
 `
 
-const DetailButton = styled(Button)`
-  margin: 0;
-  type: circle;
-  border: #ffffff;
-`
-
-export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
-  width: 100%;
-  position: relative;
-  padding-top: ${(p) => p.paddingTop};
-  margin-right: 100px;
-`
-
-export const AbsolutePositionImage = styled.img`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #ffffff;
-`
-
-const FlexContainerColumnBetween = styled(FlexContainerBetween)`
-  flex-flow: column nowrap;
-  gap: 0.3rem;
-  position: relative;
-  padding: 0.5rem 0.5rem 0;
-`
-
-const StyledFlexContainerBetween = styled(FlexContainerBetween)`
-  margin-left: 1rem;
-`
-
-const AbsolutePosition = styled.div`
-  position: absolute;
-  top: 0.2rem;
-  right: 0.1rem;
-`
-
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-`
-const MenuName = styled.h3`
-  margin: 0;
-  font-weight: bold;
-`
-const StoreName = styled.h4`
-  color: #929393;
-  margin: 0;
-  font-weight: normal;
-`
 const MenuPrice = styled.h3`
   margin: 0;
   font-weight: normal;
+  font-size: 1.1rem;
 `
-const NoMarginH3 = styled.h3`
+
+const DetailButton = styled(Button)`
+  position: absolute;
+  right: 0;
   margin: 0;
+  border: #ffffff;
 `
 
-const LighterH5 = styled.h5`
-  margin: 0;
-  font-weight: lighter;
-`
-const NormalH5 = styled.h5`
-  margin: 0;
-  font-weight: normal;
-`
-
-const NormalH4 = styled.h4`
-  margin: 0;
-  font-weight: normal;
-`
-
-const NoMarginH4 = styled.h4`
-  margin: 0;
-  font-weight: bold;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const FlexContainerUl = styled.ul`
-  display: flex;
-  flex-flow: row wrap;
-  list-style: none;
-  padding-left: 0;
-  margin-left: 1rem;
-`
-
-export const NormalA = styled.a`
-  font-size: 1em;
-  font-weight: normal;
-  color: #ff8e77;
-  word-break: keep-all;
-
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  :hover {
-    color: ${CHOCO_COLOR};
-  }
-`
-
-const HorizontalBorder = styled.div<{ show?: boolean }>`
-  ${(p) => (p.show ? '' : 'visibility: hidden;')}
-  border: 1px solid #ddd;
-`
-
-const VerticalBorder = styled.div`
-  border: 1px solid #ddd;
-  height: 100%;
-`
-
-const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
-  flex-flow: row wrap;
-  justify-content: space-around;
-
-  grid-column: auto / span 2;
-  padding: min(2vw, 0.5rem);
-`
-
-const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
-  font-size: 1.2rem !important;
+const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
+  font-size: 1.8rem !important;
   color: #929393;
-  font-weight: lighter;
+  padding: 0;
 `
 
-const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
-  font-size: 20px;
-  color: #ff8e77;
+const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
+  font-size: 1.8rem !important;
+  color: #929393;
+  padding: 0;
 `
+
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.8rem !important;
   color: #ff8e77;
@@ -246,15 +173,15 @@ const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
   color: #ff8e77;
   margin: 0.2em;
 `
-const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #929393;
-  padding: 0;
+
+const VerticalBorder = styled.div`
+  border: 1px solid #ddd;
+  height: 100%;
 `
-const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #929393;
-  padding: 0;
+
+const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
 `
 
 type Props2 = {
@@ -264,31 +191,30 @@ type Props2 = {
 export function MenuLoadingCard({ onlyImage }: Props2) {
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true}>
-        <ImageRatioWrapper paddingTop="100%">
+      <GridContainerLi onlyImage>
+        <SquareFrame>
           <SkeletonImage />
-        </ImageRatioWrapper>
+        </SquareFrame>
       </GridContainerLi>
     )
   }
 
   return (
     <GridContainerLi onlyImage={false}>
-      <ImageRatioWrapper paddingTop="100%">
+      <SquareFrame>
         <SkeletonImage />
-      </ImageRatioWrapper>
+      </SquareFrame>
 
-      <FlexContainerColumnBetween>
-        <SkeletonText width="30%" />
-        <SkeletonText width="80%" height="1.2rem" />
-        <SkeletonText width="50%" />
-        <SkeletonText height="1.2rem" />
-        <HorizontalBorder />
-      </FlexContainerColumnBetween>
+      <FlexContainerBetweenColumn>
+        <SkeletonText width="30%" height="0.9rem" />
+        <SkeletonText width="80%" />
+        <SkeletonText width="50%" height="0.9rem" />
+        <SkeletonText height="1.1rem" />
+      </FlexContainerBetweenColumn>
 
-      <FlexContainerWrapAround>
+      {/* <FlexContainerWrapAround>
         <SkeletonText />
-      </FlexContainerWrapAround>
+      </FlexContainerWrapAround> */}
     </GridContainerLi>
   )
 }
@@ -301,22 +227,20 @@ type Props = {
 
 function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
   const toastId = useRef<ReactText>('')
-  const [isCardDetailOpened, toggleCardDetail] = useBoolean(true)
+  const [isCardDetailOpened, toggleCardDetail] = useBoolean(false)
 
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
+      function restorePicking() {
+        pickMenu({ variables: { id: menu.id } })
+      }
+
       if (data.pickMenu) {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
             {`${menu.name} 메뉴를 찜했어요 `}
-            <button
-              onClick={() => {
-                pickMenu({ variables: { id: menu.id } })
-              }}
-            >
-              되돌리기
-            </button>
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       } else {
@@ -324,16 +248,11 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         toastId.current = toast(
           <div>
             {`${menu.name} 메뉴 찜을 해제했어요 `}
-            <button
-              onClick={() => {
-                pickMenu({ variables: { id: menu.id } })
-              }}
-            >
-              되돌리기
-            </button>
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       }
+
       afterPickingMenu()
     },
     onError: handleApolloError,
@@ -354,50 +273,65 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
   if (onlyImage) {
     return (
       <GridContainerLi onlyImage onClick={goToStoreMenuPage}>
-        <ClientSideLink href={storeReviewsPage}>
-          <ImageRatioWrapper paddingTop="100%">
-            <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-          </ImageRatioWrapper>
-        </ClientSideLink>
+        <SquareFrame>
+          <ClientSideLink href={storeReviewsPage}>
+            <Image
+              src={menu.imageUrls ? menu.imageUrls[0] : ''}
+              alt="menu"
+              layout="fill"
+              objectFit="cover"
+            />
+          </ClientSideLink>
+        </SquareFrame>
       </GridContainerLi>
     )
   }
 
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
-      <ClientSideLink href={storeReviewsPage}>
-        <MenuImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-      </ClientSideLink>
+      <SquareFrame>
+        <ClientSideLink href={storeReviewsPage}>
+          <Image
+            src={menu.imageUrls ? menu.imageUrls[0] : ''}
+            alt="menu"
+            layout="fill"
+            objectFit="cover"
+          />
+        </ClientSideLink>
+      </SquareFrame>
 
-      <AbsolutePosition>
+      <AbsolutePositionTop>
         {menu.favorite ? (
           <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
         ) : (
           <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
         )}
-      </AbsolutePosition>
+      </AbsolutePositionTop>
 
-      <GridText>
-        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
-          <FlexContainerAlignCenter>
-            <StoreName>{store.name}</StoreName>
-            <StyledArrowForwardIosRoundedIcon />
-          </FlexContainerAlignCenter>
-        </ClientSideLink>
-        <MenuName>{menu.name}</MenuName>
-        <Hashtag>
-          {menu.hashtags?.map((hashtag) => (
-            <Fragment key={hashtag}>
-              <Link href={`/search/${hashtag.slice(1)}`}>
-                <NormalA
-                  href={`/search/${hashtag.slice(1)}`}
-                  onClick={(e) => e.stopPropagation()}
-                >{`${hashtag}`}</NormalA>
-              </Link>
-            </Fragment>
-          ))}
-        </Hashtag>
-        <FlexContainerBetween>
+      <FlexContainerBetweenColumn>
+        <div>
+          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+            <FlexContainerAlignCenter>
+              <StoreName>{store.name}</StoreName>&nbsp;
+              <StyledArrowForwardIosRoundedIcon />
+            </FlexContainerAlignCenter>
+          </ClientSideLink>
+          <MenuName>{menu.name}</MenuName>
+          <Hashtags>
+            {menu.hashtags?.map((hashtag) => (
+              // <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+              <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
+              // </ClientSideLink>
+            ))}
+          </Hashtags>
+          <br />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            position: 'relative',
+          }}
+        >
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
           <DetailButton shape="circle" onClick={toggleCardDetail}>
             {isCardDetailOpened ? (
@@ -406,23 +340,8 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
               <StyledArrowDropDownRoundedIcon />
             )}
           </DetailButton>
-        </FlexContainerBetween>
-
-        {/* <GridContainer>
-          <StyledFlexContainerBetween>
-            <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-            <IconButton onClick={toggleCardDetail}>
-              {isCardDetailOpened ? (
-                <StyledArrowDropUpRoundedIcon />
-              ) : (
-                <StyledArrowDropDownRoundedIcon />
-              )}
-            </IconButton>
-          </StyledFlexContainerBetween>
-          <HorizontalBorder show={isCardDetailOpened} />
-        </GridContainer> */}
-      <HorizontalBorder show={isCardDetailOpened} />
-      </GridText>
+        </div>
+      </FlexContainerBetweenColumn>
 
       {isCardDetailOpened && (
         <FlexContainerWrapAround>

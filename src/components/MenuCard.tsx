@@ -93,10 +93,22 @@ const FlexContainerBetweenColumn = styled(FlexContainerBetween)`
   box-shadow: 0 1.5px 0 #dbdcdd;
 `
 
-const AbsolutePositionTop = styled.div`
+const AbsolutePositionTopRight = styled.div`
   position: absolute;
-  top: 0.2rem;
-  right: 0.2rem;
+  top: 0;
+  right: 0;
+`
+
+const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+  font-size: 1.8rem !important;
+  color: #ff8e77;
+  margin: 0.5rem;
+`
+
+const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+  font-size: 1.8rem !important;
+  color: #ff8e77;
+  margin: 0.5rem;
 `
 
 const StoreName = styled.h5`
@@ -132,6 +144,11 @@ export const Hashtag = styled.h4`
   white-space: nowrap;
 `
 
+const FlexContainerRelativePosition = styled.div`
+  display: flex;
+  position: relative;
+`
+
 const MenuPrice = styled.h3`
   margin: 0;
   font-weight: normal;
@@ -141,6 +158,7 @@ const MenuPrice = styled.h3`
 const DetailButton = styled(Button)`
   position: absolute;
   right: 0;
+  bottom: 0.2rem;
   margin: 0;
   border: #ffffff;
 `
@@ -157,31 +175,22 @@ const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
   padding: 0;
 `
 
-const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #ff8e77;
-  margin: 0.2em;
-`
-const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #ff8e77;
-  margin: 0.2em;
+const FlexContainerWrapAround = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  grid-column: 1 / 3;
+  /* background: #ddd; */
 `
 
-const VerticalBorder = styled.div`
-  border: 1px solid #ddd;
-  height: 100%;
+const FlexContainerCenterPadding = styled(FlexContainerAlignCenter)`
+  padding: 0.5rem;
+  /* outline: 1px solid #ddd; */
 `
 
 const NormalH5 = styled.h5`
   margin: 0;
   font-weight: normal;
-`
-
-const FlexContainerWrapAround = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
 `
 
 type Props2 = {
@@ -212,9 +221,9 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
         <SkeletonText height="1.1rem" />
       </FlexContainerBetweenColumn>
 
-      {/* <FlexContainerWrapAround>
+      <FlexContainerWrapAround>
         <SkeletonText />
-      </FlexContainerWrapAround> */}
+      </FlexContainerWrapAround>
     </GridContainerLi>
   )
 }
@@ -239,7 +248,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
-            {`${menu.name} 메뉴를 찜했어요 `}
+            <b>{menu.name}</b>을 찜했어요
             <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
@@ -247,7 +256,7 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
-            {`${menu.name} 메뉴 찜을 해제했어요 `}
+            <b>{menu.name}</b>의 찜을 해제했어요
             <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
@@ -300,14 +309,6 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
         </ClientSideLink>
       </SquareFrame>
 
-      <AbsolutePositionTop>
-        {menu.favorite ? (
-          <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
-        ) : (
-          <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
-        )}
-      </AbsolutePositionTop>
-
       <FlexContainerBetweenColumn>
         <div>
           <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
@@ -316,7 +317,17 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
               <StyledArrowForwardIosRoundedIcon />
             </FlexContainerAlignCenter>
           </ClientSideLink>
+
+          <AbsolutePositionTopRight>
+            {menu.favorite ? (
+              <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
+            ) : (
+              <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
+            )}
+          </AbsolutePositionTopRight>
+
           <MenuName>{menu.name}</MenuName>
+
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
               <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
@@ -326,12 +337,8 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
           </Hashtags>
           <br />
         </div>
-        <div
-          style={{
-            display: 'flex',
-            position: 'relative',
-          }}
-        >
+
+        <FlexContainerRelativePosition>
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
           <DetailButton shape="circle" onClick={toggleCardDetail}>
             {isCardDetailOpened ? (
@@ -340,44 +347,41 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
               <StyledArrowDropDownRoundedIcon />
             )}
           </DetailButton>
-        </div>
+        </FlexContainerRelativePosition>
       </FlexContainerBetweenColumn>
 
       {isCardDetailOpened && (
         <FlexContainerWrapAround>
           {menu.positiveReviewRatio !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>{' '}
             </>
           )}
           {menu.reorderRatio !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>
             </>
           )}
           {menu.totalReviewCount !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>{' '}
             </>
           )}
           {menu.totalOrderCount !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-              </FlexContainerAlignCenter>
+              </FlexContainerCenterPadding>
             </>
           )}
           {/* {&&<></>} */}

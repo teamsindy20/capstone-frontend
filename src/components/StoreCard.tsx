@@ -13,88 +13,59 @@ import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import { handleApolloError } from 'src/apollo/error'
 import { toast } from 'react-toastify'
 import ClientSideLink from './atoms/ClientSideLink'
-import { Hashtags } from './MenuCard'
+import { Hashtag, Hashtags, SquareFrame } from './MenuCard'
+import { useRef, ReactText } from 'react'
+import Image from 'next/image'
+
+const GridContainerLi = styled.li`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  position: relative;
+  overflow: hidden;
+
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  /* border-radius: min(20px, 2vw); */
+`
 
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.8rem !important;
   color: #ff8e77;
   margin: 0.2em;
 `
+
 const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
   font-size: 1.8rem !important;
   color: #ff8e77;
   margin: 0.2em;
 `
-const Li = styled.li`
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: min(20px, 2vw);
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1.2fr 2fr;
-  position: relative;
-`
 
-const GridText = styled.div`
+const FlexContainerBetweenColumn = styled(FlexContainerBetween)`
+  flex-flow: column nowrap;
   position: relative;
-  display: grid;
-  grid-template-rows: 1fr 1fr 2fr;
-  margin: 9px 10px;
-  grid-gap: 0.1rem;
+  padding: 0.5rem 1rem;
+  outline: 1px solid #dbdcdd;
 `
 
 const StoreName = styled.h3`
   margin: 0;
 `
-const Hashtag = styled.h4`
-  margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  color: #ff9a87;
+
+const AbsolutePositionTopRight = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `
-const NoMarginText = styled.div`
+
+const NoMarginText = styled.h5`
   margin: 0;
   color: #a8a8a8;
 `
-export const StoreImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
 
-const AbsoluteButton = styled(Button)`
-  display: absolute;
-  bottom: 0.1rem;
-  right: 0.1rem;
-`
-export const AbsolutePositionImage = styled.img`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #ffffff;
-`
-const AbsoluteTopPosition = styled.div`
-  position: absolute;
-  top: 0.1rem;
-  right: 0.1rem;
-`
-const AbsoluteBottomPosition = styled.div`
+const AbsolutePositionBottomRight = styled.div`
   position: absolute;
   bottom: 0.3rem;
   right: 0.3rem;
-`
-
-const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
-  align-items: center;
-  padding: 0.5rem;
-`
-
-const RelativePosition = styled.div`
-  position: relative;
-  width: 1rem;
-  height: 1rem;
 `
 
 type Props = {
@@ -102,6 +73,7 @@ type Props = {
 }
 
 function StoreCard({ store }: Props) {
+  const toastId = useRef<ReactText>('')
   const router = useRouter()
 
   const [fetchStore, { loading: isStoreLoading }] = useStoreLazyQuery({
@@ -111,26 +83,28 @@ function StoreCard({ store }: Props) {
 
   const [pickStore, { loading: isPickingStoreLoading }] = usePickStoreMutation({
     onCompleted: (data) => {
+      function restorePicking() {
+        pickStore({ variables: { id: store.id } })
+      }
+
       if (data.pickStore) {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast.success(
           <div>
-            매장을 찜했어요{' '}
-            <span onClick={() => pickStore({ variables: { id: store.id } })} role="alert">
-              찜 해제하기
-            </span>
+            <b>{store.name}</b>을 찜했어요
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       } else {
-        toast.success(
+        if (toastId.current) toast.dismiss(toastId.current)
+        toastId.current = toast.success(
           <div>
-            매장 찜을 해제했어요{' '}
-            <span onClick={() => pickStore({ variables: { id: store.id } })} role="alert">
-              다시 찜하기
-            </span>
+            <b>{store.name}</b>의 찜을 해제했어요
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       }
-      fetchStore({ variables: { id: store.id } }) // storeId는 button disabled 로 항상 not null
+      fetchStore({ variables: { id: store.id } })
     },
     onError: handleApolloError,
   })
@@ -147,28 +121,37 @@ function StoreCard({ store }: Props) {
   }
 
   return (
-    <Li onClick={goToStoreMenuPage}>
-      {/* <AbsoluteTopPosition>
-        {store.favorite ? (
-          <StyledFavoriteRoundedIcon onClick={pickStoreStopPropagation as any} />
-        ) : (
-          <StyledFavoriteBorderRoundedIcon onClick={pickStoreStopPropagation as any} />
-        )}
-      </AbsoluteTopPosition> */}
-      <AbsoluteBottomPosition>
-        <Button>단골혜택</Button>
-      </AbsoluteBottomPosition>
-      <StoreImage src={store.imageUrls ? store.imageUrls[0] : ''} alt="StoreImage" />
-      <GridText>
-        <StoreName>{store.name}</StoreName>
+    <GridContainerLi onClick={goToStoreMenuPage}>
+      <SquareFrame>
+        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+          <Image
+            src={store.imageUrls ? store.imageUrls[0] : ''}
+            alt="store"
+            layout="fill"
+            objectFit="cover"
+          />
+        </ClientSideLink>
+      </SquareFrame>
 
-        <Hashtags>
-          {store.hashtags?.map((hashtag) => (
-            <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-              <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
-            </ClientSideLink>
-          ))}
-        </Hashtags>
+      <FlexContainerBetweenColumn>
+        <div>
+          <StoreName>{store.name}</StoreName>
+          <AbsolutePositionTopRight>
+            {store.favorite ? (
+              <StyledFavoriteRoundedIcon onClick={pickStoreStopPropagation as any} />
+            ) : (
+              <StyledFavoriteBorderRoundedIcon onClick={pickStoreStopPropagation as any} />
+            )}
+          </AbsolutePositionTopRight>
+          <Hashtags>
+            {store.hashtags?.map((hashtag) => (
+              <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
+              </ClientSideLink>
+            ))}
+          </Hashtags>
+          <br />
+        </div>
 
         <div>
           <NoMarginText>배달팁 {store.deliveryCharge}원</NoMarginText>
@@ -177,8 +160,12 @@ function StoreCard({ store }: Props) {
             예상시간 {store.minimumDeliveryTime}-{store.maximumDeliveryTime}분
           </NoMarginText>
         </div>
-      </GridText>
-    </Li>
+
+        <AbsolutePositionBottomRight>
+          <Button onClick={(e) => e.stopPropagation()}>혜택</Button>
+        </AbsolutePositionBottomRight>
+      </FlexContainerBetweenColumn>
+    </GridContainerLi>
   )
 }
 

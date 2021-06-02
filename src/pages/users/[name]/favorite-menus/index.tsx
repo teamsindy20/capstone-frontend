@@ -62,26 +62,6 @@ function UserFavoriteMenusPage() {
     }
   }
 
-  if (!user) {
-    return (
-      <PageHead title="디저트핏 - 찜 메뉴" description={description}>
-        <PageLayout>
-          <TopHeader>
-            <Tabs
-              defaultActiveKey="favorite-menus"
-              centered
-              onTabClick={(activeKey) => router.push(goToPage(activeKey))}
-            >
-              <Tabs.TabPane tab="메뉴" key="favorite-menus" />
-              <Tabs.TabPane tab="매장" key="favorite-stores" />
-            </Tabs>
-          </TopHeader>
-          {loading ? 'user loading...' : <NotLoginModal />}
-        </PageLayout>
-      </PageHead>
-    )
-  }
-
   return (
     <PageHead title="디저트핏 - 찜 메뉴" description={description}>
       <PageLayout>

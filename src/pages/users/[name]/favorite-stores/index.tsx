@@ -3,7 +3,7 @@ import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
 import NotLoginModal from 'src/components/NotLoginModal'
-import StoreCard from 'src/components/StoreCard'
+import StoreCard, { StoreLoadingCard } from 'src/components/StoreCard'
 import { useFavoriteStoresQuery } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { GlobalContext } from '../../../_app'
@@ -16,7 +16,7 @@ import TopHeader from 'src/components/TopHeader'
 const GridContainerUl = styled.ul`
   display: grid;
   gap: 0.5rem;
-  margin: 0.5rem 0.5rem;
+  margin: 0.5rem;
 `
 
 const description = '내가 찜한 매장을 모아서 볼 수 있어요.'
@@ -66,26 +66,6 @@ function UserFavoritesPage() {
     }
   }
 
-  if (!user) {
-    return (
-      <PageHead title="디저트핏 - 찜 매장" description={description}>
-        <PageLayout>
-          <TopHeader>
-            <Tabs
-              defaultActiveKey="favorite-stores"
-              centered
-              onTabClick={(activeKey) => router.push(goToPage(activeKey))}
-            >
-              <Tabs.TabPane tab="메뉴" key="favorite-menus" />
-              <Tabs.TabPane tab="매장" key="favorite-stores" />
-            </Tabs>
-          </TopHeader>
-          {loading ? 'user loading...' : <NotLoginModal />}
-        </PageLayout>
-      </PageHead>
-    )
-  }
-
   return (
     <PageHead title="디저트핏 - 찜 매장" description={description}>
       <PageLayout>
@@ -100,20 +80,28 @@ function UserFavoritesPage() {
           </Tabs>
         </TopHeader>
 
-        <GridContainerUl>
-          {favoriteStores?.map((regularStore) => (
-            <StoreCard
-              key={regularStore.id}
-              afterPickingStore={refetchFavoriteStores}
-              store={regularStore}
-            />
-          ))}
-          {isFavoriteStoresLoading || hasMoreStores ? (
-            <div ref={sentryRef}>{/* <StoreLoadingCard /> */}</div>
-          ) : (
-            !favoriteStores?.length && <h4>찜한 매장이 없어요</h4>
-          )}
-        </GridContainerUl>
+        {loading ? (
+          'user loading...'
+        ) : !user ? (
+          <NotLoginModal />
+        ) : (
+          <GridContainerUl>
+            {favoriteStores?.map((regularStore) => (
+              <StoreCard
+                key={regularStore.id}
+                afterPickingStore={refetchFavoriteStores}
+                store={regularStore}
+              />
+            ))}
+            {isFavoriteStoresLoading || hasMoreStores ? (
+              <div ref={sentryRef}>
+                <StoreLoadingCard />
+              </div>
+            ) : (
+              !favoriteStores?.length && <h4>텅! 찜한 매장이 없어요..</h4>
+            )}
+          </GridContainerUl>
+        )}
       </PageLayout>
     </PageHead>
   )

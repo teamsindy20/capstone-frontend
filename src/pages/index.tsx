@@ -122,10 +122,16 @@ function HomePage() {
     onError: handleApolloError,
   })
 
-  const [fetchMenu] = useMenuLazyQuery({
+  const [menuLazyQuery] = useMenuLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
+
+  function fetchMenu(menuId: string) {
+    return () => {
+      menuLazyQuery({ variables: { id: menuId } })
+    }
+  }
 
   const userPreferencesQueryResult = useUserPreferencesQuery({
     notifyOnNetworkStatusChange: true,
@@ -249,7 +255,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    afterPickingMenu={fetchMenu(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />
@@ -332,7 +338,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    afterPickingMenu={fetchMenu(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />

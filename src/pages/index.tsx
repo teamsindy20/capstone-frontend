@@ -98,17 +98,6 @@ const StyledTag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-export const PhotoOnlyButton = styled.button`
-  background-color: #f3c7ab;
-  align-items: center;
-  font-size: 13px;
-  line-height: 13px;
-  border: none;
-  width: 80%;
-  height: 60%;
-  margin: auto;
-`
-
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -328,15 +317,15 @@ function HomePage() {
               </StyledTag>
             </FlexContainerOverflowScroll>
 
-            <Divider />
-            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
-              프렌차이즈 포함
-            </Checkbox>
-            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-              사진만 보기
-            </Checkbox>
+            <Divider orientation="right">
+              <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+                프렌차이즈 포함
+              </Checkbox>
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
 
-            <Divider />
             <GridContainerUl onlyImage={onlyImage}>
               {menus
                 ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)

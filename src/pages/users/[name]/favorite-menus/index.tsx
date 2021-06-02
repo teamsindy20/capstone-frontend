@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Checkbox, Divider, Tabs } from 'antd'
 import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
@@ -10,7 +10,7 @@ import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
 import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
-import { PhotoOnlyButton, GridContainerUl } from 'src/pages'
+import { GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
 import { sleep } from 'src/utils/commons'
 
@@ -79,7 +79,12 @@ function UserFavoriteMenusPage() {
           </Tabs>
         </TopHeader>
 
-        <PhotoOnlyButton onClick={toggleOnlyImage}>Photo Only</PhotoOnlyButton>
+        <Divider orientation="right">
+          <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+            사진만 보기
+          </Checkbox>
+        </Divider>
+
         <GridContainerUl onlyImage={onlyImage}>
           {favoriteMenus?.map((favoriteMenu) => (
             <MenuCard

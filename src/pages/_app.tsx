@@ -122,7 +122,7 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
           </MaxWidth>
         </GlobalProvider>
       </ApolloProvider>
-      <ToastContainer autoClose={3000} hideProgressBar position="top-center" transition={fade} />
+      <ToastContainer autoClose={2500} hideProgressBar position="top-center" transition={fade} />
     </>
   )
 }

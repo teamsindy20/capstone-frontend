@@ -13,6 +13,7 @@ import styled from 'styled-components'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import { Padding } from 'src/components/layouts/PageLayout'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -72,6 +73,8 @@ const NoMarginH4 = styled.h4`
   margin: 0;
 `
 
+const description = '장바구니에 담긴 디저트를 확인해보세요'
+
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
   const goBack = useGoBack()
@@ -86,7 +89,7 @@ function CartPage() {
   }
 
   return (
-    <PageHead>
+    <PageHead title="디저트핏 - 장바구니" description={description}>
       <TopHeader>
         <FlexContainerBetween1>
           <FlexContainerAlignCenter>
@@ -120,6 +123,7 @@ function CartPage() {
         ))}
       </GridContainerUl>
       <FixedButton onClick={goToOrderPage}>주문하기</FixedButton>
+      <Padding />
     </PageHead>
   )
 }

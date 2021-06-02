@@ -22,21 +22,23 @@ export const fade = cssTransition({
 })
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    @media (max-width: ${TABLET_MIN_WIDTH}) {
+      font-size: 14px;
+    }
+  }
+
   body {
     padding: 0;
     color: ${DARK_CHOCO_COLOR};
-    font-size: 14px;
     font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Roboto',
       'Helvetica Neue', sans-serif;
     line-height: normal;
     word-break: keep-all;
-
-    @media (min-width: ${TABLET_MIN_WIDTH}) {
-      font-size: 16px;
-    }
   }
 
   ul, ol {
+    margin: 0;
     padding: 0;
     list-style: none;
   }

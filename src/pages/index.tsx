@@ -10,24 +10,22 @@ import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { NormalA, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState, useContext, CSSProperties } from 'react'
+import { useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
-import { sleep, stopPropagation } from 'src/utils/commons'
+import { sleep } from 'src/utils/commons'
 import {
   useMenuLazyQuery,
   useMenusQuery,
   useUserPreferencesQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
-import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
+import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
@@ -39,10 +37,6 @@ const contentStyle: CSSProperties = {
   background: '#EAEAEA',
   textAlign: 'center',
 }
-
-const MarginDiv = styled.div`
-  margin: 0.5rem;
-`
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -66,25 +60,6 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   //font-color: #3c3c3c;
 `
-const { Option } = Select
-
-const StyledTab = styled(Tabs)`
-  color: #f57961;
-`
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
-  align-items: center;
-`
 
 const PreferenceText = styled.div`
   text-align: center;
@@ -98,38 +73,11 @@ const BrownText = styled.div`
   font-size: 1.05rem;
 `
 
-const StyledSlider = styled(Slider)`
-  margin-bottom: 1rem;
-  object-fit: cover;
-`
-
-const BannerAd = styled.div`
-  position: relative;
-  height: 10rem;
-  text-align: center;
-  background-color: #fff5f5;
-  display: inline-block;
-  object-fit: cover;
-`
-
-const AdTextDiv = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 1.6rem;
-`
-
 export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
-  ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
-  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
-`
-
-const Img = styled.img`
-  width: 100%;
-  overflow: hidden;
+  grid-template-columns: ${(p) => (p.onlyImage ? '1fr 1fr 1fr' : '1fr')};
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
+  margin: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
 `
 
 const FlexContainerOverflowScroll = styled.div`
@@ -139,15 +87,6 @@ const FlexContainerOverflowScroll = styled.div`
   margin: 0 1rem 0 0;
 `
 
-const FixedDiv = styled.div`
-  position: sticky;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  height: 60px;
-  line-height: 60px;
-  background-color: #fff;
-`
 const StyledTag = styled.span<{ color: string }>`
   margin: 10px;
   padding: 5px 10px;
@@ -180,9 +119,6 @@ const FixedPosition = styled.div`
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
 `
-function handleChange(value: any) {
-  console.log(`selected ${value}`)
-}
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
@@ -299,11 +235,9 @@ function HomePage() {
                 '디저트핏 로딩 중...'
               ) : preferences.length ? (
                 preferences.map((hashtag) => (
-                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                      <Tag color="#F57961">{hashtag}</Tag>
-                    </NormalA>
-                  </Link>
+                  <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <Tag color="#F57961">{hashtag}</Tag>
+                  </ClientSideLink>
                 ))
               ) : (
                 <ClientSideLink href="/users/username/preferences">
@@ -319,25 +253,24 @@ function HomePage() {
                 사진만 보기
               </Checkbox>
             </Divider>
-            <MarginDiv>
-              <GridContainerUl onlyImage={onlyImage}>
-                {menus
-                  ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
-                  .map((menu) => (
-                    <MenuCard
-                      key={menu.id}
-                      afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                      menu={menu as any}
-                      onlyImage={onlyImage}
-                    />
-                  ))}
-              </GridContainerUl>
-              {(isMenusLoading || hasMoreMenus) && (
-                <div ref={sentryRef}>
-                  <MenuLoadingCard onlyImage={onlyImage} />
-                </div>
-              )}
-            </MarginDiv>
+
+            <GridContainerUl onlyImage={onlyImage}>
+              {menus
+                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                .map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
+                    menu={menu as any}
+                    onlyImage={onlyImage}
+                  />
+                ))}
+            </GridContainerUl>
+            {(isMenusLoading || hasMoreMenus) && (
+              <div ref={sentryRef}>
+                <MenuLoadingCard onlyImage={onlyImage} />
+              </div>
+            )}
           </TabPane>
 
           <TabPane tab="카테고리" key="2">

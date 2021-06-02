@@ -5,7 +5,11 @@ import PageLayout from 'src/components/layouts/PageLayout'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import useStoreNameIdUrl from 'src/hooks/useStoreNameIdUrl'
+import StoreInformation from 'src/components/StoreInformation'
+import StoreTopHeader from 'src/components/StoreTopHeader'
+import { store } from 'src/models/mock-data'
 
 const description = '매장에서 판매하는 메뉴의 리뷰를 확인해보세요.'
 
@@ -25,6 +29,7 @@ function handleChange(value: any) {
 
 function StoreReviewsPage() {
   const router = useRouter()
+  const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
 
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -32,25 +37,18 @@ function StoreReviewsPage() {
     setSearchTerm(decodeURIComponent(window.location.search.slice(6)))
   }, [])
 
-  function goToPage(activeKey: string) {
-    switch (activeKey) {
-      case 'menus':
-        return `/stores/${router.query.name}`
-      case 'feed':
-      case 'reviews':
-        return `/stores/${router.query.name}/${activeKey}`
-      default:
-        return ''
-    }
-  }
-
   return (
     <PageHead title="디저트핏 - 매장 리뷰" description={description}>
       <PageLayout>
+        <StoreTopHeader store={store} />
+
+        <StoreInformation store={store} />
+
+        <Divider />
         <Tabs
           defaultActiveKey="reviews"
-          centered /* activeKey={activeKey} centered onTabClick={setActiveKey} */
-          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          centered
+          onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
         >
           <Tabs.TabPane tab="메뉴" key="menus" />
           <Tabs.TabPane tab="소식" key="feed" />

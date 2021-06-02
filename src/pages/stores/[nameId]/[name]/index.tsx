@@ -133,7 +133,6 @@ function StoreMenuPage() {
       if (cartStore && cartStore.id !== newCartStore.id) {
         // TODO: 다른 매장의 메뉴를 담으면 경고 모달 띄우기
         setCartMenus([])
-        setCartStore(newCartStore)
       }
 
       const selectedCartMenu = {
@@ -149,11 +148,12 @@ function StoreMenuPage() {
       )
 
       if (existingCartMenu) {
-        existingCartMenu.count++
+        existingCartMenu.count += count
       } else {
         newCartMenus.push(selectedCartMenu)
       }
 
+      setCartStore(newCartStore)
       setCartMenus(newCartMenus)
 
       toast(

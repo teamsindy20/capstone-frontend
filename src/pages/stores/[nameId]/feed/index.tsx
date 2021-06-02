@@ -1,6 +1,6 @@
 import { Tabs, Divider } from 'antd'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
@@ -11,7 +11,9 @@ import { usePostsByStoreQuery } from 'src/graphql/generated/types-and-hooks'
 import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
-import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
+import StoreInformation from 'src/components/StoreInformation'
+import StoreTopHeader from 'src/components/StoreTopHeader'
+import useStoreNameIdUrl from 'src/hooks/useStoreNameIdUrl'
 
 const Div = styled.div`
   overflow: scroll hidden;
@@ -34,23 +36,7 @@ const description = '매장의 소식을 확인해보세요'
 
 function StoreFeedPage() {
   const router = useRouter()
-  const storeNameWithId = (router.query.name ?? '') as string
-  const storeName = storeNameWithId?.substring(0, storeNameWithId.lastIndexOf('-'))
-  const storeId = storeNameWithId?.substring(storeNameWithId.lastIndexOf('-') + 1)
-
-  function goToPage(activeKey: string) {
-    switch (activeKey) {
-      case 'menus':
-        return `/stores/${router.query.name}`
-      case 'feed':
-      case 'reviews':
-        return `/stores/${router.query.name}/${activeKey}`
-      default:
-        return ''
-    }
-  }
-
-  const [hasMorePosts, setHasMorePosts] = useState(true)
+  const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
 
   const { data, networkStatus } = usePostsByStoreQuery({
     notifyOnNetworkStatusChange: true,
@@ -61,7 +47,7 @@ function StoreFeedPage() {
   const posts = data?.postsByStore
   const isPostsLoading = networkStatus < 7
 
-  console.log(posts)
+  const [hasMorePosts, setHasMorePosts] = useState(true)
 
   async function fetchMorePosts() {
     if (posts?.length) {
@@ -81,10 +67,14 @@ function StoreFeedPage() {
   return (
     <PageHead title="디저트핏 - 매장 소식" description={`${storeName} ${description}`}>
       <PageLayout>
+        <StoreTopHeader store={store} />
+
+        <StoreInformation store={store} />
+
         <Tabs
           defaultActiveKey="feed"
           centered
-          onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+          onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
         >
           <Tabs.TabPane tab="메뉴" key="menus" />
           <Tabs.TabPane tab="소식" key="feed" />
@@ -115,12 +105,13 @@ function StoreFeedPage() {
           {posts?.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
-          {(isPostsLoading || hasMorePosts) && (
+          {isPostsLoading || hasMorePosts ? (
             <div ref={sentryRef}>
               <PostLoadingCard />
             </div>
+          ) : (
+            posts?.length === 0 && <h4>매장 소식이 없어요</h4>
           )}
-          {posts?.length === 0 && '매장 소식이 없어요...'}
         </GridContainerUl>
       </PageLayout>
     </PageHead>
@@ -128,3 +119,6 @@ function StoreFeedPage() {
 }
 
 export default StoreFeedPage
+function useStoreUrl(): { storeId: any; storeName: any } {
+  throw new Error('Function not implemented.')
+}

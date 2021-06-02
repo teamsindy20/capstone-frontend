@@ -1,0 +1,6 @@
+query PickingMenu($id: ID!) {
+  menu(id: $id) {
+    id
+    favorite
+  }
+}

@@ -8,7 +8,10 @@ import PageLayout from 'src/components/layouts/PageLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
-import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
+import {
+  useFavoriteMenusQuery,
+  usePickingFavoriteMenuLazyQuery,
+} from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
@@ -22,7 +25,7 @@ function UserFavoriteMenusPage() {
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
 
-  const { data, networkStatus, refetch } = useFavoriteMenusQuery({
+  const { data, fetchMore, networkStatus } = useFavoriteMenusQuery({
     fetchPolicy: 'cache-and-network',
     onError: handleApolloError,
     skip: !user,
@@ -31,9 +34,10 @@ function UserFavoriteMenusPage() {
   const favoriteMenus = data?.me.favoriteMenus
   const isFavoriteMenusLoading = networkStatus < 7
 
-  function refetchFavoriteMenus() {
-    refetch()
-  }
+  const [refetchPickingFavoriteMenu] = usePickingFavoriteMenuLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
 
   async function fetchMoreMenus() {
     if (favoriteMenus?.length) {
@@ -92,7 +96,7 @@ function UserFavoriteMenusPage() {
               {favoriteMenus?.map((favoriteMenu) => (
                 <MenuCard
                   key={favoriteMenu.id}
-                  afterPickingMenu={refetchFavoriteMenus}
+                  afterPickingMenu={refetchPickingFavoriteMenu}
                   menu={favoriteMenu}
                   onlyImage={onlyImage}
                 />

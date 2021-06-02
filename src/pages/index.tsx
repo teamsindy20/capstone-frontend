@@ -18,8 +18,8 @@ import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexC
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
 import {
-  useMenuLazyQuery,
   useMenusQuery,
+  usePickingMenuLazyQuery,
   useUserPreferencesQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
@@ -122,27 +122,25 @@ function HomePage() {
     onError: handleApolloError,
   })
 
-  const [menuLazyQuery] = useMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
-
-  function fetchMenu(menuId: string) {
-    return () => {
-      menuLazyQuery({ variables: { id: menuId } })
-    }
-  }
+  const menus = menusQueryResult.data?.menus
+  const isMenusLoading = menusQueryResult.networkStatus < 7
 
   const userPreferencesQueryResult = useUserPreferencesQuery({
     notifyOnNetworkStatusChange: true,
     skip: !user,
   })
 
-  const menus = menusQueryResult.data?.menus
-  const isMenusLoading = menusQueryResult.networkStatus < 7
-
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
+
+  const [pickingMenuLazyQuery] = usePickingMenuLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  function refetchPickingMenu(menuId: string) {
+    return () => pickingMenuLazyQuery({ variables: { id: menuId } })
+  }
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -255,7 +253,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={fetchMenu(menu.id)}
+                    afterPickingMenu={refetchPickingMenu(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />
@@ -338,7 +336,7 @@ function HomePage() {
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={fetchMenu(menu.id)}
+                    afterPickingMenu={refetchPickingMenu(menu.id)}
                     menu={menu}
                     onlyImage={onlyImage}
                   />

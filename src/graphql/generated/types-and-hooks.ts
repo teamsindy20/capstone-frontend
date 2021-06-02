@@ -303,14 +303,14 @@ export type Order = {
   deliveryAddress: Scalars['String']
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
-  reviewReward: Scalars['Boolean']
-  regularReward: Scalars['Boolean']
   userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
   /** nullable */
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
+  reviewReward?: Maybe<Scalars['String']>
+  regularReward?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
   /** from other table */
   user: User
@@ -735,6 +735,22 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
 
+export type PickingFavoriteMenuQueryVariables = Exact<{ [key: string]: never }>
+
+export type PickingFavoriteMenuQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
+      favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>>
+    }
+}
+
+export type PickingMenuQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type PickingMenuQuery = { __typename?: 'Query' } & {
+  menu?: Maybe<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>
+}
+
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
@@ -1085,6 +1101,105 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >
+export const PickingFavoriteMenuDocument = gql`
+  query PickingFavoriteMenu {
+    me {
+      id
+      favoriteMenus {
+        id
+        favorite
+      }
+    }
+  }
+`
+
+/**
+ * __usePickingFavoriteMenuQuery__
+ *
+ * To run a query within a React component, call `usePickingFavoriteMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePickingFavoriteMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePickingFavoriteMenuQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePickingFavoriteMenuQuery(
+  baseOptions?: Apollo.QueryHookOptions<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>(
+    PickingFavoriteMenuDocument,
+    options
+  )
+}
+export function usePickingFavoriteMenuLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PickingFavoriteMenuQuery,
+    PickingFavoriteMenuQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PickingFavoriteMenuQuery, PickingFavoriteMenuQueryVariables>(
+    PickingFavoriteMenuDocument,
+    options
+  )
+}
+export type PickingFavoriteMenuQueryHookResult = ReturnType<typeof usePickingFavoriteMenuQuery>
+export type PickingFavoriteMenuLazyQueryHookResult = ReturnType<
+  typeof usePickingFavoriteMenuLazyQuery
+>
+export type PickingFavoriteMenuQueryResult = Apollo.QueryResult<
+  PickingFavoriteMenuQuery,
+  PickingFavoriteMenuQueryVariables
+>
+export const PickingMenuDocument = gql`
+  query PickingMenu($id: ID!) {
+    menu(id: $id) {
+      id
+      favorite
+    }
+  }
+`
+
+/**
+ * __usePickingMenuQuery__
+ *
+ * To run a query within a React component, call `usePickingMenuQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePickingMenuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePickingMenuQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePickingMenuQuery(
+  baseOptions: Apollo.QueryHookOptions<PickingMenuQuery, PickingMenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PickingMenuQuery, PickingMenuQueryVariables>(PickingMenuDocument, options)
+}
+export function usePickingMenuLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PickingMenuQuery, PickingMenuQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PickingMenuQuery, PickingMenuQueryVariables>(
+    PickingMenuDocument,
+    options
+  )
+}
+export type PickingMenuQueryHookResult = ReturnType<typeof usePickingMenuQuery>
+export type PickingMenuLazyQueryHookResult = ReturnType<typeof usePickingMenuLazyQuery>
+export type PickingMenuQueryResult = Apollo.QueryResult<PickingMenuQuery, PickingMenuQueryVariables>
 export const FavoriteMenusDocument = gql`
   query FavoriteMenus {
     me {

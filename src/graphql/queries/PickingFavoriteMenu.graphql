@@ -1,0 +1,9 @@
+query PickingFavoriteMenu {
+  me {
+    id
+    favoriteMenus {
+      id
+      favorite
+    }
+  }
+}

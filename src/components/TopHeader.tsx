@@ -18,6 +18,7 @@ const FixedPosition = styled.div`
   height: ${TOP_HEADER_HEIGHT};
   transform: translateX(-50%);
   background: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
 `
 
 const Height = styled.div`
@@ -37,7 +38,6 @@ function TopHeader({ children }: Props) {
     <>
       <FixedPosition>
         <Height>{children}</Height>
-        <HorizontalBorder />
       </FixedPosition>
       <PaddingTop />
     </>

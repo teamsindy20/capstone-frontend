@@ -54,11 +54,11 @@ const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
-  font-size: 55px !important;
-  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 50px !important;
+  background-color: #f57961;
   border-radius: 50%;
   padding: 10px;
-  //font-color: #3c3c3c;
+  color: white !important;
 `
 
 const PreferenceText = styled.div`

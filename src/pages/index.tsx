@@ -51,7 +51,7 @@ const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
 
 const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
 
-const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+const StyledExpandMoreRoundedIcon = { fontSize: 23, color: grey[800] }
 
 const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   font-size: 50px !important;
@@ -60,7 +60,21 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   padding: 10px;
   color: white !important;
 `
+const LocationText = styled.h3`
+  margin: 16px 2px 16px 16px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+`
 
+const IconGridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 16px 16px 16px;
+  top: 0;
+  align-items: center;
+  height: 100%;
+`
 const PreferenceText = styled.div`
   text-align: center;
   margin: 0.5rem;
@@ -170,24 +184,26 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-              흑석동
+              <LocationText>
+                {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
+                흑석동
+              </LocationText>
               <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <FlexContainerAlignCenter>
+              <IconGridContainer>
                 <ClientSideLink href="/users/username/regulars">
                   <LocalActivityRoundedIcon
                     style={StyledLocalActivityRoundedIcon}
                   ></LocalActivityRoundedIcon>
                 </ClientSideLink>
-              </FlexContainerAlignCenter>
-              <ClientSideLink href="/users/username/notifications">
-                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
-              </ClientSideLink>
-              <ClientSideLink href="/search">
-                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
-              </ClientSideLink>
+                <ClientSideLink href="/users/username/notifications">
+                  <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+                </ClientSideLink>
+                <ClientSideLink href="/search">
+                  <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+                </ClientSideLink>
+              </IconGridContainer>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>

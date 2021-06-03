@@ -22,8 +22,6 @@ import { Controller, useForm } from 'react-hook-form'
 import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
 import { useStoreNameIdUrl } from '..'
 
-const description = '메뉴 세부 정보를 확인해보세요'
-
 export const ReviewButton = styled(Button)`
   background-color: #ff9a87;
   border-radius: 7px;
@@ -99,6 +97,8 @@ export function getSelectedOptionsPrice(a: { [x: string]: any }): number {
     .flat()
     .reduce((acc, current) => acc + current.price, 0)
 }
+
+const description = '메뉴 세부 정보를 확인해보세요'
 
 function StoreMenuPage() {
   const router = useRouter()

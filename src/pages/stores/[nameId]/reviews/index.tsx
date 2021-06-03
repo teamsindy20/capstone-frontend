@@ -27,8 +27,7 @@ function handleChange(value: any) {
 }
 
 function StoreReviewsPage() {
-  const router = useRouter()
-  const { storeId, getStoreUrl } = useStoreNameIdUrl()
+  const { storeId } = useStoreNameIdUrl()
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -45,17 +44,7 @@ function StoreReviewsPage() {
   return (
     <PageHead title="디저트핏 - 매장 리뷰" description={description}>
       <PageLayout>
-        <StorePageLayout loading={isStoreLoading} store={store}>
-          <Divider />
-          <Tabs
-            defaultActiveKey="reviews"
-            centered
-            onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
-          >
-            <Tabs.TabPane tab="메뉴" key="menus" />
-            <Tabs.TabPane tab="소식" key="feed" />
-            <Tabs.TabPane tab="리뷰" key="reviews" />
-          </Tabs>
+        <StorePageLayout defaultPage="reviews" loading={isStoreLoading} store={store}>
           <MarginDiv>
             <FlexContainerBetween>
               <Search

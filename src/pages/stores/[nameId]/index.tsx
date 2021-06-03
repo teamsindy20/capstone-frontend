@@ -87,13 +87,15 @@ export function useStoreNameIdUrl() {
 
 type Props = {
   children: ReactNode
+  defaultPage: string
   loading: boolean
   store: any
 }
 
-export function StorePageLayout({ children, loading, store }: Props) {
+export function StorePageLayout({ children, defaultPage, loading, store }: Props) {
+  const router = useRouter()
   const goBack = useGoBack()
-  const { storeId } = useStoreNameIdUrl()
+  const { storeId, getStoreUrl } = useStoreNameIdUrl()
 
   const [storeLazyQuery] = useStoreLazyQuery({
     fetchPolicy: 'network-only',
@@ -202,6 +204,18 @@ export function StorePageLayout({ children, loading, store }: Props) {
       </NoMarginH4>
       <NoMarginH4>배달료 : {store?.deliveryCharge}</NoMarginH4>
       <NoMarginH4>최소주문금액 : {store?.minimumDeliveryAmount}</NoMarginH4>
+
+      <Divider />
+      <Tabs
+        defaultActiveKey={defaultPage}
+        centered
+        onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
+      >
+        <Tabs.TabPane tab="메뉴" key="menus" />
+        <Tabs.TabPane tab="소식" key="feed" />
+        <Tabs.TabPane tab="리뷰" key="reviews" />
+      </Tabs>
+
       {children}
     </>
   )
@@ -210,8 +224,7 @@ export function StorePageLayout({ children, loading, store }: Props) {
 const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
 function StoreMenusPage() {
-  const router = useRouter()
-  const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
+  const { storeId, storeName } = useStoreNameIdUrl()
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -233,23 +246,12 @@ function StoreMenusPage() {
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
       <PageLayout>
-        <StorePageLayout loading={isStoreLoading} store={store}>
-          <Divider />
-          <Tabs
-            defaultActiveKey="menus"
-            centered
-            onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
-          >
-            <Tabs.TabPane tab="메뉴" key="menus" />
-            <Tabs.TabPane tab="소식" key="feed" />
-            <Tabs.TabPane tab="리뷰" key="reviews" />
-          </Tabs>
+        <StorePageLayout defaultPage="menus" loading={isStoreLoading} store={store}>
           <Divider orientation="right">
             <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
               사진만 보기
             </Checkbox>
           </Divider>
-
           <GridContainerUl onlyImage={onlyImage}>
             {menus?.map((menu) => (
               <MenuCard

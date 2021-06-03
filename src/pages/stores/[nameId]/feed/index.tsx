@@ -33,8 +33,7 @@ const Tag = styled.span<{ color: string }>`
 const description = '매장의 소식을 확인해보세요'
 
 function StoreFeedPage() {
-  const router = useRouter()
-  const { storeId, storeName, getStoreUrl } = useStoreNameIdUrl()
+  const { storeId, storeName } = useStoreNameIdUrl()
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -71,17 +70,7 @@ function StoreFeedPage() {
   return (
     <PageHead title="디저트핏 - 매장 소식" description={`${storeName} ${description}`}>
       <PageLayout>
-        <StorePageLayout loading={isStoreLoading} store={store}>
-          <Tabs
-            defaultActiveKey="feed"
-            centered
-            onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
-          >
-            <Tabs.TabPane tab="메뉴" key="menus" />
-            <Tabs.TabPane tab="소식" key="feed" />
-            <Tabs.TabPane tab="리뷰" key="reviews" />
-          </Tabs>
-
+        <StorePageLayout defaultPage="feed" loading={isStoreLoading} store={store}>
           <Div>
             <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
               이벤트

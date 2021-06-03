@@ -8,6 +8,8 @@ import useGoBack from 'src/hooks/useGoBack'
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import { Button, Input, Space, Divider, Modal } from 'antd'
 
+const { Search } = Input
+
 const FlexContainerBetween1 = styled(FlexContainerBetween)`
   height: 100%;
 `
@@ -30,6 +32,7 @@ const GridContainer = styled.div`
   display: grid;
   margin: 1.2rem;
   grid-template-row: auto;
+  grid-gap: 3px;
 `
 
 const TitleText = styled.h3`
@@ -61,28 +64,30 @@ const Adress2Icon = styled.div`
 `
 
 const PinkButton = styled.button`
-  background-color: white;
-  color: #2eccba;
-  border: 1px solid #2eccba;
+  background-color: #ff9a88;
+  border: 1px solid #ff9a88;
+  color: white;
   text-align: center;
   text-decoration: none;
   padding: 0.5em 0.5rem;
   font-size: 1rem;
-  margin: 1px 1px;
+  margin: 4px 2px;
   border-radius: 0.3rem;
   cursor: pointer;
   display: inline-block;
   transition-duration: 0.4s;
 
   &:hover {
-    background-color: #2eccba;
-    border: white;
-    color: white;
+    background-color: white;
+    border: #ff9a88;
+    color: #ff9a88;
   }
 `
 
 function Location() {
   const goBack = useGoBack()
+
+  const onSearch = (value: any) => console.log(value)
 
   return (
     <PageHead>
@@ -95,6 +100,25 @@ function Location() {
           <WhiteText>ㅇ</WhiteText>
         </FlexContainerBetween1>
       </TopHeader>
+      <GridContainer>
+        <TitleText>현주소</TitleText>
+        <AddresContainer>
+          <StyledLocationOnRoundedIcon />
+          <AdressText>동작구 흑석동 221 208관 1층</AdressText>
+        </AddresContainer>
+        <AddresContainer>
+          <Adress2Icon>도로명</Adress2Icon>
+          <Adress2Text>흑석로 84 208관 1층</Adress2Text>
+        </AddresContainer>
+        <Search
+          placeholder="주소를 입력해주세요."
+          allowClear
+          onSearch={onSearch}
+          style={{ width: 320 }}
+        />
+        <PinkButton>현위치 주소설정</PinkButton>
+      </GridContainer>
+      <Divider />
       <GridContainer>
         <TitleText>현주소</TitleText>
         <AddresContainer>

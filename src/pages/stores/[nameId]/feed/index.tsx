@@ -11,9 +11,7 @@ import { usePostsByStoreQuery, useStoreQuery } from 'src/graphql/generated/types
 import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
-import StoreInformation from 'src/components/StoreInformation'
-import StoreTopHeader from 'src/components/StoreTopHeader'
-import { useStoreNameIdUrl } from '..'
+import { StorePageLayout, useStoreNameIdUrl } from '..'
 
 const Div = styled.div`
   overflow: scroll hidden;
@@ -73,58 +71,53 @@ function StoreFeedPage() {
   return (
     <PageHead title="디저트핏 - 매장 소식" description={`${storeName} ${description}`}>
       <PageLayout>
-        <StoreTopHeader store={store} />
+        <StorePageLayout loading={isStoreLoading} store={store}>
+          <Tabs
+            defaultActiveKey="feed"
+            centered
+            onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
+          >
+            <Tabs.TabPane tab="메뉴" key="menus" />
+            <Tabs.TabPane tab="소식" key="feed" />
+            <Tabs.TabPane tab="리뷰" key="reviews" />
+          </Tabs>
 
-        <StoreInformation loading={isStoreLoading} store={store} />
+          <Div>
+            <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
+              이벤트
+            </Tag>
+            <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
+              메뉴 소식
+            </Tag>
+            <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
+              영업 공지
+            </Tag>
 
-        <Tabs
-          defaultActiveKey="feed"
-          centered
-          onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
-        >
-          <Tabs.TabPane tab="메뉴" key="menus" />
-          <Tabs.TabPane tab="소식" key="feed" />
-          <Tabs.TabPane tab="리뷰" key="reviews" />
-        </Tabs>
-
-        <Div>
-          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-            이벤트
-          </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-            메뉴 소식
-          </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
-            영업 공지
-          </Tag>
-
-          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-            원데이 클래스
-          </Tag>
-          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
-            이모저모
-          </Tag>
-        </Div>
-        <HorizontalBorder />
-        <Divider />
-        <GridContainerUl onlyImage={false}>
-          {posts?.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-          {isPostsLoading || hasMorePosts ? (
-            <div ref={sentryRef}>
-              <PostLoadingCard />
-            </div>
-          ) : (
-            posts?.length === 0 && <h4>매장 소식이 없어요</h4>
-          )}
-        </GridContainerUl>
+            <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
+              원데이 클래스
+            </Tag>
+            <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+              이모저모
+            </Tag>
+          </Div>
+          <HorizontalBorder />
+          <Divider />
+          <GridContainerUl onlyImage={false}>
+            {posts?.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+            {isPostsLoading || hasMorePosts ? (
+              <div ref={sentryRef}>
+                <PostLoadingCard />
+              </div>
+            ) : (
+              posts?.length === 0 && <h4>매장 소식이 없어요</h4>
+            )}
+          </GridContainerUl>
+        </StorePageLayout>
       </PageLayout>
     </PageHead>
   )
 }
 
 export default StoreFeedPage
-function useStoreUrl(): { storeId: any; storeName: any } {
-  throw new Error('Function not implemented.')
-}

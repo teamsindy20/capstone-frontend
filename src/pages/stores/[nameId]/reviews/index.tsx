@@ -6,9 +6,7 @@ import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
 import { useEffect, useState } from 'react'
-import StoreInformation from 'src/components/StoreInformation'
-import StoreTopHeader from 'src/components/StoreTopHeader'
-import { useStoreNameIdUrl } from '..'
+import { StorePageLayout, useStoreNameIdUrl } from '..'
 import { useStoreQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 
@@ -47,39 +45,37 @@ function StoreReviewsPage() {
   return (
     <PageHead title="디저트핏 - 매장 리뷰" description={description}>
       <PageLayout>
-        <StoreTopHeader store={store} />
-
-        <StoreInformation loading={isStoreLoading} store={store} />
-
-        <Divider />
-        <Tabs
-          defaultActiveKey="reviews"
-          centered
-          onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
-        >
-          <Tabs.TabPane tab="메뉴" key="menus" />
-          <Tabs.TabPane tab="소식" key="feed" />
-          <Tabs.TabPane tab="리뷰" key="reviews" />
-        </Tabs>
-        <MarginDiv>
-          <FlexContainerBetween>
-            <Search
-              placeholder="내용을 입력해주세요."
-              allowClear
-              onSearch={onSearch}
-              style={{ width: 230 }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Select defaultValue="like" style={{ width: 120 }} onChange={handleChange}>
-              <Option value="like">좋아요순</Option>
-              <Option value="reorder">재주문율순</Option>
-              <Option value="date">최신순</Option>
-            </Select>
-          </FlexContainerBetween>
+        <StorePageLayout loading={isStoreLoading} store={store}>
           <Divider />
-          <ReviewCard onlyImage={false} review={1 as any} />
-        </MarginDiv>
+          <Tabs
+            defaultActiveKey="reviews"
+            centered
+            onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
+          >
+            <Tabs.TabPane tab="메뉴" key="menus" />
+            <Tabs.TabPane tab="소식" key="feed" />
+            <Tabs.TabPane tab="리뷰" key="reviews" />
+          </Tabs>
+          <MarginDiv>
+            <FlexContainerBetween>
+              <Search
+                placeholder="내용을 입력해주세요."
+                allowClear
+                onSearch={onSearch}
+                style={{ width: 230 }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Select defaultValue="like" style={{ width: 120 }} onChange={handleChange}>
+                <Option value="like">좋아요순</Option>
+                <Option value="reorder">재주문율순</Option>
+                <Option value="date">최신순</Option>
+              </Select>
+            </FlexContainerBetween>
+            <Divider />
+            <ReviewCard onlyImage={false} review={1 as any} />
+          </MarginDiv>
+        </StorePageLayout>
       </PageLayout>
     </PageHead>
   )

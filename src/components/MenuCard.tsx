@@ -80,7 +80,7 @@ const MenuName = styled.h4`
 
 export const Hashtags = styled.ul`
   position: absolute;
-  width: calc(100% - 2rem);
+  width: calc(100% - 3.5rem);
   display: flex;
   overflow: hidden;
 `

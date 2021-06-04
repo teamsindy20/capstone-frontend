@@ -14,32 +14,64 @@ import PostCard, { PostLoadingCard } from '../../components/PostCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 
 const HorizontalBorder = styled.div`
-  border: 2px solid #ddd;
+  border: 2px solid #f5f5f5;
   margin-bottom: 15px;
+`
+const ThinHorizontalBorder = styled.div`
+  border: solid 1px #e8e8e8;
 `
 
 const ScrollDiv = styled.div`
   overflow: scroll hidden;
   display: flex;
-  margin: 6px 0px;
+  height: 65px;
+  background-color: #ffffff;
+  padding: 15px;
+`
+const Tag = styled.span<{ color: string }>`
+  margin: 0 4px;
+  padding: 6px 13px 6px 13px;
+  white-space: nowrap;
+  border-radius: 19px;
+  border: solid 1px #fe8e78;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  height: 34px;
+  background-color: ${(p) => p.color};
+  //background-color: #fe8e78;
+  color: white;
+`
+
+const UnSelectedTag = styled(Tag)`
+  border: solid 1px #eaeaea !important;
+  color: black !important;
+`
+
+const FeedTitleContainer = styled(FlexContainerBetween)`
+  height: 44px;
+  background-color: #ffffff;
+`
+
+const FeedTitleText = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
+  margin: 0 1rem;
+`
+const FeedMoreText = styled(Button)`
+  font-size: 13px;
+  font-weight: 500;
+  color: #6c6c6c;
 `
 const MarginDiv = styled.div`
   margin: 0.5rem;
+  
 `
 
 const NoMarginh3 = styled.h3`
   margin: 0;
-`
-
-const Tag = styled.span<{ color: string }>`
-  margin: 10px;
-  padding: 5px 10px;
-  white-space: nowrap;
-  border-radius: 12px;
-  font-size: 14px;
-  text-align: center;
-  vertical-align: middle;
-  background-color: ${(p) => p.color};
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
@@ -96,31 +128,32 @@ function StoresFeedPage() {
           </Tabs>
         </TopHeader>
         <ScrollDiv>
-          <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
-            메뉴 소식
+          <Tag color="#fe8e78" onClick={(e: any) => console.log(e.target.textContent)}>
+            메뉴소식
           </Tag>
-          <Tag color="rgb(247, 231, 177)" onClick={(e: any) => console.log(e.target.textContent)}>
-            영업 공지
+          <Tag color="#fe8e78" onClick={(e: any) => console.log(e.target.textContent)}>
+            영업공지
           </Tag>
-          <Tag color="rgb(169, 160, 252)" onClick={(e: any) => console.log(e.target.textContent)}>
+          <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
             이벤트
-          </Tag>
+          </UnSelectedTag>
 
-          <Tag color="rgb(207, 195, 181)" onClick={(e: any) => console.log(e.target.textContent)}>
-            원데이 클래스
-          </Tag>
-          <Tag color="#FF8787" onClick={(e: any) => console.log(e.target.textContent)}>
+          <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
+            원데이클래스
+          </UnSelectedTag>
+          <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
             이모저모
-          </Tag>
+          </UnSelectedTag>
         </ScrollDiv>
         <HorizontalBorder />
-        <Divider />
+        <FeedTitleContainer>
+          <FeedTitleText>찜한 매장 소식</FeedTitleText>
+          <FeedMoreText shape="round" type="text">
+            더보기
+          </FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
         <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>찜한 매장 소식</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
           <GridContainerUl onlyImage={false}>
             {posts?.map((post) => (
               <PostCard key={post.id} post={post} />
@@ -134,13 +167,13 @@ function StoresFeedPage() {
             )}
           </GridContainerUl>
         </MarginDiv>
-        <Divider />
+        <HorizontalBorder />
+        <FeedTitleContainer>
+          <FeedTitleText>전체 매장 소식</FeedTitleText>
+          <FeedMoreText type="text">더보기</FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
         <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>전체 매장 소식</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
           <GridContainerUl onlyImage={false}>
             {posts?.map((post) => (
               <PostCard key={post.id} post={post} />

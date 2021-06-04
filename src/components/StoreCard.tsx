@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { StoreCardFragment, usePickStoreMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import { FlexContainerBetween } from '../styles/FlexContainer'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import { handleApolloError } from 'src/apollo/error'
@@ -62,6 +62,14 @@ const AbsolutePositionBottomRight = styled.div`
   position: absolute;
   bottom: 0.3rem;
   right: 0.3rem;
+`
+
+const RegularButton = styled(Button)`
+  color: #2eccba;
+  font-size: 13px;
+  //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  border: none;
 `
 
 export function StoreLoadingCard() {
@@ -130,6 +138,13 @@ function StoreCard({ afterPickingStore, store }: Props) {
     }
   }
 
+  const content = (
+    <div>
+      <p>단골 선정 기준 : 언제까지 몇번 주문하면 단골이 될 수 있어요!</p>
+      <p>단골 혜택 : 뿌링치즈볼4개 / 10% 할인</p>
+    </div>
+  )
+
   return (
     <GridContainerLi onClick={goToStoreMenuPage}>
       <SquareFrame>
@@ -172,7 +187,9 @@ function StoreCard({ afterPickingStore, store }: Props) {
         </div>
 
         <AbsolutePositionBottomRight>
-          <Button onClick={(e) => e.stopPropagation()}>혜택</Button>
+          <Popover content={content} title="단골">
+            <RegularButton onClick={(e) => e.stopPropagation()}>혜택</RegularButton>
+          </Popover>
         </AbsolutePositionBottomRight>
       </FlexContainerBetweenColumn>
     </GridContainerLi>

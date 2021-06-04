@@ -17,6 +17,9 @@ const HorizontalBorder = styled.div`
   border: 2px solid #f5f5f5;
   margin-bottom: 15px;
 `
+const ThinHorizontalBorder = styled.div`
+  border: solid 1px #e8e8e8;
+`
 
 const ScrollDiv = styled.div`
   overflow: scroll hidden;
@@ -44,6 +47,23 @@ const Tag = styled.span<{ color: string }>`
 const UnSelectedTag = styled(Tag)`
   border: solid 1px #eaeaea !important;
   color: black !important;
+`
+
+const FeedTitleContainer = styled(FlexContainerBetween)`
+  height: 44px;
+  background-color: #ffffff;
+`
+
+const FeedTitleText = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
+  margin: 0 1rem;
+`
+const FeedMoreText = styled(Button)`
+  font-size: 13px;
+  font-weight: 500;
+  color: #6c6c6c;
 `
 const MarginDiv = styled.div`
   margin: 0.5rem;
@@ -125,13 +145,14 @@ function StoresFeedPage() {
           </UnSelectedTag>
         </ScrollDiv>
         <HorizontalBorder />
-        <Divider />
+        <FeedTitleContainer>
+          <FeedTitleText>찜한 매장 소식</FeedTitleText>
+          <FeedMoreText shape="round" type="text">
+            더보기
+          </FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
         <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>찜한 매장 소식</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
           <GridContainerUl onlyImage={false}>
             {posts?.map((post) => (
               <PostCard key={post.id} post={post} />

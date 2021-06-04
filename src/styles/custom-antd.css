@@ -1,0 +1,16 @@
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: black;
+}
+
+.ant-tabs-ink-bar {
+  background: #ff9a88;
+}
+
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:hover,
+.ant-tabs-tab-remove:hover,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+  color: #ff9a88;
+}

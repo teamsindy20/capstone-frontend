@@ -67,11 +67,6 @@ const FeedMoreText = styled(Button)`
 `
 const MarginDiv = styled.div`
   margin: 0.5rem;
-  
-`
-
-const NoMarginh3 = styled.h3`
-  margin: 0;
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
@@ -122,6 +117,7 @@ function StoresFeedPage() {
             defaultActiveKey="feed"
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+            tabBarStyle={{ color: '#b4b4b4' }}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />

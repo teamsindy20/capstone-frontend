@@ -8,13 +8,15 @@ import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
 import styled, { createGlobalStyle } from 'styled-components'
+import { ToastContainer, cssTransition } from 'react-toastify'
+
 import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import 'animate.css/animate.min.css'
-import { ToastContainer, cssTransition } from 'react-toastify'
+import 'src/styles/custom-antd.css'
 
 export const fade = cssTransition({
   enter: 'animate__animated animate__fadeIn',

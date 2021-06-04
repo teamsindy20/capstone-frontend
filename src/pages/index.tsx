@@ -111,7 +111,10 @@ const StyledTag = styled.span<{ color: string }>`
   vertical-align: middle;
   background-color: ${(p) => p.color};
 `
-
+const BannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+`
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -211,21 +214,14 @@ function HomePage() {
 
         <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
           <TabPane tab="디저트핏" key="1">
+            <br />
+            <br />
             <Carousel autoplay>
-              <div>
-                <h3 style={contentStyle}>내게 딱 맞는 디저트핏!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Dessert Fit!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>김빵순 사랑해</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
-              </div>
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
             </Carousel>
-
             <Divider orientation="left">
               {loading ? (
                 ''

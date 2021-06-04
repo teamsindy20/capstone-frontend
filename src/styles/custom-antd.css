@@ -15,3 +15,10 @@
 .ant-tabs-tab-remove:active {
   color: #ff9a88;
 }
+
+.ant-tabs > .ant-tabs-nav {
+  position: fixed;
+  background: white;
+  width: 100%;
+  z-index:1;
+}

@@ -73,6 +73,7 @@ function UserFavoriteMenusPage() {
           <Tabs
             defaultActiveKey="favorite-menus"
             centered
+            size="large"
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
           >
             <Tabs.TabPane tab="메뉴" key="favorite-menus" />

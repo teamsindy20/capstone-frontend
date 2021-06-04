@@ -1,5 +1,6 @@
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   color: black;
+  font-weight: bold;
 }
 
 .ant-tabs-ink-bar {

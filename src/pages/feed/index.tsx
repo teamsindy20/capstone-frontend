@@ -32,6 +32,7 @@ const Tag = styled.span<{ color: string }>`
   border-radius: 19px;
   border: solid 1px #fe8e78;
   font-size: 14px;
+  font-weight: 500;
   text-align: center;
   vertical-align: middle;
   height: 34px;
@@ -107,17 +108,17 @@ function StoresFeedPage() {
         </TopHeader>
         <ScrollDiv>
           <Tag color="#fe8e78" onClick={(e: any) => console.log(e.target.textContent)}>
-            메뉴 소식
+            메뉴소식
           </Tag>
           <Tag color="#fe8e78" onClick={(e: any) => console.log(e.target.textContent)}>
-            영업 공지
+            영업공지
           </Tag>
           <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
             이벤트
           </UnSelectedTag>
 
           <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
-            원데이 클래스
+            원데이클래스
           </UnSelectedTag>
           <UnSelectedTag color="#ffffff" onClick={(e: any) => console.log(e.target.textContent)}>
             이모저모

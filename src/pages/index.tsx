@@ -187,7 +187,9 @@ function HomePage() {
                 {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
                 흑석동
               </LocationText>
-              <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
+              <ClientSideLink href="/location">
+                <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
+              </ClientSideLink>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <IconGridContainer>

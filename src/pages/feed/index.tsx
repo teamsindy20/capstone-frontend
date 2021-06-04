@@ -67,6 +67,7 @@ const FeedMoreText = styled(Button)`
 `
 const MarginDiv = styled.div`
   margin: 0.5rem;
+  
 `
 
 const NoMarginh3 = styled.h3`

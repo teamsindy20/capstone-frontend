@@ -23,7 +23,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 `
 
 const ShadowingLi = styled.li`
-  background-color: white;
+  background-color: #fcfcfc;
 `
 
 const GridContainerPadding = styled(GridContainerGap)`
@@ -36,6 +36,7 @@ const StoreImg = styled.img`
   height: 32px;
   object-fit: contain;
   border-radius: 50%;
+  border: solid 1px #e8e8e8;
 `
 
 const NoMarginH5 = styled.h5`
@@ -51,7 +52,7 @@ const ProfileGrid = styled.div`
   margin: 5px;
   border: none
   height: 3rem;
-  background-color: #ffffff;
+  background-color: #fcfcfc;
   grid-gap: 5px;
 `
 

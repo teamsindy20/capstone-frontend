@@ -23,7 +23,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 `
 
 const ShadowingLi = styled.li`
-  background-color: #dddbdb;
+  background-color: white;
 `
 
 const GridContainerPadding = styled(GridContainerGap)`

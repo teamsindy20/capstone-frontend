@@ -32,10 +32,11 @@ const GridContainerPadding = styled(GridContainerGap)`
   padding: 1rem;
 `
 
-const StyledImg = styled.img`
-  width: 1.8rem;
-  height: 1.8rem;
-  object-fit: cover;
+const StoreImg = styled.img`
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   border-radius: 50%;
 `
 
@@ -46,7 +47,32 @@ const NoMarginH5 = styled.h5`
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
-const FeedCardGrid = styled.div`
+const ProfileGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  margin: 5px;
+  border: none
+  height: 3rem;
+  background-color: #ffffff;
+  grid-gap: 5px;
+`
+
+const ProfileTitleGrid = styled.div`
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+`
+
+const StoreName = styled.h4`
+  font-size: 15px;
+  font-weight: 500;
+  color: #000000;
+`
+const TagName = styled.h4`
+  font-size: 11px;
+  font-weight: 500;
+  color: #ff5e3d;
+`
+const CardGrid = styled.div`
   display: grid;
   grid-template-rows: repeat(3, auto);
   border-radius: 10px;
@@ -54,7 +80,7 @@ const FeedCardGrid = styled.div`
   background-color: #ffffff;
   height: 13rem;
 `
-const FeedCardContent = styled.div`
+const CardContent = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr;
 `
@@ -155,21 +181,28 @@ function PostCard({ post }: Props) {
 
   return (
     <ShadowingLi>
-      <FeedCardGrid>
-        <FeedCardContent>
-          <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" objectFit="cover" />
+      <ProfileGrid>
+        <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
+        <ProfileTitleGrid>
+          <StoreName>{store.name}</StoreName>
+          <TagName>신메뉴소식</TagName>
+        </ProfileTitleGrid>
+      </ProfileGrid>
+      <CardGrid>
+        <CardContent>
+          <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" />
           <TextInCard>
             {post.contents.map((content, i) =>
               content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
             )}
           </TextInCard>
-        </FeedCardContent>
+        </CardContent>
         <CardHorizontalBorder />
         <FlexContainerBetween>
           <div>더보기</div>
           <div>아이콘</div>
         </FlexContainerBetween>
-      </FeedCardGrid>
+      </CardGrid>
       {/* <Card
         style={{ width: 360 }}
         cover={<img alt="post" src={post.imageUrls ? post.imageUrls[0] : ''} />}

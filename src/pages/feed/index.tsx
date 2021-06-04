@@ -28,6 +28,9 @@ const ScrollDiv = styled.div`
   height: 65px;
   background-color: #ffffff;
   padding: 15px;
+  /* position: fixed;
+  z-index: 1; */
+  //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
 `
 const Tag = styled.span<{ color: string }>`
   margin: 0 4px;
@@ -119,7 +122,7 @@ function StoresFeedPage() {
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
             size="large"
-            tabBarStyle={{ color: '#b4b4b4' }}
+            tabBarStyle={{ color: '#b4b4b4'}}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />

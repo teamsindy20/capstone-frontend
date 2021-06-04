@@ -3,13 +3,13 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import { SquareFrame } from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
 import { Card, Avatar } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import Image from 'next/image'
 
 const { Meta } = Card
 
@@ -46,6 +46,27 @@ const NoMarginH5 = styled.h5`
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
+const FeedCardGrid = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  border-radius: 10px;
+  border: solid 1px #e8e8e8;
+  background-color: #ffffff;
+  height: 13rem;
+`
+const FeedCardContent = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+`
+const CardHorizontalBorder = styled.div`
+  width: 95%;
+  border: solid 1px #e8e8e8;
+`
+const SquareFrame = styled.div`
+  padding-top: 100%;
+  position: relative;
+`
+
 const GridContainerRow3Column2 = styled(GridContainerGap)`
   grid-template-rows: repeat(3, auto);
   grid-template-columns: repeat(2, auto);
@@ -77,17 +98,18 @@ const GridInCardColumn2 = styled.div`
 const ImgInCard = styled.img`
   overflow: hidden;
   border-radius: 5%;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 270px;
+  width: 112px;
+  height: 112px;
+  margin: 11px;
 `
 const TextInCard = styled.div`
-  padding: 20px;
-  font-size: 1rem;
   overflow: visible auto;
-  height: 150px;
+  width: 100%;
+  height: 112px;
+  margin: 11px 0px;
+  font-size: 13px;
+  color: #000000;
 `
 
 const Tag = styled.span<{ color: string }>`
@@ -110,7 +132,6 @@ export function PostLoadingCard() {
           <SkeletonText width="min(10rem, 30vw)" />
         </GridContainerColumn2>
       </FlexContainerBetweenPadding>
-
       <SquareFrame>
         <SkeletonImage />
       </SquareFrame>
@@ -134,7 +155,22 @@ function PostCard({ post }: Props) {
 
   return (
     <ShadowingLi>
-      <Card
+      <FeedCardGrid>
+        <FeedCardContent>
+          <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" objectFit="cover" />
+          <TextInCard>
+            {post.contents.map((content, i) =>
+              content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
+            )}
+          </TextInCard>
+        </FeedCardContent>
+        <CardHorizontalBorder />
+        <FlexContainerBetween>
+          <div>더보기</div>
+          <div>아이콘</div>
+        </FlexContainerBetween>
+      </FeedCardGrid>
+      {/* <Card
         style={{ width: 360 }}
         cover={<img alt="post" src={post.imageUrls ? post.imageUrls[0] : ''} />}
         actions={[
@@ -153,7 +189,7 @@ function PostCard({ post }: Props) {
             content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
           )}
         </TextInCard>
-      </Card>
+      </Card> */}
       {/* <GridInCardColumn2>
         <div>
           <StyledImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />

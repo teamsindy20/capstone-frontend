@@ -49,7 +49,7 @@ const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
 const ProfileGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 10fr;
-  margin: 5px;
+  padding: 5px;
   border: none
   height: 3rem;
   background-color: #fcfcfc;

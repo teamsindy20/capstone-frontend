@@ -167,12 +167,12 @@ function StoresFeedPage() {
           </GridContainerUl>
         </MarginDiv>
         <HorizontalBorder />
+        <FeedTitleContainer>
+          <FeedTitleText>전체 매장 소식</FeedTitleText>
+          <FeedMoreText type="text">더보기</FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
         <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>전체 매장 소식</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
           <GridContainerUl onlyImage={false}>
             {posts?.map((post) => (
               <PostCard key={post.id} post={post} />

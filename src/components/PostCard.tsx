@@ -11,7 +11,6 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import Image from 'next/image'
 
-
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
 const StyledChatBubbleOutlineRoundedIcon = { fontSize: 20, color: grey[800] }
@@ -229,26 +228,7 @@ function PostCard({ post }: Props) {
           </IconGrid>
         </FlexContainerBetween>
       </CardGrid>
-      {/* <Card
-        style={{ width: 360 }}
-        cover={<img alt="post" src={post.imageUrls ? post.imageUrls[0] : ''} />}
-        actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
-        ]}
-      >
-        <Meta
-          avatar={<Avatar src={store.imageUrls ? store.imageUrls[0] : ''} />}
-          title={store.name}
-          description="메뉴 소식"
-        />
-        <TextInCard>
-          {post.contents.map((content, i) =>
-            content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
-          )}
-        </TextInCard>
-      </Card> */}
+
       {/* <GridInCardColumn2>
         <div>
           <StyledImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />

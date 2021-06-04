@@ -214,8 +214,6 @@ function HomePage() {
 
         <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
           <TabPane tab="디저트핏" key="1">
-            <br />
-            <br />
             <Carousel autoplay>
               <BannerImg src="bannerad.png" alt="banner_ad" />
               <BannerImg src="bannerad.png" alt="banner_ad" />

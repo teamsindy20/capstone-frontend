@@ -67,7 +67,7 @@ const LocationText = styled.h3`
   line-height: 1;
 `
 
-const IconGridContainer = styled.div`
+export const IconGridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin: 0 16px 16px 16px;

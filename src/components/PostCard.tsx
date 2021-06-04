@@ -6,12 +6,11 @@ import styled from 'styled-components'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
-import { Card, Avatar } from 'antd'
+import { Divider, Button } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import Image from 'next/image'
 
-const { Meta } = Card
 
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
@@ -85,12 +84,35 @@ const CardContent = styled.div`
   grid-template-columns: 2fr 3fr;
 `
 const CardHorizontalBorder = styled.div`
-  width: 95%;
+  justify-content: center;
+  //width: 95%;
+  height: 0.1px;
   border: solid 1px #e8e8e8;
 `
+
+const FeedMoreText = styled(Button)`
+  font-size: 13px;
+  font-weight: 500;
+  color: #000000;
+  border: none;
+`
+
 const SquareFrame = styled.div`
   padding-top: 100%;
   position: relative;
+`
+const IconGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 16px 16px 16px;
+  top: 0;
+  align-items: center;
+  height: 100%;
+  grid-gap: 10px;
+`
+const IconImg = styled.img`
+  width: 18px;
+  height: 18px;
 `
 
 const GridContainerRow3Column2 = styled(GridContainerGap)`
@@ -199,8 +221,12 @@ function PostCard({ post }: Props) {
         </CardContent>
         <CardHorizontalBorder />
         <FlexContainerBetween>
-          <div>더보기</div>
-          <div>아이콘</div>
+          <FeedMoreText>더보기</FeedMoreText>
+          <IconGrid>
+            <IconImg src="like.png" />
+            <IconImg src="comment.png" />
+            <IconImg src="share.png" />
+          </IconGrid>
         </FlexContainerBetween>
       </CardGrid>
       {/* <Card

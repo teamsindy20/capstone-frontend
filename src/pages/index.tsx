@@ -183,33 +183,35 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
+              <LocationText>
+                {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
+                흑석동
+              </LocationText>
               <ClientSideLink href="/location">
-                <LocationText>
-                  {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
-                  흑석동
-                </LocationText>
                 <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
               </ClientSideLink>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <IconGridContainer>
-                <ClientSideLink href="/users/username/regulars">
-                  <LocalActivityRoundedIcon
-                    style={StyledLocalActivityRoundedIcon}
-                  ></LocalActivityRoundedIcon>
-                </ClientSideLink>
-                <ClientSideLink href="/users/username/notifications">
-                  <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
-                </ClientSideLink>
-                <ClientSideLink href="/search">
-                  <SearchRoundedIcon style={StyledSearchRoundedIcon} />
-                </ClientSideLink>
-              </IconGridContainer>
+              <ClientSideLink href="/users/username/regulars">
+                <LocalActivityRoundedIcon
+                  style={StyledLocalActivityRoundedIcon}
+                ></LocalActivityRoundedIcon>
+              </ClientSideLink>
+              <ClientSideLink href="/users/username/notifications">
+                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+              </ClientSideLink>
+              <ClientSideLink href="/search">
+                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+              </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
 
-        <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
+        <Tabs
+          defaultActiveKey="1"
+          size="large"
+          tabBarStyle={{ color: '#929393', marginLeft: '0.5rem' }}
+        >
           <TabPane tab="디저트핏" key="1">
             <Carousel autoplay>
               <div>

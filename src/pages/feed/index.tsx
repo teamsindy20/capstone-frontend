@@ -12,6 +12,7 @@ import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import PostCard, { PostLoadingCard } from '../../components/PostCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const HorizontalBorder = styled.div`
   border: 2px solid #f5f5f5;
@@ -117,6 +118,7 @@ function StoresFeedPage() {
             defaultActiveKey="feed"
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+            size="large"
             tabBarStyle={{ color: '#b4b4b4' }}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />

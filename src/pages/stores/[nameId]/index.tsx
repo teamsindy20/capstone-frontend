@@ -209,6 +209,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       <Tabs
         defaultActiveKey={defaultPage}
         centered
+        size="large"
         onTabClick={(activeKey) => router.push(getStoreUrl(activeKey))}
       >
         <Tabs.TabPane tab="메뉴" key="menus" />

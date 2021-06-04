@@ -91,7 +91,9 @@ export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
   grid-template-columns: ${(p) => (p.onlyImage ? '1fr 1fr 1fr' : '1fr')};
   gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
-  margin: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
+  padding: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
+
+  background: #fcfcfc;
 `
 
 const FlexContainerOverflowScroll = styled.div`

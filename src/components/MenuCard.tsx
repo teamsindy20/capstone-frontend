@@ -31,6 +31,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
+  background: #fff;
 `
 
 export const SquareFrame = styled.div`

@@ -30,7 +30,7 @@ const Tag = styled.span<{ color: string }>`
   padding: 6px 13px 6px 13px;
   white-space: nowrap;
   border-radius: 19px;
-  border: solid 1px #eaeaea;
+  border: solid 1px #fe8e78;
   font-size: 14px;
   text-align: center;
   vertical-align: middle;
@@ -41,6 +41,7 @@ const Tag = styled.span<{ color: string }>`
 `
 
 const UnSelectedTag = styled(Tag)`
+  border: solid 1px #eaeaea !important;
   color: black !important;
 `
 const MarginDiv = styled.div`

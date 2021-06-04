@@ -46,7 +46,9 @@ const NoMarginH6 = styled.h5`
   margin: 0;
 `
 
-const StyledHomeRoundedIcon = { fontSize: 28, color: '#ff9a88' }
+const SelectedIconStyle = { fontSize: 28, color: '#ff9a88' }
+
+const UnSelectedIconStyle = { fontSize: 28, color: '#cecece' }
 
 function Header() {
   return (
@@ -54,7 +56,7 @@ function Header() {
       <FlexContainerAroundNav>
         <ClientSideLink href="/">
           <FlexContainerColumnCenterCenter>
-            <HomeRoundedIcon style={StyledHomeRoundedIcon} />
+            <HomeRoundedIcon style={{ fontSize: 28, color: '#ff9a88' }} />
             <NoMarginH6>홈</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>

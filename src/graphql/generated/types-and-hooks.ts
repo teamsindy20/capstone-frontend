@@ -179,6 +179,7 @@ export type MenuOptionSelectionInput = {
 }
 
 export type MenuSelectionInput = {
+  id: Scalars['ID']
   count: Scalars['Int']
   menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
 }
@@ -789,7 +790,7 @@ export type MenuQuery = { __typename?: 'Query' } & {
         >
         store: { __typename?: 'Store' } & Pick<
           Store,
-          'id' | 'name' | 'minimumDeliveryAmount' | 'imageUrls'
+          'id' | 'name' | 'deliveryCharge' | 'minimumDeliveryAmount' | 'imageUrls'
         >
       } & MenuCardFragment
   >
@@ -1317,6 +1318,7 @@ export const MenuDocument = gql`
       store {
         id
         name
+        deliveryCharge
         minimumDeliveryAmount
         imageUrls
       }

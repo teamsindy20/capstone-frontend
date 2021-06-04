@@ -16,6 +16,7 @@ query Menu($storeId: ID!, $name: String!) {
     store {
       id
       name
+      deliveryCharge
       minimumDeliveryAmount
       imageUrls
     }

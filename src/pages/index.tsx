@@ -144,6 +144,10 @@ const ColoredLogo = styled.img`
   border-radius: 50%;
 `
 
+const Padding = styled.div`
+  padding-top: 55px;
+`
+
 export function useRefetchMenuFavorite() {
   const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
     fetchPolicy: 'network-only',
@@ -232,6 +236,7 @@ function HomePage() {
           tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
         >
           <TabPane tab="디저트핏" key="1">
+            <Padding />
             <Carousel autoplay>
               <BannerFrame>
                 <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
@@ -326,14 +331,17 @@ function HomePage() {
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
+            <Padding />
             카테고리 선택
           </TabPane>
 
           <TabPane tab="트렌드" key="3">
+            <Padding />
             트렌드 디저트
           </TabPane>
 
           <TabPane tab="베스트" key="4">
+            <Padding />
             <FlexContainerOverflowScroll>
               <StyledTag
                 color="rgb(190, 235, 253)"

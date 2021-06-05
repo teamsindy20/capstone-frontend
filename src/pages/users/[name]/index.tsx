@@ -51,6 +51,7 @@ function MyDessertFitPage() {
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
         <PageLayout>
           <NotLoginModal />
+          <Footer />
         </PageLayout>
       </PageHead>
     )

@@ -213,7 +213,7 @@ function HomePage() {
         <Tabs
           defaultActiveKey="1"
           size="large"
-          tabBarStyle={{ color: '#929393', paddingLeft: '0.5rem' }}
+          tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
         >
           <TabPane tab="디저트핏" key="1">
             <Carousel autoplay>

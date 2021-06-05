@@ -59,6 +59,7 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   border-radius: 50%;
   padding: 10px;
   color: white !important;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08) !important;
 `
 const LocationText = styled.h3`
   margin: 16px 2px 16px 16px;
@@ -133,7 +134,7 @@ const MiddleGrid = styled.div`
   height: 100px;
   text-align: center;
   align-items: center;
-  padding: 10px 1.5rem;
+  padding: 10px 1.2rem;
 `
 
 const MiddleFlexContainer = styled.div`

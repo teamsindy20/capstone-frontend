@@ -123,7 +123,7 @@ function StoresFeedPage() {
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
             size="large"
-            tabBarStyle={{ color: '#b4b4b4'}}
+            tabBarStyle={{ color: '#b4b4b4' }}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />

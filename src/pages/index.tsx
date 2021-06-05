@@ -113,6 +113,7 @@ const StyledTag = styled.span<{ color: string }>`
   vertical-align: middle;
   background-color: ${(p) => p.color};
 `
+
 const BannerFrame = styled.div`
   padding-top: 30%;
   position: relative;

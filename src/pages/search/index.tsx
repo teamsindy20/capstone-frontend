@@ -48,7 +48,6 @@ const WhiteText = styled.h5`
   color: #ffffff;
 `
 
-
 const PopularGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -58,7 +57,7 @@ const PopularGrid = styled.div`
 `
 const PopularContentGrid = styled.div`
   display: grid;
-  grid-template-rows: 1fr 4fr 1fr;
+  grid-template-rows: 1fr 3fr 1fr;
   text-align: center;
   align-items: center;
   height: 100%;
@@ -66,9 +65,25 @@ const PopularContentGrid = styled.div`
 
 const PopularImg = styled.img`
   border-radius: 15%;
-  width: 90%;
-  height: 90%;
+  width: 90px;
+  height: 90px;
   margin: auto;
+`
+
+const LankingMenuName = styled.div`
+  font-size: 13px;
+  font-weight: bold;
+  color: black;
+`
+const LankingText1 = styled.div`
+  font-size: 13px;
+  font-weight: bold;
+  color: #f57861;
+`
+const LankingText2 = styled.div`
+  font-size: 13px;
+  font-weight: bold;
+  color: #007bd5;
 `
 
 function SearchPage() {
@@ -116,19 +131,19 @@ function SearchPage() {
           </TitleText>
           <PopularGrid>
             <PopularContentGrid>
-              <div>1위</div>
+              <LankingText1>1위</LankingText1>
               <PopularImg src="/7@3x.png" />
-              <div>딸기케이크</div>
+              <LankingMenuName>딸기케이크</LankingMenuName>
             </PopularContentGrid>
             <PopularContentGrid>
-              <div>2위</div>
+              <LankingText2>2위</LankingText2>
               <PopularImg src="/9@3x.png" />
-              <div>크로플</div>
+              <LankingMenuName>크로플</LankingMenuName>
             </PopularContentGrid>
             <PopularContentGrid>
-              <div>3위</div>
+              <LankingText2>3위</LankingText2>
               <PopularImg src="/11@3x.png" />
-              <div>뚱카롱</div>
+              <LankingMenuName>뚱카롱</LankingMenuName>
             </PopularContentGrid>
           </PopularGrid>
           <Divider />

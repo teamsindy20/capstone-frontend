@@ -10,6 +10,7 @@ import { Divider, Button } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import Image from 'next/image'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
@@ -204,9 +205,14 @@ function PostCard({ post }: Props) {
   return (
     <ShadowingLi>
       <ProfileGrid>
-        <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
+        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+          <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
+        </ClientSideLink>
         <ProfileTitleGrid>
-          <StoreName>{store.name}</StoreName>
+          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+            <StoreName>{store.name}</StoreName>
+          </ClientSideLink>
+
           <TagName>신메뉴소식</TagName>
         </ProfileTitleGrid>
       </ProfileGrid>

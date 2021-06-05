@@ -12,6 +12,7 @@ import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import PostCard, { PostLoadingCard } from '../../components/PostCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const HorizontalBorder = styled.div`
   border: 2px solid #f5f5f5;
@@ -27,6 +28,9 @@ const ScrollDiv = styled.div`
   height: 65px;
   background-color: #ffffff;
   padding: 15px;
+  /* position: fixed;
+  z-index: 1; */
+  //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
 `
 const Tag = styled.span<{ color: string }>`
   margin: 0 4px;
@@ -66,12 +70,8 @@ const FeedMoreText = styled(Button)`
   color: #6c6c6c;
 `
 const MarginDiv = styled.div`
-  margin: 0.5rem;
-  
-`
-
-const NoMarginh3 = styled.h3`
-  margin: 0;
+  padding: 0.5rem;
+  background-color: #fcfcfc;
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'
@@ -122,6 +122,8 @@ function StoresFeedPage() {
             defaultActiveKey="feed"
             centered
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
+            size="large"
+            tabBarStyle={{ color: '#b4b4b4'}}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />

@@ -37,6 +37,7 @@ function FeedPage() {
           <Tabs
             defaultActiveKey="review-feed"
             centered
+            size="large"
             onTabClick={(activeKey) => router.push(goToPage(activeKey))}
           >
             <Tabs.TabPane tab="매장 소식" key="feed" />

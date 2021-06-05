@@ -1,232 +1,141 @@
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
-import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded'
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
-import IconButton from '@material-ui/core/IconButton'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { Fragment, MouseEvent, ReactText, useRef } from 'react'
+import { MouseEvent, ReactText, useRef } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
-import { GridContainerGap } from '../styles/GridContainer'
-import { CHOCO_COLOR } from 'src/models/constants'
-import Link from 'next/link'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { Menu, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { Menu, MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
-import { stopPropagation } from 'src/utils/commons'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
 import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
-
-export const SkeletonGradient = styled.div`
-  background: #eee;
-  overflow: hidden;
-
-  ::before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -30vw;
-    top: 0;
-    height: 100%;
-    width: 30vw;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.4) 25%,
-      rgba(255, 255, 255, 0.5) 50%,
-      rgba(255, 255, 255, 0.4) 75%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    animation: shine 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
-
-  @keyframes shine {
-    0% {
-      left: -30vw;
-    }
-    66% {
-      left: 100%;
-    }
-    100% {
-      left: 100%;
-    }
-  }
-`
-
-export const SkeletonImage = styled(SkeletonGradient)`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`
-
-export const SkeletonText = styled(SkeletonGradient)<{ width?: string; height?: string }>`
-  position: relative;
-  width: ${({ width = '100%' }) => width};
-  height: ${({ height = '1rem' }) => height};
-`
+import { Button } from 'antd'
+import Image from 'next/image'
+import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
-  ${(p) => (p.onlyImage ? '' : 'display: grid; grid-template-columns: 1fr 2fr;')}
-  cursor: pointer;
-  background: #ffffff;
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: max(10px, 1vw);
-  overflow: hidden;
-`
-
-export const ImageRatioWrapper = styled.div<{ paddingTop: string }>`
-  width: 100%;
+  display: grid;
+  grid-template-columns: ${(p) => (p.onlyImage ? '1fr' : '1fr 2fr')};
   position: relative;
-  padding-top: ${(p) => p.paddingTop};
-  margin-right: 100px;
+  overflow: hidden;
+  background-color: white;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
 `
 
-export const AbsolutePositionImage = styled.img`
+export const SquareFrame = styled.div`
+  padding-top: 100%;
+  position: relative;
+`
+
+const FlexContainerBetweenColumn = styled(FlexContainerBetween)`
+  flex-flow: column nowrap;
+  position: relative;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1.5px 0 #dbdcdd;
+`
+
+const AbsolutePositionTopRight = styled.div`
   position: absolute;
   top: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #ffffff;
+  right: 0;
 `
 
-const FlexContainerColumnBetween = styled(FlexContainerBetween)`
-  flex-flow: column nowrap;
-  gap: 0.3rem;
-  position: relative;
-  padding: 0.5rem 0.5rem 0;
-`
-
-const StyledFlexContainerBetween = styled(FlexContainerBetween)`
-  margin-left: 1rem;
-`
-
-const AbsolutePosition = styled.div`
-  position: absolute;
-  top: 0.2rem;
-  right: 0.1rem;
-`
-
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-`
-const MenuName = styled.h3`
-  margin: 0;
-  font-weight: bold;
-`
-const StoreName = styled.h4`
-  color: #929393;
-  margin: 0;
-  font-weight: normal;
-`
-const MenuPrice = styled.h3`
-  margin: 0;
-  font-weight: normal;
-`
-const NoMarginH3 = styled.h3`
-  margin: 0;
-`
-
-const LighterH5 = styled.h5`
-  margin: 0;
-  font-weight: lighter;
-`
-const NormalH5 = styled.h5`
-  margin: 0;
-  font-weight: normal;
-`
-
-const NormalH4 = styled.h4`
-  margin: 0;
-  font-weight: normal;
-`
-
-const NoMarginH4 = styled.h4`
-  margin: 0;
-  font-weight: bold;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-`
-
-const FlexContainerUl = styled.ul`
-  display: flex;
-  flex-flow: row wrap;
-  list-style: none;
-  padding-left: 0;
-  margin-left: 1rem;
-`
-
-export const NormalA = styled.a`
-  font-size: 1em;
-  font-weight: normal;
+const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+  font-size: 1.5rem !important;
   color: #ff8e77;
-  word-break: keep-all;
-
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  :hover {
-    color: ${CHOCO_COLOR};
-  }
+  margin: 0.5rem;
 `
 
-const HorizontalBorder = styled.div<{ show?: boolean }>`
-  ${(p) => (p.show ? '' : 'visibility: hidden;')}
-  border: 1px solid #ddd;
+const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+  font-size: 1.5rem !important;
+  color: #ff8e77;
+  margin: 0.5rem;
 `
 
-const VerticalBorder = styled.div`
-  border: 1px solid #ddd;
-  height: 100%;
-`
-
-const FlexContainerWrapAround = styled(FlexContainerAlignCenter)`
-  flex-flow: row wrap;
-  justify-content: space-around;
-
-  grid-column: auto / span 2;
-  padding: min(2vw, 0.5rem);
+const StoreName = styled.h5`
+  font-size: 0.9rem;
+  color: #929393;
 `
 
 const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
-  font-size: 1.2rem !important;
+  font-size: 0.9rem !important;
   color: #929393;
   font-weight: lighter;
 `
 
-const StyledLocationOnRoundedIcon = styled(LocationOnRoundedIcon)`
-  font-size: 20px;
-  color: #ff8e77;
+const MenuName = styled.h4`
+  font-size: 1rem;
 `
-const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #ff8e77;
-  margin: 0.2em;
+
+export const Hashtags = styled.ul`
+  position: absolute;
+  width: calc(100% - 3.5rem);
+  display: flex;
+  overflow: hidden;
 `
-const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 1.8rem !important;
-  color: #ff8e77;
-  margin: 0.2em;
+
+export const Hashtag = styled.h5`
+  font-size: 0.9rem;
+  color: #ff9a87;
+  white-space: nowrap;
 `
+
+const FlexContainerRelativePosition = styled.div`
+  display: flex;
+  position: relative;
+`
+
+const MenuPrice = styled.h3`
+  font-size: 1.1rem;
+`
+
+const DetailButton = styled(Button)`
+  position: absolute;
+  right: 0;
+  bottom: 0.2rem;
+  margin: 0;
+  border: #ffffff;
+`
+
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
   font-size: 1.8rem !important;
   color: #929393;
   padding: 0;
 `
+
 const StyledArrowDropDownRoundedIcon = styled(ArrowDropDownRoundedIcon)`
   font-size: 1.8rem !important;
   color: #929393;
   padding: 0;
+`
+
+const FlexContainerWrapAround = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  grid-column: 1 / 3;
+  /* background: #ddd; */
+`
+
+const FlexContainerCenterPadding = styled(FlexContainerAlignCenter)`
+  padding: 0.5rem;
+  /* outline: 1px solid #ddd; */
+`
+
+const NormalH5 = styled.h5`
+  margin: 0;
+  font-weight: normal;
 `
 
 type Props2 = {
@@ -236,27 +145,26 @@ type Props2 = {
 export function MenuLoadingCard({ onlyImage }: Props2) {
   if (onlyImage) {
     return (
-      <GridContainerLi onlyImage={true}>
-        <ImageRatioWrapper paddingTop="100%">
+      <GridContainerLi onlyImage>
+        <SquareFrame>
           <SkeletonImage />
-        </ImageRatioWrapper>
+        </SquareFrame>
       </GridContainerLi>
     )
   }
 
   return (
     <GridContainerLi onlyImage={false}>
-      <ImageRatioWrapper paddingTop="100%">
+      <SquareFrame>
         <SkeletonImage />
-      </ImageRatioWrapper>
+      </SquareFrame>
 
-      <FlexContainerColumnBetween>
-        <SkeletonText width="30%" />
-        <SkeletonText width="80%" height="1.2rem" />
-        <SkeletonText width="50%" />
-        <SkeletonText height="1.2rem" />
-        <HorizontalBorder />
-      </FlexContainerColumnBetween>
+      <FlexContainerBetweenColumn>
+        <SkeletonText width="30%" height="0.9rem" />
+        <SkeletonText width="80%" />
+        <SkeletonText width="50%" height="0.9rem" />
+        <SkeletonText height="1.1rem" />
+      </FlexContainerBetweenColumn>
 
       <FlexContainerWrapAround>
         <SkeletonText />
@@ -267,45 +175,39 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 
 type Props = {
   afterPickingMenu: () => void
-  menu: Menu
+  hideStoreName?: boolean
+  menu: MenuCardFragment
   onlyImage: boolean
 }
 
-function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
+function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   const toastId = useRef<ReactText>('')
-  const [isCardDetailOpened, toggleCardDetail] = useBoolean(true)
+  const [isCardDetailOpened, toggleCardDetail] = useBoolean(false)
 
   const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
     onCompleted: (data) => {
+      function restorePicking() {
+        pickMenu({ variables: { id: menu.id } })
+      }
+
       if (data.pickMenu) {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
-            {`${menu.name} 메뉴를 찜했어요 `}
-            <button
-              onClick={() => {
-                pickMenu({ variables: { id: menu.id } })
-              }}
-            >
-              찜 해제하기
-            </button>
+            <b>{menu.name}</b>을 찜했어요
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       } else {
         if (toastId.current) toast.dismiss(toastId.current)
         toastId.current = toast(
           <div>
-            {`${menu.name} 메뉴 찜을 해제했어요 `}
-            <button
-              onClick={() => {
-                pickMenu({ variables: { id: menu.id } })
-              }}
-            >
-              다시 찜하기
-            </button>
+            <b>{menu.name}</b>의 찜을 해제했어요
+            <button onClick={restorePicking}>되돌리기</button>
           </div>
         )
       }
+
       afterPickingMenu()
     },
     onError: handleApolloError,
@@ -320,115 +222,114 @@ function MenuCard({ afterPickingMenu, menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}-${menu.id}`)
+  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}`)
   const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
     return (
       <GridContainerLi onlyImage onClick={goToStoreMenuPage}>
-        <ClientSideLink href={storeReviewsPage}>
-          <ImageRatioWrapper paddingTop="100%">
-            <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-          </ImageRatioWrapper>
-        </ClientSideLink>
+        <SquareFrame>
+          <ClientSideLink href={storeReviewsPage}>
+            <Image
+              src={menu.imageUrls ? menu.imageUrls[0] : ''}
+              alt="menu"
+              layout="fill"
+              objectFit="cover"
+            />
+          </ClientSideLink>
+        </SquareFrame>
       </GridContainerLi>
     )
   }
 
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
-      <ClientSideLink href={storeReviewsPage}>
-        <ImageRatioWrapper paddingTop="100%">
-          <AbsolutePositionImage src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" />
-        </ImageRatioWrapper>
-      </ClientSideLink>
+      <SquareFrame>
+        <ClientSideLink href={storeReviewsPage}>
+          <Image
+            src={menu.imageUrls ? menu.imageUrls[0] : ''}
+            alt="menu"
+            layout="fill"
+            objectFit="cover"
+          />
+        </ClientSideLink>
+      </SquareFrame>
 
-      <FlexContainerColumnBetween>
-        <AbsolutePosition>
-          {menu.favorite ? (
-            <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
-          ) : (
-            <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
+      <FlexContainerBetweenColumn>
+        <div>
+          {!hideStoreName && (
+            <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+              <FlexContainerAlignCenter>
+                <StoreName>{store.name}</StoreName>&nbsp;
+                <StyledArrowForwardIosRoundedIcon />
+              </FlexContainerAlignCenter>
+            </ClientSideLink>
           )}
-        </AbsolutePosition>
 
-        <GridContainerGap>
-          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
-            <FlexContainerAlignCenter>
-              <StoreName>{store.name}</StoreName>
-              <StyledArrowForwardIosRoundedIcon />
-            </FlexContainerAlignCenter>
-          </ClientSideLink>
+          <AbsolutePositionTopRight>
+            {menu.favorite ? (
+              <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
+            ) : (
+              <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
+            )}
+          </AbsolutePositionTopRight>
 
           <MenuName>{menu.name}</MenuName>
-          <GridContainer>
-            <FlexContainerUl>
-              {menu.hashtags?.map((hashtag) => (
-                <Fragment key={hashtag}>
-                  <li>
-                    <Link href={`/search/${hashtag.slice(1)}`}>
-                      <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
-                        {hashtag}
-                      </NormalA>
-                    </Link>
-                  </li>
-                  &nbsp;
-                </Fragment>
-              ))}
-            </FlexContainerUl>
-          </GridContainer>
-        </GridContainerGap>
 
-        <GridContainer>
-          <StyledFlexContainerBetween>
-            <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-            <IconButton onClick={toggleCardDetail}>
-              {isCardDetailOpened ? (
-                <StyledArrowDropUpRoundedIcon />
-              ) : (
-                <StyledArrowDropDownRoundedIcon />
-              )}
-            </IconButton>
-          </StyledFlexContainerBetween>
-          <HorizontalBorder show={isCardDetailOpened} />
-        </GridContainer>
-      </FlexContainerColumnBetween>
+          <Hashtags>
+            {menu.hashtags?.map((hashtag) => (
+              <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
+              </ClientSideLink>
+            ))}
+          </Hashtags>
+          <br />
+        </div>
+
+        <FlexContainerRelativePosition>
+          <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
+          <DetailButton shape="circle" onClick={toggleCardDetail}>
+            {isCardDetailOpened ? (
+              <StyledArrowDropUpRoundedIcon />
+            ) : (
+              <StyledArrowDropDownRoundedIcon />
+            )}
+          </DetailButton>
+        </FlexContainerRelativePosition>
+      </FlexContainerBetweenColumn>
 
       {isCardDetailOpened && (
         <FlexContainerWrapAround>
           {menu.positiveReviewRatio !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>{' '}
             </>
           )}
           {menu.reorderRatio !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>
             </>
           )}
           {menu.totalReviewCount !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-              </FlexContainerAlignCenter>
-              <VerticalBorder />
+              </FlexContainerCenterPadding>{' '}
             </>
           )}
           {menu.totalOrderCount !== undefined && (
             <>
-              <FlexContainerAlignCenter>
+              <FlexContainerCenterPadding>
                 <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
                 <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-              </FlexContainerAlignCenter>
+              </FlexContainerCenterPadding>
             </>
           )}
           {/* {&&<></>} */}

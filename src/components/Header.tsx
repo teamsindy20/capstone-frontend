@@ -10,18 +10,17 @@ import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
 import { grey } from '@material-ui/core/colors'
+import { useRouter } from 'next/router'
 
 const FixedHeader = styled.header`
   position: fixed;
   bottom: 0;
   z-index: 1;
-
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
   height: ${HEADER_HEIGHT};
-
-  background-color: #ff9a87;
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+  box-shadow: 0 -2px 5px 0 rgba(142, 142, 142, 0.25);
+  background-color: #ffffff;
 `
 
 const FlexContainerAroundNav = styled.nav`
@@ -48,40 +47,77 @@ const NoMarginH6 = styled.h5`
   margin: 0;
 `
 
-const StyledHomeRoundedIcon = { fontSize: 30, color: grey[800] }
+const SelectedIconStyle = { fontSize: 28, color: '#ff9a88' }
+
+const UnSelectedIconStyle = { fontSize: 28, color: '#cecece' }
 
 function Header() {
+  const { asPath } = useRouter()
+
   return (
     <FixedHeader>
       <FlexContainerAroundNav>
         <ClientSideLink href="/">
           <FlexContainerColumnCenterCenter>
-            <HomeRoundedIcon style={StyledHomeRoundedIcon} />
-            <NoMarginH6>홈</NoMarginH6>
+            <HomeRoundedIcon
+              style={{ fontSize: 28, color: asPath === '/' ? '#ff9a88' : '#cecece' }}
+            />
+            <NoMarginH6 style={{ color: asPath === '/' ? 'black' : '#cecece' }}>홈</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
         <ClientSideLink href="/feed">
           <FlexContainerColumnCenterCenter>
-            <StoreRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-            <NoMarginH6>소식</NoMarginH6>
+            <StoreRoundedIcon
+              style={{ fontSize: 28, color: asPath === '/feed' ? '#ff9a88' : '#cecece' }}
+            />
+            <NoMarginH6 style={{ color: asPath === '/feed' ? 'black' : '#cecece' }}>
+              소식
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
         <ClientSideLink href={`/users/${username}/favorite-menus`}>
           <FlexContainerColumnCenterCenter>
-            <FavoriteRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-            <NoMarginH6>찜</NoMarginH6>
+            <FavoriteRoundedIcon
+              style={{
+                fontSize: 25,
+                color: asPath === `/users/${username}/favorite-menus` ? '#ff9a88' : '#cecece',
+              }}
+            />
+            <NoMarginH6
+              style={{
+                color: asPath === `/users/${username}/favorite-menus` ? 'black' : '#cecece',
+              }}
+            >
+              찜
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
         <ClientSideLink href={`/users/${username}/orders`}>
           <FlexContainerColumnCenterCenter>
-            <AssignmentTwoToneIcon style={{ fontSize: 30, color: grey[800] }} />
-            <NoMarginH6>주문내역</NoMarginH6>
+            <AssignmentTwoToneIcon
+              style={{
+                fontSize: 28,
+                color: asPath === `/users/${username}/orders` ? '#ff9a88' : '#cecece',
+              }}
+            />
+            <NoMarginH6
+              style={{ color: asPath === `/users/${username}/orders` ? 'black' : '#cecece' }}
+            >
+              주문내역
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
         <ClientSideLink href={`/users/${username}`}>
           <FlexContainerColumnCenterCenter>
-            <PersonRoundedIcon style={{ fontSize: 30, color: grey[800] }} />
-            <NoMarginH6>마이페이지</NoMarginH6>
+            <PersonRoundedIcon
+              style={{
+                fontSize: 28,
+                color: asPath === `/users/${username}` ? '#ff9a88' : '#cecece',
+              }}
+            />
+            <NoMarginH6 style={{ color: asPath === `/users/${username}` ? 'black' : '#cecece' }}>
+              MY
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
       </FlexContainerAroundNav>

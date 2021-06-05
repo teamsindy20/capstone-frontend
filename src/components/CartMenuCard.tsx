@@ -1,14 +1,14 @@
 import { useReactiveVar } from '@apollo/client'
 import { CartMenu, cartMenusVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
+import { FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
-import ClientSideLink from './atoms/ClientSideLink'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
-import { formatPrice, formatNumber } from 'src/utils/price'
+import { formatPrice } from 'src/utils/price'
 import CountButton from './atoms/CountButton'
-import { SetStateAction, useEffect, useState } from 'react'
-import { getSelectedOptionsPrice } from 'src/pages/stores/[name]/[nameId]'
+import { getSelectedOptionsPrice } from 'src/pages/stores/[nameId]/[name]'
+import { DeepPartial } from 'react-hook-form'
+import { MenuOption } from 'src/graphql/generated/types-and-hooks'
 
 const Li = styled.li`
   background: #ffffff;
@@ -40,17 +40,6 @@ const MenuName = styled.h2`
   margin: 0;
   font-weight: normal;
 `
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-`
-const FlexContainerUl = styled.ul`
-  display: flex;
-  flex-flow: row wrap;
-  list-style: none;
-  padding-left: 0;
-  margin-left: 1rem;
-`
 
 export const BoldA = styled.a`
   font-size: 1em;
@@ -71,12 +60,22 @@ const PriceA = styled.h2`
   word-break: keep-all;
 `
 
-function formatSelectedOption(option: any) {
-  if (Array.isArray(option)) {
-    return option.map((multiSelectingOption) => multiSelectingOption.name).join(', ')
-  } else {
-    return option.name
-  }
+function formatSelectedMenuOption(menuOption: DeepPartial<MenuOption>) {
+  return Array.isArray(menuOption)
+    ? menuOption.map((multiSelectingMenuOption) => multiSelectingMenuOption.name).join(', ')
+    : menuOption.name
+}
+
+export function getSelectedMenuOptionIdsFrom(optionCategories: CartMenu['optionCategories']) {
+  return optionCategories
+    ? Object.values(optionCategories)
+        .map((menuOption) =>
+          Array.isArray(menuOption)
+            ? menuOption.map((multiSelectingMenuOption) => multiSelectingMenuOption.id)
+            : menuOption.id
+        )
+        .flat()
+    : null
 }
 
 type Func = (arg: number) => number
@@ -97,10 +96,10 @@ function CartMenuCard({ cartMenu }: Props) {
     setCartMenus(cartMenus.filter((newCartMenu) => newCartMenu.id !== cartMenu.id))
   }
 
-  function updateCartMenuCount(getNewCount: Func) {
+  function updateCartMenuCount(getNewCartMenuCount: Func) {
     const newCartMenus = [...cartMenus]
     const newCartMenu = newCartMenus.find((newCartMenu) => newCartMenu.id === cartMenu.id)
-    if (newCartMenu) newCartMenu.count = getNewCount(count)
+    if (newCartMenu) newCartMenu.count = getNewCartMenuCount(count)
     setCartMenus(newCartMenus)
   }
 
@@ -115,11 +114,13 @@ function CartMenuCard({ cartMenu }: Props) {
             <MenuName>{cartMenu.name}</MenuName>
             <br />
             <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
-            {Object.entries(selectedOptionCategories).map((optionCategory) => (
-              <OptionA key={optionCategory[0]}>
-                {`${optionCategory[0]} : ${formatSelectedOption(optionCategory[1])}`}
-              </OptionA>
-            ))}
+            {Object.entries(selectedOptionCategories).map((optionCategory) =>
+              Array.isArray(optionCategory[1]) && optionCategory[1].length === 0 ? null : (
+                <OptionA key={optionCategory[0]}>
+                  {`${optionCategory[0]} : ${formatSelectedMenuOption(optionCategory[1])}`}
+                </OptionA>
+              )
+            )}
             <br />
             <FlexContainerBetween>
               <PriceA>총 {formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>

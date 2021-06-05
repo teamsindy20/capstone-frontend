@@ -9,12 +9,11 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRightRounded'
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
-import Link from 'next/link'
 import styled from 'styled-components'
-import { toast } from 'react-toastify'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import { Padding } from 'src/components/layouts/PageLayout'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -74,6 +73,16 @@ const NoMarginH4 = styled.h4`
   margin: 0;
 `
 
+const description = '장바구니에 담긴 디저트를 확인해보세요'
+
+export const ClearAllButton = styled(Button)`
+  color: #f57861;
+  border: none;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+`
+
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
   const goBack = useGoBack()
@@ -82,12 +91,13 @@ function CartPage() {
   const cartMenus = useReactiveVar(cartMenusVar)
 
   function clearCart() {
+    // TODO: 전체 삭제 시 되돌리기 버튼 포함한 토스트 띄우기
     setCartMenus([])
     setCartStore(null)
   }
 
   return (
-    <PageHead>
+    <PageHead title="디저트핏 - 장바구니" description={description}>
       <TopHeader>
         <FlexContainerBetween1>
           <FlexContainerAlignCenter>
@@ -95,9 +105,7 @@ function CartPage() {
           </FlexContainerAlignCenter>
           <FlexContainerAlignCenter>장바구니</FlexContainerAlignCenter>
           <FlexContainerAlignCenter>
-            <Button size="small" onClick={clearCart}>
-              전체삭제
-            </Button>
+            <ClearAllButton onClick={clearCart}>전체삭제</ClearAllButton>
           </FlexContainerAlignCenter>
         </FlexContainerBetween1>
       </TopHeader>
@@ -121,6 +129,7 @@ function CartPage() {
         ))}
       </GridContainerUl>
       <FixedButton onClick={goToOrderPage}>주문하기</FixedButton>
+      <Padding />
     </PageHead>
   )
 }

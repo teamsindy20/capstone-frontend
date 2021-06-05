@@ -1,135 +1,72 @@
-import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
-import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import IconButton from '@material-ui/core/IconButton'
-import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
 import PageLayout from '../components/layouts/PageLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
-import MenuCard, { NormalA, MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
-import { Fragment, useState, useContext, CSSProperties } from 'react'
+import Image from 'next/image'
+import { useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
-import { sleep, stopPropagation } from 'src/utils/commons'
+import { sleep } from 'src/utils/commons'
 import {
-  useMenuLazyQuery,
   useMenusQuery,
+  useMenuFavoriteLazyQuery,
   useUserPreferencesQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
-import Slider from 'react-slick'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import Link from 'next/link'
 import { GlobalContext } from './_app'
-import { Tabs, Carousel, Divider, Tag, Select, Checkbox } from 'antd'
-import { SmileOutlined } from '@ant-design/icons'
+import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
+import { SelectedPreferenceButton } from 'src/pages/users/[name]/preferences/index'
 
 const { TabPane } = Tabs
-
-const contentStyle: CSSProperties = {
-  height: '150px',
-  color: '#929393',
-  lineHeight: '150px',
-  background: '#EAEAEA',
-  textAlign: 'center',
-}
-
-const MarginDiv = styled.div`
-  margin: 0.5rem;
-`
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   height: 100%;
 `
 
-const StyledLocalActivityRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
-
-const StyledExpandMoreRoundedIcon = { fontSize: 20, color: grey[800] }
+const StyledExpandMoreRoundedIcon = { fontSize: 23, color: grey[800] }
 
 const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
-  font-size: 55px !important;
-  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 50px !important;
+  background-color: #f57961;
   border-radius: 50%;
   padding: 10px;
-  //font-color: #3c3c3c;
+  color: white !important;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08) !important;
 `
-const { Option } = Select
-
-const StyledTab = styled(Tabs)`
-  color: #f57961;
+const LocationText = styled.h3`
+  margin: 16px 2px 16px 16px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
 `
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
-
-const GridContainer = styled.div`
+export const IconGridContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 16px 16px 16px;
+  top: 0;
   align-items: center;
+  height: 100%;
 `
-
 const PreferenceText = styled.div`
   text-align: center;
-  margin: 0.5rem;
   border-radius: 1rem;
-`
-const BrownText = styled.div`
-  color: #5c4d42;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.05rem;
-`
-
-const StyledSlider = styled(Slider)`
-  margin-bottom: 1rem;
-  object-fit: cover;
-`
-
-const BannerAd = styled.div`
-  position: relative;
-  height: 10rem;
-  text-align: center;
-  background-color: #fff5f5;
-  display: inline-block;
-  object-fit: cover;
-`
-
-const AdTextDiv = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 1.6rem;
 `
 
 export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
   display: grid;
-  ${(p) => (p.onlyImage ? 'grid-template-columns: 1fr 1fr 1fr;' : '')}
-  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : '1rem')};
-`
-
-const Img = styled.img`
-  width: 100%;
-  overflow: hidden;
+  grid-template-columns: ${(p) => (p.onlyImage ? '1fr 1fr 1fr' : '1fr')};
+  gap: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
+  margin: ${(p) => (p.onlyImage ? 'min(1vw, 0.5rem)' : 'min(2vw, 1rem)')};
 `
 
 const FlexContainerOverflowScroll = styled.div`
@@ -139,15 +76,6 @@ const FlexContainerOverflowScroll = styled.div`
   margin: 0 1rem 0 0;
 `
 
-const FixedDiv = styled.div`
-  position: sticky;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  height: 60px;
-  line-height: 60px;
-  background-color: #fff;
-`
 const StyledTag = styled.span<{ color: string }>`
   margin: 10px;
   padding: 5px 10px;
@@ -159,15 +87,10 @@ const StyledTag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-export const PhotoOnlyButton = styled.button`
-  background-color: #f3c7ab;
-  align-items: center;
-  font-size: 13px;
-  line-height: 13px;
-  border: none;
-  width: 80%;
-  height: 60%;
-  margin: auto;
+const BannerFrame = styled.div`
+  padding-top: 30%;
+  position: relative;
+  background: #fcfcfc;
 `
 
 const FixedPosition = styled.div`
@@ -180,8 +103,62 @@ const FixedPosition = styled.div`
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
 `
-function handleChange(value: any) {
-  console.log(`selected ${value}`)
+
+const MiddleGrid = styled.div`
+  display: grid;
+  background-color: white;
+  height: 100px;
+  text-align: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: solid 1px #e8e8e8;
+`
+
+const MiddleFlexContainer = styled.div`
+  display: flex;
+  align-content: center;
+`
+
+const MiddleText = styled.span`
+  font-weight: 500;
+`
+
+const MiddleBoldText = styled.b`
+  font-size: 1.1rem;
+`
+
+export const IconImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 0;
+`
+export const TopIconImg = styled.img`
+  width: 22px;
+  height: 22px;
+  margin: 0 8px 0 8px;
+`
+const ColoredLogo = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border-radius: 50%;
+`
+
+const Padding = styled.div`
+  padding-top: 55px;
+`
+
+export function useRefetchMenuFavorite() {
+  const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
+    fetchPolicy: 'network-only',
+    onError: handleApolloError,
+  })
+
+  function refetchMenuFavorite(menuId: string) {
+    return () => menuFavoriteLazyQuery({ variables: { id: menuId } })
+  }
+
+  return refetchMenuFavorite
 }
 
 function HomePage() {
@@ -197,21 +174,18 @@ function HomePage() {
     onError: handleApolloError,
   })
 
-  const [fetchMenu] = useMenuLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
+  const menus = menusQueryResult.data?.menus
+  const isMenusLoading = menusQueryResult.networkStatus < 7
 
   const userPreferencesQueryResult = useUserPreferencesQuery({
     notifyOnNetworkStatusChange: true,
     skip: !user,
   })
 
-  const menus = menusQueryResult.data?.menus
-  const isMenusLoading = menusQueryResult.networkStatus < 7
-
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
+
+  const refetchMenuFavorite = useRefetchMenuFavorite()
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -234,46 +208,51 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
-              <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} />
-              흑석동
-              <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
+              <LocationText>
+                {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
+                흑석동
+              </LocationText>
+              <ClientSideLink href="/location">
+                <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
+              </ClientSideLink>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <FlexContainerAlignCenter>
-                <ClientSideLink href="/users/username/regulars">
-                  <LocalActivityRoundedIcon
-                    style={StyledLocalActivityRoundedIcon}
-                  ></LocalActivityRoundedIcon>
-                </ClientSideLink>
-              </FlexContainerAlignCenter>
+              <ClientSideLink href="/users/username/regulars">
+                <TopIconImg src="/442@3x.png" />
+              </ClientSideLink>
               <ClientSideLink href="/users/username/notifications">
-                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+                <TopIconImg src="/441@3x.png" />
               </ClientSideLink>
               <ClientSideLink href="/search">
-                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+                <TopIconImg src="/440@3x.png" />
               </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
         </TopHeader>
 
-        <Tabs defaultActiveKey="1" size="small" tabBarStyle={{ color: '#929393' }}>
+        <Tabs
+          defaultActiveKey="1"
+          size="large"
+          tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
+        >
           <TabPane tab="디저트핏" key="1">
+            <Padding />
             <Carousel autoplay>
-              <div>
-                <h3 style={contentStyle}>내게 딱 맞는 디저트핏!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Dessert Fit!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>김빵순 사랑해</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
-              </div>
+              <BannerFrame>
+                <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
             </Carousel>
 
-            <Divider orientation="left">
+            <MiddleGrid>
               {loading ? (
                 ''
               ) : !user ? (
@@ -281,37 +260,49 @@ function HomePage() {
               ) : isUserPreferencesLoading || !preferences ? (
                 ''
               ) : (
-                <>
-                  <SmileOutlined />
-                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'} 님이 설정한
-                  디저트핏은?
-                </>
+                <FlexContainerBetween>
+                  <MiddleFlexContainer>
+                    <ColoredLogo src="/dessert-fit-color.webp" />
+                    <MiddleText>
+                      <MiddleBoldText>
+                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}&nbsp;
+                      </MiddleBoldText>
+                      님이 설정한 디저트핏은?
+                    </MiddleText>
+                  </MiddleFlexContainer>
+                  <ClientSideLink href="/users/username/preferences">
+                    <IconImg src="/preference.png" />
+                  </ClientSideLink>
+                </FlexContainerBetween>
               )}
-            </Divider>
-            <PreferenceText>
-              {loading ? (
-                '사용자 인증 중'
-              ) : !user ? (
-                <ClientSideLink href="/login">
-                  로그인 후 나만의 디저트핏을 설정해보세요!
-                </ClientSideLink>
-              ) : isUserPreferencesLoading || !preferences ? (
-                '디저트핏 로딩 중...'
-              ) : preferences.length ? (
-                preferences.map((hashtag) => (
-                  <Link key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                    <NormalA href={`/search/${hashtag.slice(1)}`} onClick={stopPropagation}>
+
+              <PreferenceText>
+                {loading ? (
+                  '사용자 인증 중'
+                ) : !user ? (
+                  <ClientSideLink href="/login">
+                    로그인 후 나만의 디저트핏을 설정해보세요!
+                  </ClientSideLink>
+                ) : isUserPreferencesLoading || !preferences ? (
+                  '디저트핏 로딩 중...'
+                ) : preferences.length ? (
+                  preferences.map((hashtag) => (
+                    <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
                       <Tag color="#F57961">{hashtag}</Tag>
-                    </NormalA>
-                  </Link>
-                ))
-              ) : (
-                <ClientSideLink href="/users/username/preferences">
-                  <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
-                </ClientSideLink>
-              )}
-            </PreferenceText>
-            <Divider orientation="right">
+                    </ClientSideLink>
+                  ))
+                ) : (
+                  <ClientSideLink href="/users/username/preferences">
+                    <SelectedPreferenceButton shape="round">#딸기</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#초코</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#저탄수</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#비건</SelectedPreferenceButton>
+                  </ClientSideLink>
+                )}
+              </PreferenceText>
+            </MiddleGrid>
+
+            <Divider orientation="left">
               <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
                 프랜차이즈 포함
               </Checkbox>
@@ -319,36 +310,38 @@ function HomePage() {
                 사진만 보기
               </Checkbox>
             </Divider>
-            <MarginDiv>
-              <GridContainerUl onlyImage={onlyImage}>
-                {menus
-                  ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
-                  .map((menu) => (
-                    <MenuCard
-                      key={menu.id}
-                      afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                      menu={menu as any}
-                      onlyImage={onlyImage}
-                    />
-                  ))}
-              </GridContainerUl>
+
+            <GridContainerUl onlyImage={onlyImage}>
+              {menus
+                ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
+                .map((menu) => (
+                  <MenuCard
+                    key={menu.id}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
+                    menu={menu}
+                    onlyImage={onlyImage}
+                  />
+                ))}
               {(isMenusLoading || hasMoreMenus) && (
                 <div ref={sentryRef}>
                   <MenuLoadingCard onlyImage={onlyImage} />
                 </div>
               )}
-            </MarginDiv>
+            </GridContainerUl>
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
+            <Padding />
             카테고리 선택
           </TabPane>
 
           <TabPane tab="트렌드" key="3">
+            <Padding />
             트렌드 디저트
           </TabPane>
 
           <TabPane tab="베스트" key="4">
+            <Padding />
             <FlexContainerOverflowScroll>
               <StyledTag
                 color="rgb(190, 235, 253)"
@@ -395,32 +388,32 @@ function HomePage() {
               </StyledTag>
             </FlexContainerOverflowScroll>
 
-            <Divider />
-            <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
-              프렌차이즈 포함
-            </Checkbox>
-            <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
-              사진만 보기
-            </Checkbox>
+            <Divider orientation="right">
+              <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
+                프렌차이즈 포함
+              </Checkbox>
+              <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
+                사진만 보기
+              </Checkbox>
+            </Divider>
 
-            <Divider />
             <GridContainerUl onlyImage={onlyImage}>
               {menus
                 ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
                 .map((menu) => (
                   <MenuCard
                     key={menu.id}
-                    afterPickingMenu={() => fetchMenu({ variables: { id: menu.id } })}
-                    menu={menu as any}
+                    afterPickingMenu={refetchMenuFavorite(menu.id)}
+                    menu={menu}
                     onlyImage={onlyImage}
                   />
                 ))}
+              {(isMenusLoading || hasMoreMenus) && (
+                <div ref={sentryRef}>
+                  <MenuLoadingCard onlyImage={onlyImage} />
+                </div>
+              )}
             </GridContainerUl>
-            {(isMenusLoading || hasMoreMenus) && (
-              <div ref={sentryRef}>
-                <MenuLoadingCard onlyImage={onlyImage} />
-              </div>
-            )}
           </TabPane>
         </Tabs>
 

@@ -19,6 +19,11 @@ import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import useGoBack from 'src/hooks/useGoBack'
+import { useContext } from 'react'
+import { GlobalContext } from '../_app'
+import NotLoginModal from 'src/components/NotLoginModal'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -106,20 +111,41 @@ const menu = (
   </Menu>
 )
 
+const title = '디저트핏 - 주문하기'
+const description = '디저트를 주문해봐요'
+
 function OrderPage() {
-  const goToCartPage = useGoToPage('/cart')
+  const { user, loading } = useContext(GlobalContext)
+  const goBack = useGoBack()
+
+  if (loading) {
+    return (
+      <PageHead title={title} description={description}>
+        사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기
+      </PageHead>
+    )
+  }
+
+  const deliveryAddress = '서울시 동작구 흑석동 221 208관 1층'
 
   return (
-    <PageHead>
+    <PageHead title={title} description={description}>
       <TopHeader>
         <FlexContainerBetween1>
           <FlexContainerAlignCenter>
-            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goToCartPage} />
+            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
           </FlexContainerAlignCenter>
-          <FlexContainerAlignCenter>주문하기</FlexContainerAlignCenter>
+          <FlexContainerAlignCenter>주문하기 {!user && '(더미데이터)'}</FlexContainerAlignCenter>
           <FlexContainerAlignCenter></FlexContainerAlignCenter>
         </FlexContainerBetween1>
       </TopHeader>
+      {!user && (
+        <ClientSideLink href="/login">
+          <h1 style={{ color: '#a95766', margin: '1rem 0', textAlign: 'center' }}>
+            로그인이 필요합니다
+          </h1>
+        </ClientSideLink>
+      )}
       <MarginContainer>
         <GridOption>
           <NoMarginH2>배달정보</NoMarginH2>
@@ -127,7 +153,7 @@ function OrderPage() {
             <Tooltip defaultVisible title="이 주소가 맞으신가요?">
               <NoMarginH3>
                 <EnvironmentOutlined />
-                동작구 흑석동 221 208관 1층
+                {deliveryAddress}
               </NoMarginH3>
             </Tooltip>
             <Button>변경</Button>
@@ -244,7 +270,7 @@ function OrderPage() {
           <Divider />
         </GridOption>
       </MarginContainer>
-      <FixedButton>총 23,000원 결제</FixedButton>
+      <FixedButton disabled={!user}>총 23,000원 결제</FixedButton>
     </PageHead>
   )
 }

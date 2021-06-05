@@ -2,23 +2,21 @@ import { useContext } from 'react'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import StoreCard from 'src/components/StoreCard'
+import StoreCard, { StoreLoadingCard } from 'src/components/StoreCard'
 import { useRegularStoresQuery } from 'src/graphql/generated/types-and-hooks'
 import { GlobalContext } from 'src/pages/_app'
 import styled from 'styled-components'
-import { Button } from 'antd'
 import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
-import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
-import useGoToPage from 'src/hooks/useGoToPage'
 import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import useGoBack from 'src/hooks/useGoBack'
 
-const GridContainerBackground = styled.div`
+const GridContainerUl = styled.ul`
   display: grid;
   gap: 0.5rem;
+  margin: 0.5rem;
 
   background: #eee;
   border: 1px solid #eee;
@@ -44,12 +42,17 @@ const StyledLocalActivityRoundedIcon = { fontSize: 30, color: grey[800] }
 function UserRegularStoresPage() {
   const { user } = useContext(GlobalContext)
 
-  const regularStoresQueryResult = useRegularStoresQuery({
+  const { data, networkStatus, refetch } = useRegularStoresQuery({
     onError: handleApolloError,
     skip: !user,
   })
 
-  const regularStores = regularStoresQueryResult.data?.me.regularStores
+  const regularStores = data?.me.regularStores
+  const isRegularStoresLoading = networkStatus < 7
+
+  function refetchRegularStores() {
+    refetch()
+  }
 
   const goBack = useGoBack()
 
@@ -61,20 +64,25 @@ function UserRegularStoresPage() {
             <FlexContainerAlignCenter>
               <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
             </FlexContainerAlignCenter>
-            <FlexContainerAlignCenter>
-              <LocalActivityRoundedIcon style={StyledLocalActivityRoundedIcon} />
-              <NoMarginH3>단골</NoMarginH3>
-            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>단골</FlexContainerAlignCenter>
             <WhiteText>ㅇ</WhiteText>
           </FlexContainerBetween1>
         </TopHeader>
 
-        <GridContainerBackground>
+        <GridContainerUl>
           {regularStores?.map((regularStore) => (
-            <StoreCard key={regularStore.id} store={regularStore} />
+            <StoreCard
+              key={regularStore.id}
+              afterPickingStore={refetchRegularStores}
+              store={regularStore}
+            />
           ))}
-          {!regularStores?.length && <h4>텅! 단골 매장이 없어요..</h4>}
-        </GridContainerBackground>
+          {isRegularStoresLoading ? (
+            <StoreLoadingCard />
+          ) : (
+            !regularStores?.length && <h4>텅! 단골 매장이 없어요..</h4>
+          )}
+        </GridContainerUl>
       </PageLayout>
     </PageHead>
   )

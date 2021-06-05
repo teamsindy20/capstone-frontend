@@ -8,13 +8,13 @@ import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
 import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
 import styled, { createGlobalStyle } from 'styled-components'
+import { ToastContainer, cssTransition } from 'react-toastify'
+
 import 'normalize.css'
 import 'antd/dist/antd.css'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import 'animate.css/animate.min.css'
-import { ToastContainer, cssTransition } from 'react-toastify'
+import 'src/styles/custom-antd.css'
 
 export const fade = cssTransition({
   enter: 'animate__animated animate__fadeIn',
@@ -22,23 +22,29 @@ export const fade = cssTransition({
 })
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    @media (max-width: ${TABLET_MIN_WIDTH}) {
+      font-size: 14px;
+    }
+  }
+
   body {
     padding: 0;
     color: ${DARK_CHOCO_COLOR};
-    font-size: 14px;
     font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Roboto',
       'Helvetica Neue', sans-serif;
     line-height: normal;
     word-break: keep-all;
-
-    @media (min-width: ${TABLET_MIN_WIDTH}) {
-      font-size: 16px;
-    }
   }
 
   ul, ol {
+    margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
   }
 
   li {
@@ -120,7 +126,7 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
           </MaxWidth>
         </GlobalProvider>
       </ApolloProvider>
-      <ToastContainer autoClose={3000} hideProgressBar position="top-center" transition={fade} />
+      <ToastContainer autoClose={2500} hideProgressBar position="top-center" transition={fade} />
     </>
   )
 }

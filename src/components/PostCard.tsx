@@ -3,20 +3,14 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import {
-  AbsolutePositionImage,
-  ImageRatioWrapper,
-  SkeletonGradient,
-  SkeletonImage,
-  SkeletonText,
-} from './MenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
-import { Card, Avatar } from 'antd'
+import { Divider, Button } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
-
-const { Meta } = Card
+import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import Image from 'next/image'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
@@ -30,18 +24,20 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 `
 
 const ShadowingLi = styled.li`
-  background-color: #dddbdb;
+  background-color: #fcfcfc;
 `
 
 const GridContainerPadding = styled(GridContainerGap)`
   padding: 1rem;
 `
 
-const StyledImg = styled.img`
-  width: 1.8rem;
-  height: 1.8rem;
-  object-fit: cover;
+const StoreImg = styled.img`
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   border-radius: 50%;
+  border: solid 1px #e8e8e8;
 `
 
 const NoMarginH5 = styled.h5`
@@ -51,6 +47,75 @@ const NoMarginH5 = styled.h5`
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
+const ProfileGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  padding: 5px;
+  border: none
+  height: 3rem;
+  background-color: #fcfcfc;
+  grid-gap: 5px;
+`
+
+const ProfileTitleGrid = styled.div`
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+`
+
+const StoreName = styled.h4`
+  font-size: 15px;
+  font-weight: 500;
+  color: #000000;
+`
+const TagName = styled.h4`
+  font-size: 11px;
+  font-weight: 500;
+  color: #ff5e3d;
+`
+const CardGrid = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  border-radius: 10px;
+  border: solid 1px #e8e8e8;
+  background-color: #ffffff;
+  height: 13rem;
+`
+const CardContent = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+`
+const CardHorizontalBorder = styled.div`
+  justify-content: center;
+  //width: 95%;
+  height: 0.1px;
+  border: solid 1px #e8e8e8;
+`
+
+const FeedMoreText = styled(Button)`
+  font-size: 13px;
+  font-weight: 500;
+  color: #000000;
+  border: none;
+`
+
+const SquareFrame = styled.div`
+  padding-top: 100%;
+  position: relative;
+`
+const IconGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 16px 16px 16px;
+  top: 0;
+  align-items: center;
+  height: 100%;
+  grid-gap: 10px;
+`
+const IconImg = styled.img`
+  width: 18px;
+  height: 18px;
+`
+
 const GridContainerRow3Column2 = styled(GridContainerGap)`
   grid-template-rows: repeat(3, auto);
   grid-template-columns: repeat(2, auto);
@@ -82,17 +147,18 @@ const GridInCardColumn2 = styled.div`
 const ImgInCard = styled.img`
   overflow: hidden;
   border-radius: 5%;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 270px;
+  width: 112px;
+  height: 112px;
+  margin: 11px;
 `
 const TextInCard = styled.div`
-  padding: 20px;
-  font-size: 1rem;
   overflow: visible auto;
-  height: 150px;
+  width: 100%;
+  height: 112px;
+  margin: 11px 0px;
+  font-size: 13px;
+  color: #000000;
 `
 
 const Tag = styled.span<{ color: string }>`
@@ -106,10 +172,6 @@ const Tag = styled.span<{ color: string }>`
   background-color: ${(p) => p.color};
 `
 
-const FlexContainerBottomCard = styled.div`
-  display: flex;
-`
-
 export function PostLoadingCard() {
   return (
     <ShadowingLi>
@@ -119,10 +181,9 @@ export function PostLoadingCard() {
           <SkeletonText width="min(10rem, 30vw)" />
         </GridContainerColumn2>
       </FlexContainerBetweenPadding>
-
-      <ImageRatioWrapper paddingTop="100%">
+      <SquareFrame>
         <SkeletonImage />
-      </ImageRatioWrapper>
+      </SquareFrame>
 
       <GridContainerPadding>
         <SkeletonText height="1.5rem" />
@@ -143,26 +204,38 @@ function PostCard({ post }: Props) {
 
   return (
     <ShadowingLi>
-      <Card
-        style={{ width: 360 }}
-        cover={<img alt="post" src={post.imageUrls ? post.imageUrls[0] : ''} />}
-        actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
-        ]}
-      >
-        <Meta
-          avatar={<Avatar src={store.imageUrls ? store.imageUrls[0] : ''} />}
-          title={store.name}
-          description="메뉴 소식"
-        />
-        <TextInCard>
-          {post.contents.map((content, i) =>
-            content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
-          )}
-        </TextInCard>
-      </Card>
+      <ProfileGrid>
+        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+          <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
+        </ClientSideLink>
+        <ProfileTitleGrid>
+          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+            <StoreName>{store.name}</StoreName>
+          </ClientSideLink>
+
+          <TagName>신메뉴소식</TagName>
+        </ProfileTitleGrid>
+      </ProfileGrid>
+      <CardGrid>
+        <CardContent>
+          <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" />
+          <TextInCard>
+            {post.contents.map((content, i) =>
+              content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
+            )}
+          </TextInCard>
+        </CardContent>
+        <CardHorizontalBorder />
+        <FlexContainerBetween>
+          <FeedMoreText>더보기</FeedMoreText>
+          <IconGrid>
+            <IconImg src="like.png" />
+            <IconImg src="comment.png" />
+            <IconImg src="share.png" />
+          </IconGrid>
+        </FlexContainerBetween>
+      </CardGrid>
+
       {/* <GridInCardColumn2>
         <div>
           <StyledImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />

@@ -26,12 +26,10 @@ const FlexContainerBetween1 = styled(FlexContainerBetween)`
 const TopGrid = styled.div`
   display: grid;
   grid-template-columns: 2fr 8fr;
-`
-
-const TopImage = styled.img`
-  border-radius: 50%;
-  width: 4rem;
+  //background-color: #fcfcfc;
+  padding: auto 1.5rem;
   align-items: center;
+  height: 100px;
 `
 
 const TopText = styled.h3`
@@ -39,11 +37,24 @@ const TopText = styled.h3`
   padding: 10px 0;
 `
 
-const PreferenceButton = styled(Button)`
+export const PreferenceButton = styled(Button)`
   margin: 5px;
+  background-color: white;
+  color: black;
 `
-const SelectedPreferenceButton = styled(PreferenceButton)`
+export const SelectedPreferenceButton = styled(Button)`
+  margin: 5px;
   background-color: #ff9a87;
+  color: white;
+  border: none;
+  font-size: 12px;
+  font-weight: 400;
+`
+const ColoredLogo = styled.img`
+  width: 56px;
+  height: 56px;
+  margin: auto;
+  border-radius: 50%;
 `
 
 function UserPreferencesPage() {
@@ -79,7 +90,7 @@ function UserPreferencesPage() {
         </TopHeader>
         <MarginDiv>
           <TopGrid>
-            <TopImage src="/DessertFit.png"></TopImage>
+            <ColoredLogo src="/dessert-fit-color.webp"></ColoredLogo>
             <TopText>
               홈 화면에서 보고싶은 <br /> 디저트 핏을 설정해보세요.
             </TopText>

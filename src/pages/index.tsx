@@ -13,6 +13,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
+import Image from 'next/image'
 import { useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
@@ -112,10 +113,11 @@ const StyledTag = styled.span<{ color: string }>`
   vertical-align: middle;
   background-color: ${(p) => p.color};
 `
-const BannerImg = styled.img`
-  width: 100%;
-  height: 100%;
+const BannerFrame = styled.div`
+  padding-top: 30%;
+  position: relative;
 `
+
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -261,11 +263,13 @@ function HomePage() {
           tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
         >
           <TabPane tab="디저트핏" key="1">
-            <Carousel autoplay>
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
+            <Carousel>
+              <BannerFrame>
+                <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
             </Carousel>
             <MiddleGrid>
               <FlexContainerBetween>

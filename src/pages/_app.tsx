@@ -12,8 +12,6 @@ import { ToastContainer, cssTransition } from 'react-toastify'
 
 import 'normalize.css'
 import 'antd/dist/antd.css'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import 'animate.css/animate.min.css'
 import 'src/styles/custom-antd.css'

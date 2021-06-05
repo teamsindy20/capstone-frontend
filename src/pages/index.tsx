@@ -1,9 +1,5 @@
-import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded'
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
-import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded'
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
 import IconButton from '@material-ui/core/IconButton'
-import LocalActivityRoundedIcon from '@material-ui/icons/LocalActivityRounded'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
@@ -13,6 +9,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
+import Image from 'next/image'
 import { useState, useContext, CSSProperties } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
@@ -29,14 +26,6 @@ import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
 import { SelectedPreferenceButton } from 'src/pages/users/[name]/preferences/index'
 
 const { TabPane } = Tabs
-
-const contentStyle: CSSProperties = {
-  height: '150px',
-  color: '#929393',
-  lineHeight: '150px',
-  background: '#EAEAEA',
-  textAlign: 'center',
-}
 
 const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
@@ -112,10 +101,12 @@ const StyledTag = styled.span<{ color: string }>`
   vertical-align: middle;
   background-color: ${(p) => p.color};
 `
-const BannerImg = styled.img`
-  width: 100%;
-  height: 100%;
+
+const BannerFrame = styled.div`
+  padding-top: 30%;
+  position: relative;
 `
+
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -262,10 +253,18 @@ function HomePage() {
         >
           <TabPane tab="디저트핏" key="1">
             <Carousel autoplay>
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
-              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerFrame>
+                <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
+              <BannerFrame>
+                <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
+              </BannerFrame>
             </Carousel>
             <MiddleGrid>
               <FlexContainerBetween>

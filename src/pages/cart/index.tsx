@@ -75,6 +75,14 @@ const NoMarginH4 = styled.h4`
 
 const description = '장바구니에 담긴 디저트를 확인해보세요'
 
+export const ClearAllButton = styled(Button)`
+  color: #f57861;
+  border: none;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+`
+
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
   const goBack = useGoBack()
@@ -97,9 +105,7 @@ function CartPage() {
           </FlexContainerAlignCenter>
           <FlexContainerAlignCenter>장바구니</FlexContainerAlignCenter>
           <FlexContainerAlignCenter>
-            <Button size="small" onClick={clearCart}>
-              전체삭제
-            </Button>
+            <ClearAllButton onClick={clearCart}>전체삭제</ClearAllButton>
           </FlexContainerAlignCenter>
         </FlexContainerBetween1>
       </TopHeader>

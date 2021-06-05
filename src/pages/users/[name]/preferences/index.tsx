@@ -42,7 +42,7 @@ const PreferenceButton = styled(Button)`
   background-color: white;
   color: black;
 `
-const SelectedPreferenceButton = styled(Button)`
+export const SelectedPreferenceButton = styled(Button)`
   margin: 5px;
   background-color: #ff9a87;
   color: white;

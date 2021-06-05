@@ -26,7 +26,7 @@ import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { GlobalContext } from './_app'
 import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
-import { SmileOutlined } from '@ant-design/icons'
+import { SelectedPreferenceButton } from 'src/pages/users/[name]/preferences/index'
 
 const { TabPane } = Tabs
 
@@ -128,7 +128,7 @@ const FixedPosition = styled.div`
 
 const MiddleGrid = styled.div`
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 0.7fr;
   background-color: white;
   height: 100px;
   text-align: center;
@@ -297,12 +297,23 @@ function HomePage() {
                   ))
                 ) : (
                   <ClientSideLink href="/users/username/preferences">
-                    <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
+                    <SelectedPreferenceButton size="small" shape="round">
+                      #딸기
+                    </SelectedPreferenceButton>
+                    <SelectedPreferenceButton size="small" shape="round">
+                      #초코
+                    </SelectedPreferenceButton>
+                    <SelectedPreferenceButton size="small" shape="round">
+                      #저탄수
+                    </SelectedPreferenceButton>
+                    <SelectedPreferenceButton size="small" shape="round">
+                      #비건
+                    </SelectedPreferenceButton>
                   </ClientSideLink>
                 )}
               </PreferenceText>
             </MiddleGrid>
-            <Divider orientation="right">
+            <Divider orientation="left">
               <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
                 프랜차이즈 포함
               </Checkbox>

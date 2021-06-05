@@ -27,3 +27,7 @@
 .ant-carousel {
   padding-top: 55px;
 }
+
+.ant-carousel .slick-dots {
+  margin-left: 0%;
+}

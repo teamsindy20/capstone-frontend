@@ -15,7 +15,7 @@ import {
   StoreQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
-import { GridContainerUl, useRefetchMenuFavorite } from 'src/pages'
+import { GridContainerUl, useRefetchMenuFavorite, TopIconImg } from 'src/pages'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import {
   HeartOutlined,
@@ -138,7 +138,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       <TopHeader>
         <FlexContainerBetweenCenter>
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
-          <div>{store?.name}</div>
+          <FlexContainerAlignCenter>{store?.name}</FlexContainerAlignCenter>
           <FlexContainerAlignCenter>
             <Tooltip title="매장 찜하기">
               <Button
@@ -151,14 +151,20 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
               />
             </Tooltip>
             <Tooltip title="알림설정">
-              <Button shape="circle" icon={<BellOutlined />} />
+              <TopIconImg src="/441@3x.png" />
             </Tooltip>
           </FlexContainerAlignCenter>
         </FlexContainerBetweenCenter>
       </TopHeader>
       <Layout>
         <Sider>
-          <Image src="/error" width={200} height={200} />
+          {/* <Image
+            src={store.imageUrls ? store.imageUrls[0] : ''}
+            alt="store"
+            objectFit="cover"
+            width={200}
+            height={200}
+          /> */}
         </Sider>
         <Content>
           <NoMarginH4>

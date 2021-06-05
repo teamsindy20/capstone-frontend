@@ -32,14 +32,6 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   height: 100%;
 `
 
-const StyledLocalActivityRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledSearchRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledNotificationsRoundedIcon = { fontSize: 30, color: grey[800] }
-
-const StyledLocationOnRoundedIcon = { fontSize: 20, color: grey[800] }
-
 const StyledExpandMoreRoundedIcon = { fontSize: 23, color: grey[800] }
 
 const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
@@ -67,14 +59,7 @@ export const IconGridContainer = styled.div`
 `
 const PreferenceText = styled.div`
   text-align: center;
-  margin: 0.5rem;
   border-radius: 1rem;
-`
-const BrownText = styled.div`
-  color: #5c4d42;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.05rem;
 `
 
 export const GridContainerUl = styled.ul<{ onlyImage: boolean }>`
@@ -105,6 +90,7 @@ const StyledTag = styled.span<{ color: string }>`
 const BannerFrame = styled.div`
   padding-top: 30%;
   position: relative;
+  background: #fcfcfc;
 `
 
 const FixedPosition = styled.div`
@@ -120,26 +106,25 @@ const FixedPosition = styled.div`
 
 const MiddleGrid = styled.div`
   display: grid;
-  grid-template-rows: 1fr 0.7fr;
   background-color: white;
   height: 100px;
   text-align: center;
   align-items: center;
-  padding: 10px 1.2rem;
+  padding: 0.5rem 1rem;
   border: solid 1px #e8e8e8;
 `
 
 const MiddleFlexContainer = styled.div`
   display: flex;
+  align-content: center;
 `
 
-const MiddleText = styled.div`
-  font-size: 15px;
+const MiddleText = styled.span`
   font-weight: 500;
 `
-const MiddleBoldText = styled.div`
-  font-size: 17px;
-  font-weight: 700;
+
+const MiddleBoldText = styled.b`
+  font-size: 1.1rem;
 `
 
 export const IconImg = styled.img`
@@ -153,8 +138,8 @@ const TopIconImg = styled.img`
   margin: 0 8px 0 8px;
 `
 const ColoredLogo = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 2rem;
+  height: 2rem;
   margin: 0;
   border-radius: 50%;
 `
@@ -230,17 +215,12 @@ function HomePage() {
             <FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/regulars">
                 <TopIconImg src="/442@3x.png" />
-                {/* <LocalActivityRoundedIcon
-                  style={StyledLocalActivityRoundedIcon}
-                ></LocalActivityRoundedIcon> */}
               </ClientSideLink>
               <ClientSideLink href="/users/username/notifications">
                 <TopIconImg src="/441@3x.png" />
-                {/* <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} /> */}
               </ClientSideLink>
               <ClientSideLink href="/search">
                 <TopIconImg src="/440@3x.png" />
-                {/* <SearchRoundedIcon style={StyledSearchRoundedIcon} /> */}
               </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
@@ -266,29 +246,31 @@ function HomePage() {
                 <Image src="/banner.png" alt="banner_ad" layout="fill" objectFit="cover" />
               </BannerFrame>
             </Carousel>
+
             <MiddleGrid>
-              <FlexContainerBetween>
-                <MiddleFlexContainer>
-                  {loading ? (
-                    ''
-                  ) : !user ? (
-                    ''
-                  ) : isUserPreferencesLoading || !preferences ? (
-                    ''
-                  ) : (
-                    <>
-                      <ColoredLogo src="/coloredlogo.png" />
+              {loading ? (
+                ''
+              ) : !user ? (
+                ''
+              ) : isUserPreferencesLoading || !preferences ? (
+                ''
+              ) : (
+                <FlexContainerBetween>
+                  <MiddleFlexContainer>
+                    <ColoredLogo src="/dessert-fit-color.webp" />
+                    <MiddleText>
                       <MiddleBoldText>
-                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}
+                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}&nbsp;
                       </MiddleBoldText>
-                      <MiddleText>님이 설정한 디저트핏은?</MiddleText>
-                    </>
-                  )}
-                </MiddleFlexContainer>
-                <ClientSideLink href="/users/username/preferences">
-                  <IconImg src="/preference.png" />
-                </ClientSideLink>
-              </FlexContainerBetween>
+                      님이 설정한 디저트핏은?
+                    </MiddleText>
+                  </MiddleFlexContainer>
+                  <ClientSideLink href="/users/username/preferences">
+                    <IconImg src="/preference.png" />
+                  </ClientSideLink>
+                </FlexContainerBetween>
+              )}
+
               <PreferenceText>
                 {loading ? (
                   '사용자 인증 중'
@@ -314,6 +296,7 @@ function HomePage() {
                 )}
               </PreferenceText>
             </MiddleGrid>
+
             <Divider orientation="left">
               <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
                 프랜차이즈 포함

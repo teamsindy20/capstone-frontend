@@ -157,9 +157,9 @@ export const IconImg = styled.img`
   margin: 0;
 `
 const TopIconImg = styled.img`
-  width: 20px;
-  height: 20px;
-  margin: 0 4px;
+  width: 22px;
+  height: 22px;
+  margin: 0 8px 0 8px;
 `
 const ColoredLogo = styled.img`
   width: 30px;

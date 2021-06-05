@@ -90,7 +90,7 @@ function UserPreferencesPage() {
         </TopHeader>
         <MarginDiv>
           <TopGrid>
-            <ColoredLogo src="/coloredlogo.png"></ColoredLogo>
+            <ColoredLogo src="/dessert-fit-color.webp"></ColoredLogo>
             <TopText>
               홈 화면에서 보고싶은 <br /> 디저트 핏을 설정해보세요.
             </TopText>

@@ -26,13 +26,11 @@ function NotLoginModal() {
   function goToRegisterPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
     router.push('/register')
-    // setIsModalVisible(false)
   }
 
   function goToLoginPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
     router.push('/login')
-    // setIsModalVisible(false)
   }
 
   return (
@@ -45,7 +43,7 @@ function NotLoginModal() {
     >
       <FlexContainerAlignCenter>
         <div style={{ textAlign: 'center' }}>
-          <Image src="/DessertFit.png" alt="logo" width={124} height={124} />
+          <Image src="/dessert-fit.webp" alt="logo" width={55} height={70} />
         </div>
         <GridContainer>
           <h2>로그인이 필요합니다</h2>

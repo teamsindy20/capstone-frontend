@@ -65,8 +65,7 @@ function UserRegularStoresPage() {
               <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
-              <LocalActivityRoundedIcon style={StyledLocalActivityRoundedIcon} />
-              <NoMarginH3>단골</NoMarginH3>
+              단골
             </FlexContainerAlignCenter>
             <WhiteText>ㅇ</WhiteText>
           </FlexContainerBetween1>

@@ -70,7 +70,8 @@ const FeedMoreText = styled(Button)`
   color: #6c6c6c;
 `
 const MarginDiv = styled.div`
-  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: #fcfcfc;
 `
 
 const description = '가까운 매장 또는 구독한 매장의 글을 읽어보세요.'

@@ -47,7 +47,9 @@ const NoMarginH6 = styled.h5`
   margin: 0;
 `
 
-const StyledHomeRoundedIcon = { fontSize: 28, color: '#ff9a88' }
+const SelectedIconStyle = { fontSize: 28, color: '#ff9a88' }
+
+const UnSelectedIconStyle = { fontSize: 28, color: '#cecece' }
 
 function Header() {
   const { asPath } = useRouter()

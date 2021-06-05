@@ -27,7 +27,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   grid-template-columns: ${(p) => (p.onlyImage ? '1fr' : '1fr 2fr')};
   position: relative;
   overflow: hidden;
-
+  background-color: white;
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
@@ -52,13 +52,13 @@ const AbsolutePositionTopRight = styled.div`
 `
 
 const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 1.8rem !important;
+  font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;
 `
 
 const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 1.8rem !important;
+  font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;
 `

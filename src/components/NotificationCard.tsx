@@ -22,21 +22,30 @@ const Grid = styled.div`
 const Icon = styled.div`
   align-items: center;
   text-align: center;
-  background-color: #dddcdc;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  padding: 10px;
+  padding: auto;
+  margin: auto;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  background-color: #ffdbd5;
+`
+
+export const IconImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 30% 0;
 `
 
 const Text = styled.h4`
-  padding: 0;
+  padding: 0 10px;
 `
 
 const TimeText = styled.h4`
   top: 0.2rem;
   right: 0.2rem;
-  color: #ff9a87;
+  color: #6c6c6c;
+  font-weight: normal;
 `
 
 function NotificationCard() {
@@ -44,7 +53,7 @@ function NotificationCard() {
     <Li>
       <Grid>
         <Icon>
-          <ShopOutlined style={StyledShopOutlined} />
+          <IconImg src="/549@3x.png" />
         </Icon>
         <Text>
           내가 찜한 매장 "핏마카롱"의 <br /> 오늘의 라인업 소식이 올라왔어요!

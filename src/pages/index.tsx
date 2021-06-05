@@ -26,7 +26,7 @@ import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { GlobalContext } from './_app'
 import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
-import { SmileOutlined } from '@ant-design/icons'
+import { SelectedPreferenceButton } from 'src/pages/users/[name]/preferences/index'
 
 const { TabPane } = Tabs
 
@@ -59,6 +59,7 @@ const StyledLocalGroceryStoreRoundedIcon = styled(LocalGroceryStoreRoundedIcon)`
   border-radius: 50%;
   padding: 10px;
   color: white !important;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.08) !important;
 `
 const LocationText = styled.h3`
   margin: 16px 2px 16px 16px;
@@ -111,7 +112,10 @@ const StyledTag = styled.span<{ color: string }>`
   vertical-align: middle;
   background-color: ${(p) => p.color};
 `
-
+const BannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+`
 const FixedPosition = styled.div`
   position: fixed;
   left: 50%;
@@ -121,6 +125,47 @@ const FixedPosition = styled.div`
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
   text-align: right;
+`
+
+const MiddleGrid = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 0.7fr;
+  background-color: white;
+  height: 100px;
+  text-align: center;
+  align-items: center;
+  padding: 10px 1.2rem;
+  border: solid 1px #e8e8e8;
+`
+
+const MiddleFlexContainer = styled.div`
+  display: flex;
+`
+
+const MiddleText = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+`
+const MiddleBoldText = styled.div`
+  font-size: 17px;
+  font-weight: 700;
+`
+
+export const IconImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 0;
+`
+const TopIconImg = styled.img`
+  width: 22px;
+  height: 22px;
+  margin: 0 8px 0 8px;
+`
+const ColoredLogo = styled.img`
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border-radius: 50%;
 `
 
 export function useRefetchMenuFavorite() {
@@ -193,15 +238,18 @@ function HomePage() {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/regulars">
-                <LocalActivityRoundedIcon
+                <TopIconImg src="/442@3x.png" />
+                {/* <LocalActivityRoundedIcon
                   style={StyledLocalActivityRoundedIcon}
-                ></LocalActivityRoundedIcon>
+                ></LocalActivityRoundedIcon> */}
               </ClientSideLink>
               <ClientSideLink href="/users/username/notifications">
-                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+                <TopIconImg src="/441@3x.png" />
+                {/* <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} /> */}
               </ClientSideLink>
               <ClientSideLink href="/search">
-                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+                <TopIconImg src="/440@3x.png" />
+                {/* <SearchRoundedIcon style={StyledSearchRoundedIcon} /> */}
               </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
@@ -210,61 +258,64 @@ function HomePage() {
         <Tabs
           defaultActiveKey="1"
           size="large"
-          tabBarStyle={{ color: '#929393', paddingLeft: '0.5rem' }}
+          tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
         >
           <TabPane tab="디저트핏" key="1">
             <Carousel autoplay>
-              <div>
-                <h3 style={contentStyle}>내게 딱 맞는 디저트핏!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Dessert Fit!</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>김빵순 사랑해</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>Hi~ 에이치아이~ </h3>
-              </div>
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
+              <BannerImg src="bannerad.png" alt="banner_ad" />
             </Carousel>
-
-            <Divider orientation="left">
-              {loading ? (
-                ''
-              ) : !user ? (
-                ''
-              ) : isUserPreferencesLoading || !preferences ? (
-                ''
-              ) : (
-                <>
-                  <SmileOutlined />
-                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'} 님이 설정한
-                  디저트핏은?
-                </>
-              )}
-            </Divider>
-            <PreferenceText>
-              {loading ? (
-                '사용자 인증 중'
-              ) : !user ? (
-                <ClientSideLink href="/login">
-                  로그인 후 나만의 디저트핏을 설정해보세요!
-                </ClientSideLink>
-              ) : isUserPreferencesLoading || !preferences ? (
-                '디저트핏 로딩 중...'
-              ) : preferences.length ? (
-                preferences.map((hashtag) => (
-                  <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                    <Tag color="#F57961">{hashtag}</Tag>
-                  </ClientSideLink>
-                ))
-              ) : (
+            <MiddleGrid>
+              <FlexContainerBetween>
+                <MiddleFlexContainer>
+                  {loading ? (
+                    ''
+                  ) : !user ? (
+                    ''
+                  ) : isUserPreferencesLoading || !preferences ? (
+                    ''
+                  ) : (
+                    <>
+                      <ColoredLogo src="/coloredlogo.png" />
+                      <MiddleBoldText>
+                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}
+                      </MiddleBoldText>
+                      <MiddleText>님이 설정한 디저트핏은?</MiddleText>
+                    </>
+                  )}
+                </MiddleFlexContainer>
                 <ClientSideLink href="/users/username/preferences">
-                  <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
+                  <IconImg src="/preference.png" />
                 </ClientSideLink>
-              )}
-            </PreferenceText>
-            <Divider orientation="right">
+              </FlexContainerBetween>
+              <PreferenceText>
+                {loading ? (
+                  '사용자 인증 중'
+                ) : !user ? (
+                  <ClientSideLink href="/login">
+                    로그인 후 나만의 디저트핏을 설정해보세요!
+                  </ClientSideLink>
+                ) : isUserPreferencesLoading || !preferences ? (
+                  '디저트핏 로딩 중...'
+                ) : preferences.length ? (
+                  preferences.map((hashtag) => (
+                    <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </ClientSideLink>
+                  ))
+                ) : (
+                  <ClientSideLink href="/users/username/preferences">
+                    <SelectedPreferenceButton shape="round">#딸기</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#초코</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#저탄수</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#비건</SelectedPreferenceButton>
+                  </ClientSideLink>
+                )}
+              </PreferenceText>
+            </MiddleGrid>
+            <Divider orientation="left">
               <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
                 프랜차이즈 포함
               </Checkbox>

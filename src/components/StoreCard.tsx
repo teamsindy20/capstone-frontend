@@ -18,7 +18,7 @@ const GridContainerLi = styled.li`
   grid-template-columns: 1fr 2fr;
   position: relative;
   overflow: hidden;
-
+  background-color: white;
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: max(10px, 1vw);

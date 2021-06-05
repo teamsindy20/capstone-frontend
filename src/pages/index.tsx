@@ -135,6 +135,7 @@ const MiddleGrid = styled.div`
   text-align: center;
   align-items: center;
   padding: 10px 1.2rem;
+  border: solid 1px #e8e8e8;
 `
 
 const MiddleFlexContainer = styled.div`
@@ -150,10 +151,15 @@ const MiddleBoldText = styled.div`
   font-weight: 700;
 `
 
-const IconImg = styled.img`
+export const IconImg = styled.img`
   width: 20px;
   height: 20px;
   margin: 0;
+`
+const TopIconImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 0 4px;
 `
 const ColoredLogo = styled.img`
   width: 30px;
@@ -232,15 +238,18 @@ function HomePage() {
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/regulars">
-                <LocalActivityRoundedIcon
+                <TopIconImg src="/442@3x.png" />
+                {/* <LocalActivityRoundedIcon
                   style={StyledLocalActivityRoundedIcon}
-                ></LocalActivityRoundedIcon>
+                ></LocalActivityRoundedIcon> */}
               </ClientSideLink>
               <ClientSideLink href="/users/username/notifications">
-                <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
+                <TopIconImg src="/441@3x.png" />
+                {/* <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} /> */}
               </ClientSideLink>
               <ClientSideLink href="/search">
-                <SearchRoundedIcon style={StyledSearchRoundedIcon} />
+                <TopIconImg src="/440@3x.png" />
+                {/* <SearchRoundedIcon style={StyledSearchRoundedIcon} /> */}
               </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
@@ -298,18 +307,10 @@ function HomePage() {
                   ))
                 ) : (
                   <ClientSideLink href="/users/username/preferences">
-                    <SelectedPreferenceButton size="small" shape="round">
-                      #딸기
-                    </SelectedPreferenceButton>
-                    <SelectedPreferenceButton size="small" shape="round">
-                      #초코
-                    </SelectedPreferenceButton>
-                    <SelectedPreferenceButton size="small" shape="round">
-                      #저탄수
-                    </SelectedPreferenceButton>
-                    <SelectedPreferenceButton size="small" shape="round">
-                      #비건
-                    </SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#딸기</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#초코</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#저탄수</SelectedPreferenceButton>
+                    <SelectedPreferenceButton shape="round">#비건</SelectedPreferenceButton>
                   </ClientSideLink>
                 )}
               </PreferenceText>

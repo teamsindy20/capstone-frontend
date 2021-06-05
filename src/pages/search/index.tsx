@@ -10,6 +10,10 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import useGoBack from 'src/hooks/useGoBack'
 import { AudioOutlined, EllipsisOutlined, SearchOutlined } from '@ant-design/icons'
 import { useState } from 'react'
+import {
+  PreferenceButton,
+  SelectedPreferenceButton,
+} from 'src/pages/users/[name]/preferences/index'
 
 const description = '검색할 수 있는 페이지'
 
@@ -39,12 +43,12 @@ const WhiteText = styled.h5`
   color: #ffffff;
 `
 
-const PreferenceButton = styled(Button)`
-  margin: 5px;
-`
-const SelectedPreferenceButton = styled(PreferenceButton)`
-  background-color: #ff9a87;
-`
+// const PreferenceButton = styled(Button)`
+//   margin: 5px;
+// `
+// const SelectedPreferenceButton = styled(PreferenceButton)`
+//   background-color: #ff9a87;
+// `
 
 const PopularGrid = styled.div`
   display: grid;

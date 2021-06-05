@@ -37,7 +37,7 @@ const TopText = styled.h3`
   padding: 10px 0;
 `
 
-const PreferenceButton = styled(Button)`
+export const PreferenceButton = styled(Button)`
   margin: 5px;
   background-color: white;
   color: black;
@@ -47,6 +47,8 @@ export const SelectedPreferenceButton = styled(Button)`
   background-color: #ff9a87;
   color: white;
   border: none;
+  font-size: 12px;
+  font-weight: 400;
 `
 const ColoredLogo = styled.img`
   width: 56px;

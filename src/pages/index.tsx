@@ -126,6 +126,41 @@ const FixedPosition = styled.div`
   text-align: right;
 `
 
+const MiddleGrid = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  background-color: white;
+  height: 100px;
+  text-align: center;
+  align-items: center;
+  padding: 10px 1.5rem;
+`
+
+const MiddleFlexContainer = styled.div`
+  display: flex;
+`
+
+const MiddleText = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+`
+const MiddleBoldText = styled.div`
+  font-size: 17px;
+  font-weight: 700;
+`
+
+const IconImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 0;
+`
+const ColoredLogo = styled.img`
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border-radius: 50%;
+`
+
 export function useRefetchMenuFavorite() {
   const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
     fetchPolicy: 'network-only',
@@ -222,42 +257,51 @@ function HomePage() {
               <BannerImg src="bannerad.png" alt="banner_ad" />
               <BannerImg src="bannerad.png" alt="banner_ad" />
             </Carousel>
-            <Divider orientation="left">
-              {loading ? (
-                ''
-              ) : !user ? (
-                ''
-              ) : isUserPreferencesLoading || !preferences ? (
-                ''
-              ) : (
-                <>
-                  <SmileOutlined />
-                  &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'} 님이 설정한
-                  디저트핏은?
-                </>
-              )}
-            </Divider>
-            <PreferenceText>
-              {loading ? (
-                '사용자 인증 중'
-              ) : !user ? (
-                <ClientSideLink href="/login">
-                  로그인 후 나만의 디저트핏을 설정해보세요!
-                </ClientSideLink>
-              ) : isUserPreferencesLoading || !preferences ? (
-                '디저트핏 로딩 중...'
-              ) : preferences.length ? (
-                preferences.map((hashtag) => (
-                  <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                    <Tag color="#F57961">{hashtag}</Tag>
-                  </ClientSideLink>
-                ))
-              ) : (
+            <MiddleGrid>
+              <FlexContainerBetween>
+                <MiddleFlexContainer>
+                  {loading ? (
+                    ''
+                  ) : !user ? (
+                    ''
+                  ) : isUserPreferencesLoading || !preferences ? (
+                    ''
+                  ) : (
+                    <>
+                      <ColoredLogo src="/coloredlogo.png" />
+                      <MiddleBoldText>
+                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}
+                      </MiddleBoldText>
+                      <MiddleText>님이 설정한 디저트핏은?</MiddleText>
+                    </>
+                  )}
+                </MiddleFlexContainer>
                 <ClientSideLink href="/users/username/preferences">
-                  <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
+                  <IconImg src="/preference.png" />
                 </ClientSideLink>
-              )}
-            </PreferenceText>
+              </FlexContainerBetween>
+              <PreferenceText>
+                {loading ? (
+                  '사용자 인증 중'
+                ) : !user ? (
+                  <ClientSideLink href="/login">
+                    로그인 후 나만의 디저트핏을 설정해보세요!
+                  </ClientSideLink>
+                ) : isUserPreferencesLoading || !preferences ? (
+                  '디저트핏 로딩 중...'
+                ) : preferences.length ? (
+                  preferences.map((hashtag) => (
+                    <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                      <Tag color="#F57961">{hashtag}</Tag>
+                    </ClientSideLink>
+                  ))
+                ) : (
+                  <ClientSideLink href="/users/username/preferences">
+                    <BrownText>내게 딱 맞는 디저트핏을 설정해보세요!</BrownText>
+                  </ClientSideLink>
+                )}
+              </PreferenceText>
+            </MiddleGrid>
             <Divider orientation="right">
               <Checkbox checked={doesFranchiseIncluded} onChange={toggleWhetherIncludeFranchise}>
                 프랜차이즈 포함

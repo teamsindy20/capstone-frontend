@@ -9,6 +9,8 @@ import grey from '@material-ui/core/colors/grey'
 import useGoToPage from 'src/hooks/useGoToPage'
 import useGoBack from 'src/hooks/useGoBack'
 import NotificationCard from 'src/components/NotificationCard'
+import { ClearAllButton } from 'src/pages/cart/index'
+import PageLayout from 'src/components/layouts/PageLayout'
 
 const description = '알림 설정한 매장의 새로운 소식을 확인해보세요.'
 
@@ -36,23 +38,24 @@ function UserNotificationsPage() {
 
   return (
     <PageHead title="디저트핏 - 알림" description={description}>
-      <TopHeader>
-        <FlexContainerBetween1>
-          <FlexContainerAlignCenter>
-            <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
-          </FlexContainerAlignCenter>
-          <FlexContainerAlignCenter>
-            <NotificationsRoundedIcon style={StyledNotificationsRoundedIcon} />
-            <NoMarginH3>알림</NoMarginH3>
-          </FlexContainerAlignCenter>
-          <WhiteText>ㅇ</WhiteText>
-        </FlexContainerBetween1>
-      </TopHeader>
-      <MarginDiv>
-        <NotificationCard />
-        <NotificationCard />
-        <NotificationCard />
-      </MarginDiv>
+      <PageLayout>
+        <TopHeader>
+          <FlexContainerBetween1>
+            <FlexContainerAlignCenter>
+              <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
+            </FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>알림</FlexContainerAlignCenter>
+            <FlexContainerAlignCenter>
+              <ClearAllButton>전체삭제</ClearAllButton>
+            </FlexContainerAlignCenter>
+          </FlexContainerBetween1>
+        </TopHeader>
+        <MarginDiv>
+          <NotificationCard />
+          <NotificationCard />
+          <NotificationCard />
+        </MarginDiv>
+      </PageLayout>
     </PageHead>
   )
 }

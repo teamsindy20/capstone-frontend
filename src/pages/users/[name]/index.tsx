@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
+import Footer from 'src/components/Footer'
 import NotLoginModal from 'src/components/NotLoginModal'
 import { GlobalContext } from 'src/pages/_app'
 import { Button } from 'antd'
@@ -50,6 +51,7 @@ function MyDessertFitPage() {
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
         <PageLayout>
           <NotLoginModal />
+          <Footer />
         </PageLayout>
       </PageHead>
     )
@@ -114,6 +116,7 @@ function MyDessertFitPage() {
           로그아웃
         </Button>
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
+        <Footer />
       </PageLayout>
     </PageHead>
   )

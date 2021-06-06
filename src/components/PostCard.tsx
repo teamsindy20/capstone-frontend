@@ -1,20 +1,13 @@
-import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded'
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import grey from '@material-ui/core/colors/grey'
 import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
+import { FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
-import { Divider, Button } from 'antd'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-
-const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
-
-const StyledChatBubbleOutlineRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;

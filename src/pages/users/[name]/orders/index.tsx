@@ -67,10 +67,7 @@ function UserOrdersPage() {
     <PageHead title="디저트핏 - 주문 내역" description={description}>
       <NavigationLayout>
         <TopHeader>
-          <FlexContainerCenterCenter>
-            <StoreRoundedIcon style={StyledStoreRoundedIcon} />
-            <NoMarginH3>주문내역</NoMarginH3>
-          </FlexContainerCenterCenter>
+          <FlexContainerCenterCenter>주문내역</FlexContainerCenterCenter>
         </TopHeader>
         <GridContainerUl>
           {orders.map((order) => (

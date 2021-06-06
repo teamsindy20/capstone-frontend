@@ -86,7 +86,6 @@ export const Hashtags = styled.ul`
 `
 
 export const Hashtag = styled.h5`
-  font-size: 0.9rem;
   color: #ff9a87;
   white-space: nowrap;
 `

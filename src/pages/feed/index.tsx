@@ -69,8 +69,8 @@ export const FeedMoreText = styled(Button)`
   font-weight: 500;
   color: #6c6c6c;
 `
-const MarginDiv = styled.div`
-  padding: 0.5rem;
+export const MarginDiv = styled.div`
+  padding: 0.9rem;
   background-color: #fcfcfc;
 `
 

@@ -31,6 +31,7 @@ import { useRef, ReactText, ReactNode } from 'react'
 import { toast } from 'react-toastify'
 import useGoBack from 'src/hooks/useGoBack'
 import Image from 'next/image'
+import { HorizontalBorder } from 'src/pages/feed'
 
 const { Sider, Content } = Layout
 
@@ -67,6 +68,28 @@ const FlexContainerSpaceEvenly = styled.div`
   border: solid 1px #efefef;
   height: 60px;
   background-color: white;
+`
+const PickRegularGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  border: solid 1px #efefef;
+  height: 60px;
+  background-color: white;
+`
+
+const PickRegularText = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
+`
+
+const PinkPickRegularText = styled(PickRegularText)`
+  color: #ff5e3d;
+`
+
+const NoMarginHorizontalBorder = styled(HorizontalBorder)`
+  margin: 0;
 `
 const NoMarginH3 = styled.h3`
   margin: 0;
@@ -193,43 +216,40 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
           </NoMarginH3>
         </TextInCard>
       </StoreHomeGrid>
-      <FlexContainerSpaceEvenly>
+      <PickRegularGrid>
+        <PickRegularText>
+          <Button
+            shape="circle"
+            icon={<HeartOutlined />}
+            disabled={isPickingStoreLoading}
+            onClick={() => {
+              pickStore({ variables: { id: storeId } })
+            }}
+          />
+          찜<PinkPickRegularText>{store?.favoriteCount}</PinkPickRegularText>
+        </PickRegularText>
+        <PickRegularText>
+          <CrownOutlined />
+          <Popover title="단골 혜택" content={VIPcontent}>
+            단골
+            <PinkPickRegularText>{store?.regularCustomerCount}</PinkPickRegularText>
+          </Popover>
+        </PickRegularText>
+      </PickRegularGrid>
+      <TextInCard>
         <FlexContainerAlignCenter>
           <ReloadOutlined />
           <Popover title="재주문율이란?" content={ReOrderContent}>
             <NoMarginH3>재주문율 {store?.reorderRatio}%</NoMarginH3>
           </Popover>
         </FlexContainerAlignCenter>
-        <FlexContainerAlignCenter>
-          <Tooltip title="매장 찜하기">
-            <Button
-              shape="circle"
-              icon={<HeartOutlined />}
-              disabled={isPickingStoreLoading}
-              onClick={() => {
-                pickStore({ variables: { id: storeId } })
-              }}
-            />
-          </Tooltip>
-          <NoMarginH3>찜 {store?.favoriteCount}</NoMarginH3>
-        </FlexContainerAlignCenter>
-
-        <FlexContainerAlignCenter>
-          <CrownOutlined />
-          <Popover title="단골 혜택" content={VIPcontent}>
-            <NoMarginH3>단골 {store?.regularCustomerCount}</NoMarginH3>
-          </Popover>
-        </FlexContainerAlignCenter>
-      </FlexContainerSpaceEvenly>
-
-      <Divider />
-      <NoMarginH4>
-        배달시간 : {store?.minimumDeliveryTime}분 ~ {store?.maximumDeliveryTime}분
-      </NoMarginH4>
-      <NoMarginH4>배달료 : {store?.deliveryCharge}</NoMarginH4>
-      <NoMarginH4>최소주문금액 : {store?.minimumDeliveryAmount}</NoMarginH4>
-
-      <Divider />
+        <NoMarginH3>
+          배달시간 : {store?.minimumDeliveryTime}분 ~ {store?.maximumDeliveryTime}분
+        </NoMarginH3>
+        <NoMarginH3>배달료 : {store?.deliveryCharge}</NoMarginH3>
+        <NoMarginH3>최소주문금액 : {store?.minimumDeliveryAmount}</NoMarginH3>
+      </TextInCard>
+      <NoMarginHorizontalBorder />
       <Tabs
         defaultActiveKey={defaultPage}
         centered

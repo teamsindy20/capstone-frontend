@@ -10,7 +10,7 @@ import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRight
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import styled from 'styled-components'
-import { CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { Padding } from 'src/components/layouts/NavigationLayout'

@@ -51,6 +51,7 @@ function FeedPage() {
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />
           </Tabs>
         </TopHeader>
+        <br />
         <FeedTitleContainer>
           <FeedTitleText>찜한 매장 리뷰 소식</FeedTitleText>
           <FeedMoreText shape="round" type="text">
@@ -58,10 +59,8 @@ function FeedPage() {
           </FeedMoreText>
         </FeedTitleContainer>
         <ThinHorizontalBorder />
-
         <ReviewCard onlyImage={false} review={1 as any} />
         <HorizontalBorder />
-
         <FeedTitleContainer>
           <FeedTitleText>전체 매장 리뷰 소식</FeedTitleText>
           <FeedMoreText shape="round" type="text">

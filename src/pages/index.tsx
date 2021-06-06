@@ -147,6 +147,7 @@ export const IconImg = styled.img`
   height: 20px;
   margin: 0;
 `
+
 export const TopIconImg = styled.img`
   width: 22px;
   height: 22px;

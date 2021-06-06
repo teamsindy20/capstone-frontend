@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
+import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
   useStoreMenusQuery,
@@ -15,7 +15,7 @@ import {
   StoreQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
-import { GridContainerUl, useRefetchMenuFavorite, TopIconImg } from 'src/pages'
+import { GridContainerUl, useRefetchMenuFavorite, IconImg } from 'src/pages'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import {
   HeartOutlined,
@@ -34,9 +34,39 @@ import Image from 'next/image'
 
 const { Sider, Content } = Layout
 
+const TopIconDiv = styled.div`
+  margin: 13px;
+  display: flex;
+  align-items: center;
+`
+const IconDiv = styled.div`
+  margin: 7px;
+  display: flex;
+  align-items: center;
+`
+const StoreHomeGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 1.1rem;
+  align-items: center;
+`
+const RoundSquareFrame = styled(SquareFrame)`
+  overflow: hidden;
+  border-radius: 10px;
+`
+const TextInCard = styled.div`
+  width: 100%;
+  font-size: 13px;
+  margin: 10px;
+  //align-items: center;
+`
+
 const FlexContainerSpaceEvenly = styled.div`
   display: flex;
   justify-content: space-evenly;
+  border: solid 1px #efefef;
+  height: 60px;
+  background-color: white;
 `
 const NoMarginH3 = styled.h3`
   margin: 0;
@@ -139,50 +169,30 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
         <FlexContainerBetweenCenter>
           <ArrowBackIosRoundedIcon style={StyledArrowBackIosRoundedIcon} onClick={goBack} />
           <FlexContainerAlignCenter>{store?.name}</FlexContainerAlignCenter>
-          <FlexContainerAlignCenter>
-            <Tooltip title="매장 찜하기">
-              <Button
-                shape="circle"
-                icon={<HeartOutlined />}
-                disabled={isPickingStoreLoading}
-                onClick={() => {
-                  pickStore({ variables: { id: storeId } })
-                }}
-              />
-            </Tooltip>
-            <Tooltip title="알림설정">
-              <TopIconImg src="/441@3x.png" />
-            </Tooltip>
-          </FlexContainerAlignCenter>
+          <TopIconDiv>
+            <IconImg src="/441@3x.png" alt="notification" />
+          </TopIconDiv>
         </FlexContainerBetweenCenter>
       </TopHeader>
-      <Layout>
-        <Sider>
-          {/* <Image
-            src={store.imageUrls ? store.imageUrls[0] : ''}
-            alt="store"
-            objectFit="cover"
-            width={200}
-            height={200}
-          /> */}
-        </Sider>
-        <Content>
-          <NoMarginH4>
+      <StoreHomeGrid>
+        <RoundSquareFrame>
+          <Image src="/4@3x.png" alt="store-profile" layout="fill" objectFit="contain" />
+        </RoundSquareFrame>
+        <TextInCard>
+          <NoMarginH3>
             <EnvironmentOutlined />
             흑석로 12바길
-          </NoMarginH4>
-          <NoMarginH4>
+          </NoMarginH3>
+          <NoMarginH3>
             <PhoneOutlined />
             02-1234-5678
-          </NoMarginH4>
-          <NoMarginH4>
+          </NoMarginH3>
+          <NoMarginH3>
             <InstagramOutlined />
             @dessert_fit
-          </NoMarginH4>
-        </Content>
-      </Layout>
-
-      <Divider />
+          </NoMarginH3>
+        </TextInCard>
+      </StoreHomeGrid>
       <FlexContainerSpaceEvenly>
         <FlexContainerAlignCenter>
           <ReloadOutlined />
@@ -190,12 +200,20 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
             <NoMarginH3>재주문율 {store?.reorderRatio}%</NoMarginH3>
           </Popover>
         </FlexContainerAlignCenter>
-        <Divider type="vertical" />
         <FlexContainerAlignCenter>
-          <HeartOutlined />
+          <Tooltip title="매장 찜하기">
+            <Button
+              shape="circle"
+              icon={<HeartOutlined />}
+              disabled={isPickingStoreLoading}
+              onClick={() => {
+                pickStore({ variables: { id: storeId } })
+              }}
+            />
+          </Tooltip>
           <NoMarginH3>찜 {store?.favoriteCount}</NoMarginH3>
         </FlexContainerAlignCenter>
-        <Divider type="vertical" />
+
         <FlexContainerAlignCenter>
           <CrownOutlined />
           <Popover title="단골 혜택" content={VIPcontent}>

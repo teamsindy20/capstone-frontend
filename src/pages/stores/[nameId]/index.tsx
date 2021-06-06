@@ -32,6 +32,7 @@ const TopIconDiv = styled.div`
 `
 const IconDiv = styled.div`
   padding: 7px;
+  cursor: pointer;
   /* display: flex;
   align-items: center; */
 `
@@ -228,9 +229,9 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
         <PickRegularContainer>
           <IconDiv>
             {store?.favorite ? (
-              <IconImg src="/173@3x.png" alt="notification" onClick={pickStore} />
-            ) : (
               <IconImg src="/358@3x.png" alt="notification" onClick={pickStore} />
+            ) : (
+              <IconImg src="/173@3x.png" alt="notification" onClick={pickStore} />
             )}
           </IconDiv>
           찜<PinkPickRegularText>{store?.favoriteCount}</PinkPickRegularText>

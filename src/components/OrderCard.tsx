@@ -4,7 +4,11 @@ import { useRouter } from 'next/router'
 import { MouseEvent } from 'react'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import {
+  FlexContainerBetween,
+  FlexContainerAlignCenter,
+  FlexContainerAround,
+} from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import { formatPrice } from 'src/utils/price'
@@ -14,12 +18,11 @@ import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
-import { Card, Avatar, Divider, Button } from 'antd'
+import { Divider, Button } from 'antd'
 import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
 import { differenceInDays, format } from 'date-fns'
-import { StoreImg, StoreName, CardHorizontalBorder } from 'src/components/PostCard'
-
-const { Meta } = Card
+import { StoreImg, StoreName, CardHorizontalBorder, IconImg } from 'src/components/PostCard'
+import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const GridContainerLi = styled.li`
   display: grid;
@@ -30,15 +33,13 @@ const GridContainerLi = styled.li`
   /* height: 13rem; */
   padding: 1rem;
   margin: 1rem;
+  gap: 0;
 `
 
-const PinkH3 = styled.h3`
-  font-size: 11px;
-  font-weight: 500;
-  color: #ff5e3d;
-`
 const HalfWideButton = styled(Button)`
-  width: 40%;
+  width: 48%;
+  height: 2.8rem;
+  margin: 1rem 0;
 `
 const ratio = 30
 
@@ -87,11 +88,14 @@ const AbsolutePosition = styled.div`
   right: 0.5rem;
 `
 
+const PinkText = styled.h4`
+  color: #ff5e3d;
+`
 const MintText = styled.h4`
-  color: #2eccba; ;
+  color: #2eccba;
 `
 const GreyText = styled.h4`
-  color: #a8a8a8; ;
+  color: #a8a8a8;
 `
 
 function formatOrderDate(orderDate: string) {
@@ -149,12 +153,16 @@ function OrderCard({ order, store }: Props) {
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
       <FlexContainerBetween>
+        <ClientSideLink href={`/stores/${store.name}-${store.id}/feed`}>
+          <FlexContainerAlignCenter>
+            <StoreImg src={store.imageUrl ? store.imageUrl[0] : ''} alt="store profile" />
+            <StoreName>{store.name}</StoreName>
+            <RightOutlined />
+          </FlexContainerAlignCenter>
+        </ClientSideLink>
         <FlexContainerAlignCenter>
-          <StoreImg src={store.imageUrl ? store.imageUrl[0] : ''} alt="store profile" />
-          <StoreName>{store.name}</StoreName>
-        </FlexContainerAlignCenter>
-        <FlexContainerAlignCenter>
-          <PinkH3>배달중</PinkH3>
+          <IconImg src="/620@3x.png" />
+          <MintText>배달완료</MintText>
         </FlexContainerAlignCenter>
       </FlexContainerBetween>
       <CardHorizontalBorder />

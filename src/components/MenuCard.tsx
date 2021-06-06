@@ -222,7 +222,8 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}`)
+  const storeMenuPage = `/stores/${store.name}-${store.id}/${menu.name}`
+  const goToStoreMenuPage = useGoToPage(storeMenuPage)
   const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
@@ -245,7 +246,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
       <SquareFrame>
-        <ClientSideLink href={storeReviewsPage}>
+        <ClientSideLink href={storeMenuPage}>
           <Image
             src={menu.imageUrls ? menu.imageUrls[0] : ''}
             alt="menu"

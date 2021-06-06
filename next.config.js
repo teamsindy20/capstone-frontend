@@ -31,7 +31,6 @@ module.exports = withPWA({
       'shop3.daumcdn.net',
       'search.pstatic.net',
       'scontent-ssn1-1.cdninstagram.com',
-      'search.pstatic.net',
     ],
   },
   poweredByHeader: process.env.NODE_ENV === 'development',

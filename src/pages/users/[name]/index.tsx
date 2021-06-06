@@ -108,66 +108,67 @@ function MyDessertFitPage() {
 
   return (
     <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-      {/* <NavigationLayout> */}
-      <TopHeader>
-        <FlexContainerCenterCenter>
-          <NoMarginH3>MY</NoMarginH3>
-        </FlexContainerCenterCenter>
-      </TopHeader>
-      {/* </NavigationLayout> */}
-      <GridContainer>
-        <ProfileFlexContainer>
-          <FlexContainer>
-            <Image
-              src="/605@3x.png"
-              alt="user-profile"
-              width="50"
-              height="50"
-              objectFit="contain"
-            />
-            <ProfileTitleGrid>
-              <UserName>{query.name}</UserName>
-              <ReviewBadge>BEST 리뷰어</ReviewBadge>
-            </ProfileTitleGrid>
-          </FlexContainer>
-          <Button>프로필보기</Button>
-        </ProfileFlexContainer>
-        <WhiteFlexContainer>
-          <div>
-            <h4>리뷰수</h4>
-            <PinkText>3개</PinkText>
-          </div>
-          <div>
-            <h4>쿠폰</h4>
-            <PinkText>3개</PinkText>
-          </div>
-          <div>
-            <h4>포인트</h4>
-            <PinkText>3000P</PinkText>
-          </div>
-        </WhiteFlexContainer>
-        <TitleFlexContainer>회원정보수정</TitleFlexContainer>
-        <TitleFlexContainer>설정</TitleFlexContainer>
-        <TitleFlexContainer>고객설정</TitleFlexContainer>
-        <ContentFlexContainer>1:1문의</ContentFlexContainer>
-        <ContentFlexContainer>상품문의</ContentFlexContainer>
-        <ContentFlexContainer>F&Q</ContentFlexContainer>
-        <ContentFlexContainer>고객의소리</ContentFlexContainer>
-        <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
-        <ContentFlexContainer>공지사항</ContentFlexContainer>
-        <ContentFlexContainer>이벤트</ContentFlexContainer>
-        <LoginButton
-          onClick={() => {
-            localStorage.removeItem('token')
-            sessionStorage.removeItem('token')
-            refetchUser()
-          }}
-        >
-          LOGOUT
-        </LoginButton>
-      </GridContainer>
+      <NavigationLayout>
+        <TopHeader>
+          <FlexContainerCenterCenter>
+            <NoMarginH3>MY</NoMarginH3>
+          </FlexContainerCenterCenter>
+        </TopHeader>
 
-      <Footer />
+        <GridContainer>
+          <ProfileFlexContainer>
+            <FlexContainer>
+              <Image
+                src="/605@3x.png"
+                alt="user-profile"
+                width="50"
+                height="50"
+                objectFit="contain"
+              />
+              <ProfileTitleGrid>
+                <UserName>{query.name}</UserName>
+                <ReviewBadge>BEST 리뷰어</ReviewBadge>
+              </ProfileTitleGrid>
+            </FlexContainer>
+            <Button>프로필보기</Button>
+          </ProfileFlexContainer>
+          <WhiteFlexContainer>
+            <div>
+              <h4>리뷰수</h4>
+              <PinkText>3개</PinkText>
+            </div>
+            <div>
+              <h4>쿠폰</h4>
+              <PinkText>3개</PinkText>
+            </div>
+            <div>
+              <h4>포인트</h4>
+              <PinkText>3000P</PinkText>
+            </div>
+          </WhiteFlexContainer>
+          <TitleFlexContainer>회원정보수정</TitleFlexContainer>
+          <TitleFlexContainer>설정</TitleFlexContainer>
+          <TitleFlexContainer>고객설정</TitleFlexContainer>
+          <ContentFlexContainer>1:1문의</ContentFlexContainer>
+          <ContentFlexContainer>상품문의</ContentFlexContainer>
+          <ContentFlexContainer>F&Q</ContentFlexContainer>
+          <ContentFlexContainer>고객의소리</ContentFlexContainer>
+          <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
+          <ContentFlexContainer>공지사항</ContentFlexContainer>
+          <ContentFlexContainer>이벤트</ContentFlexContainer>
+          <LoginButton
+            onClick={() => {
+              localStorage.removeItem('token')
+              sessionStorage.removeItem('token')
+              refetchUser()
+            }}
+          >
+            LOGOUT
+          </LoginButton>
+        </GridContainer>
+
+        <Footer />
+      </NavigationLayout>
     </PageHead>
   )
 }

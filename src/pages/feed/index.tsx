@@ -14,11 +14,11 @@ import PostCard, { PostLoadingCard } from '../../components/PostCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
-const HorizontalBorder = styled.div`
+export const HorizontalBorder = styled.div`
   border: 2px solid #f5f5f5;
   margin-bottom: 15px;
 `
-const ThinHorizontalBorder = styled.div`
+export const ThinHorizontalBorder = styled.div`
   border: solid 1px #e8e8e8;
 `
 
@@ -53,24 +53,24 @@ const UnSelectedTag = styled(Tag)`
   color: black !important;
 `
 
-const FeedTitleContainer = styled(FlexContainerBetween)`
+export const FeedTitleContainer = styled(FlexContainerBetween)`
   height: 44px;
   background-color: #ffffff;
 `
 
-const FeedTitleText = styled.div`
+export const FeedTitleText = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: black;
   margin: 0 1rem;
 `
-const FeedMoreText = styled(Button)`
+export const FeedMoreText = styled(Button)`
   font-size: 13px;
   font-weight: 500;
   color: #6c6c6c;
 `
-const MarginDiv = styled.div`
-  padding: 0.5rem;
+export const MarginDiv = styled.div`
+  padding: 0.9rem;
   background-color: #fcfcfc;
 `
 

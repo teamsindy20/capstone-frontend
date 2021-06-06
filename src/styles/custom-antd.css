@@ -14,7 +14,7 @@
 .ant-tabs-tab-remove:hover,
 .ant-tabs-tab-btn:active,
 .ant-tabs-tab-remove:active {
-  color: #ff9a88;
+  color: #ff5e3d;
 }
 
 .ant-tabs > .ant-tabs-nav {
@@ -37,4 +37,10 @@
 
 .ant-carousel .slick-dots li.slick-active button {
   background: #ff9a88;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: #ff5e3d;
+  border-color: #ff5e3d;
 }

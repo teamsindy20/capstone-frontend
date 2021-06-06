@@ -37,7 +37,7 @@ function UserOrdersPage() {
   const [isLoadingOrders, setIsLoadingOrders] = useState(false)
   const [hasMoreOrders, setHasMoreOrders] = useState(true)
 
-  async function fetchMoreMenus() {
+  async function fetchMoreOrders() {
     setIsLoadingOrders(true)
     await sleep(5000) // fetchMoreMenus(from, count)
     setIsLoadingOrders(false)
@@ -50,7 +50,7 @@ function UserOrdersPage() {
   const [sentryRef] = useInfiniteScroll({
     loading: isLoadingOrders,
     hasNextPage: hasMoreOrders,
-    onLoadMore: fetchMoreMenus,
+    onLoadMore: fetchMoreOrders,
   })
 
   if (!user) {

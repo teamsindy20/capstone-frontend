@@ -303,9 +303,11 @@ export type Order = {
   deliveryAddress: Scalars['String']
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
+  pointSaved: Scalars['Int']
   userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
+  userId: Scalars['ID']
   /** nullable */
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
@@ -313,10 +315,10 @@ export type Order = {
   regularReward?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
   /** from other table */
-  user: User
+  selectedMenus: Array<Menu>
   payment: Payment
   store: Store
-  menus: Array<Menu>
+  user: User
   /** from other table - nullable */
   coupon?: Maybe<Coupon>
   menuOptions?: Maybe<Array<MenuOption>>
@@ -686,6 +688,14 @@ export type MenuCardFragment = { __typename?: 'Menu' } & Pick<
   | 'hashtags'
 > & { store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'isFranchise'> }
 
+export type OrderCardFragment = { __typename?: 'Order' } & Pick<
+  Order,
+  'id' | 'creationDate' | 'orderTotal'
+> & {
+    selectedMenus: Array<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'name'>>
+    store: { __typename?: 'Store' } & Pick<Store, 'id' | 'name' | 'imageUrls'>
+  }
+
 export type PostCardFragment = { __typename?: 'Post' } & Pick<
   Post,
   | 'id'
@@ -709,6 +719,12 @@ export type StoreCardFragment = { __typename?: 'Store' } & Pick<
   | 'hashtags'
   | 'favorite'
 >
+
+export type CreateOrderMutationVariables = Exact<{
+  input: OrderCreationInput
+}>
+
+export type CreateOrderMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createOrder'>
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['EmailAddress']
@@ -809,6 +825,12 @@ export type MenusQuery = { __typename?: 'Query' } & {
   menus: Array<{ __typename?: 'Menu' } & MenuCardFragment>
 }
 
+export type OrdersQueryVariables = Exact<{ [key: string]: never }>
+
+export type OrdersQuery = { __typename?: 'Query' } & {
+  orders?: Maybe<Array<{ __typename?: 'Order' } & OrderCardFragment>>
+}
+
 export type PostsByAddressQueryVariables = Exact<{ [key: string]: never }>
 
 export type PostsByAddressQuery = { __typename?: 'Query' } & {
@@ -890,6 +912,22 @@ export const MenuCardFragmentDoc = gql`
     hashtags
   }
 `
+export const OrderCardFragmentDoc = gql`
+  fragment orderCard on Order {
+    id
+    creationDate
+    orderTotal
+    selectedMenus {
+      id
+      name
+    }
+    store {
+      id
+      name
+      imageUrls
+    }
+  }
+`
 export const PostCardFragmentDoc = gql`
   fragment postCard on Post {
     id
@@ -920,6 +958,48 @@ export const StoreCardFragmentDoc = gql`
     favorite
   }
 `
+export const CreateOrderDocument = gql`
+  mutation CreateOrder($input: OrderCreationInput!) {
+    createOrder(input: $input)
+  }
+`
+export type CreateOrderMutationFn = Apollo.MutationFunction<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(
+    CreateOrderDocument,
+    options
+  )
+}
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>
 export const LoginDocument = gql`
   mutation Login($email: EmailAddress!, $passwordHash: String!) {
     login(email: $email, passwordHash: $passwordHash)
@@ -1452,6 +1532,45 @@ export function useMenusLazyQuery(
 export type MenusQueryHookResult = ReturnType<typeof useMenusQuery>
 export type MenusLazyQueryHookResult = ReturnType<typeof useMenusLazyQuery>
 export type MenusQueryResult = Apollo.QueryResult<MenusQuery, MenusQueryVariables>
+export const OrdersDocument = gql`
+  query Orders {
+    orders {
+      ...orderCard
+    }
+  }
+  ${OrderCardFragmentDoc}
+`
+
+/**
+ * __useOrdersQuery__
+ *
+ * To run a query within a React component, call `useOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrdersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOrdersQuery(
+  baseOptions?: Apollo.QueryHookOptions<OrdersQuery, OrdersQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<OrdersQuery, OrdersQueryVariables>(OrdersDocument, options)
+}
+export function useOrdersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<OrdersQuery, OrdersQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<OrdersQuery, OrdersQueryVariables>(OrdersDocument, options)
+}
+export type OrdersQueryHookResult = ReturnType<typeof useOrdersQuery>
+export type OrdersLazyQueryHookResult = ReturnType<typeof useOrdersLazyQuery>
+export type OrdersQueryResult = Apollo.QueryResult<OrdersQuery, OrdersQueryVariables>
 export const PostsByAddressDocument = gql`
   query PostsByAddress {
     postsByAddress(address: "") {

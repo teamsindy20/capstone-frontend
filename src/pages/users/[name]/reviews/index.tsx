@@ -4,7 +4,6 @@ import PageHead from 'src/components/layouts/PageHead'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import ReviewCard, { ReviewLoadingCard } from 'src/components/ReviewCard'
 import useBoolean from 'src/hooks/useBoolean'
-import { reviews } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 
@@ -36,6 +35,8 @@ function UserReviewsPage() {
     hasNextPage: hasMoreMyReviews,
     onLoadMore: fetchMoreMenus,
   })
+
+  const reviews: any[] = [1]
 
   return (
     <PageHead title="디저트핏 - 내 리뷰" description={description}>

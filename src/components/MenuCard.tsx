@@ -12,7 +12,7 @@ import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { Menu, MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
@@ -125,12 +125,10 @@ const FlexContainerWrapAround = styled.div`
   flex-flow: row wrap;
   justify-content: space-around;
   grid-column: 1 / 3;
-  /* background: #ddd; */
 `
 
 const FlexContainerCenterPadding = styled(FlexContainerAlignCenter)`
   padding: 0.5rem;
-  /* outline: 1px solid #ddd; */
 `
 
 const NormalH5 = styled.h5`
@@ -302,36 +300,28 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
       {isCardDetailOpened && (
         <FlexContainerWrapAround>
           {menu.positiveReviewRatio !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-              </FlexContainerCenterPadding>{' '}
-            </>
+            <FlexContainerCenterPadding>
+              <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.reorderRatio !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-              </FlexContainerCenterPadding>
-            </>
+            <FlexContainerCenterPadding>
+              <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.totalReviewCount !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-              </FlexContainerCenterPadding>{' '}
-            </>
+            <FlexContainerCenterPadding>
+              <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.totalOrderCount !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-              </FlexContainerCenterPadding>
-            </>
+            <FlexContainerCenterPadding>
+              <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {/* {&&<></>} */}
         </FlexContainerWrapAround>

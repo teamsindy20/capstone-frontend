@@ -160,11 +160,19 @@ function OrderPage() {
 
   function createOrder() {
     const orderCreationInput = {
-      menus: cartMenus.map((menu) => ({
-        id: menu.id.substring(0, menu.id.indexOf('-')),
-        count: menu.count,
-        menuOptions: getSelectedMenuOptionIdsFrom(menu.optionCategories)?.map((id) => ({ id })),
-      })),
+      menus: cartMenus.map((menu) => {
+        const selectedMenuOptions = getSelectedMenuOptionIdsFrom(menu.optionCategories)?.map(
+          (id) => ({
+            id,
+          })
+        )
+
+        return {
+          id: menu.id.substring(0, menu.id.indexOf('-')),
+          count: menu.count,
+          ...(selectedMenuOptions?.length && { menuOptions: selectedMenuOptions }),
+        }
+      }),
       payment: { paymentId: '1', paymentDate: new Date() },
       user: {
         deliveryAddress: 'address',

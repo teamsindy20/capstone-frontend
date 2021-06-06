@@ -37,6 +37,7 @@ function UserOrdersPage() {
   const [hasMoreOrders, setHasMoreOrders] = useState(true)
 
   const { data, networkStatus } = useOrdersQuery({
+    fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     onError: handleApolloError,
   })

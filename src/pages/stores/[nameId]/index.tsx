@@ -214,7 +214,12 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       </TopHeader>
       <StoreHomeGrid>
         <RoundSquareFrame>
-          <Image src="/4@3x.png" alt="store-profile" layout="fill" objectFit="contain" />
+          <Image
+            src={store.imageUrls ? store.imageUrls[0] : ''}
+            alt="store-profile"
+            layout="fill"
+            objectFit="contain"
+          />
         </RoundSquareFrame>
         <TextInCard>
           <NoMarginH3>

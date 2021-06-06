@@ -130,6 +130,8 @@ function StoreMenuPage() {
       const newCartStore = {
         id: store.id,
         name: store.name,
+        deliveryCharge: store.deliveryCharge,
+        minimumDeliveryAmount: store.minimumDeliveryAmount,
         imageUrl: store.imageUrls ? store.imageUrls[0] : '',
       }
 

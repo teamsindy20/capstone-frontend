@@ -15,7 +15,6 @@ import NotLoginModal from 'src/components/NotLoginModal'
 
 const GridContainerUl = styled.ul`
   display: grid;
-  gap: 3rem;
 `
 
 const StyledStoreRoundedIcon = { fontSize: 28, color: grey[800] }

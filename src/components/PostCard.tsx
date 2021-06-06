@@ -23,7 +23,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
   border-radius: 50%;
 `
 
-const ShadowingLi = styled.li`
+export const ShadowingLi = styled.li`
   background-color: #fcfcfc;
 `
 
@@ -31,7 +31,7 @@ const GridContainerPadding = styled(GridContainerGap)`
   padding: 1rem;
 `
 
-const StoreImg = styled.img`
+export const StoreImg = styled.img`
   overflow: hidden;
   width: 32px;
   height: 32px;
@@ -47,7 +47,7 @@ const NoMarginH5 = styled.h5`
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
-const ProfileGrid = styled.div`
+export const ProfileGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 10fr;
   padding: 5px;
@@ -57,17 +57,17 @@ const ProfileGrid = styled.div`
   grid-gap: 5px;
 `
 
-const ProfileTitleGrid = styled.div`
+export const ProfileTitleGrid = styled.div`
   display: grid;
   grid-template-rows: repeat(2, auto);
 `
 
-const StoreName = styled.h4`
+export const StoreName = styled.h4`
   font-size: 15px;
   font-weight: 500;
   color: #000000;
 `
-const TagName = styled.h4`
+export const TagName = styled.h4`
   font-size: 11px;
   font-weight: 500;
   color: #ff5e3d;

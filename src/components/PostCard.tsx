@@ -1,5 +1,3 @@
-import grey from '@material-ui/core/colors/grey'
-import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
 import { FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'

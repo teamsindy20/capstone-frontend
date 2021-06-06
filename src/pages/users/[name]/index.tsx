@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import Footer from 'src/components/Footer'
 import NotLoginModal from 'src/components/NotLoginModal'
 import { GlobalContext } from 'src/pages/_app'
@@ -39,9 +39,9 @@ function MyDessertFitPage() {
   if (loading) {
     return (
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-        <PageLayout>
+        <NavigationLayout>
           사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 또는 더미데이터로 채운 화면 보여주기
-        </PageLayout>
+        </NavigationLayout>
       </PageHead>
     )
   }
@@ -49,17 +49,17 @@ function MyDessertFitPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-        <PageLayout>
+        <NavigationLayout>
           <NotLoginModal />
           <Footer />
-        </PageLayout>
+        </NavigationLayout>
       </PageHead>
     )
   }
 
   return (
     <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
             <NoMarginH3>마이페이지</NoMarginH3>
@@ -117,7 +117,7 @@ function MyDessertFitPage() {
         </Button>
         <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
         <Footer />
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

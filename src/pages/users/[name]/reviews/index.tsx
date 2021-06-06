@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import ReviewCard, { ReviewLoadingCard } from 'src/components/ReviewCard'
 import useBoolean from 'src/hooks/useBoolean'
 import { reviews } from 'src/models/mock-data'
@@ -39,7 +39,7 @@ function UserReviewsPage() {
 
   return (
     <PageHead title="디저트핏 - 내 리뷰" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <button onClick={toggleOnlyImage}>사진만 보기</button>
 
         <GridContainerInfiniteScroll onlyImage={onlyImage}>
@@ -52,7 +52,7 @@ function UserReviewsPage() {
             <ReviewLoadingCard onlyImage={onlyImage} />
           </div>
         )}
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

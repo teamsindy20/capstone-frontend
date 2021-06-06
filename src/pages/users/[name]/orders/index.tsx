@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import OrderCard, { OrderLoadingCard } from 'src/components/OrderCard'
 import { orders } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
@@ -56,16 +56,16 @@ function UserOrdersPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 주문 내역" description={description}>
-        <PageLayout>
+        <NavigationLayout>
           <NotLoginModal />
-        </PageLayout>
+        </NavigationLayout>
       </PageHead>
     )
   }
 
   return (
     <PageHead title="디저트핏 - 주문 내역" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
             <StoreRoundedIcon style={StyledStoreRoundedIcon} />
@@ -82,7 +82,7 @@ function UserOrdersPage() {
             </div>
           )}
         </GridContainerUl>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

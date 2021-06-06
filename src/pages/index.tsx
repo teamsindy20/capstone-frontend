@@ -3,14 +3,14 @@ import IconButton from '@material-ui/core/IconButton'
 import LocalGroceryStoreRoundedIcon from '@material-ui/icons/LocalGroceryStoreRounded'
 import grey from '@material-ui/core/colors/grey'
 import styled from 'styled-components'
-import PageLayout from '../components/layouts/PageLayout'
+import NavigationLayout from '../components/layouts/NavigationLayout'
 import PageHead from '../components/layouts/PageHead'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import useBoolean from 'src/hooks/useBoolean'
 import Image from 'next/image'
-import { useState, useContext, CSSProperties } from 'react'
+import { useState, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
@@ -147,10 +147,6 @@ const ColoredLogo = styled.img`
   border-radius: 50%;
 `
 
-const Padding = styled.div`
-  padding-top: 55px;
-`
-
 export function useRefetchMenuFavorite() {
   const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
     fetchPolicy: 'network-only',
@@ -207,7 +203,7 @@ function HomePage() {
 
   return (
     <PageHead>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
@@ -239,7 +235,6 @@ function HomePage() {
           tabBarStyle={{ color: '#929393', paddingLeft: '1.5rem' }}
         >
           <TabPane tab="디저트핏" key="1">
-            <Padding />
             <Carousel autoplay>
               <BannerFrame>
                 <Image src="/bannerad.png" alt="banner_ad" layout="fill" objectFit="cover" />
@@ -334,17 +329,14 @@ function HomePage() {
           </TabPane>
 
           <TabPane tab="카테고리" key="2">
-            <Padding />
             카테고리 선택
           </TabPane>
 
           <TabPane tab="트렌드" key="3">
-            <Padding />
             트렌드 디저트
           </TabPane>
 
           <TabPane tab="베스트" key="4">
-            <Padding />
             <FlexContainerOverflowScroll>
               <StyledTag
                 color="rgb(190, 235, 253)"
@@ -427,7 +419,7 @@ function HomePage() {
             </IconButton>
           </ClientSideLink>
         </FixedPosition>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

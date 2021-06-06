@@ -1,5 +1,5 @@
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
@@ -76,7 +76,7 @@ function UserPreferencesPage() {
 
   return (
     <PageHead title="디저트핏 - 취향 선택" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerBetween1>
             <FlexContainerAlignCenter>
@@ -160,7 +160,7 @@ function UserPreferencesPage() {
           </PreferenceButton>
           <Divider />
         </MarginDiv>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

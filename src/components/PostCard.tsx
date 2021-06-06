@@ -23,7 +23,9 @@ const SkeletonImageRound = styled(SkeletonGradient)`
   border-radius: 50%;
 `
 
-export const ShadowingLi = styled.li`
+export const GridContainerLi = styled.li`
+  display: grid;
+  grid-template-rows: 1fr 5fr;
   background-color: #fcfcfc;
 `
 
@@ -34,8 +36,10 @@ const GridContainerPadding = styled(GridContainerGap)`
 export const StoreImg = styled.img`
   overflow: hidden;
   width: 32px;
+  max-width: 32px;
   height: 32px;
-  object-fit: contain;
+  max-height: 32px;
+  object-fit: cover;
   border-radius: 50%;
   border: solid 1px #e8e8e8;
 `
@@ -47,15 +51,15 @@ const NoMarginH5 = styled.h5`
 const FlexContainerBetweenPadding = styled(FlexContainerBetween)`
   padding: 1rem;
 `
-export const ProfileGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 10fr;
-  padding: 5px;
-  border: none;
+export const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
   height: 3rem;
   background-color: #fcfcfc;
-  grid-gap: 5px;
-  margin: 10px 0;
+
+  > a {
+    margin: 0.5rem;
+  }
 `
 
 export const ProfileTitleGrid = styled.div`
@@ -66,7 +70,6 @@ export const ProfileTitleGrid = styled.div`
 export const StoreName = styled.h4`
   font-size: 15px;
   font-weight: 500;
-  color: #000000;
 `
 export const TagName = styled.h4`
   font-size: 11px;
@@ -79,17 +82,19 @@ const CardGrid = styled.div`
   border-radius: 10px;
   border: solid 1px #e8e8e8;
   background-color: #ffffff;
-  height: 13rem;
+  /* height: 13rem; */
+
+  padding: 1rem;
 `
 const CardContent = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr;
+  align-items: center;
+  position: relative;
 `
 const CardHorizontalBorder = styled.div`
-  justify-content: center;
-  //width: 95%;
-  height: 0.1px;
   border: solid 1px #e8e8e8;
+  margin: 1rem 0;
 `
 
 const FeedMoreText = styled(Button)`
@@ -147,14 +152,16 @@ const GridInCardColumn2 = styled.div`
 const ImgInCard = styled.div`
   padding-top: 100%;
   position: relative;
+  border-radius: 5px;
+  overflow: hidden;
 `
-const TextInCard = styled.div`
-  overflow: visible auto;
-  width: 100%;
-  height: 112px;
-  margin: 11px 0px;
-  font-size: 13px;
-  color: #000000;
+
+const TextInCard = styled.p`
+  text-overflow: ellipsis;
+  overflow: scroll;
+  height: 125px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
 `
 
 const Tag = styled.span<{ color: string }>`
@@ -170,7 +177,7 @@ const Tag = styled.span<{ color: string }>`
 
 export function PostLoadingCard() {
   return (
-    <ShadowingLi>
+    <GridContainerLi>
       <FlexContainerBetweenPadding>
         <GridContainerColumn2>
           <SkeletonImageRound />
@@ -187,7 +194,7 @@ export function PostLoadingCard() {
         <SkeletonText width="40%" />
         <input placeholder="댓글 달기..." disabled={true} />
       </GridContainerPadding>
-    </ShadowingLi>
+    </GridContainerLi>
   )
 }
 
@@ -199,8 +206,8 @@ function PostCard({ post }: Props) {
   const store = post.store
 
   return (
-    <ShadowingLi>
-      <ProfileGrid>
+    <GridContainerLi>
+      <FlexContainer>
         <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
           <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
         </ClientSideLink>
@@ -210,10 +217,17 @@ function PostCard({ post }: Props) {
           </ClientSideLink>
           <TagName>신메뉴소식</TagName>
         </ProfileTitleGrid>
-      </ProfileGrid>
+      </FlexContainer>
       <CardGrid>
         <CardContent>
-          <ImgInCard src={post.imageUrls ? post.imageUrls[0] : ''} alt="post" />
+          <ImgInCard>
+            <Image
+              src={post.imageUrls ? post.imageUrls[0] : ''}
+              alt="post"
+              layout="fill"
+              objectFit="cover"
+            />
+          </ImgInCard>
           <TextInCard>
             {post.contents.map((content, i) =>
               content ? <NoMarginP key={i}>{content}</NoMarginP> : <br key={i} />
@@ -230,7 +244,7 @@ function PostCard({ post }: Props) {
           </IconGrid>
         </FlexContainerBetween>
       </CardGrid>
-    </ShadowingLi>
+    </GridContainerLi>
   )
 }
 

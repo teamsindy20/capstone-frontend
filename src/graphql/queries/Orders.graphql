@@ -1,0 +1,6 @@
+query Orders {
+  orders {
+    id
+    storeId
+  }
+}

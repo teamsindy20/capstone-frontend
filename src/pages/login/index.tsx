@@ -20,6 +20,7 @@ import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import Image from 'next/image'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -27,7 +28,7 @@ const GridContainerForm = styled.form`
   justify-content: center;
 `
 
-const LoginButton = styled.button`
+export const LoginButton = styled.button`
   background-color: #ff9a88;
   border: 1px solid #ff9a88;
   color: white;
@@ -35,11 +36,12 @@ const LoginButton = styled.button`
   text-decoration: none;
   padding: 0.5em 0.5rem;
   font-size: 1rem;
-  margin: 4px 2px;
   border-radius: 0.3rem;
   cursor: pointer;
   display: inline-block;
   transition-duration: 0.4s;
+  height: 3rem;
+  margin: 19px 0;
 
   &:hover {
     background-color: white;
@@ -56,11 +58,12 @@ const SNSLoginButton = styled.button`
   text-decoration: none;
   padding: 0.5em 0.5rem;
   font-size: 1rem;
-  margin: 1px 1px;
+  margin: 19px 0;
   border-radius: 0.3rem;
   cursor: pointer;
   display: inline-block;
   transition-duration: 0.4s;
+  height: 3rem;
 
   &:hover {
     background-color: #2eccba;
@@ -68,19 +71,24 @@ const SNSLoginButton = styled.button`
     color: white;
   }
 `
-const LogoText = styled.h2`
-  color: #ff9a87;
-  text-align: center;
-  line-height: 1.5;
-  margin: 6rem auto 3rem;
+const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 6rem 0 3rem 0;
 `
-const LogoColorText = styled(LogoText)`
-  color: #f57961;
-  display: inline;
-  font-size: 1.6rem;
-`
+
 const LogoImg = styled.img`
   margin: 0;
+  width: 9rem;
+  height: 9rem;
+`
+const LogoTextImg = styled.img`
+  /* padding-top: 100%;
+  position: relative; */
+  margin: 0;
+  width: 8rem;
+  height: 3rem;
 `
 const MarginDiv = styled.div`
   margin: 1.3rem;
@@ -161,13 +169,17 @@ function LoginPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <ClientSideLink href="/">
-          <LogoText>
-            <LogoImg src="/DessertFit.png" />
-            <br />
-            디저트<LogoColorText>Fit</LogoColorText>
-          </LogoText>
-        </ClientSideLink>
+        <Logo>
+          <LogoImg src="/DessertFit.png" alt="logo" />
+          <LogoTextImg src="/542@3x.png" alt="logo-text" />
+          {/* <Image
+            src="/542@3x.png"
+            alt="store-profile"
+            width="50"
+            height="50"
+            objectFit="contain"
+          /> */}
+        </Logo>
         <MarginDiv>
           <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="email">
@@ -219,14 +231,9 @@ function LoginPage() {
                 )}
               />
             </ContinueLoginDiv>
-            <br />
-            <br />
             <LoginButton disabled={loading} type="submit">
               로그인
             </LoginButton>
-            <br />
-            <br />
-            <br />
             <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
               구글로 로그인
             </SNSLoginButton>

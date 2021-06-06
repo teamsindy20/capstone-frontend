@@ -14,7 +14,7 @@ import {
   PreferenceButton,
   SelectedPreferenceButton,
 } from 'src/pages/users/[name]/preferences/index'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import { IconImg } from 'src/pages/index'
 
 const description = '검색할 수 있는 페이지'
@@ -107,7 +107,7 @@ function SearchPage() {
 
   return (
     <PageHead title="디저트핏 - 검색" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerBetween1>
             <FlexContainerAlignCenter>
@@ -216,7 +216,7 @@ function SearchPage() {
           </PreferenceButton>
           <Divider />
         </MarginDiv>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

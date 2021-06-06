@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
@@ -68,7 +68,7 @@ function UserFavoriteMenusPage() {
 
   return (
     <PageHead title="디저트핏 - 찜 메뉴" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <Tabs
             defaultActiveKey="favorite-menus"
@@ -112,7 +112,7 @@ function UserFavoriteMenusPage() {
             </GridContainerUl>
           </>
         )}
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Padding } from './PageLayout'
+import { Padding } from './NavigationLayout'
 
 type Props = {
   children: ReactNode

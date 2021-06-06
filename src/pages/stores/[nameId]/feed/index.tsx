@@ -4,7 +4,7 @@ import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import PostCard, { PostLoadingCard } from 'src/components/PostCard'
 import { HorizontalBorder } from 'src/components/TopHeader'
 import { usePostsByStoreQuery, useStoreQuery } from 'src/graphql/generated/types-and-hooks'
@@ -69,7 +69,7 @@ function StoreFeedPage() {
 
   return (
     <PageHead title="디저트핏 - 매장 소식" description={`${storeName} ${description}`}>
-      <PageLayout>
+      <NavigationLayout>
         <StorePageLayout defaultPage="feed" loading={isStoreLoading} store={store}>
           <Div>
             <Tag color="rgb(190, 235, 253)" onClick={(e: any) => console.log(e.target.textContent)}>
@@ -104,7 +104,7 @@ function StoreFeedPage() {
             )}
           </GridContainerUl>
         </StorePageLayout>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

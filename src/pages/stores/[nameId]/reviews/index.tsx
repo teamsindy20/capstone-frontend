@@ -1,7 +1,7 @@
 import { Tabs, Input, Select, Divider } from 'antd'
 import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
@@ -43,7 +43,7 @@ function StoreReviewsPage() {
 
   return (
     <PageHead title="디저트핏 - 매장 리뷰" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <StorePageLayout defaultPage="reviews" loading={isStoreLoading} store={store}>
           <MarginDiv>
             <FlexContainerBetween>
@@ -65,7 +65,7 @@ function StoreReviewsPage() {
             <ReviewCard onlyImage={false} review={1 as any} />
           </MarginDiv>
         </StorePageLayout>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

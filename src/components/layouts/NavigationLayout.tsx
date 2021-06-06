@@ -14,7 +14,7 @@ type Props = {
   children: ReactNode
 }
 
-function PageLayout({ children }: Props) {
+function NavigationLayout({ children }: Props) {
   return (
     <BackgroundColor>
       {children}
@@ -24,4 +24,4 @@ function PageLayout({ children }: Props) {
   )
 }
 
-export default PageLayout
+export default NavigationLayout

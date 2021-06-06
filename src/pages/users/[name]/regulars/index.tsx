@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import StoreCard, { StoreLoadingCard } from 'src/components/StoreCard'
 import { useRegularStoresQuery } from 'src/graphql/generated/types-and-hooks'
 import { GlobalContext } from 'src/pages/_app'
@@ -58,7 +58,7 @@ function UserRegularStoresPage() {
 
   return (
     <PageHead title="디저트핏 - 단골 매장" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerBetween1>
             <FlexContainerAlignCenter>
@@ -83,7 +83,7 @@ function UserRegularStoresPage() {
             !regularStores?.length && <h4>텅! 단골 매장이 없어요..</h4>
           )}
         </GridContainerUl>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

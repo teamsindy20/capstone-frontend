@@ -12,7 +12,7 @@ import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { Menu, MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
@@ -31,6 +31,7 @@ const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   cursor: pointer;
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
   border-radius: ${(p) => (p.onlyImage ? '0' : 'max(10px, 1vw);')};
+  background: #fff;
 `
 
 export const SquareFrame = styled.div`
@@ -51,13 +52,13 @@ const AbsolutePositionTopRight = styled.div`
   right: 0;
 `
 
-const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+export const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;
 `
 
-const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+export const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
   font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;
@@ -86,7 +87,6 @@ export const Hashtags = styled.ul`
 `
 
 export const Hashtag = styled.h5`
-  font-size: 0.9rem;
   color: #ff9a87;
   white-space: nowrap;
 `
@@ -125,12 +125,10 @@ const FlexContainerWrapAround = styled.div`
   flex-flow: row wrap;
   justify-content: space-around;
   grid-column: 1 / 3;
-  /* background: #ddd; */
 `
 
 const FlexContainerCenterPadding = styled(FlexContainerAlignCenter)`
   padding: 0.5rem;
-  /* outline: 1px solid #ddd; */
 `
 
 const NormalH5 = styled.h5`
@@ -222,7 +220,8 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
 
   const store = menu.store
 
-  const goToStoreMenuPage = useGoToPage(`/stores/${store.name}-${store.id}/${menu.name}`)
+  const storeMenuPage = `/stores/${store.name}-${store.id}/${menu.name}`
+  const goToStoreMenuPage = useGoToPage(storeMenuPage)
   const storeReviewsPage = `/stores/${store.name}-${store.id}/reviews?menu=${menu.name}`
 
   if (onlyImage) {
@@ -245,7 +244,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   return (
     <GridContainerLi onlyImage={false} onClick={goToStoreMenuPage}>
       <SquareFrame>
-        <ClientSideLink href={storeReviewsPage}>
+        <ClientSideLink href={storeMenuPage}>
           <Image
             src={menu.imageUrls ? menu.imageUrls[0] : ''}
             alt="menu"
@@ -301,36 +300,28 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
       {isCardDetailOpened && (
         <FlexContainerWrapAround>
           {menu.positiveReviewRatio !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
-              </FlexContainerCenterPadding>{' '}
-            </>
+            <FlexContainerCenterPadding>
+              <ThumbUpOutlinedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>좋아요 {menu.positiveReviewRatio}%</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.reorderRatio !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
-              </FlexContainerCenterPadding>
-            </>
+            <FlexContainerCenterPadding>
+              <RefreshIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>재주문율 {menu.reorderRatio}%</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.totalReviewCount !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
-              </FlexContainerCenterPadding>{' '}
-            </>
+            <FlexContainerCenterPadding>
+              <RateReviewRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>리뷰수 {formatNumber(menu.totalReviewCount)}개</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {menu.totalOrderCount !== undefined && (
-            <>
-              <FlexContainerCenterPadding>
-                <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
-                <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
-              </FlexContainerCenterPadding>
-            </>
+            <FlexContainerCenterPadding>
+              <AssignmentRoundedIcon style={{ fontSize: 18, color: grey[800] }} />
+              <NormalH5>주문수 {formatNumber(menu.totalOrderCount)}개</NormalH5>
+            </FlexContainerCenterPadding>
           )}
           {/* {&&<></>} */}
         </FlexContainerWrapAround>

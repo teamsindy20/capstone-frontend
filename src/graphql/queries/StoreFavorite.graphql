@@ -1,0 +1,6 @@
+query StoreFavorite($id: ID!) {
+  store(id: $id) {
+    id
+    favorite
+  }
+}

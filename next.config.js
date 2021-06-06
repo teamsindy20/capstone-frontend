@@ -29,6 +29,8 @@ module.exports = withPWA({
       'cgeimage.commutil.kr',
       'i.pinimg.com',
       'shop3.daumcdn.net',
+      'search.pstatic.net',
+      'scontent-ssn1-1.cdninstagram.com',
     ],
   },
   poweredByHeader: process.env.NODE_ENV === 'development',

@@ -2,17 +2,25 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import Footer from 'src/components/Footer'
 import NotLoginModal from 'src/components/NotLoginModal'
 import { GlobalContext } from 'src/pages/_app'
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import styled from 'styled-components'
 import TopHeader from 'src/components/TopHeader'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import {
+  FlexContainerAlignCenter,
+  FlexContainerBetween,
+  FlexContainerAround,
+} from 'src/styles/FlexContainer'
+import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
+import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
+import { LoginButton } from 'src/pages/login'
 
-const FlexContainer = styled.div`
-  display: flex;
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-rows: auto;
 `
 
 const GridContainerUl = styled.ul`
@@ -23,9 +31,50 @@ const GridContainerUl = styled.ul`
 
 const description = '내게 딱 맞는 디저트핏!을 만나보세요.'
 
+const ProfileFlexContainer = styled(FlexContainerBetween)`
+  height: 7rem;
+  padding: 0 2rem;
+  align-items: center;
+  background-color: #fcfcfc;
+`
+
+const WhiteFlexContainer = styled(FlexContainerAround)`
+  height: 5rem;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border: solid 1px #efefef;
+  padding: 1rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+`
+
+const TitleFlexContainer = styled(FlexContainerBetween)`
+  height: 4rem;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border: solid 1px #efefef;
+  padding: 2rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+`
+const ContentFlexContainer = styled(FlexContainerBetween)`
+  padding: 0.5rem 2rem;
+  align-items: center;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6c6c6c;
+  background-color: #fcfcfc;
+`
+
 const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
   justify-content: center;
   height: 100%;
+`
+const PinkText = styled.h4`
+  color: #ff5e3d;
 `
 
 const NoMarginH3 = styled.h3`
@@ -39,9 +88,9 @@ function MyDessertFitPage() {
   if (loading) {
     return (
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-        <PageLayout>
+        <NavigationLayout>
           사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 또는 더미데이터로 채운 화면 보여주기
-        </PageLayout>
+        </NavigationLayout>
       </PageHead>
     )
   }
@@ -49,75 +98,77 @@ function MyDessertFitPage() {
   if (!user) {
     return (
       <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-        <PageLayout>
+        <NavigationLayout>
           <NotLoginModal />
           <Footer />
-        </PageLayout>
+        </NavigationLayout>
       </PageHead>
     )
   }
 
   return (
     <PageHead title="디저트핏 - 내 DessertFit" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
-            <NoMarginH3>마이페이지</NoMarginH3>
+            <NoMarginH3>MY</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
-        <div>
-          <Button>환경 설정</Button>
-        </div>
-        <FlexContainer>
-          <Image src="/sindy.jpeg" alt="user profile" width="128" height="128" />
-          <div>
-            <div>{query.name}</div>
-            <div>내 취향: #저칼로리 #다이어트</div>
-            <div>내 리뷰 배지: 아마추어 리뷰어, 메뉴 선택 도우미</div>
-          </div>
-        </FlexContainer>
 
-        <GridContainerUl>
-          <li>
-            <Button>디플 포인트 324원</Button>
-          </li>
-          <li>
-            <Button>쿠폰함 (3개)</Button>
-          </li>
-          <li>
-            <Button>결제 수단</Button>
-          </li>
-          <li>
-            <Button>공지사항</Button>
-          </li>
-          <li>
-            <Button>이벤트</Button>
-          </li>
-          <li>
-            <Button>디플 팀</Button>
-          </li>
-          <li>
-            <Button>고객 지원</Button>
-          </li>
-          <li>
-            <Button>약관·정책</Button>
-          </li>
-        </GridContainerUl>
-        <Button
-          onClick={() => {
-            localStorage.removeItem('token')
-            sessionStorage.removeItem('token')
-            refetchUser()
-          }}
-          size="large"
-          type="primary"
-          danger
-        >
-          로그아웃
-        </Button>
-        <div>작성 리뷰 수: 14, 리뷰 관리(다중삭제)</div>
+        <GridContainer>
+          <ProfileFlexContainer>
+            <FlexContainer>
+              <Image
+                src="/605@2x.png"
+                alt="user-profile"
+                width="50"
+                height="50"
+                objectFit="contain"
+              />
+              <ProfileTitleGrid>
+                <UserName>{query.name}</UserName>
+                <ReviewBadge>BEST 리뷰어</ReviewBadge>
+              </ProfileTitleGrid>
+            </FlexContainer>
+            <Button>프로필보기</Button>
+          </ProfileFlexContainer>
+          <WhiteFlexContainer>
+            <div>
+              <h4>리뷰수</h4>
+              <PinkText>3개</PinkText>
+            </div>
+            <div>
+              <h4>쿠폰</h4>
+              <PinkText>3개</PinkText>
+            </div>
+            <div>
+              <h4>포인트</h4>
+              <PinkText>3000P</PinkText>
+            </div>
+          </WhiteFlexContainer>
+          <TitleFlexContainer>회원정보수정</TitleFlexContainer>
+          <TitleFlexContainer>설정</TitleFlexContainer>
+          <TitleFlexContainer>고객설정</TitleFlexContainer>
+          <ContentFlexContainer>1:1문의</ContentFlexContainer>
+          <ContentFlexContainer>상품문의</ContentFlexContainer>
+          <ContentFlexContainer>F&Q</ContentFlexContainer>
+          <ContentFlexContainer>고객의소리</ContentFlexContainer>
+          <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
+          <ContentFlexContainer>공지사항</ContentFlexContainer>
+          <ContentFlexContainer>이벤트</ContentFlexContainer>
+          <LoginButton
+            onClick={() => {
+              localStorage.removeItem('token')
+              sessionStorage.removeItem('token')
+              refetchUser()
+            }}
+          >
+            LOGOUT
+          </LoginButton>
+        </GridContainer>
+
         <Footer />
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

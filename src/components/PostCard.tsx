@@ -34,6 +34,7 @@ export const StoreImg = styled.img`
   object-fit: cover;
   border-radius: 50%;
   border: solid 1px #e8e8e8;
+  margin: 3px;
 `
 
 const NoMarginH5 = styled.h5`
@@ -109,9 +110,9 @@ const IconGrid = styled.div`
   height: 100%;
   grid-gap: 10px;
 `
-const IconImg = styled.img`
-  width: 18px;
-  height: 18px;
+export const IconImg = styled.img`
+  width: 1.5rem;
+  margin: 0.2rem;
 `
 
 const GridContainerRow3Column2 = styled(GridContainerGap)`

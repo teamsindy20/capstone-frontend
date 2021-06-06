@@ -1,20 +1,11 @@
-import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded'
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
-import grey from '@material-ui/core/colors/grey'
-import red from '@material-ui/core/colors/red'
 import styled from 'styled-components'
-import { FlexContainerBetween, FlexContainerAlignCenter } from '../styles/FlexContainer'
+import { FlexContainerBetween } from '../styles/FlexContainer'
 import { GridContainerGap } from '../styles/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
-import { Divider, Button } from 'antd'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
 import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-
-const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
-
-const StyledChatBubbleOutlineRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const SkeletonImageRound = styled(SkeletonGradient)`
   position: relative;
@@ -26,6 +17,7 @@ const SkeletonImageRound = styled(SkeletonGradient)`
 export const GridContainerLi = styled.li`
   display: grid;
   grid-template-rows: 1fr 5fr;
+  align-items: center;
   background-color: #fcfcfc;
 `
 
@@ -57,7 +49,7 @@ export const FlexContainer = styled.div`
   height: 3rem;
   background-color: #fcfcfc;
 
-  > a {
+  > img {
     margin: 0.5rem;
   }
 `
@@ -159,7 +151,7 @@ const ImgInCard = styled.div`
 const TextInCard = styled.p`
   text-overflow: ellipsis;
   overflow: scroll;
-  height: 125px;
+  height: 120px;
   padding: 0 1rem;
   font-size: 0.9rem;
 `
@@ -207,17 +199,15 @@ function PostCard({ post }: Props) {
 
   return (
     <GridContainerLi>
-      <FlexContainer>
-        <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+      <ClientSideLink href={`/stores/${store.name}-${store.id}/feed`}>
+        <FlexContainer>
           <StoreImg src={store.imageUrls ? store.imageUrls[0] : ''} alt="store profile" />
-        </ClientSideLink>
-        <ProfileTitleGrid>
-          <ClientSideLink href={`/stores/${store.name}-${store.id}`}>
+          <ProfileTitleGrid>
             <StoreName>{store.name}</StoreName>
-          </ClientSideLink>
-          <TagName>신메뉴소식</TagName>
-        </ProfileTitleGrid>
-      </FlexContainer>
+            <TagName>신메뉴소식</TagName>
+          </ProfileTitleGrid>
+        </FlexContainer>
+      </ClientSideLink>
       <CardGrid>
         <CardContent>
           <ImgInCard>
@@ -238,9 +228,9 @@ function PostCard({ post }: Props) {
         <FlexContainerBetween>
           <FeedMoreText>더보기</FeedMoreText>
           <IconGrid>
-            <IconImg src="like.png" />
-            <IconImg src="comment.png" />
-            <IconImg src="share.png" />
+            <IconImg src="/like.png" />
+            <IconImg src="/comment.png" />
+            <IconImg src="/share.png" />
           </IconGrid>
         </FlexContainerBetween>
       </CardGrid>

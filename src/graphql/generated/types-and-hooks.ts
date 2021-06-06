@@ -173,7 +173,7 @@ export type MenuOptionInput = {
 }
 
 export type MenuOptionSelectionInput = {
-  menuOptionId: Scalars['ID']
+  id: Scalars['ID']
   /** 서술형 옵션 선택 시 입력할 텍스트 */
   text?: Maybe<Scalars['String']>
 }
@@ -181,7 +181,7 @@ export type MenuOptionSelectionInput = {
 export type MenuSelectionInput = {
   id: Scalars['ID']
   count: Scalars['Int']
-  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
+  menuOptions?: Maybe<Array<MenuOptionSelectionInput>>
 }
 
 export type Mutation = {
@@ -304,15 +304,17 @@ export type Order = {
   deliveryAddress: Scalars['String']
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
+  pointSaved: Scalars['Int']
   userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
   /** nullable */
-  deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
+  deliveryRequest?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
+  promotionId?: Maybe<Scalars['ID']>
   /** from other table */
   user: User
   payment: Payment
@@ -320,7 +322,7 @@ export type Order = {
   menus: Array<Menu>
   /** from other table - nullable */
   coupon?: Maybe<Coupon>
-  menuOptions?: Maybe<Array<MenuOption>>
+  /** promotions: [Promotion!] */
   review?: Maybe<Array<Review>>
 }
 
@@ -670,7 +672,7 @@ export type UserInfoInput = {
   deliveryRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
   promotion?: Maybe<Array<PromotionInput>>
-  coupon?: Maybe<Scalars['ID']>
+  couponId?: Maybe<Scalars['ID']>
 }
 
 export type MenuCardFragment = { __typename?: 'Menu' } & Pick<
@@ -740,27 +742,19 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'register'>
 
-export type FavoriteMenusFavoriteQueryVariables = Exact<{ [key: string]: never }>
-
-export type FavoriteMenusFavoriteQuery = { __typename?: 'Query' } & {
-  me: { __typename?: 'User' } & Pick<User, 'id'> & {
-      favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>>
-    }
-}
-
-export type MenuFavoriteQueryVariables = Exact<{
-  id: Scalars['ID']
-}>
-
-export type MenuFavoriteQuery = { __typename?: 'Query' } & {
-  menu?: Maybe<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>
-}
-
 export type FavoriteMenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type FavoriteMenusQuery = { __typename?: 'Query' } & {
   me: { __typename?: 'User' } & Pick<User, 'id'> & {
       favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+    }
+}
+
+export type FavoriteMenusFavoriteQueryVariables = Exact<{ [key: string]: never }>
+
+export type FavoriteMenusFavoriteQuery = { __typename?: 'Query' } & {
+  me: { __typename?: 'User' } & Pick<User, 'id'> & {
+      favoriteMenus?: Maybe<Array<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>>
     }
 }
 
@@ -804,6 +798,14 @@ export type MenuQuery = { __typename?: 'Query' } & {
   >
 }
 
+export type MenuFavoriteQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type MenuFavoriteQuery = { __typename?: 'Query' } & {
+  menu?: Maybe<{ __typename?: 'Menu' } & Pick<Menu, 'id' | 'favorite'>>
+}
+
 export type MenusQueryVariables = Exact<{ [key: string]: never }>
 
 export type MenusQuery = { __typename?: 'Query' } & {
@@ -844,6 +846,14 @@ export type StoreQuery = { __typename?: 'Query' } & {
     > &
       StoreCardFragment
   >
+}
+
+export type StoreFavoriteQueryVariables = Exact<{
+  id: Scalars['ID']
+}>
+
+export type StoreFavoriteQuery = { __typename?: 'Query' } & {
+  store?: Maybe<{ __typename?: 'Store' } & Pick<Store, 'id' | 'favorite'>>
 }
 
 export type StoreMenusQueryVariables = Exact<{
@@ -1102,6 +1112,57 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >
+export const FavoriteMenusDocument = gql`
+  query FavoriteMenus {
+    me {
+      id
+      favoriteMenus {
+        ...menuCard
+      }
+    }
+  }
+  ${MenuCardFragmentDoc}
+`
+
+/**
+ * __useFavoriteMenusQuery__
+ *
+ * To run a query within a React component, call `useFavoriteMenusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteMenusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoriteMenusQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavoriteMenusQuery(
+  baseOptions?: Apollo.QueryHookOptions<FavoriteMenusQuery, FavoriteMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoriteMenusQuery, FavoriteMenusQueryVariables>(
+    FavoriteMenusDocument,
+    options
+  )
+}
+export function useFavoriteMenusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteMenusQuery, FavoriteMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoriteMenusQuery, FavoriteMenusQueryVariables>(
+    FavoriteMenusDocument,
+    options
+  )
+}
+export type FavoriteMenusQueryHookResult = ReturnType<typeof useFavoriteMenusQuery>
+export type FavoriteMenusLazyQueryHookResult = ReturnType<typeof useFavoriteMenusLazyQuery>
+export type FavoriteMenusQueryResult = Apollo.QueryResult<
+  FavoriteMenusQuery,
+  FavoriteMenusQueryVariables
+>
 export const FavoriteMenusFavoriteDocument = gql`
   query FavoriteMenusFavorite {
     me {
@@ -1160,106 +1221,6 @@ export type FavoriteMenusFavoriteLazyQueryHookResult = ReturnType<
 export type FavoriteMenusFavoriteQueryResult = Apollo.QueryResult<
   FavoriteMenusFavoriteQuery,
   FavoriteMenusFavoriteQueryVariables
->
-export const MenuFavoriteDocument = gql`
-  query MenuFavorite($id: ID!) {
-    menu(id: $id) {
-      id
-      favorite
-    }
-  }
-`
-
-/**
- * __useMenuFavoriteQuery__
- *
- * To run a query within a React component, call `useMenuFavoriteQuery` and pass it any options that fit your needs.
- * When your component renders, `useMenuFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMenuFavoriteQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useMenuFavoriteQuery(
-  baseOptions: Apollo.QueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
-    MenuFavoriteDocument,
-    options
-  )
-}
-export function useMenuFavoriteLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
-    MenuFavoriteDocument,
-    options
-  )
-}
-export type MenuFavoriteQueryHookResult = ReturnType<typeof useMenuFavoriteQuery>
-export type MenuFavoriteLazyQueryHookResult = ReturnType<typeof useMenuFavoriteLazyQuery>
-export type MenuFavoriteQueryResult = Apollo.QueryResult<
-  MenuFavoriteQuery,
-  MenuFavoriteQueryVariables
->
-export const FavoriteMenusDocument = gql`
-  query FavoriteMenus {
-    me {
-      id
-      favoriteMenus {
-        ...menuCard
-      }
-    }
-  }
-  ${MenuCardFragmentDoc}
-`
-
-/**
- * __useFavoriteMenusQuery__
- *
- * To run a query within a React component, call `useFavoriteMenusQuery` and pass it any options that fit your needs.
- * When your component renders, `useFavoriteMenusQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFavoriteMenusQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFavoriteMenusQuery(
-  baseOptions?: Apollo.QueryHookOptions<FavoriteMenusQuery, FavoriteMenusQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<FavoriteMenusQuery, FavoriteMenusQueryVariables>(
-    FavoriteMenusDocument,
-    options
-  )
-}
-export function useFavoriteMenusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteMenusQuery, FavoriteMenusQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<FavoriteMenusQuery, FavoriteMenusQueryVariables>(
-    FavoriteMenusDocument,
-    options
-  )
-}
-export type FavoriteMenusQueryHookResult = ReturnType<typeof useFavoriteMenusQuery>
-export type FavoriteMenusLazyQueryHookResult = ReturnType<typeof useFavoriteMenusLazyQuery>
-export type FavoriteMenusQueryResult = Apollo.QueryResult<
-  FavoriteMenusQuery,
-  FavoriteMenusQueryVariables
 >
 export const FavoriteStoresDocument = gql`
   query FavoriteStores {
@@ -1406,6 +1367,55 @@ export function useMenuLazyQuery(
 export type MenuQueryHookResult = ReturnType<typeof useMenuQuery>
 export type MenuLazyQueryHookResult = ReturnType<typeof useMenuLazyQuery>
 export type MenuQueryResult = Apollo.QueryResult<MenuQuery, MenuQueryVariables>
+export const MenuFavoriteDocument = gql`
+  query MenuFavorite($id: ID!) {
+    menu(id: $id) {
+      id
+      favorite
+    }
+  }
+`
+
+/**
+ * __useMenuFavoriteQuery__
+ *
+ * To run a query within a React component, call `useMenuFavoriteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMenuFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMenuFavoriteQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useMenuFavoriteQuery(
+  baseOptions: Apollo.QueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
+    MenuFavoriteDocument,
+    options
+  )
+}
+export function useMenuFavoriteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MenuFavoriteQuery, MenuFavoriteQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MenuFavoriteQuery, MenuFavoriteQueryVariables>(
+    MenuFavoriteDocument,
+    options
+  )
+}
+export type MenuFavoriteQueryHookResult = ReturnType<typeof useMenuFavoriteQuery>
+export type MenuFavoriteLazyQueryHookResult = ReturnType<typeof useMenuFavoriteLazyQuery>
+export type MenuFavoriteQueryResult = Apollo.QueryResult<
+  MenuFavoriteQuery,
+  MenuFavoriteQueryVariables
+>
 export const MenusDocument = gql`
   query Menus {
     menus {
@@ -1638,6 +1648,55 @@ export function useStoreLazyQuery(
 export type StoreQueryHookResult = ReturnType<typeof useStoreQuery>
 export type StoreLazyQueryHookResult = ReturnType<typeof useStoreLazyQuery>
 export type StoreQueryResult = Apollo.QueryResult<StoreQuery, StoreQueryVariables>
+export const StoreFavoriteDocument = gql`
+  query StoreFavorite($id: ID!) {
+    store(id: $id) {
+      id
+      favorite
+    }
+  }
+`
+
+/**
+ * __useStoreFavoriteQuery__
+ *
+ * To run a query within a React component, call `useStoreFavoriteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStoreFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStoreFavoriteQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStoreFavoriteQuery(
+  baseOptions: Apollo.QueryHookOptions<StoreFavoriteQuery, StoreFavoriteQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<StoreFavoriteQuery, StoreFavoriteQueryVariables>(
+    StoreFavoriteDocument,
+    options
+  )
+}
+export function useStoreFavoriteLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<StoreFavoriteQuery, StoreFavoriteQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<StoreFavoriteQuery, StoreFavoriteQueryVariables>(
+    StoreFavoriteDocument,
+    options
+  )
+}
+export type StoreFavoriteQueryHookResult = ReturnType<typeof useStoreFavoriteQuery>
+export type StoreFavoriteLazyQueryHookResult = ReturnType<typeof useStoreFavoriteLazyQuery>
+export type StoreFavoriteQueryResult = Apollo.QueryResult<
+  StoreFavoriteQuery,
+  StoreFavoriteQueryVariables
+>
 export const StoreMenusDocument = gql`
   query StoreMenus($id: ID!) {
     store(id: $id) {

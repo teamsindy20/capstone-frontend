@@ -14,7 +14,7 @@ import PostCard, { PostLoadingCard } from '../../components/PostCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
-const HorizontalBorder = styled.div`
+export const HorizontalBorder = styled.div`
   border: 2px solid #f5f5f5;
   margin-bottom: 15px;
 `

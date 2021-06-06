@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import ReviewCard from 'src/components/ReviewCard'
 import {
+  HorizontalBorder,
   ThinHorizontalBorder,
   FeedTitleContainer,
   FeedTitleText,
@@ -59,7 +60,7 @@ function FeedPage() {
         <ThinHorizontalBorder />
 
         <ReviewCard onlyImage={false} review={1 as any} />
-        <Divider />
+        <HorizontalBorder />
 
         <FeedTitleContainer>
           <FeedTitleText>전체 매장 리뷰 소식</FeedTitleText>
@@ -67,6 +68,7 @@ function FeedPage() {
             더보기
           </FeedMoreText>
         </FeedTitleContainer>
+        <ThinHorizontalBorder />
         <ReviewCard onlyImage={false} review={1 as any} />
       </PageLayout>
     </PageHead>

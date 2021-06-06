@@ -35,8 +35,6 @@ const ImgInCard = styled.div`
 const ReviewImgCard = styled.div`
   padding-top: 100%;
   position: relative;
-  //width: 100%;
-  height: 100px;
 `
 const UserImg = styled(StoreImg)`
   overflow: hidden;

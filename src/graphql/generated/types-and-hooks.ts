@@ -173,15 +173,14 @@ export type MenuOptionInput = {
 }
 
 export type MenuOptionSelectionInput = {
-  id: Scalars['ID']
+  menuOptionId: Scalars['ID']
   /** 서술형 옵션 선택 시 입력할 텍스트 */
   text?: Maybe<Scalars['String']>
 }
 
 export type MenuSelectionInput = {
-  id: Scalars['ID']
   count: Scalars['Int']
-  menuOptions?: Maybe<Array<MenuOptionSelectionInput>>
+  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
 }
 
 export type Mutation = {
@@ -305,16 +304,16 @@ export type Order = {
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
   pointSaved: Scalars['Int']
+  userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
   userId: Scalars['ID']
   /** nullable */
+  deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
-  deliveryRequest?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
-  promotionId?: Maybe<Scalars['ID']>
   /** from other table */
   selectedMenus: Array<Menu>
   payment: Payment
@@ -322,7 +321,7 @@ export type Order = {
   user: User
   /** from other table - nullable */
   coupon?: Maybe<Coupon>
-  /** promotions: [Promotion!] */
+  menuOptions?: Maybe<Array<MenuOption>>
   review?: Maybe<Array<Review>>
 }
 
@@ -672,7 +671,7 @@ export type UserInfoInput = {
   deliveryRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
   promotion?: Maybe<Array<PromotionInput>>
-  couponId?: Maybe<Scalars['ID']>
+  coupon?: Maybe<Scalars['ID']>
 }
 
 export type MenuCardFragment = { __typename?: 'Menu' } & Pick<

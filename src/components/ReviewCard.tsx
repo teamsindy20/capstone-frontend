@@ -27,7 +27,7 @@ type Props = {
   review: any
 }
 
-const ImgInCard = styled.div`
+export const ImgInCard = styled.div`
   padding-top: 100%;
   position: relative;
 `
@@ -42,7 +42,7 @@ const UserImg = styled(StoreImg)`
   border-radius: 50%;
   border: none;
 `
-const UserName = styled(StoreName)`
+export const UserName = styled(StoreName)`
   font-size: 15px;
   font-weight: 500;
   color: black;
@@ -52,7 +52,7 @@ export const ReviewBadge = styled(TagName)`
   font-weight: 500;
   color: #ff5e3d;
 `
-const IsRegular = styled(TagName)`
+export const IsRegular = styled(TagName)`
   display: inline-block;
   font-size: 11px;
   font-weight: 500;
@@ -89,9 +89,7 @@ function ReviewCard({ onlyImage, review }: Props) {
     <GridContainerLi>
       <MarginDiv>
         <FlexContainer>
-          <ImgInCard>
-            <Image src="/605@3x.png" alt="user-profile" layout="fill" objectFit="contain" />
-          </ImgInCard>
+          <Image src="/605@2x.png" alt="user-profile" width="40" height="40" objectFit="contain" />
           <ProfileTitleGrid>
             <UserName>
               김빵순

@@ -58,6 +58,7 @@ export const FlexContainer = styled.div`
 export const ProfileTitleGrid = styled.div`
   display: grid;
   grid-template-rows: repeat(2, auto);
+  padding-left: 1rem;
 `
 
 export const StoreName = styled.h4`

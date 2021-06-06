@@ -6,6 +6,13 @@ import TopHeader from 'src/components/TopHeader'
 import styled from 'styled-components'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import ReviewCard from 'src/components/ReviewCard'
+import {
+  HorizontalBorder,
+  ThinHorizontalBorder,
+  FeedTitleContainer,
+  FeedTitleText,
+  FeedMoreText,
+} from 'src/pages/feed'
 
 const description = '다른 사람이 작성한 리뷰를 읽어보세요.'
 
@@ -44,24 +51,24 @@ function FeedPage() {
             <Tabs.TabPane tab="리뷰 소식" key="review-feed" />
           </Tabs>
         </TopHeader>
-        <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>찜한 매장 리뷰</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
-          <ReviewCard onlyImage={false} review={1 as any} />
-          <Divider />
-        </MarginDiv>
-        <Divider />
-        <MarginDiv>
-          <FlexContainerBetween>
-            <NoMarginh3>전체 매장 리뷰</NoMarginh3>
-            <Button type="text">더보기</Button>
-          </FlexContainerBetween>
-          <Divider />
-          <ReviewCard onlyImage={false} review={1 as any} />
-        </MarginDiv>
+        <br />
+        <FeedTitleContainer>
+          <FeedTitleText>찜한 매장 리뷰 소식</FeedTitleText>
+          <FeedMoreText shape="round" type="text">
+            더보기
+          </FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
+        <ReviewCard onlyImage={false} review={1 as any} />
+        <HorizontalBorder />
+        <FeedTitleContainer>
+          <FeedTitleText>전체 매장 리뷰 소식</FeedTitleText>
+          <FeedMoreText shape="round" type="text">
+            더보기
+          </FeedMoreText>
+        </FeedTitleContainer>
+        <ThinHorizontalBorder />
+        <ReviewCard onlyImage={false} review={1 as any} />
       </PageLayout>
     </PageHead>
   )

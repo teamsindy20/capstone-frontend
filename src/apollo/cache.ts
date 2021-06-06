@@ -23,6 +23,8 @@ export function setCartMenus(menus: any[]) {
 type CartStore = {
   id: string
   name: string
+  deliveryCharge: number
+  minimumDeliveryAmount: number
   imageUrl: string
 }
 

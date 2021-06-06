@@ -123,7 +123,7 @@ function CartMenuCard({ cartMenu }: Props) {
             )}
             <br />
             <FlexContainerBetween>
-              <PriceA>총 {formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
+              <PriceA>{formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
               <CountButton onClick={updateCartMenuCount} value={count} />
             </FlexContainerBetween>
           </div>

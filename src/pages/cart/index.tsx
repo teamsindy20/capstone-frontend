@@ -10,10 +10,13 @@ import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRight
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import styled from 'styled-components'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
+import { CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { Padding } from 'src/components/layouts/PageLayout'
+import { getSelectedOptionsPrice } from '../stores/[nameId]/[name]'
+import { formatPrice } from 'src/utils/price'
+import { useState, useEffect } from 'react'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -59,7 +62,7 @@ const GridContainerUl = styled.ul`
   gap: 1rem;
   padding: 1rem;
 
-  background-color: #f8f8f8;
+  background-color: #fcfcfc;
 `
 
 const StyledImg = styled.img`
@@ -96,6 +99,18 @@ function CartPage() {
     setCartStore(null)
   }
 
+  const totalMenusPrice = cartMenus.reduce(
+    (acc, { count, price, optionCategories }) =>
+      acc + count * (price + getSelectedOptionsPrice(optionCategories ?? {})),
+    0
+  )
+
+  const [disabled, setDisabled] = useState(true)
+
+  useEffect(() => {
+    setDisabled(!cartStore || totalMenusPrice < cartStore.minimumDeliveryAmount)
+  }, [cartStore, totalMenusPrice])
+
   return (
     <PageHead title="디저트핏 - 장바구니" description={description}>
       <TopHeader>
@@ -112,7 +127,9 @@ function CartPage() {
 
       {cartStore && (
         <FlexContainerBetween2>
-          더담으러가기
+          <ClientSideLink href={`/stores/${cartStore.name}-${cartStore.id}`}>
+            더 담으러 가기
+          </ClientSideLink>
           <ClientSideLink href={`/stores/${cartStore.name}-${cartStore.id}`}>
             <StoreGrid>
               <StyledImg src={cartStore.imageUrl} alt="store profile" />
@@ -128,7 +145,10 @@ function CartPage() {
           <CartMenuCard key={cartMenu.id} cartMenu={cartMenu} />
         ))}
       </GridContainerUl>
-      <FixedButton onClick={goToOrderPage}>주문하기</FixedButton>
+      <FixedButton disabled={disabled} onClick={goToOrderPage}>
+        ({cartMenus.length}) 총 {formatPrice(totalMenusPrice + (cartStore?.deliveryCharge ?? 0))}{' '}
+        주문하기
+      </FixedButton>
       <Padding />
     </PageHead>
   )

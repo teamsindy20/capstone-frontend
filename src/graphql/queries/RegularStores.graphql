@@ -1,0 +1,8 @@
+query RegularStores {
+  me {
+    id
+    regularStores {
+      ...storeCard
+    }
+  }
+}

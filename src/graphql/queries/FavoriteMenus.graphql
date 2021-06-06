@@ -1,0 +1,8 @@
+query FavoriteMenus {
+  me {
+    id
+    favoriteMenus {
+      ...menuCard
+    }
+  }
+}

@@ -1,0 +1,5 @@
+query PostsByAddress {
+  postsByAddress(address: "") {
+    ...postCard
+  }
+}

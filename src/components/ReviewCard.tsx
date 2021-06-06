@@ -8,7 +8,9 @@ import {
   StoreImg,
   StoreName,
   TagName,
+  ShadowingLi,
 } from 'src/components/PostCard'
+import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 const { Meta: Review } = Card
@@ -26,21 +28,16 @@ type Props = {
   review: TReview
 }
 
-const ImgInCard = styled.img`
-  //overflow: hidden;
-  //display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+const ImgInCard = styled.div`
+  padding-top: 100%;
+  position: relative;
 `
 const UserImg = styled(StoreImg)`
   overflow: hidden;
-  width: 32px;
-  height: 32px;
+  padding-top: 40%;
   object-fit: contain;
   border-radius: 50%;
-  border: solid 1px #e8e8e8;
+  border: none;
 `
 const UserName = styled(StoreName)`
   font-size: 15px;
@@ -63,11 +60,19 @@ const DateText = styled(IsRegular)`
   font-weight: normal;
   color: #6c6c6c;
 `
+
+const ReviewImg = styled.img`
+  width: 100%;
+  height: 18rem;
+  object-fit: cover;
+`
 function ReviewCard({ onlyImage, review }: Props) {
   return (
-    <div>
+    <ShadowingLi>
       <ProfileGrid>
-        <UserImg src="/605@3x.png" alt="user profile" />
+        <ImgInCard>
+          <Image src="/605@3x.png" alt="user-profile" layout="fill" objectFit="contain" />
+        </ImgInCard>
         <ProfileTitleGrid>
           <UserName>
             김빵순
@@ -80,7 +85,10 @@ function ReviewCard({ onlyImage, review }: Props) {
           </ReviewBadge>
         </ProfileTitleGrid>
       </ProfileGrid>
-      <Card
+      <ImgInCard>
+        <Image src="/15@3x.png" alt="user-profile" layout="fill" objectFit="contain" />
+      </ImgInCard>
+      {/* <Card
         style={{ width: 350 }}
         actions={[
           <SettingOutlined key="setting" />,
@@ -112,8 +120,8 @@ function ReviewCard({ onlyImage, review }: Props) {
           하이~ 에이치아이~ 우리 오빠들 오프라인 팬미팅 절대 못하니까.. 집에서 무대 보면서 먹으려고
           시켰는데 역시 맛있네요ㅠㅠ 자주 사먹을게용ㅎㅎ 그럼 BYE~ 비와이이~
         </p>
-      </Card>
-    </div>
+      </Card> */}
+    </ShadowingLi>
   )
 }
 

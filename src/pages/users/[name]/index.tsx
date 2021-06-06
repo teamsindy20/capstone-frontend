@@ -119,7 +119,7 @@ function MyDessertFitPage() {
           <ProfileFlexContainer>
             <FlexContainer>
               <Image
-                src="/605@3x.png"
+                src="/605@2x.png"
                 alt="user-profile"
                 width="50"
                 height="50"

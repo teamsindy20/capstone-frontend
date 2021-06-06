@@ -90,7 +90,7 @@ function ReviewCard({ onlyImage, review }: Props) {
     <GridContainerLi>
       <MarginDiv>
         <FlexContainer>
-          <Image src="/605@3x.png" alt="user-profile" width="40" height="40" objectFit="contain" />
+          <Image src="/605@2x.png" alt="user-profile" width="40" height="40" objectFit="contain" />
           <ProfileTitleGrid>
             <UserName>
               김빵순

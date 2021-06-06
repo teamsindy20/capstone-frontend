@@ -9,7 +9,11 @@ import { GlobalContext } from 'src/pages/_app'
 import { Button, Divider } from 'antd'
 import styled from 'styled-components'
 import TopHeader from 'src/components/TopHeader'
-import { FlexContainerAlignCenter, FlexContainerBetween } from 'src/styles/FlexContainer'
+import {
+  FlexContainerAlignCenter,
+  FlexContainerBetween,
+  FlexContainerAround,
+} from 'src/styles/FlexContainer'
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
 
@@ -28,18 +32,40 @@ const description = '내게 딱 맞는 디저트핏!을 만나보세요.'
 
 const ProfileFlexContainer = styled(FlexContainerBetween)`
   height: 7rem;
-  padding: 0 1rem;
+  padding: 0 2rem;
   align-items: center;
   background-color: #fcfcfc;
 `
 
-const WhiteFlexContainer = styled(FlexContainerBetween)`
+const WhiteFlexContainer = styled(FlexContainerAround)`
   height: 5rem;
   align-items: center;
   text-align: center;
   background-color: white;
   border: solid 1px #efefef;
   padding: 1rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+`
+
+const TitleFlexContainer = styled(FlexContainerBetween)`
+  height: 4rem;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  border: solid 1px #efefef;
+  padding: 2rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+`
+const ContentFlexContainer = styled(FlexContainerBetween)`
+  padding: 0.5rem 2rem;
+  align-items: center;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6c6c6c;
+  background-color: #fcfcfc;
 `
 
 const FlexContainerCenterCenter = styled(FlexContainerAlignCenter)`
@@ -82,11 +108,11 @@ function MyDessertFitPage() {
   return (
     <PageHead title="디저트핏 - 내 DessertFit" description={description}>
       {/* <NavigationLayout> */}
-        <TopHeader>
-          <FlexContainerCenterCenter>
-            <NoMarginH3>MY</NoMarginH3>
-          </FlexContainerCenterCenter>
-        </TopHeader>
+      <TopHeader>
+        <FlexContainerCenterCenter>
+          <NoMarginH3>MY</NoMarginH3>
+        </FlexContainerCenterCenter>
+      </TopHeader>
       {/* </NavigationLayout> */}
       <GridContainer>
         <ProfileFlexContainer>
@@ -98,7 +124,6 @@ function MyDessertFitPage() {
               height="50"
               objectFit="contain"
             />
-
             <ProfileTitleGrid>
               <UserName>{query.name}</UserName>
               <ReviewBadge>BEST 리뷰어</ReviewBadge>
@@ -120,6 +145,16 @@ function MyDessertFitPage() {
             <PinkText>3000P</PinkText>
           </div>
         </WhiteFlexContainer>
+        <TitleFlexContainer>회원정보수정</TitleFlexContainer>
+        <TitleFlexContainer>설정</TitleFlexContainer>
+        <TitleFlexContainer>고객설정</TitleFlexContainer>
+        <ContentFlexContainer>1:1문의</ContentFlexContainer>
+        <ContentFlexContainer>상품문의</ContentFlexContainer>
+        <ContentFlexContainer>F&Q</ContentFlexContainer>
+        <ContentFlexContainer>고객의소리</ContentFlexContainer>
+        <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
+        <ContentFlexContainer>공지사항</ContentFlexContainer>
+        <ContentFlexContainer>이벤트</ContentFlexContainer>
       </GridContainer>
       {/* <Button
           onClick={() => {
@@ -132,7 +167,7 @@ function MyDessertFitPage() {
         >
           로그아웃
         </Button> */}
-      {/* <Footer /> */}
+      <Footer />
     </PageHead>
   )
 }

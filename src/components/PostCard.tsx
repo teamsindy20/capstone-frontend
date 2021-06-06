@@ -51,10 +51,11 @@ export const ProfileGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 10fr;
   padding: 5px;
-  border: none
+  border: none;
   height: 3rem;
   background-color: #fcfcfc;
   grid-gap: 5px;
+  margin: 10px 0;
 `
 
 export const ProfileTitleGrid = styled.div`

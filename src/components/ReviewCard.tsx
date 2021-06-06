@@ -2,12 +2,12 @@ import TReview from 'src/types/Review'
 import styled from 'styled-components'
 import { Divider } from 'antd'
 import {
-  ProfileGrid,
+  FlexContainer,
   ProfileTitleGrid,
   StoreImg,
   StoreName,
   TagName,
-  ShadowingLi,
+  GridContainerLi,
 } from 'src/components/PostCard'
 import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
@@ -87,9 +87,9 @@ const ReviewContent = styled.h4`
 
 function ReviewCard({ onlyImage, review }: Props) {
   return (
-    <ShadowingLi>
+    <GridContainerLi>
       <MarginDiv>
-        <ProfileGrid>
+        <FlexContainer>
           <ImgInCard>
             <Image src="/605@3x.png" alt="user-profile" layout="fill" objectFit="contain" />
           </ImgInCard>
@@ -104,7 +104,7 @@ function ReviewCard({ onlyImage, review }: Props) {
               <Divider type="vertical" /> <IsRegular>단골</IsRegular>
             </ReviewBadge>
           </ProfileTitleGrid>
-        </ProfileGrid>
+        </FlexContainer>
       </MarginDiv>
       <ReviewImgCard>
         <Image src="/15@3x.png" alt="user-profile" layout="fill" objectFit="cover" />
@@ -124,7 +124,7 @@ function ReviewCard({ onlyImage, review }: Props) {
           시켰는데 역시 맛있네요ㅠㅠ 자주 사먹을게용ㅎㅎ 그럼 BYE~ 비와이이~
         </ReviewContent>
       </MarginDiv>
-    </ShadowingLi>
+    </GridContainerLi>
   )
 }
 

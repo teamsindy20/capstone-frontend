@@ -2,7 +2,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import useGoToPage from 'src/hooks/useGoToPage'
 import TopHeader from 'src/components/TopHeader'
 import { useReactiveVar } from '@apollo/client'
-import { cartMenusVar, cartStoreVar, setCartMenus, setCartStore } from 'src/apollo/cache'
+import { CartMenu, cartMenusVar, cartStoreVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import CartMenuCard from 'src/components/CartMenuCard'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
@@ -86,6 +86,14 @@ export const ClearAllButton = styled(Button)`
   font-weight: 500;
 `
 
+export function getTotalPrice(cartMenus: CartMenu[]) {
+  return cartMenus.reduce(
+    (acc, { count, price, optionCategories }) =>
+      acc + count * (price + getSelectedOptionsPrice(optionCategories ?? {})),
+    0
+  )
+}
+
 function CartPage() {
   const goToOrderPage = useGoToPage('/order')
   const goBack = useGoBack()
@@ -99,11 +107,7 @@ function CartPage() {
     setCartStore(null)
   }
 
-  const totalMenusPrice = cartMenus.reduce(
-    (acc, { count, price, optionCategories }) =>
-      acc + count * (price + getSelectedOptionsPrice(optionCategories ?? {})),
-    0
-  )
+  const totalMenusPrice = getTotalPrice(cartMenus)
 
   const [disabled, setDisabled] = useState(true)
 

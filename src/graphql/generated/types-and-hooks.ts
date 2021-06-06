@@ -713,6 +713,12 @@ export type StoreCardFragment = { __typename?: 'Store' } & Pick<
   | 'favorite'
 >
 
+export type CreateOrderMutationVariables = Exact<{
+  input: OrderCreationInput
+}>
+
+export type CreateOrderMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'createOrder'>
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
@@ -923,6 +929,48 @@ export const StoreCardFragmentDoc = gql`
     favorite
   }
 `
+export const CreateOrderDocument = gql`
+  mutation CreateOrder($input: OrderCreationInput!) {
+    createOrder(input: $input)
+  }
+`
+export type CreateOrderMutationFn = Apollo.MutationFunction<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(
+    CreateOrderDocument,
+    options
+  )
+}
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<
+  CreateOrderMutation,
+  CreateOrderMutationVariables
+>
 export const LoginDocument = gql`
   mutation Login($email: EmailAddress!, $passwordHash: String!) {
     login(email: $email, passwordHash: $passwordHash)

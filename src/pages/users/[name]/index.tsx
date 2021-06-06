@@ -62,7 +62,7 @@ function MyDessertFitPage() {
       <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
-            <NoMarginH3>마이페이지</NoMarginH3>
+            <NoMarginH3>MY</NoMarginH3>
           </FlexContainerCenterCenter>
         </TopHeader>
         <div>

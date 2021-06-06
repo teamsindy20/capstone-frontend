@@ -4,21 +4,14 @@ import { useRouter } from 'next/router'
 import { MouseEvent } from 'react'
 import useGoToPage from 'src/hooks/useGoToPage'
 import { TABLET_MIN_WIDTH } from 'src/models/constants'
-import {
-  FlexContainerBetween,
-  FlexContainerAlignCenter,
-  FlexContainerAround,
-} from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import TOrder from 'src/types/Order'
 import TStore from 'src/types/Store'
 import { formatPrice } from 'src/utils/price'
 import styled from 'styled-components'
 import styles from '../styles/NextImage.module.css'
 import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import RateReviewRoundedIcon from '@material-ui/icons/RateReviewRounded'
-import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
-import { Divider, Button } from 'antd'
+import { Button } from 'antd'
 import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
 import { differenceInDays, format } from 'date-fns'
 import { StoreImg, StoreName, CardHorizontalBorder, IconImg } from 'src/components/PostCard'
@@ -33,7 +26,6 @@ const GridContainerLi = styled.li`
   /* height: 13rem; */
   padding: 1rem;
   margin: 1rem;
-  gap: 0;
 `
 
 const HalfWideButton = styled(Button)`
@@ -97,14 +89,6 @@ const MintText = styled.h4`
 const GreyText = styled.h4`
   color: #a8a8a8;
 `
-
-function formatOrderDate(orderDate: string) {
-  return orderDate
-}
-
-function formatRegularOrderDate(regularOrderDate: string) {
-  return regularOrderDate
-}
 
 export function OrderLoadingCard() {
   return (
@@ -185,43 +169,6 @@ function OrderCard({ order, store }: Props) {
         </MintText>
         <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
       </FlexContainerBetween>
-      {/* <Card
-        style={{ width: 360 }}
-        actions={[
-          <Button shape="circle" icon={<ReloadOutlined />} key="reorder" onClick={reorder} />,
-          <Button
-            shape="circle"
-            icon={<EditOutlined />}
-            key="review"
-            onClick={goToUserReviewPage(+order.review.id)}
-          />,
-        ]}
-      >
-        <Meta
-          avatar={<Avatar src={order.store.imageUrl} />}
-          title={`${store.name}`}
-          description={order.orderStatus}
-          // onClick={goToStoreMenusPage}
-        />
-        <Divider />
-        <div>
-          <FlexContainerBetween>
-            <ul>
-              {order.menus.map((menu) => (
-                <li key={menu.id}>- {menu.name}</li>
-              ))}
-            </ul>
-            <div>{formatPrice(order.orderTotal)}</div>
-          </FlexContainerBetween>
-          <FlexContainerBetween>
-            <MintText>
-              {`D-${differenceInDays(new Date(order.regularOrderDate), new Date())}, 
-        ${order.regularOrderCount}번 더 주문 시 단골이예요!`}
-            </MintText>
-            <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
-          </FlexContainerBetween>
-        </div>
-      </Card> */}
     </GridContainerLi>
   )
 }

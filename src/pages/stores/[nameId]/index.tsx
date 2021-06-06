@@ -11,7 +11,7 @@ import {
   useStoreMenusQuery,
   useStoreQuery,
   usePickStoreMutation,
-  useStoreLazyQuery,
+  useStoreFavoriteLazyQuery,
   StoreQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
@@ -145,7 +145,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
   const goBack = useGoBack()
   const { storeId, getStoreUrl } = useStoreNameIdUrl()
 
-  const [storeLazyQuery] = useStoreLazyQuery({
+  const [storeFavoriteLazyQuery] = useStoreFavoriteLazyQuery({
     fetchPolicy: 'network-only',
     onError: handleApolloError,
   })
@@ -176,7 +176,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
         )
       }
 
-      storeLazyQuery({ variables: { id: storeId } }) // storeId는 button disabled 로 항상 not null
+      storeFavoriteLazyQuery({ variables: { id: storeId } })
     },
     onError: handleApolloError,
   })

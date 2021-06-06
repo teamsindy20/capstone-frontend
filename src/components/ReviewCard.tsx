@@ -1,4 +1,3 @@
-import TReview from 'src/types/Review'
 import styled from 'styled-components'
 import { Divider } from 'antd'
 import {
@@ -25,7 +24,7 @@ export function ReviewLoadingCard({ onlyImage }: LoadingProps) {
 
 type Props = {
   onlyImage: boolean
-  review: TReview
+  review: any
 }
 
 export const ImgInCard = styled.div`

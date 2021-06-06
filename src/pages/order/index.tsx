@@ -2,12 +2,10 @@ import PageHead from 'src/components/layouts/PageHead'
 import TopHeader from 'src/components/TopHeader'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
-import { Button, Divider, Dropdown, Menu, Input, Select, Tooltip } from 'antd'
+import { Button, Divider, Menu, Input, Select, Tooltip } from 'antd'
 import {
-  DownOutlined,
   UserOutlined,
   SmileOutlined,
-  AimOutlined,
   GiftOutlined,
   MailOutlined,
   EnvironmentOutlined,
@@ -24,6 +22,16 @@ import { useContext } from 'react'
 import { GlobalContext } from '../_app'
 import NotLoginModal from 'src/components/NotLoginModal'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import { useReactiveVar } from '@apollo/client'
+import { cartStoreVar, cartMenusVar, setCartStore, setCartMenus } from 'src/apollo/cache'
+import { formatPrice } from 'src/utils/price'
+import { getTotalPrice } from '../cart'
+import { useCreateOrderMutation } from 'src/graphql/generated/types-and-hooks'
+import { useRouter } from 'next/router'
+import { handleApolloError } from 'src/apollo/error'
+import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
@@ -45,9 +53,9 @@ export const FixedButton = styled(ReviewButton)`
   width: 100%;
   max-width: ${TABLET_MIN_WIDTH};
 `
-const MarginContainer = styled.div`
+
+const Margin = styled.div`
   margin: 0.5rem;
-  weight: 100%;
 `
 
 const FlexContainerBetween1 = styled.div`
@@ -55,6 +63,7 @@ const FlexContainerBetween1 = styled.div`
   justify-content: space-between;
   height: 100%;
 `
+
 const GridOption = styled.div`
   display: grid;
   grid-template-rows: auto;
@@ -69,16 +78,19 @@ const NoMarginH3 = styled.h3`
   margin: 0;
   font-weight: lighter;
 `
+
 const GreyLighterNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
   font-weight: lighter;
 `
+
 const GreyLighterNoMarginH4 = styled.h4`
   margin: 0;
   color: #929393;
   font-weight: lighter;
 `
+
 const GreyNoMarginH3 = styled.h3`
   margin: 0;
   color: #929393;
@@ -88,10 +100,12 @@ const SmallSelect = styled(Select)`
   width: 15rem;
   color: #929393;
 `
+
 const DropdownButton = styled(Button)`
   width: 15rem;
   color: #929393;
 `
+
 const DropdownInput = styled(Input)`
   width: 15rem;
   color: #929393;
@@ -117,6 +131,24 @@ const description = '디저트를 주문해봐요'
 function OrderPage() {
   const { user, loading } = useContext(GlobalContext)
   const goBack = useGoBack()
+  const router = useRouter()
+
+  const cartStore = useReactiveVar(cartStoreVar)
+  const cartMenus = useReactiveVar(cartMenusVar)
+
+  const [createOrderMutation, { loading: isCreatingOrderLoading }] = useCreateOrderMutation({
+    onCompleted: (data) => {
+      if (data.createOrder) {
+        setCartStore(null)
+        setCartMenus([])
+        toast.success('주문이 완료됐습니다.')
+        router.push('/')
+      }
+    },
+    onError: handleApolloError,
+  })
+
+  const { control } = useForm()
 
   if (loading) {
     return (
@@ -124,6 +156,31 @@ function OrderPage() {
         사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 보여주기
       </PageHead>
     )
+  }
+
+  function createOrder() {
+    const orderCreationInput = {
+      menus: cartMenus.map((menu) => {
+        const selectedMenuOptions = getSelectedMenuOptionIdsFrom(menu.optionCategories)?.map(
+          (id) => ({
+            id,
+          })
+        )
+
+        return {
+          id: menu.id.substring(0, menu.id.indexOf('-')),
+          count: menu.count,
+          ...(selectedMenuOptions?.length && { menuOptions: selectedMenuOptions }),
+        }
+      }),
+      payment: { paymentId: '1', paymentDate: new Date() },
+      user: {
+        deliveryAddress: 'address',
+        deliveryPhoneNumber: '10101039-34-32-',
+      },
+    }
+
+    createOrderMutation({ variables: { input: orderCreationInput } })
   }
 
   const deliveryAddress = '서울시 동작구 흑석동 221 208관 1층'
@@ -146,7 +203,7 @@ function OrderPage() {
           </h1>
         </ClientSideLink>
       )}
-      <MarginContainer>
+      <Margin>
         <GridOption>
           <NoMarginH2>배달정보</NoMarginH2>
           <FlexContainerBetween>
@@ -167,8 +224,8 @@ function OrderPage() {
             <Button>변경</Button>
           </FlexContainerBetween>
         </GridOption>
-      </MarginContainer>
-      <MarginContainer>
+      </Margin>
+      <Margin>
         <GridOption>
           <Divider />
           <FlexContainerBetween>
@@ -222,55 +279,60 @@ function OrderPage() {
           </Select>
           <FlexContainerBetween>
             <NoMarginH3>쿠폰사용</NoMarginH3>
-            <NoMarginH3>0개</NoMarginH3>
+            <NoMarginH3>0 개</NoMarginH3>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <NoMarginH3>포인트사용</NoMarginH3>
-            <NoMarginH3>1,200P</NoMarginH3>
+            <NoMarginH3>0 P</NoMarginH3>
           </FlexContainerBetween>
           <GreyLighterNoMarginH4>기본 : 생크림 보통</GreyLighterNoMarginH4>
           <Divider />
+
           <FlexContainerBetween>
             <NoMarginH2>결제금액</NoMarginH2>
             <NoMarginH2></NoMarginH2>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <NoMarginH3>주문금액</NoMarginH3>
-            <NoMarginH3>15,900원</NoMarginH3>
+            <NoMarginH3>{formatPrice(getTotalPrice(cartMenus))}</NoMarginH3>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <NoMarginH3>배달팁</NoMarginH3>
-            <NoMarginH3>3,000원</NoMarginH3>
+            <NoMarginH3>{formatPrice(cartStore?.deliveryCharge ?? 0)}</NoMarginH3>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <NoMarginH3>할인금액</NoMarginH3>
-            <NoMarginH3>-6,000원</NoMarginH3>
+            <NoMarginH3>0 원</NoMarginH3>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <GreyLighterNoMarginH4>상품권</GreyLighterNoMarginH4>
-            <GreyLighterNoMarginH4>-5,000원</GreyLighterNoMarginH4>
+            <GreyLighterNoMarginH4>0 원</GreyLighterNoMarginH4>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <GreyLighterNoMarginH4>쿠폰</GreyLighterNoMarginH4>
-            <GreyLighterNoMarginH4>-500원</GreyLighterNoMarginH4>
+            <GreyLighterNoMarginH4>0 원</GreyLighterNoMarginH4>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <GreyLighterNoMarginH4>포인트</GreyLighterNoMarginH4>
-            <GreyLighterNoMarginH4>-500원</GreyLighterNoMarginH4>
+            <GreyLighterNoMarginH4>0 원</GreyLighterNoMarginH4>
           </FlexContainerBetween>
           <FlexContainerBetween>
             <NoMarginH3>적립포인트</NoMarginH3>
-            <NoMarginH3>190P</NoMarginH3>
+            <NoMarginH3>0 원</NoMarginH3>
           </FlexContainerBetween>
           <Divider />
           <FlexContainerBetween>
             <NoMarginH2>최종 결제금액</NoMarginH2>
-            <NoMarginH2>23,000원</NoMarginH2>
+            <NoMarginH2>
+              {formatPrice(getTotalPrice(cartMenus) + (cartStore?.deliveryCharge ?? 0))}
+            </NoMarginH2>
           </FlexContainerBetween>
           <Divider />
         </GridOption>
-      </MarginContainer>
-      <FixedButton disabled={!user}>총 23,000원 결제</FixedButton>
+      </Margin>
+      <FixedButton disabled={!user} loading={isCreatingOrderLoading} onClick={createOrder}>
+        총 {formatPrice(getTotalPrice(cartMenus) + (cartStore?.deliveryCharge ?? 0))} 결제
+      </FixedButton>
     </PageHead>
   )
 }

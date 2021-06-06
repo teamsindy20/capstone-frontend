@@ -27,7 +27,7 @@ const GridContainerForm = styled.form`
   justify-content: center;
 `
 
-const LoginButton = styled.button`
+export const LoginButton = styled.button`
   background-color: #ff9a88;
   border: 1px solid #ff9a88;
   color: white;
@@ -40,6 +40,7 @@ const LoginButton = styled.button`
   cursor: pointer;
   display: inline-block;
   transition-duration: 0.4s;
+  height: 3rem;
 
   &:hover {
     background-color: white;
@@ -61,6 +62,7 @@ const SNSLoginButton = styled.button`
   cursor: pointer;
   display: inline-block;
   transition-duration: 0.4s;
+  height: 3rem;
 
   &:hover {
     background-color: #2eccba;

@@ -16,6 +16,7 @@ import {
 } from 'src/styles/FlexContainer'
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
+import { LoginButton } from 'src/pages/login'
 
 const GridContainer = styled.div`
   display: grid;
@@ -155,18 +156,17 @@ function MyDessertFitPage() {
         <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
         <ContentFlexContainer>공지사항</ContentFlexContainer>
         <ContentFlexContainer>이벤트</ContentFlexContainer>
-      </GridContainer>
-      {/* <Button
+        <LoginButton
           onClick={() => {
             localStorage.removeItem('token')
             sessionStorage.removeItem('token')
             refetchUser()
           }}
-          size="large"
-          type="primary"
         >
-          로그아웃
-        </Button> */}
+          LOGOUT
+        </LoginButton>
+      </GridContainer>
+
       <Footer />
     </PageHead>
   )

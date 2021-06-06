@@ -1,0 +1,14 @@
+fragment orderCard on Order {
+  id
+  creationDate
+  orderTotal
+  selectedMenus {
+    id
+    name
+  }
+  store {
+    id
+    name
+    imageUrls
+  }
+}

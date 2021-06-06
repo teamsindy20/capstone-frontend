@@ -3,7 +3,6 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import PageHead from 'src/components/layouts/PageHead'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import OrderCard, { OrderLoadingCard } from 'src/components/OrderCard'
-import { orders } from 'src/models/mock-data'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -12,6 +11,8 @@ import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import TopHeader from 'src/components/TopHeader'
 import { GlobalContext } from 'src/pages/_app'
 import NotLoginModal from 'src/components/NotLoginModal'
+import { handleApolloError } from 'src/apollo/error'
+import { useOrdersQuery } from 'src/graphql/generated/types-and-hooks'
 
 const GridContainerUl = styled.ul`
   display: grid;
@@ -33,13 +34,20 @@ const description = '내가 지금까지 주문한 내역을 확인해보세요.
 function UserOrdersPage() {
   const { user } = useContext(GlobalContext)
 
-  const [isLoadingOrders, setIsLoadingOrders] = useState(false)
   const [hasMoreOrders, setHasMoreOrders] = useState(true)
 
+  const { data, networkStatus } = useOrdersQuery({
+    notifyOnNetworkStatusChange: true,
+    onError: handleApolloError,
+  })
+
+  const orders = data?.orders
+  const isOrdersLoading = networkStatus < 7
+
+  console.log(orders)
+
   async function fetchMoreOrders() {
-    setIsLoadingOrders(true)
     await sleep(5000) // fetchMoreMenus(from, count)
-    setIsLoadingOrders(false)
 
     console.log('page:')
 
@@ -47,7 +55,7 @@ function UserOrdersPage() {
   }
 
   const [sentryRef] = useInfiniteScroll({
-    loading: isLoadingOrders,
+    loading: isOrdersLoading,
     hasNextPage: hasMoreOrders,
     onLoadMore: fetchMoreOrders,
   })
@@ -69,10 +77,10 @@ function UserOrdersPage() {
           <FlexContainerCenterCenter>주문내역</FlexContainerCenterCenter>
         </TopHeader>
         <GridContainerUl>
-          {orders.map((order) => (
-            <OrderCard key={order.id} order={order} store={order.store} />
+          {orders?.map((order) => (
+            <OrderCard key={order.id} order={order} />
           ))}
-          {(isLoadingOrders || hasMoreOrders) && (
+          {(isOrdersLoading || hasMoreOrders) && (
             <div ref={sentryRef}>
               <OrderLoadingCard />
             </div>

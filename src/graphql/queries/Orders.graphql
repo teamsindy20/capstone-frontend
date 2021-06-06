@@ -1,6 +1,5 @@
 query Orders {
   orders {
-    id
-    storeId
+    ...orderCard
   }
 }

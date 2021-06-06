@@ -12,7 +12,6 @@ import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/Loadin
 import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
-
 const StyledFavoriteRoundedIcon = { fontSize: 20, color: red[500] }
 
 const StyledChatBubbleOutlineRoundedIcon = { fontSize: 20, color: grey[800] }
@@ -145,14 +144,9 @@ const GridInCardColumn2 = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto min-content;
 `
-
-const ImgInCard = styled.img`
-  overflow: hidden;
-  border-radius: 5%;
-  align-items: center;
-  width: 112px;
-  height: 112px;
-  margin: 11px;
+const ImgInCard = styled.div`
+  padding-top: 100%;
+  position: relative;
 `
 const TextInCard = styled.div`
   overflow: visible auto;

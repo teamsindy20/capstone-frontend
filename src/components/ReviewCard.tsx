@@ -48,7 +48,7 @@ const UserName = styled(StoreName)`
   font-weight: 500;
   color: black;
 `
-const ReviewBadge = styled(TagName)`
+export const ReviewBadge = styled(TagName)`
   font-size: 11px;
   font-weight: 500;
   color: #ff5e3d;

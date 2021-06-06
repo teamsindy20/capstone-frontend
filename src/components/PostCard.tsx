@@ -84,7 +84,7 @@ const CardContent = styled.div`
   align-items: center;
   position: relative;
 `
-const CardHorizontalBorder = styled.div`
+export const CardHorizontalBorder = styled.div`
   border: solid 1px #e8e8e8;
   margin: 1rem 0;
 `

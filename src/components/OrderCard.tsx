@@ -17,19 +17,29 @@ import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded'
 import { Card, Avatar, Divider, Button } from 'antd'
 import { EditOutlined, ReloadOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons'
 import { differenceInDays, format } from 'date-fns'
+import { StoreImg, StoreName, CardHorizontalBorder } from 'src/components/PostCard'
 
 const { Meta } = Card
 
 const GridContainerLi = styled.li`
   display: grid;
-  gap: 0.5rem;
-  grid-template-columns: 1fr 2fr;
-
-  position: relative;
-  background: #fff;
-  padding: 0.5rem;
+  grid-template-rows: repeat(3, auto);
+  border-radius: 10px;
+  border: solid 1px #e8e8e8;
+  background-color: #ffffff;
+  /* height: 13rem; */
+  padding: 1rem;
+  margin: 1rem;
 `
 
+const PinkH3 = styled.h3`
+  font-size: 11px;
+  font-weight: 500;
+  color: #ff5e3d;
+`
+const HalfWideButton = styled(Button)`
+  width: 40%;
+`
 const ratio = 30
 
 const RelativePosition = styled.div`
@@ -39,7 +49,6 @@ const RelativePosition = styled.div`
   max-width: calc(${TABLET_MIN_WIDTH} * ${ratio / 100});
   height: ${ratio}vw;
   max-height: calc(${TABLET_MIN_WIDTH} * ${ratio / 100});
-
   grid-area: 'image';
 `
 
@@ -139,7 +148,36 @@ function OrderCard({ order, store }: Props) {
 
   return (
     <GridContainerLi onClick={goToUserOrderPage}>
-      <Card
+      <FlexContainerBetween>
+        <FlexContainerAlignCenter>
+          <StoreImg src={store.imageUrl ? store.imageUrl[0] : ''} alt="store profile" />
+          <StoreName>{store.name}</StoreName>
+        </FlexContainerAlignCenter>
+        <FlexContainerAlignCenter>
+          <PinkH3>배달중</PinkH3>
+        </FlexContainerAlignCenter>
+      </FlexContainerBetween>
+      <CardHorizontalBorder />
+      <FlexContainerBetween>
+        <ul>
+          {order.menus.map((menu) => (
+            <li key={menu.id}>- {menu.name}</li>
+          ))}
+        </ul>
+        <div>{formatPrice(order.orderTotal)}</div>
+      </FlexContainerBetween>
+      <FlexContainerBetween>
+        <HalfWideButton>재주문하기</HalfWideButton>
+        <HalfWideButton>리뷰쓰기</HalfWideButton>
+      </FlexContainerBetween>
+      <FlexContainerBetween>
+        <MintText>
+          {`${differenceInDays(new Date(order.regularOrderDate), new Date())}일 이내 
+        ${order.regularOrderCount}번 더 주문시 단골등극!`}
+        </MintText>
+        <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
+      </FlexContainerBetween>
+      {/* <Card
         style={{ width: 360 }}
         actions={[
           <Button shape="circle" icon={<ReloadOutlined />} key="reorder" onClick={reorder} />,
@@ -175,42 +213,7 @@ function OrderCard({ order, store }: Props) {
             <GreyText>{format(new Date(order.orderDate), 'yyyy.MM.dd iii')}</GreyText>
           </FlexContainerBetween>
         </div>
-      </Card>
-
-      {/* <RelativePosition onClick={goToStoreMenusPage}>
-        <Image
-          src={order.menus[0].imageUrl}
-          alt="store"
-          layout="fill"
-          objectFit="cover"
-          className={styles.storeCard}
-        />
-      </RelativePosition>
-      <div>
-        <AbsolutePosition>
-          <FlexContainerAlignCenter>
-            <TimerRoundedIcon />
-            {`${store.deliveryTimeMin}-${store.deliveryTimeMax}분`}
-          </FlexContainerAlignCenter>
-        </AbsolutePosition>
-        <h3 onClick={goToStoreMenusPage}>{store.name}</h3>
-        <ul>
-          {order.menus.map((menu) => (
-            <li key={menu.id}>- {menu.name}</li>
-          ))}
-        </ul>
-        <div>{formatOrderDate(order.orderDate)}</div>
-        <div>{formatPrice(order.orderTotal)}</div>
-      </div>
-      <GridItemColumn2>
-        {`${formatRegularOrderDate(order.regularOrderDate)}까지 
-        ${order.regularOrderCount}번 만 더 주문하면 단골이 될 수 있어요!`}
-      </GridItemColumn2>
-      <div>{order.orderStatus}</div>
-      <GridContainerSpan2 hasReview={!!order.review}>
-        <button onClick={(e) => e.stopPropagation()}>재주문하기</button>
-        {order.review && <button onClick={goToUserReviewPage(+order.review.id)}>리뷰쓰기</button>}
-      </GridContainerSpan2> */}
+      </Card> */}
     </GridContainerLi>
   )
 }

@@ -1,5 +1,0 @@
-query Menus {
-  menus {
-    ...menuCard
-  }
-}

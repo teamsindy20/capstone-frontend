@@ -1,9 +1,0 @@
-query FavoriteMenusFavorite {
-  me {
-    id
-    favoriteMenus {
-      id
-      favorite
-    }
-  }
-}

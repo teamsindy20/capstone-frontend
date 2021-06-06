@@ -1,6 +1,0 @@
-query MenuFavorite($id: ID!) {
-  menu(id: $id) {
-    id
-    favorite
-  }
-}

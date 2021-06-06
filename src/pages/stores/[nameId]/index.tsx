@@ -5,7 +5,12 @@ import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
+import MenuCard, {
+  MenuLoadingCard,
+  SquareFrame,
+  StyledFavoriteRoundedIcon,
+  StyledFavoriteBorderRoundedIcon,
+} from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
   useStoreMenusQuery,
@@ -32,18 +37,20 @@ import { toast } from 'react-toastify'
 import useGoBack from 'src/hooks/useGoBack'
 import Image from 'next/image'
 import { HorizontalBorder } from 'src/pages/feed'
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 
 const { Sider, Content } = Layout
 
 const TopIconDiv = styled.div`
-  margin: 13px;
-  display: flex;
-  align-items: center;
+  padding: 13px;
+  /* display: flex; */
+  /* align-items: center; */
 `
 const IconDiv = styled.div`
-  margin: 7px;
-  display: flex;
-  align-items: center;
+  padding: 7px;
+  /* display: flex;
+  align-items: center; */
 `
 const StoreHomeGrid = styled.div`
   display: grid;
@@ -78,13 +85,15 @@ const PickRegularGrid = styled.div`
   background-color: white;
 `
 
-const PickRegularText = styled.div`
+const PickRegularContainer = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 15px;
+  align-items: center;
+  font-weight: 500;
+  padding: 7px;
 `
 
-const PinkPickRegularText = styled(PickRegularText)`
+const PinkPickRegularText = styled(PickRegularContainer)`
   color: #ff5e3d;
 `
 
@@ -157,10 +166,10 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
 
   const toastId = useRef<ReactText>('')
 
-  const [pickStore, { loading: isPickingStoreLoading }] = usePickStoreMutation({
+  const [pickStoreMutation, { loading: isPickingStoreLoading }] = usePickStoreMutation({
     onCompleted: (data) => {
       function restorePicking() {
-        pickStore({ variables: { id: storeId } })
+        pickStoreMutation({ variables: { id: storeId } })
       }
 
       if (data.pickStore) {
@@ -185,6 +194,12 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
     },
     onError: handleApolloError,
   })
+
+  function pickStore() {
+    if (!isPickingStoreLoading) {
+      pickStoreMutation({ variables: { id: storeId } })
+    }
+  }
 
   return (
     <>
@@ -217,32 +232,28 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
         </TextInCard>
       </StoreHomeGrid>
       <PickRegularGrid>
-        <PickRegularText>
-          <Button
-            shape="circle"
-            icon={<HeartOutlined />}
-            disabled={isPickingStoreLoading}
-            onClick={() => {
-              pickStore({ variables: { id: storeId } })
-            }}
-          />
+        <PickRegularContainer>
+          <IconDiv>
+            {store?.favorite ? (
+              <IconImg src="/173@3x.png" alt="notification" onClick={pickStore} />
+            ) : (
+              <IconImg src="/358@3x.png" alt="notification" onClick={pickStore} />
+            )}
+          </IconDiv>
           찜<PinkPickRegularText>{store?.favoriteCount}</PinkPickRegularText>
-        </PickRegularText>
-        <PickRegularText>
-          <CrownOutlined />
+        </PickRegularContainer>
+        <PickRegularContainer>
           <Popover title="단골 혜택" content={VIPcontent}>
-            단골
-            <PinkPickRegularText>{store?.regularCustomerCount}</PinkPickRegularText>
+            <IconDiv>
+              <IconImg src="/623@3x.png" alt="notification" />
+            </IconDiv>
           </Popover>
-        </PickRegularText>
+          단골
+          <PinkPickRegularText>{store?.regularCustomerCount}</PinkPickRegularText>
+        </PickRegularContainer>
       </PickRegularGrid>
       <TextInCard>
-        <FlexContainerAlignCenter>
-          <ReloadOutlined />
-          <Popover title="재주문율이란?" content={ReOrderContent}>
-            <NoMarginH3>재주문율 {store?.reorderRatio}%</NoMarginH3>
-          </Popover>
-        </FlexContainerAlignCenter>
+        <NoMarginH3>재주문율 : {store?.reorderRatio}%</NoMarginH3>
         <NoMarginH3>
           배달시간 : {store?.minimumDeliveryTime}분 ~ {store?.maximumDeliveryTime}분
         </NoMarginH3>

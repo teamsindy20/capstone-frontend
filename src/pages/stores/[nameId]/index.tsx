@@ -5,12 +5,7 @@ import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import PageLayout from 'src/components/layouts/PageLayout'
-import MenuCard, {
-  MenuLoadingCard,
-  SquareFrame,
-  StyledFavoriteRoundedIcon,
-  StyledFavoriteBorderRoundedIcon,
-} from 'src/components/MenuCard'
+import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
   useStoreMenusQuery,
@@ -22,25 +17,13 @@ import {
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl, useRefetchMenuFavorite, IconImg } from 'src/pages'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
-import {
-  HeartOutlined,
-  BellOutlined,
-  EnvironmentOutlined,
-  PhoneOutlined,
-  InstagramOutlined,
-  ReloadOutlined,
-  CrownOutlined,
-} from '@ant-design/icons'
+import { EnvironmentOutlined, PhoneOutlined, InstagramOutlined } from '@ant-design/icons'
 import { grey } from '@material-ui/core/colors'
 import { useRef, ReactText, ReactNode } from 'react'
 import { toast } from 'react-toastify'
 import useGoBack from 'src/hooks/useGoBack'
 import Image from 'next/image'
 import { HorizontalBorder } from 'src/pages/feed'
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
-import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
-
-const { Sider, Content } = Layout
 
 const TopIconDiv = styled.div`
   padding: 13px;
@@ -58,10 +41,13 @@ const StoreHomeGrid = styled.div`
   padding: 1.1rem;
   align-items: center;
 `
+
 const RoundSquareFrame = styled(SquareFrame)`
   overflow: hidden;
   border-radius: 10px;
+  background: #fcfcfc;
 `
+
 const TextInCard = styled.div`
   width: 100%;
   font-size: 13px;
@@ -214,12 +200,14 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       </TopHeader>
       <StoreHomeGrid>
         <RoundSquareFrame>
-          <Image
-            src={store.imageUrls ? store.imageUrls[0] : ''}
-            alt="store-profile"
-            layout="fill"
-            objectFit="contain"
-          />
+          {store && (
+            <Image
+              src={store.imageUrls ? store.imageUrls[0] : ''}
+              alt="store-profile"
+              layout="fill"
+              objectFit="contain"
+            />
+          )}
         </RoundSquareFrame>
         <TextInCard>
           <NoMarginH3>

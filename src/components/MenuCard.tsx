@@ -51,13 +51,13 @@ const AbsolutePositionTopRight = styled.div`
   right: 0;
 `
 
-const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
+export const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;
 `
 
-const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
+export const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
   font-size: 1.5rem !important;
   color: #ff8e77;
   margin: 0.5rem;

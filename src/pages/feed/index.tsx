@@ -4,7 +4,7 @@ import { useState } from 'react'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import TopHeader from 'src/components/TopHeader'
 import { usePostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
 import { GridContainerUl } from 'src/pages'
@@ -116,7 +116,7 @@ function StoresFeedPage() {
 
   return (
     <PageHead title="디저트핏 - 매장 소식" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <Tabs
             defaultActiveKey="feed"
@@ -189,7 +189,7 @@ function StoresFeedPage() {
             )}
           </GridContainerUl>
         </MarginDiv>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

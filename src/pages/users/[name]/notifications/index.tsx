@@ -10,7 +10,7 @@ import useGoToPage from 'src/hooks/useGoToPage'
 import useGoBack from 'src/hooks/useGoBack'
 import NotificationCard from 'src/components/NotificationCard'
 import { ClearAllButton } from 'src/pages/cart/index'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 
 const description = '알림 설정한 매장의 새로운 소식을 확인해보세요.'
 
@@ -38,7 +38,7 @@ function UserNotificationsPage() {
 
   return (
     <PageHead title="디저트핏 - 알림" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <FlexContainerBetween1>
             <FlexContainerAlignCenter>
@@ -55,7 +55,7 @@ function UserNotificationsPage() {
           <NotificationCard />
           <NotificationCard />
         </MarginDiv>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

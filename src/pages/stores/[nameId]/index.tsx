@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
@@ -294,7 +294,7 @@ function StoreMenusPage() {
 
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
-      <PageLayout>
+      <NavigationLayout>
         <StorePageLayout defaultPage="menus" loading={isStoreLoading} store={store}>
           <Divider orientation="right">
             <Checkbox checked={onlyImage} onChange={toggleOnlyImage}>
@@ -318,7 +318,7 @@ function StoreMenusPage() {
             )}
           </GridContainerUl>
         </StorePageLayout>
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

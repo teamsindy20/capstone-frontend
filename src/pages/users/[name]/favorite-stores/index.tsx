@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import NotLoginModal from 'src/components/NotLoginModal'
 import StoreCard, { StoreLoadingCard } from 'src/components/StoreCard'
 import { useFavoriteStoresQuery } from 'src/graphql/generated/types-and-hooks'
@@ -68,7 +68,7 @@ function UserFavoritesPage() {
 
   return (
     <PageHead title="디저트핏 - 찜 매장" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <Tabs
             defaultActiveKey="favorite-stores"
@@ -103,7 +103,7 @@ function UserFavoritesPage() {
             )}
           </GridContainerUl>
         )}
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

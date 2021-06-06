@@ -1,7 +1,7 @@
 import { Tabs, Divider, Button } from 'antd'
 import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
-import PageLayout from 'src/components/layouts/PageLayout'
+import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import TopHeader from 'src/components/TopHeader'
 import styled from 'styled-components'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -39,7 +39,7 @@ function FeedPage() {
 
   return (
     <PageHead title="디저트핏 - 리뷰 소식" description={description}>
-      <PageLayout>
+      <NavigationLayout>
         <TopHeader>
           <Tabs
             defaultActiveKey="review-feed"
@@ -69,7 +69,7 @@ function FeedPage() {
         </FeedTitleContainer>
         <ThinHorizontalBorder />
         <ReviewCard onlyImage={false} review={1 as any} />
-      </PageLayout>
+      </NavigationLayout>
     </PageHead>
   )
 }

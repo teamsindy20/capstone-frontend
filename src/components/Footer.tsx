@@ -30,7 +30,7 @@ function Footer() {
       <GridContainer>
         <Line />
         <div style={{ textAlign: 'center' }}>
-          <Image src="/dessert-fit.webp" alt="logo" width={40} height={40} />
+          <Image src="/dessert-fit-logo.webp" alt="logo" width={40} height={40} />
         </div>
         <Line />
       </GridContainer>

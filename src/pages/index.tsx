@@ -260,7 +260,7 @@ function HomePage() {
               ) : (
                 <FlexContainerBetween>
                   <MiddleFlexContainer>
-                    <ColoredLogo src="/dessert-fit-color.webp" />
+                    <ColoredLogo src="/dessert-fit-logo-color.webp" />
                     <MiddleText>
                       <MiddleBoldText>
                         &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}&nbsp;

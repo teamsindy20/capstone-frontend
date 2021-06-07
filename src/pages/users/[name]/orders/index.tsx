@@ -40,12 +40,11 @@ function UserOrdersPage() {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     onError: handleApolloError,
+    skip: !user,
   })
 
   const orders = data?.orders
   const isOrdersLoading = networkStatus < 7
-
-  console.log(orders)
 
   async function fetchMoreOrders() {
     await sleep(5000) // fetchMoreMenus(from, count)

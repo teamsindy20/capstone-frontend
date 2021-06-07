@@ -9,13 +9,14 @@ const FlexContainerAlignCenter = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 `
 
 const GridContainer = styled.div`
   display: grid;
   justify-content: center;
   width: 100%;
+  gap: 1rem;
 `
 
 function NotLoginModal() {

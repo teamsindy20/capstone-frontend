@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox, Divider } from 'antd'
+import { Input, Checkbox, Divider } from 'antd'
 import { useCallback, useContext } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'

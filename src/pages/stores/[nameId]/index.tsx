@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
-import NavigationLayout from 'src/components/layouts/NavigationLayout'
+import NavigationLayout, { Padding } from 'src/components/layouts/NavigationLayout'
 import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
@@ -25,11 +25,18 @@ import useGoBack from 'src/hooks/useGoBack'
 import Image from 'next/image'
 import { HorizontalBorder } from 'src/pages/feed'
 
+const StyledArrowBackIosRoundedIcon = {
+  fontSize: 20,
+  color: grey[800],
+  margin: '0.5rem',
+  cursor: 'pointer',
+}
+
 const TopIconDiv = styled.div`
-  padding: 13px;
-  /* display: flex; */
-  /* align-items: center; */
+  padding: 0.5rem;
+  cursor: pointer;
 `
+
 const IconDiv = styled.div`
   padding: 7px;
   cursor: pointer;
@@ -84,9 +91,6 @@ const PinkPickRegularText = styled(PickRegularContainer)`
   color: #ff5e3d;
 `
 
-const NoMarginHorizontalBorder = styled(HorizontalBorder)`
-  margin: 0;
-`
 const NoMarginH3 = styled.h3`
   margin: 0;
 `
@@ -110,8 +114,6 @@ const FlexContainerBetweenCenter = styled(FlexContainerBetween)`
   align-items: center;
   height: 100%;
 `
-
-const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 export function useStoreNameIdUrl() {
   const router = useRouter()
@@ -227,12 +229,8 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       </StoreHomeGrid>
       <PickRegularGrid>
         <PickRegularContainer>
-          <IconDiv>
-            {store?.favorite ? (
-              <IconImg src="/358@3x.png" alt="notification" onClick={pickStore} />
-            ) : (
-              <IconImg src="/173@3x.png" alt="notification" onClick={pickStore} />
-            )}
+          <IconDiv onClick={pickStore}>
+            <IconImg src={store?.favorite ? '/358@3x.png' : '/173@3x.png'} alt="notification" />
           </IconDiv>
           찜<PinkPickRegularText>{store?.favoriteCount}</PinkPickRegularText>
         </PickRegularContainer>
@@ -254,7 +252,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
         <NoMarginH3>배달료 : {store?.deliveryCharge}</NoMarginH3>
         <NoMarginH3>최소주문금액 : {store?.minimumDeliveryAmount}</NoMarginH3>
       </TextInCard>
-      <NoMarginHorizontalBorder />
+
       <Tabs
         defaultActiveKey={defaultPage}
         centered

@@ -21,6 +21,7 @@ import useBoolean from 'src/hooks/useBoolean'
 import { Button } from 'antd'
 import Image from 'next/image'
 import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import { PRIMARY_BACKGROUND_COLOR } from 'src/models/constants'
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
@@ -54,13 +55,13 @@ const AbsolutePositionTopRight = styled.div`
 
 export const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
   font-size: 1.5rem !important;
-  color: #ff8e77;
+  color: ${PRIMARY_BACKGROUND_COLOR};
   margin: 0.5rem;
 `
 
 export const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
   font-size: 1.5rem !important;
-  color: #ff8e77;
+  color: ${PRIMARY_BACKGROUND_COLOR};
   margin: 0.5rem;
 `
 
@@ -87,7 +88,7 @@ export const Hashtags = styled.ul`
 `
 
 export const Hashtag = styled.h5`
-  color: #ff9a87;
+  font-size: 0.9rem;
   white-space: nowrap;
 `
 
@@ -105,7 +106,6 @@ const DetailButton = styled(Button)`
   right: 0;
   bottom: 0.2rem;
   margin: 0;
-  border: #ffffff;
 `
 
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
@@ -265,21 +265,19 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
             </ClientSideLink>
           )}
 
-          <AbsolutePositionTopRight>
-            {menu.favorite ? (
-              <StyledFavoriteRoundedIcon onClick={pickMenuStopPropagation} />
-            ) : (
-              <StyledFavoriteBorderRoundedIcon onClick={pickMenuStopPropagation} />
-            )}
+          <AbsolutePositionTopRight onClick={pickMenuStopPropagation}>
+            {menu.favorite ? <StyledFavoriteRoundedIcon /> : <StyledFavoriteBorderRoundedIcon />}
           </AbsolutePositionTopRight>
 
           <MenuName>{menu.name}</MenuName>
 
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
-              <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
-                <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
-              </ClientSideLink>
+              <Hashtag key={hashtag}>
+                <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                  {hashtag}&nbsp;
+                </ClientSideLink>
+              </Hashtag>
             ))}
           </Hashtags>
           <br />

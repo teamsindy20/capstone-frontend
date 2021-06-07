@@ -2,7 +2,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
 import {
   MarginDiv,
-  HeadMessage,
+  CenterH1,
   GridContainerForm,
   RedText,
   validateEmail,
@@ -40,7 +40,7 @@ function FindPasswordPage() {
   return (
     <PageHead>
       <LoginPageLayout>
-        <HeadMessage>비밀번호 찾기</HeadMessage>
+        <CenterH1>비밀번호 찾기</CenterH1>
         <MarginDiv>
           <GridContainerForm>
             <FindPWButton>확인</FindPWButton>

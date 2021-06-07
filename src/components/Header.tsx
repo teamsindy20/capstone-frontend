@@ -4,7 +4,12 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import StoreRoundedIcon from '@material-ui/icons/StoreRounded'
 import { memo } from 'react'
-import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
+import {
+  HEADER_HEIGHT,
+  PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
+  PRIMARY_BACKGROUND_COLOR,
+  TABLET_MIN_WIDTH,
+} from 'src/models/constants'
 import { username } from 'src/models/mock-data'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
@@ -47,77 +52,69 @@ const NoMarginH6 = styled.h5`
   margin: 0;
 `
 
-const SelectedIconStyle = { fontSize: 28, color: '#ff9a88' }
+const SelectedIconStyle = { fontSize: 28, color: PRIMARY_BACKGROUND_COLOR }
 
-const UnSelectedIconStyle = { fontSize: 28, color: '#cecece' }
+const UnSelectedIconStyle = { fontSize: 28, color: PRIMARY_ACHROMATIC_BACKGROUND_COLOR }
+const UnSelectedTextStyle = { color: PRIMARY_ACHROMATIC_BACKGROUND_COLOR }
 
 function Header() {
   const { asPath } = useRouter()
 
+  const homePageUrl = '/'
+  const feedPageUrl = '/feed'
+  const favoritePageUrl = `/users/${username}/favorite-menus`
+  const userOrdersPageUrl = `/users/${username}/orders`
+  const myPageUrl = `/users/${username}`
+
   return (
     <FixedHeader>
       <FlexContainerAroundNav>
-        <ClientSideLink href="/">
+        <ClientSideLink href={homePageUrl}>
           <FlexContainerColumnCenterCenter>
             <HomeRoundedIcon
-              style={{ fontSize: 28, color: asPath === '/' ? '#ff9a88' : '#cecece' }}
+              style={asPath === homePageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6 style={{ color: asPath === '/' ? 'black' : '#cecece' }}>홈</NoMarginH6>
+            <NoMarginH6 style={asPath === homePageUrl ? undefined : UnSelectedTextStyle}>
+              홈
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href="/feed">
+        <ClientSideLink href={feedPageUrl}>
           <FlexContainerColumnCenterCenter>
             <StoreRoundedIcon
-              style={{ fontSize: 28, color: asPath === '/feed' ? '#ff9a88' : '#cecece' }}
+              style={asPath === feedPageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6 style={{ color: asPath === '/feed' ? 'black' : '#cecece' }}>
+            <NoMarginH6 style={asPath === feedPageUrl ? undefined : UnSelectedTextStyle}>
               소식
             </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href={`/users/${username}/favorite-menus`}>
+        <ClientSideLink href={favoritePageUrl}>
           <FlexContainerColumnCenterCenter>
             <FavoriteRoundedIcon
-              style={{
-                fontSize: 25,
-                color: asPath === `/users/${username}/favorite-menus` ? '#ff9a88' : '#cecece',
-              }}
+              style={asPath === favoritePageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6
-              style={{
-                color: asPath === `/users/${username}/favorite-menus` ? 'black' : '#cecece',
-              }}
-            >
+            <NoMarginH6 style={asPath === favoritePageUrl ? undefined : UnSelectedTextStyle}>
               찜
             </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href={`/users/${username}/orders`}>
+        <ClientSideLink href={userOrdersPageUrl}>
           <FlexContainerColumnCenterCenter>
             <AssignmentTwoToneIcon
-              style={{
-                fontSize: 28,
-                color: asPath === `/users/${username}/orders` ? '#ff9a88' : '#cecece',
-              }}
+              style={asPath === userOrdersPageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6
-              style={{ color: asPath === `/users/${username}/orders` ? 'black' : '#cecece' }}
-            >
+            <NoMarginH6 style={asPath === userOrdersPageUrl ? undefined : UnSelectedTextStyle}>
               주문내역
             </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-        <ClientSideLink href={`/users/${username}`}>
+        <ClientSideLink href={myPageUrl}>
           <FlexContainerColumnCenterCenter>
             <PersonRoundedIcon
-              style={{
-                fontSize: 28,
-                color: asPath === `/users/${username}` ? '#ff9a88' : '#cecece',
-              }}
+              style={asPath === myPageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6 style={{ color: asPath === `/users/${username}` ? 'black' : '#cecece' }}>
-              MY
-            </NoMarginH6>
+            <NoMarginH6 style={asPath === myPageUrl ? {} : UnSelectedTextStyle}>my디핏</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
       </FlexContainerAroundNav>

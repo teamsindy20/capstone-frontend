@@ -16,7 +16,8 @@ import {
 } from 'src/styles/FlexContainer'
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
-import { LoginButton } from 'src/pages/login'
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import { StyledButton } from 'src/pages/register'
 
 const GridContainer = styled.div`
   display: grid;
@@ -79,6 +80,17 @@ const PinkText = styled.h4`
 
 const NoMarginH3 = styled.h3`
   margin: 0;
+`
+
+const LogoutButton = styled(StyledButton)`
+  background-color: ${PRIMARY_BACKGROUND_COLOR};
+  border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
+  color: white;
+
+  :hover {
+    background-color: white;
+    color: ${PRIMARY_TEXT_COLOR};
+  }
 `
 
 function MyDessertFitPage() {
@@ -156,7 +168,7 @@ function MyDessertFitPage() {
           <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
           <ContentFlexContainer>공지사항</ContentFlexContainer>
           <ContentFlexContainer>이벤트</ContentFlexContainer>
-          <LoginButton
+          <LogoutButton
             onClick={() => {
               localStorage.removeItem('token')
               sessionStorage.removeItem('token')
@@ -164,7 +176,7 @@ function MyDessertFitPage() {
             }}
           >
             LOGOUT
-          </LoginButton>
+          </LogoutButton>
         </GridContainer>
 
         <Footer />

@@ -24,6 +24,7 @@ import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { GlobalContext } from './_app'
 import { Tabs, Carousel, Divider, Tag, Checkbox } from 'antd'
 import { SelectedPreferenceButton } from 'src/pages/users/[name]/preferences/index'
+import { useRouter } from 'next/router'
 
 const { TabPane } = Tabs
 
@@ -108,11 +109,12 @@ const FixedPosition = styled.div`
 
 const MiddleGrid = styled.div`
   display: grid;
-  background-color: white;
-  height: 100px;
-  text-align: center;
   align-items: center;
-  padding: 0.5rem 1rem;
+  text-align: center;
+  gap: 0.5rem;
+
+  background-color: white;
+  padding: 1rem;
   border: solid 1px #e8e8e8;
 `
 
@@ -162,6 +164,7 @@ export function useRefetchMenuFavorite() {
 
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
+  const router = useRouter()
 
   const [hasMoreMenus, setHasMoreMenus] = useState(true)
   const [onlyImage, toggleOnlyImage] = useBoolean(false)
@@ -250,7 +253,10 @@ function HomePage() {
               </BannerFrame>
             </Carousel>
 
-            <MiddleGrid>
+            <MiddleGrid
+              onClick={() => !user && router.push('/login')}
+              style={!user ? { cursor: 'pointer' } : undefined}
+            >
               {loading ? (
                 ''
               ) : !user ? (
@@ -261,9 +267,10 @@ function HomePage() {
                 <FlexContainerBetween>
                   <MiddleFlexContainer>
                     <ColoredLogo src="/dessert-fit-logo-color.webp" />
+                    &nbsp;
                     <MiddleText>
                       <MiddleBoldText>
-                        &nbsp;{userPreferencesQueryResult.data?.me.name ?? '김빵순'}&nbsp;
+                        {userPreferencesQueryResult.data?.me.name ?? '김빵순'}&nbsp;
                       </MiddleBoldText>
                       님이 설정한 디저트핏은?
                     </MiddleText>
@@ -278,9 +285,10 @@ function HomePage() {
                 {loading ? (
                   '사용자 인증 중'
                 ) : !user ? (
-                  <ClientSideLink href="/login">
-                    로그인 후 나만의 디저트핏을 설정해보세요!
-                  </ClientSideLink>
+                  <div>
+                    <ClientSideLink href="/login">로그인</ClientSideLink> 후 나만의 디저트핏을
+                    설정해보세요!
+                  </div>
                 ) : isUserPreferencesLoading || !preferences ? (
                   '디저트핏 로딩 중...'
                 ) : preferences.length ? (

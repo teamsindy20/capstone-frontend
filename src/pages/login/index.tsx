@@ -7,7 +7,15 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { continueWithGoogleOAuth, RedText, validateEmail, validatePassword } from '../register'
+import {
+  continueWithGoogleOAuth,
+  RedText,
+  StyledButton,
+  validateEmail,
+  validatePassword,
+  MarginH4,
+  CenterH1,
+} from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
@@ -23,28 +31,11 @@ const GridContainerForm = styled.form`
   padding: 1rem;
 `
 
-const MarginH4 = styled.h4`
-  margin: 0.5rem;
-`
-
 const ContinueLoginDiv = styled.div`
   text-align: right;
 `
 
-const StyledButton = styled.button`
-  margin: 1rem 0;
-  padding: 0.5em;
-  text-align: center;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-
-  transition-duration: 0.3s;
-`
-
-export const LoginButton = styled(StyledButton)`
+const LoginButton = styled(StyledButton)`
   background-color: ${PRIMARY_BACKGROUND_COLOR};
   border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
   color: white;
@@ -132,6 +123,7 @@ function LoginPage() {
   return (
     <PageHead>
       <LoginPageLayout>
+        <CenterH1>로그인</CenterH1>
         <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="email">
             <MarginH4>이메일</MarginH4>
@@ -188,9 +180,7 @@ function LoginPage() {
             로그인
           </LoginButton>
 
-          <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
-            구글 계정으로 로그인
-          </SNSLoginButton>
+          <SNSLoginButton onClick={continueWithGoogleOAuth}>구글 계정으로 계속하기</SNSLoginButton>
 
           <FlexContainerAroundCenter>
             <ClientSideLink href="/register">

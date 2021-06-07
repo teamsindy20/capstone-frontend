@@ -43,7 +43,7 @@ function NotLoginModal() {
     >
       <FlexContainerAlignCenter>
         <div style={{ textAlign: 'center' }}>
-          <Image src="/dessert-fit.webp" alt="logo" width={55} height={70} />
+          <Image src="/dessert-fit-logo.webp" alt="logo" width={55} height={70} />
         </div>
         <GridContainer>
           <h2>로그인이 필요합니다</h2>

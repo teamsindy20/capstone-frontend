@@ -147,7 +147,7 @@ function RegisterPage() {
                 <Input
                   autoFocus
                   disabled={isSNSLoading || loading || Boolean(user)}
-                  placeholder={user ? '이미 로그인되어 있습니다.' : '이메일을 입력해주세요'}
+                  placeholder={user ? '이미 로그인되어 있습니다.' : '밥은 대충 먹더라도'}
                   size="large"
                   type="email"
                   {...field}
@@ -167,7 +167,7 @@ function RegisterPage() {
                 <Input.Password
                   disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="강력한 비밀번호를 입력해주세요."
+                  placeholder="디저트는 예쁘고 맛있는 걸 먹자"
                   size="large"
                   type="password"
                   {...field}
@@ -187,7 +187,7 @@ function RegisterPage() {
                 <Input.Password
                   disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 다시 한 번 입력해주세요."
+                  placeholder="나만의 디저트를 핏하다, 디저트핏"
                   size="large"
                   type="password"
                   {...field}

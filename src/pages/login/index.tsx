@@ -128,7 +128,7 @@ function LoginPage() {
                 <Input.Password
                   disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="나만의 디저트를 핏하다"
+                  placeholder="나만의 디저트를 핏하다, 디저트핏"
                   size="large"
                   type="password"
                   {...field}

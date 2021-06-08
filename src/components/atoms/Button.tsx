@@ -1,5 +1,10 @@
 import { Button } from 'antd'
-import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import {
+  PRIMARY_BACKGROUND_COLOR,
+  PRIMARY_TEXT_COLOR,
+  SECONDARY_BACKGROUND_COLOR,
+  SECONDARY_TEXT_COLOR,
+} from 'src/models/constants'
 import styled from 'styled-components'
 
 export const StyledButton = styled(Button)`
@@ -32,20 +37,20 @@ export const PrimaryButton = styled(StyledButton)`
 `
 
 export const SecondaryButton = styled(StyledButton)`
-  background: white;
-  border: 1px solid #2eccba;
-  color: #2eccba;
+  background: #fff;
+  border: 1px solid ${SECONDARY_TEXT_COLOR};
+  color: ${SECONDARY_TEXT_COLOR};
 
   :focus {
     background: #fff;
-    border-color: #2eccba;
-    color: #2eccba;
+    border-color: ${SECONDARY_TEXT_COLOR};
+    color: ${SECONDARY_TEXT_COLOR};
   }
 
   :active,
   :hover {
-    background: #2eccba;
-    border-color: #2eccba;
+    background: ${SECONDARY_BACKGROUND_COLOR};
+    border-color: ${SECONDARY_TEXT_COLOR};
     color: #fff;
   }
 `

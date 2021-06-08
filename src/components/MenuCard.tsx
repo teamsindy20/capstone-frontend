@@ -21,7 +21,8 @@ import useBoolean from 'src/hooks/useBoolean'
 import { Button } from 'antd'
 import Image from 'next/image'
 import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
-import { PRIMARY_BACKGROUND_COLOR } from 'src/models/constants'
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import { PrimaryButton } from './atoms/Button'
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
@@ -105,9 +106,16 @@ const MenuPrice = styled.h3`
 const DetailButton = styled(Button)`
   position: absolute;
   right: 0;
-  bottom: 0.2rem;
+  bottom: 0rem;
   margin: 0;
-  border-color: #fcfcfc;
+
+  border: 1px solid #fcfcfc;
+
+  :active,
+  :focus,
+  :hover {
+    border-color: #eee;
+  }
 `
 
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
@@ -287,7 +295,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
 
         <FlexContainerRelativePosition>
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-          <DetailButton shape="circle" onClick={toggleCardDetail}>
+          <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
             {isCardDetailOpened ? (
               <StyledArrowDropUpRoundedIcon />
             ) : (

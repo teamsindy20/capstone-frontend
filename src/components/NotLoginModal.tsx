@@ -26,12 +26,12 @@ function NotLoginModal() {
 
   function goToRegisterPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
-    router.push('/register')
+    router.replace('/register')
   }
 
   function goToLoginPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
-    router.push('/login')
+    router.replace('/login')
   }
 
   return (

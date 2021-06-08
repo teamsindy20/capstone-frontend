@@ -76,8 +76,9 @@ const StyledArrowForwardIosRoundedIcon = styled(ArrowForwardIosRoundedIcon)`
   font-weight: lighter;
 `
 
-const MenuName = styled.h4`
+const MenuName = styled.h3`
   font-size: 1rem;
+  padding: min(1vw, 0.5rem) 0;
 `
 
 export const Hashtags = styled.ul`
@@ -106,6 +107,7 @@ const DetailButton = styled(Button)`
   right: 0;
   bottom: 0.2rem;
   margin: 0;
+  border-color: #fcfcfc;
 `
 
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
@@ -274,7 +276,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
               <Hashtag key={hashtag}>
-                <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                <ClientSideLink href={`/search/${hashtag.slice(1)}`}>
                   {hashtag}&nbsp;
                 </ClientSideLink>
               </Hashtag>

@@ -39,14 +39,14 @@ const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
   }
 
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+
   ul, ol {
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  h1, h2, h3, h4, h5, h6, p {
-    margin: 0;
   }
 
   li {
@@ -55,6 +55,7 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     color: ${PRIMARY_TEXT_COLOR};
+    font-weight: 500;
     text-decoration: none;
     transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 

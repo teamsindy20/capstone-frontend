@@ -2,7 +2,6 @@ import { useReactiveVar } from '@apollo/client'
 import { CartMenu, cartMenusVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import styled from 'styled-components'
 import { FlexContainerBetween } from '../styles/FlexContainer'
-import { GridContainerGap } from '../styles/GridContainer'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice } from 'src/utils/price'
 import CountButton from './atoms/CountButton'
@@ -10,50 +9,39 @@ import { getSelectedOptionsPrice } from 'src/pages/stores/[nameId]/[name]'
 import { DeepPartial } from 'react-hook-form'
 import { MenuOption } from 'src/graphql/generated/types-and-hooks'
 
-const Li = styled.li`
-  background: #ffffff;
-  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-  border-radius: min(20px, 2vw);
+const GridContainerLi = styled.li`
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
   overflow: hidden;
-  padding: 0.5rem;
-`
+  position: relative;
 
-const StyledCloseRoundedIcon = styled(CloseRoundedIcon)`
-  font-size: 10px;
-  color: #929393;
-  cursor: pointer;
+  background: #ffffff;
+  border-radius: min(20px, 2vw);
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
 `
 
 const AbsolutePosition = styled.div`
   position: absolute;
-  top: 0.2rem;
-  right: 0.1rem;
+  top: 0;
+  right: 0;
 `
 
-const FlexContainerColumnBetween = styled(FlexContainerBetween)`
-  flex-flow: column nowrap;
-  gap: 0.3rem;
-  position: relative;
-  padding: 0.5rem 0.5rem 0;
-`
-const MenuName = styled.h2`
-  margin: 0;
-  font-weight: normal;
-`
+const StyledCloseRoundedIcon = {
+  margin: '1rem',
+  fontSize: '2rem',
+  color: '#929393',
+  cursor: 'pointer',
+}
 
-export const BoldA = styled.a`
-  font-size: 1em;
-  font-weight: bold;
-  color: #ff8e77;
-  word-break: keep-all;
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-`
+const MenuName = styled.h3``
 
 const OptionA = styled.h4`
   font-size: 1em;
   color: #a8a8a8;
   word-break: keep-all;
 `
+
 const PriceA = styled.h2`
   font-size: 1.3em;
   color: #161f27;
@@ -104,32 +92,29 @@ function CartMenuCard({ cartMenu }: Props) {
   }
 
   return (
-    <Li>
-      <FlexContainerColumnBetween>
-        <AbsolutePosition>
-          <StyledCloseRoundedIcon onClick={removeCartMenu} />
-        </AbsolutePosition>
-        <GridContainerGap>
-          <div>
-            <MenuName>{cartMenu.name}</MenuName>
-            <br />
-            <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
-            {Object.entries(selectedOptionCategories).map((optionCategory) =>
-              Array.isArray(optionCategory[1]) && optionCategory[1].length === 0 ? null : (
-                <OptionA key={optionCategory[0]}>
-                  {`${optionCategory[0]} : ${formatSelectedMenuOption(optionCategory[1])}`}
-                </OptionA>
-              )
-            )}
-            <br />
-            <FlexContainerBetween>
-              <PriceA>{formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
-              <CountButton onClick={updateCartMenuCount} value={count} />
-            </FlexContainerBetween>
-          </div>
-        </GridContainerGap>
-      </FlexContainerColumnBetween>
-    </Li>
+    <GridContainerLi>
+      <AbsolutePosition>
+        <CloseRoundedIcon onClick={removeCartMenu} style={StyledCloseRoundedIcon} />
+      </AbsolutePosition>
+
+      <div>
+        <MenuName>{cartMenu.name}</MenuName>
+        <br />
+        <OptionA>기본 : {formatPrice(cartMenu.price)}</OptionA>
+        {Object.entries(selectedOptionCategories).map((optionCategory) =>
+          Array.isArray(optionCategory[1]) && optionCategory[1].length === 0 ? null : (
+            <OptionA key={optionCategory[0]}>
+              {`${optionCategory[0]} : ${formatSelectedMenuOption(optionCategory[1])}`}
+            </OptionA>
+          )
+        )}
+        <br />
+        <FlexContainerBetween>
+          <PriceA>{formatPrice((cartMenu.price + selectedOptionsPrice) * count)}</PriceA>
+          <CountButton onClick={updateCartMenuCount} value={count} />
+        </FlexContainerBetween>
+      </div>
+    </GridContainerLi>
   )
 }
 

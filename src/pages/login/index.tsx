@@ -1,14 +1,13 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
-import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
+import { LockTwoTone, UnlockTwoTone, LoadingOutlined } from '@ant-design/icons'
 import { Input, Checkbox, Divider } from 'antd'
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import {
-  continueWithGoogleOAuth,
   RedText,
   StyledButton,
   validateEmail,
@@ -83,8 +82,9 @@ type LoginFormValues = {
 }
 
 function LoginPage() {
-  const { refetchUser } = useContext(GlobalContext)
+  const { user, refetchUser } = useContext(GlobalContext)
   const router = useRouter()
+  const [isSNSLoading, setIsSNSLoading] = useState(false)
 
   const {
     control,
@@ -120,6 +120,11 @@ function LoginPage() {
     [login]
   )
 
+  function continueWithGoogleOAuth() {
+    setIsSNSLoading(true)
+    router.replace(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
+  }
+
   return (
     <PageHead>
       <LoginPageLayout>
@@ -132,8 +137,9 @@ function LoginPage() {
               name="email"
               render={({ field }) => (
                 <Input
-                  disabled={loading}
-                  placeholder="이메일을 입력해주세요."
+                  autoFocus
+                  disabled={isSNSLoading || loading}
+                  placeholder="어? 나 디저트 좋아하네"
                   size="large"
                   type="email"
                   {...field}
@@ -151,9 +157,9 @@ function LoginPage() {
               name="password"
               render={({ field }) => (
                 <Input.Password
-                  disabled={loading}
+                  disabled={isSNSLoading || loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 입력해주세요."
+                  placeholder="나만의 디저트를 핏하다"
                   size="large"
                   type="password"
                   {...field}
@@ -176,11 +182,17 @@ function LoginPage() {
             />
           </ContinueLoginDiv>
 
-          <LoginButton disabled={loading} type="submit">
+          <LoginButton disabled={isSNSLoading || loading || Boolean(user)} type="submit">
             로그인
           </LoginButton>
 
-          <SNSLoginButton onClick={continueWithGoogleOAuth}>구글 계정으로 계속하기</SNSLoginButton>
+          <SNSLoginButton
+            disabled={isSNSLoading || Boolean(user)}
+            onClick={continueWithGoogleOAuth}
+            type="button"
+          >
+            {isSNSLoading && <LoadingOutlined />} 구글 계정으로 계속하기
+          </SNSLoginButton>
 
           <FlexContainerAroundCenter>
             <ClientSideLink href="/register">

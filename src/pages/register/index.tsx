@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
-import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
+import { LockTwoTone, UnlockTwoTone, LoadingOutlined } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
-import { Input } from 'antd'
-import { useContext, useCallback } from 'react'
+import { Input, Button } from 'antd'
+import { useContext, useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
@@ -34,12 +34,13 @@ export const MarginH4 = styled.h4`
 
 export const StyledButton = styled.button`
   margin: 1rem 0;
-  padding: 0.5em;
+  padding: 1rem;
   text-align: center;
 
   border-radius: 0.3rem;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 500;
 
   transition-duration: 0.3s;
 `
@@ -114,10 +115,6 @@ export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
 }
 
-export function continueWithGoogleOAuth() {
-  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
-}
-
 type FormValues = {
   email: string
   password: string
@@ -125,8 +122,9 @@ type FormValues = {
 }
 
 function RegisterPage() {
-  const { refetchUser } = useContext(GlobalContext)
+  const { user, refetchUser } = useContext(GlobalContext)
   const router = useRouter()
+  const [isSNSLoading, setIsSNSLoading] = useState(false)
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
@@ -165,6 +163,11 @@ function RegisterPage() {
     [register]
   )
 
+  function continueWithGoogleOAuth() {
+    setIsSNSLoading(true)
+    router.replace(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
+  }
+
   return (
     <PageHead>
       <LoginPageLayout>
@@ -177,7 +180,8 @@ function RegisterPage() {
               name="email"
               render={({ field }) => (
                 <Input
-                  disabled={loading}
+                  autoFocus
+                  disabled={isSNSLoading || loading}
                   placeholder="이메일을 입력해주세요."
                   size="large"
                   type="email"
@@ -196,9 +200,9 @@ function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <Input.Password
-                  disabled={loading}
+                  disabled={isSNSLoading || loading}
                   iconRender={renderPasswordInputIcon}
-                  placeholder="비밀번호를 입력해주세요."
+                  placeholder="강력한 비밀번호를 입력해주세요."
                   size="large"
                   type="password"
                   {...field}
@@ -216,7 +220,7 @@ function RegisterPage() {
               name="password2"
               render={({ field }) => (
                 <Input.Password
-                  disabled={loading}
+                  disabled={isSNSLoading || loading}
                   iconRender={renderPasswordInputIcon}
                   placeholder="비밀번호를 다시 한 번 입력해주세요."
                   size="large"
@@ -229,11 +233,18 @@ function RegisterPage() {
             <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
           </label>
 
-          <RegisterButton disabled={loading} type="submit">
+          <RegisterButton disabled={isSNSLoading || loading || Boolean(user)} type="submit">
             다음
           </RegisterButton>
 
-          <SNSLoginButton onClick={continueWithGoogleOAuth}>구글 계정으로 계속하기</SNSLoginButton>
+          <SNSLoginButton
+            disabled={isSNSLoading || loading || Boolean(user)}
+            onClick={continueWithGoogleOAuth}
+            type="button"
+          >
+            {isSNSLoading && <LoadingOutlined />} 구글 계정으로 계속하기
+          </SNSLoginButton>
+
           <FlexContainerCenterCenter>
             <ClientSideLink href="/login">
               <Padding>로그인</Padding>

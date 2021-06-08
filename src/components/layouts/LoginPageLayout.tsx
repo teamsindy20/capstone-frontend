@@ -28,19 +28,19 @@ function LoginPageLayout({ children }: Props) {
   return (
     <>
       <Padding />
-      <ClientSideLink href="/">
-        <FlexContainerColumn>
+      <FlexContainerColumn>
+        <ClientSideLink href="/">
           <Image
             src="/dessert-fit-logo-white.png"
             alt="dessert-fit-logo-white.png"
-            width="124"
-            height="124"
+            width="150"
+            height="150"
           />
+        </ClientSideLink>
+        <ClientSideLink href="/">
           <LogoTextImg src="/dessert-fit-text.png" alt="dessert-fit-text.png" />
-          <h4>어? 나 디저트 좋아하네</h4>
-          <h4>나만의 디저트를 핏하다</h4>
-        </FlexContainerColumn>
-      </ClientSideLink>
+        </ClientSideLink>
+      </FlexContainerColumn>
       {children}
       <Padding />
     </>

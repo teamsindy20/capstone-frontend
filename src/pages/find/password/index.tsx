@@ -4,6 +4,7 @@ import {
   CenterH1,
   GridContainerForm,
   RedText,
+  StyledButton,
   validateEmail,
   validatePassword,
 } from '../../register'
@@ -13,25 +14,16 @@ import { toast } from 'react-toastify'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import styled from 'styled-components'
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
 
-const FindPWButton = styled.button`
-  background-color: #ff9a88;
-  border: 1px solid #ff9a88;
+const FindPWButton = styled(StyledButton)`
+  background-color: ${PRIMARY_BACKGROUND_COLOR};
+  border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
   color: white;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  margin: 4px 2px;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
 
-  &:hover {
+  :hover {
     background-color: white;
-    border: #ff9a88;
-    color: #ff9a88;
+    color: ${PRIMARY_TEXT_COLOR};
   }
 `
 

@@ -107,16 +107,17 @@ function StoreMenuPage() {
 
   const { data, loading } = useMenuQuery({
     onError: handleApolloError,
+    skip: !storeId || !menuName,
     variables: { storeId, name: menuName },
   })
 
   const menu = data?.menuByName
   const store = menu?.store
 
+  const goBack = useGoBack()
   const goToMenuReviewPage = useGoToPage(
     `/stores/${router.query.nameId}/reviews?menu=${menu?.name}`
   )
-  const goBack = useGoBack()
 
   const [count, setCount] = useState(1)
   const [isAddingToCartButtonDisabled, setIsAddingToCartButtonDisabled] = useState(false)

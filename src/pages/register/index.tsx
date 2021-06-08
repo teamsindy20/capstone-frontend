@@ -4,15 +4,15 @@ import styled from 'styled-components'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useRegisterMutation } from 'src/graphql/generated/types-and-hooks'
-import { LockTwoTone, UnlockTwoTone, LoadingOutlined } from '@ant-design/icons'
+import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
-import { Input, Button } from 'antd'
+import { Input } from 'antd'
 import { useContext, useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 
 export const GridContainerForm = styled.form`
   display: grid;
@@ -30,41 +30,6 @@ export const GridContainerColumn3 = styled.div`
 
 export const MarginH4 = styled.h4`
   margin: 0.5rem;
-`
-
-export const StyledButton = styled.button`
-  margin: 1rem 0;
-  padding: 1rem;
-  text-align: center;
-
-  border-radius: 0.3rem;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-
-  transition-duration: 0.3s;
-`
-
-const RegisterButton = styled(StyledButton)`
-  background-color: ${PRIMARY_BACKGROUND_COLOR};
-  border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
-  color: white;
-
-  :hover {
-    background-color: white;
-    color: ${PRIMARY_TEXT_COLOR};
-  }
-`
-
-const SNSLoginButton = styled(StyledButton)`
-  background-color: white;
-  border: 1px solid #2eccba;
-  color: #2eccba;
-
-  :hover {
-    background-color: #2eccba;
-    color: white;
-  }
 `
 
 export const CenterH1 = styled.h2`
@@ -181,8 +146,8 @@ function RegisterPage() {
               render={({ field }) => (
                 <Input
                   autoFocus
-                  disabled={isSNSLoading || loading}
-                  placeholder="이메일을 입력해주세요."
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  placeholder={user ? '이미 로그인되어 있습니다.' : '이메일을 입력해주세요'}
                   size="large"
                   type="email"
                   {...field}
@@ -200,7 +165,7 @@ function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <Input.Password
-                  disabled={isSNSLoading || loading}
+                  disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
                   placeholder="강력한 비밀번호를 입력해주세요."
                   size="large"
@@ -220,7 +185,7 @@ function RegisterPage() {
               name="password2"
               render={({ field }) => (
                 <Input.Password
-                  disabled={isSNSLoading || loading}
+                  disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
                   placeholder="비밀번호를 다시 한 번 입력해주세요."
                   size="large"
@@ -233,17 +198,22 @@ function RegisterPage() {
             <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
           </label>
 
-          <RegisterButton disabled={isSNSLoading || loading || Boolean(user)} type="submit">
-            다음
-          </RegisterButton>
-
-          <SNSLoginButton
-            disabled={isSNSLoading || loading || Boolean(user)}
-            onClick={continueWithGoogleOAuth}
-            type="button"
+          <PrimaryButton
+            disabled={isSNSLoading || Boolean(user)}
+            loading={loading}
+            htmlType="submit"
           >
-            {isSNSLoading && <LoadingOutlined />} 구글 계정으로 계속하기
-          </SNSLoginButton>
+            다음
+          </PrimaryButton>
+
+          <SecondaryButton
+            disabled={loading || Boolean(user)}
+            loading={isSNSLoading}
+            onClick={continueWithGoogleOAuth}
+            htmlType="button"
+          >
+            구글 계정으로 계속하기
+          </SecondaryButton>
 
           <FlexContainerCenterCenter>
             <ClientSideLink href="/login">

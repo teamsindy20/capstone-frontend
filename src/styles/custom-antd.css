@@ -68,12 +68,6 @@ html {
   background: #ff9a88;
 }
 
-.ant-btn:hover,
-.ant-btn:focus {
-  color: #ff5e3d;
-  border-color: #ff9a88;
-}
-
 .ant-btn-link {
   color: #ff5e3d;
 }

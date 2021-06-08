@@ -1,6 +1,5 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
-import { LockTwoTone, UnlockTwoTone, LoadingOutlined } from '@ant-design/icons'
 import { Input, Checkbox, Divider } from 'antd'
 import { useCallback, useContext, useState } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
@@ -9,18 +8,18 @@ import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import {
   RedText,
-  StyledButton,
   validateEmail,
   validatePassword,
   MarginH4,
   CenterH1,
+  renderPasswordInputIcon,
 } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 
 const GridContainerForm = styled.form`
   display: grid;
@@ -31,29 +30,8 @@ const GridContainerForm = styled.form`
 `
 
 const ContinueLoginDiv = styled.div`
+  margin: 0 0 1rem;
   text-align: right;
-`
-
-const LoginButton = styled(StyledButton)`
-  background-color: ${PRIMARY_BACKGROUND_COLOR};
-  border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
-  color: white;
-
-  :hover {
-    background-color: white;
-    color: ${PRIMARY_TEXT_COLOR};
-  }
-`
-
-const SNSLoginButton = styled(StyledButton)`
-  background-color: white;
-  border: 1px solid #2eccba;
-  color: #2eccba;
-
-  :hover {
-    background-color: #2eccba;
-    color: white;
-  }
 `
 
 const FlexContainerAroundCenter = styled.div`
@@ -65,15 +43,6 @@ const FlexContainerAroundCenter = styled.div`
 const Padding = styled.div`
   padding: 0.5rem;
 `
-
-const PASSWORD_INPUT_ICONS = [
-  <UnlockTwoTone key={1} style={{ fontSize: '1.2rem' }} twoToneColor="#c4801a" />,
-  <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
-]
-
-export function renderPasswordInputIcon(visible: boolean) {
-  return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
-}
 
 type LoginFormValues = {
   email: string
@@ -138,7 +107,7 @@ function LoginPage() {
               render={({ field }) => (
                 <Input
                   autoFocus
-                  disabled={isSNSLoading || loading}
+                  disabled={isSNSLoading || loading || Boolean(user)}
                   placeholder="어? 나 디저트 좋아하네"
                   size="large"
                   type="email"
@@ -157,7 +126,7 @@ function LoginPage() {
               name="password"
               render={({ field }) => (
                 <Input.Password
-                  disabled={isSNSLoading || loading}
+                  disabled={isSNSLoading || loading || Boolean(user)}
                   iconRender={renderPasswordInputIcon}
                   placeholder="나만의 디저트를 핏하다"
                   size="large"
@@ -182,17 +151,22 @@ function LoginPage() {
             />
           </ContinueLoginDiv>
 
-          <LoginButton disabled={isSNSLoading || loading || Boolean(user)} type="submit">
-            로그인
-          </LoginButton>
-
-          <SNSLoginButton
+          <PrimaryButton
             disabled={isSNSLoading || Boolean(user)}
-            onClick={continueWithGoogleOAuth}
-            type="button"
+            loading={loading}
+            htmlType="submit"
           >
-            {isSNSLoading && <LoadingOutlined />} 구글 계정으로 계속하기
-          </SNSLoginButton>
+            로그인
+          </PrimaryButton>
+
+          <SecondaryButton
+            disabled={loading || Boolean(user)}
+            loading={isSNSLoading}
+            onClick={continueWithGoogleOAuth}
+            htmlType="button"
+          >
+            구글 계정으로 계속하기
+          </SecondaryButton>
 
           <FlexContainerAroundCenter>
             <ClientSideLink href="/register">

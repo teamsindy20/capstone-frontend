@@ -5,16 +5,16 @@ import Head from 'next/head'
 import { createContext, ReactNode, useEffect } from 'react'
 import { client } from 'src/apollo/client'
 import { MeQuery, useMeQuery } from 'src/graphql/generated/types-and-hooks'
-import { CHOCO_COLOR, DARK_CHOCO_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
+import { DARK_CHOCO_COLOR, PRIMARY_TEXT_COLOR, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { pageview } from 'src/utils/google-analytics'
 import styled, { createGlobalStyle } from 'styled-components'
 import { ToastContainer, cssTransition } from 'react-toastify'
 
-import 'normalize.css'
 import 'antd/dist/antd.css'
+import 'src/styles/custom-antd.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import 'animate.css/animate.min.css'
-import 'src/styles/custom-antd.css'
+import 'normalize.css'
 
 export const fade = cssTransition({
   enter: 'animate__animated animate__fadeIn',
@@ -22,7 +22,9 @@ export const fade = cssTransition({
 })
 
 const GlobalStyle = createGlobalStyle`
-  html {
+  html, 
+  body {
+    font-size: 16px;
     @media (max-width: ${TABLET_MIN_WIDTH}) {
       font-size: 14px;
     }
@@ -37,14 +39,14 @@ const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
   }
 
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+
   ul, ol {
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  h1, h2, h3, h4, h5, h6, p {
-    margin: 0;
   }
 
   li {
@@ -52,12 +54,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${DARK_CHOCO_COLOR};
+    color: ${PRIMARY_TEXT_COLOR};
+    font-weight: 500;
     text-decoration: none;
     transition: color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
     :hover {
-      color: ${CHOCO_COLOR}
+      color: ${DARK_CHOCO_COLOR};
     }
   }
 `

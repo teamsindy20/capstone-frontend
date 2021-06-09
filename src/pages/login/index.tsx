@@ -1,126 +1,48 @@
 import PageHead from 'src/components/layouts/PageHead'
 import LoginPageLayout from 'src/components/layouts/LoginPageLayout'
-import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
-import { Input, Button, Checkbox, Divider, Modal } from 'antd'
-import { useCallback, useContext } from 'react'
+import { Input, Checkbox, Divider } from 'antd'
+import { useCallback, useContext, useState } from 'react'
 import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { handleApolloError } from 'src/apollo/error'
 import { useLoginMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
 import {
-  continueWithGoogleOAuth,
-  GridContainerColumn3,
-  HeadMessage,
   RedText,
   validateEmail,
   validatePassword,
+  MarginH4,
+  CenterH1,
+  renderPasswordInputIcon,
 } from '../register'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { GlobalContext } from '../_app'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import Image from 'next/image'
+import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 
 const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-`
 
-export const LoginButton = styled.button`
-  background-color: #ff9a88;
-  border: 1px solid #ff9a88;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
-  height: 3rem;
-  margin: 19px 0;
-
-  &:hover {
-    background-color: white;
-    border: #ff9a88;
-    color: #ff9a88;
-  }
-`
-
-const SNSLoginButton = styled.button`
-  background-color: white;
-  color: #2eccba;
-  border: 1px solid #2eccba;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  margin: 19px 0;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
-  height: 3rem;
-
-  &:hover {
-    background-color: #2eccba;
-    border: white;
-    color: white;
-  }
-`
-const Logo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 6rem 0 3rem 0;
-`
-
-const LogoImg = styled.img`
-  margin: 0;
-  width: 9rem;
-  height: 9rem;
-`
-const LogoTextImg = styled.img`
-  /* padding-top: 100%;
-  position: relative; */
-  margin: 0;
-  width: 8rem;
-  height: 3rem;
-`
-const MarginDiv = styled.div`
-  margin: 1.3rem;
+  padding: 1rem;
 `
 
 const ContinueLoginDiv = styled.div`
+  margin: 0 0 1rem;
   text-align: right;
 `
 
-const HeadLogin = styled.h2`
-  color: #3c3c3c;
-  text-align: center;
-  font-weight: 3rem;
-  margin: 1rem 1rem 0.2rem;
-  letter-spacing: 0.3rem;
-`
-const RegisterDiv = styled.div`
+const FlexContainerAroundCenter = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  text-align: center;
-  height: 100%;
 `
 
-const PASSWORD_INPUT_ICONS = [
-  <UnlockTwoTone key={1} style={{ fontSize: '1.2rem' }} twoToneColor="#c4801a" />,
-  <LockTwoTone key={2} style={{ fontSize: '1.2rem' }} twoToneColor="#52c41a" />,
-]
-
-export function renderPasswordInputIcon(visible: boolean) {
-  return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
-}
+const Padding = styled.div`
+  padding: 0.5rem;
+`
 
 type LoginFormValues = {
   email: string
@@ -129,8 +51,9 @@ type LoginFormValues = {
 }
 
 function LoginPage() {
-  const { refetchUser } = useContext(GlobalContext)
+  const { user, refetchUser } = useContext(GlobalContext)
   const router = useRouter()
+  const [isSNSLoading, setIsSNSLoading] = useState(false)
 
   const {
     control,
@@ -166,89 +89,94 @@ function LoginPage() {
     [login]
   )
 
+  function continueWithGoogleOAuth() {
+    setIsSNSLoading(true)
+    router.replace(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
+  }
+
   return (
     <PageHead>
       <LoginPageLayout>
-        <Logo>
-          <LogoImg src="/DessertFit.png" alt="logo" />
-          <LogoTextImg src="/542@3x.png" alt="logo-text" />
-          {/* <Image
-            src="/542@3x.png"
-            alt="store-profile"
-            width="50"
-            height="50"
-            objectFit="contain"
-          /> */}
-        </Logo>
-        <MarginDiv>
-          <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="email">
-              <h4>이메일</h4>
-              <Controller
-                control={control}
-                name="email"
-                render={({ field }) => (
-                  <Input
-                    disabled={loading}
-                    placeholder="이메일을 입력해주세요."
-                    size="large"
-                    type="email"
-                    {...field}
-                  />
-                )}
-                rules={validateEmail}
-              />
-              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-            </label>
+        <CenterH1>로그인</CenterH1>
+        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="email">
+            <MarginH4>이메일</MarginH4>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <Input
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  placeholder="어? 나 디저트 좋아하네"
+                  size="large"
+                  type="email"
+                  {...field}
+                />
+              )}
+              rules={validateEmail}
+            />
+            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+          </label>
 
-            <label htmlFor="password">
-              <h4>비밀번호</h4>
-              <Controller
-                control={control}
-                name="password"
-                render={({ field }) => (
-                  <Input.Password
-                    disabled={loading}
-                    iconRender={renderPasswordInputIcon}
-                    placeholder="비밀번호를 입력해주세요."
-                    size="large"
-                    type="password"
-                    {...field}
-                  />
-                )}
-                rules={validatePassword}
-              />
-              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-            </label>
-            <ContinueLoginDiv>
-              <Controller
-                control={control}
-                name="remember"
-                render={({ field }) => (
-                  <Checkbox checked={field.value} disabled={loading} {...field}>
-                    로그인 유지
-                  </Checkbox>
-                )}
-              />
-            </ContinueLoginDiv>
-            <LoginButton disabled={loading} type="submit">
-              로그인
-            </LoginButton>
-            <SNSLoginButton onClick={continueWithGoogleOAuth} type="button">
-              구글로 로그인
-            </SNSLoginButton>
-            {/* <SNSLoginButton type="button">간편 로그인</SNSLoginButton> */}
-            <RegisterDiv>
-              <ClientSideLink href="/register">
-                <Button type="link">회원가입</Button>
-              </ClientSideLink>
-              <Divider type="vertical" />
-              <ClientSideLink href="/find/password">
-                <Button type="link">비밀번호 찾기</Button>
-              </ClientSideLink>
-            </RegisterDiv>
-          </GridContainerForm>
-        </MarginDiv>
+          <label htmlFor="password">
+            <MarginH4>비밀번호</MarginH4>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <Input.Password
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  iconRender={renderPasswordInputIcon}
+                  placeholder="나만의 디저트를 핏하다, 디저트핏"
+                  size="large"
+                  type="password"
+                  {...field}
+                />
+              )}
+              rules={validatePassword}
+            />
+            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+          </label>
+
+          <ContinueLoginDiv>
+            <Controller
+              control={control}
+              name="remember"
+              render={({ field }) => (
+                <Checkbox checked={field.value} disabled={loading} {...field}>
+                  로그인 유지
+                </Checkbox>
+              )}
+            />
+          </ContinueLoginDiv>
+
+          <PrimaryButton
+            disabled={isSNSLoading || Boolean(user)}
+            loading={loading}
+            htmlType="submit"
+          >
+            로그인
+          </PrimaryButton>
+
+          <SecondaryButton
+            disabled={loading || Boolean(user)}
+            loading={isSNSLoading}
+            onClick={continueWithGoogleOAuth}
+            htmlType="button"
+          >
+            구글 계정으로 계속하기
+          </SecondaryButton>
+
+          <FlexContainerAroundCenter>
+            <ClientSideLink href="/register">
+              <Padding>회원가입 페이지</Padding>
+            </ClientSideLink>
+            <Divider type="vertical" />
+            <ClientSideLink href="/find/password">
+              <Padding>비밀번호 찾기</Padding>
+            </ClientSideLink>
+          </FlexContainerAroundCenter>
+        </GridContainerForm>
       </LoginPageLayout>
     </PageHead>
   )

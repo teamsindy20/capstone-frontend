@@ -8,16 +8,18 @@ import { LockTwoTone, UnlockTwoTone } from '@ant-design/icons'
 import { digestMessageWithSHA256, ko2en } from 'src/utils/commons'
 import { useRouter } from 'next/router'
 import { GlobalContext } from '../_app'
-import { Button, Input, Divider } from 'antd'
-import { useContext, useCallback } from 'react'
+import { Input } from 'antd'
+import { useContext, useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
+import { PrimaryButton, SecondaryButton } from 'src/components/atoms/Button'
 
 export const GridContainerForm = styled.form`
   display: grid;
   grid-template-columns: minmax(auto, 370px);
   justify-content: center;
-  gap: 0.5rem;
+
+  padding: 1rem;
 `
 
 export const GridContainerColumn3 = styled.div`
@@ -26,49 +28,27 @@ export const GridContainerColumn3 = styled.div`
   margin: 0.5rem 0;
 `
 
-const RegisterButton = styled.button`
-  background-color: #ff9a88;
-  border: 1px solid #ff9a88;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.5em 0.5rem;
-  font-size: 1rem;
-  margin: 4px 2px;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  display: inline-block;
-  transition-duration: 0.4s;
-
-  &:hover {
-    background-color: white;
-    border: #ff9a88;
-    color: #ff9a88;
-  }
+export const MarginH4 = styled.h4`
+  margin: 0.5rem;
 `
 
-export const HeadMessage = styled.h1`
-  color: #3c3c3c;
+export const CenterH1 = styled.h2`
   text-align: center;
-  line-height: 1.5;
-  margin: 6rem auto 3rem;
-`
-
-const HeadRegister = styled.h3`
-  color: #3c3c3c;
-  text-align: center;
-  font-weight: 3rem;
-  margin: 1rem auto 0.2rem;
-  letter-spacing: 0.3rem;
-`
-
-export const MarginDiv = styled.div`
-  margin: 1.3rem;
 `
 
 export const RedText = styled.h5`
   margin: 0.5rem 0.2rem;
   color: #800000;
+`
+
+const FlexContainerCenterCenter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const Padding = styled.div`
+  padding: 0.5rem;
 `
 
 export const validateEmail = {
@@ -100,10 +80,6 @@ export function renderPasswordInputIcon(visible: boolean) {
   return visible ? PASSWORD_INPUT_ICONS[0] : PASSWORD_INPUT_ICONS[1]
 }
 
-export function continueWithGoogleOAuth() {
-  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`
-}
-
 type FormValues = {
   email: string
   password: string
@@ -111,8 +87,9 @@ type FormValues = {
 }
 
 function RegisterPage() {
-  const { refetchUser } = useContext(GlobalContext)
+  const { user, refetchUser } = useContext(GlobalContext)
   const router = useRouter()
+  const [isSNSLoading, setIsSNSLoading] = useState(false)
 
   const [register, { loading }] = useRegisterMutation({
     onCompleted: (data) => {
@@ -151,78 +128,98 @@ function RegisterPage() {
     [register]
   )
 
+  function continueWithGoogleOAuth() {
+    setIsSNSLoading(true)
+    router.replace(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
+  }
+
   return (
     <PageHead>
       <LoginPageLayout>
-        <ClientSideLink href="/">
-          <HeadMessage>회원가입</HeadMessage>
-        </ClientSideLink>
+        <CenterH1>회원가입</CenterH1>
+        <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="email">
+            <MarginH4>이메일</MarginH4>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <Input
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  placeholder={user ? '이미 로그인되어 있습니다.' : '밥은 대충 먹더라도'}
+                  size="large"
+                  type="email"
+                  {...field}
+                />
+              )}
+              rules={validateEmail}
+            />
+            <RedText>{errors.email ? errors.email.message : <br />}</RedText>
+          </label>
 
-        <MarginDiv>
-          <GridContainerForm onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="email">
-              <h4>이메일</h4>
-              <Controller
-                control={control}
-                name="email"
-                render={({ field }) => (
-                  <Input
-                    disabled={loading}
-                    placeholder="이메일을 입력해주세요."
-                    size="large"
-                    type="email"
-                    {...field}
-                  />
-                )}
-                rules={validateEmail}
-              />
-              <RedText>{errors.email ? errors.email.message : <br />}</RedText>
-            </label>
+          <label htmlFor="password">
+            <MarginH4>비밀번호</MarginH4>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <Input.Password
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  iconRender={renderPasswordInputIcon}
+                  placeholder="디저트는 예쁘고 맛있는 걸 먹자"
+                  size="large"
+                  type="password"
+                  {...field}
+                />
+              )}
+              rules={validatePassword}
+            />
+            <RedText>{errors.password ? errors.password.message : <br />}</RedText>
+          </label>
 
-            <label htmlFor="password">
-              <h4>비밀번호</h4>
-              <Controller
-                control={control}
-                name="password"
-                render={({ field }) => (
-                  <Input.Password
-                    disabled={loading}
-                    iconRender={renderPasswordInputIcon}
-                    placeholder="비밀번호를 입력해주세요."
-                    size="large"
-                    type="password"
-                    {...field}
-                  />
-                )}
-                rules={validatePassword}
-              />
-              <RedText>{errors.password ? errors.password.message : <br />}</RedText>
-            </label>
+          <label htmlFor="password2">
+            <MarginH4>비밀번호 확인</MarginH4>
+            <Controller
+              control={control}
+              name="password2"
+              render={({ field }) => (
+                <Input.Password
+                  disabled={isSNSLoading || loading || Boolean(user)}
+                  iconRender={renderPasswordInputIcon}
+                  placeholder="나만의 디저트를 핏하다, 디저트핏"
+                  size="large"
+                  type="password"
+                  {...field}
+                />
+              )}
+              rules={validatePassword2}
+            />
+            <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
+          </label>
 
-            <label htmlFor="password2">
-              <h4>비밀번호 확인</h4>
-              <Controller
-                control={control}
-                name="password2"
-                render={({ field }) => (
-                  <Input.Password
-                    disabled={loading}
-                    iconRender={renderPasswordInputIcon}
-                    placeholder="비밀번호를 다시 한 번 입력해주세요."
-                    size="large"
-                    type="password"
-                    {...field}
-                  />
-                )}
-                rules={validatePassword2}
-              />
-              <RedText>{errors.password2 ? errors.password2.message : <br />}</RedText>
-            </label>
-            <RegisterButton disabled={loading} type="submit">
-              다음
-            </RegisterButton>
-          </GridContainerForm>
-        </MarginDiv>
+          <PrimaryButton
+            disabled={isSNSLoading || Boolean(user)}
+            loading={loading}
+            htmlType="submit"
+          >
+            다음
+          </PrimaryButton>
+
+          <SecondaryButton
+            disabled={loading || Boolean(user)}
+            loading={isSNSLoading}
+            onClick={continueWithGoogleOAuth}
+            htmlType="button"
+          >
+            구글 계정으로 계속하기
+          </SecondaryButton>
+
+          <FlexContainerCenterCenter>
+            <ClientSideLink href="/login">
+              <Padding>로그인 페이지</Padding>
+            </ClientSideLink>
+          </FlexContainerCenterCenter>
+        </GridContainerForm>
       </LoginPageLayout>
     </PageHead>
   )

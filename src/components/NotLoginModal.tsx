@@ -9,13 +9,14 @@ const FlexContainerAlignCenter = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 `
 
 const GridContainer = styled.div`
   display: grid;
   justify-content: center;
   width: 100%;
+  gap: 1rem;
 `
 
 function NotLoginModal() {
@@ -25,12 +26,12 @@ function NotLoginModal() {
 
   function goToRegisterPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
-    router.push('/register')
+    router.replace('/register')
   }
 
   function goToLoginPage() {
     sessionStorage.setItem('redirectUrlAfterLogin', router.asPath)
-    router.push('/login')
+    router.replace('/login')
   }
 
   return (
@@ -43,7 +44,7 @@ function NotLoginModal() {
     >
       <FlexContainerAlignCenter>
         <div style={{ textAlign: 'center' }}>
-          <Image src="/dessert-fit.webp" alt="logo" width={55} height={70} />
+          <Image src="/dessert-fit-logo.webp" alt="logo" width={55} height={70} />
         </div>
         <GridContainer>
           <h2>로그인이 필요합니다</h2>

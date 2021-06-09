@@ -197,11 +197,14 @@ function OrderPage() {
         </FlexContainerBetween1>
       </TopHeader>
       {!user && (
-        <ClientSideLink href="/login">
-          <h1 style={{ color: '#a95766', margin: '1rem 0', textAlign: 'center' }}>
-            로그인이 필요합니다
-          </h1>
-        </ClientSideLink>
+        <>
+          <ClientSideLink href="/login">
+            <h1 style={{ color: '#a95766', margin: '1rem 0', textAlign: 'center' }}>
+              로그인이 필요합니다
+            </h1>
+          </ClientSideLink>
+          <NotLoginModal />
+        </>
       )}
       <Margin>
         <GridOption>

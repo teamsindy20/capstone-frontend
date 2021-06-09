@@ -16,7 +16,8 @@ import {
 } from 'src/styles/FlexContainer'
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
-import { LoginButton } from 'src/pages/login'
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
+import { PrimaryButton } from 'src/components/atoms/Button'
 
 const GridContainer = styled.div`
   display: grid;
@@ -87,7 +88,7 @@ function MyDessertFitPage() {
 
   if (loading) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 또는 더미데이터로 채운 화면 보여주기
         </NavigationLayout>
@@ -97,7 +98,7 @@ function MyDessertFitPage() {
 
   if (!user) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           <NotLoginModal />
           <Footer />
@@ -107,7 +108,7 @@ function MyDessertFitPage() {
   }
 
   return (
-    <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+    <PageHead title="디저트핏 - my디핏" description={description}>
       <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
@@ -156,7 +157,7 @@ function MyDessertFitPage() {
           <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
           <ContentFlexContainer>공지사항</ContentFlexContainer>
           <ContentFlexContainer>이벤트</ContentFlexContainer>
-          <LoginButton
+          <PrimaryButton
             onClick={() => {
               localStorage.removeItem('token')
               sessionStorage.removeItem('token')
@@ -164,7 +165,7 @@ function MyDessertFitPage() {
             }}
           >
             LOGOUT
-          </LoginButton>
+          </PrimaryButton>
         </GridContainer>
 
         <Footer />

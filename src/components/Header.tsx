@@ -109,7 +109,9 @@ function Header() {
             <PersonRoundedIcon
               style={asPath === myPageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6 style={asPath === myPageUrl ? {} : UnSelectedTextStyle}>my디핏</NoMarginH6>
+            <NoMarginH6 style={asPath === myPageUrl ? undefined : UnSelectedTextStyle}>
+              my디핏
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
       </GridContainerAlignCenter>

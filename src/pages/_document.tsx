@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
 import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
@@ -8,7 +9,7 @@ export const canonicalUrl = 'https://dessert.fit/'
 // 최대 10개
 const keywords = '디저트핏,DessertFit,디핏,디저트,검색,맞춤,추천,배달,픽업,예약'
 
-export default class CapstoneDocument extends Document {
+export default class DessertFitDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
@@ -101,6 +102,7 @@ export default class CapstoneDocument extends Document {
           <meta name="author" content="sindy" />
           <meta name="keywords" content={keywords} />
           <meta name="application-name" content="디저트핏" />
+          <meta name="theme-color" content={PRIMARY_BACKGROUND_COLOR} />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="디저트핏" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />

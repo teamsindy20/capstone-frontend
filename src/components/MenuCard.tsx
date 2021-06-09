@@ -62,19 +62,19 @@ const AbsolutePositionTopRight = styled.div`
 `
 
 export const favoriteRoundedIconStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_BACKGROUND_COLOR,
   margin: '0.5rem',
 }
 
 export const favoriteBorderRoundedIconStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_TEXT_COLOR,
   margin: '0.5rem',
 }
 
 export const favoriteRoundedIconLoadingStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
   margin: '0.5rem',
 }

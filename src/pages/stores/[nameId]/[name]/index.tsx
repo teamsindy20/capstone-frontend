@@ -9,7 +9,6 @@ import { setCartMenus, cartMenusVar, setCartStore, cartStoreVar, CartMenu } from
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import { MenuOptionCategoryType, useMenuQuery } from 'src/graphql/generated/types-and-hooks'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import TopHeader, { HorizontalBorder } from 'src/components/TopHeader'
 import { FlexContainerAlignCenter, FlexContainerBetween } from 'src/styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
@@ -20,6 +19,7 @@ import CountButton from 'src/components/atoms/CountButton'
 import { GridContainerGap } from 'src/styles/GridContainer'
 import { Controller, useForm } from 'react-hook-form'
 import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
+import { FixedButton } from 'src/components/atoms/Button'
 import { useStoreNameIdUrl } from '..'
 
 export const ReviewButton = styled(Button)`
@@ -28,16 +28,6 @@ export const ReviewButton = styled(Button)`
   color: #ffffff;
   height: 45px;
   font-size: 1rem;
-`
-
-export const FixedButton = styled(ReviewButton)`
-  position: fixed !important;
-  bottom: 0;
-  z-index: 1;
-
-  width: 100%;
-  max-width: ${TABLET_MIN_WIDTH};
-  border-radius: 0;
 `
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800], cursor: 'pointer' }
@@ -189,7 +179,7 @@ function StoreMenuPage() {
       {loading || !menu || !store ? (
         <>
           <div>menu loading...</div>
-          <FixedButton loading={true}>장바구니에 담기</FixedButton>
+          <FixedButton loading>장바구니에 담기</FixedButton>
         </>
       ) : (
         <>

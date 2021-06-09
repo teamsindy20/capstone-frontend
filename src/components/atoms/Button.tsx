@@ -4,6 +4,7 @@ import {
   PRIMARY_TEXT_COLOR,
   SECONDARY_BACKGROUND_COLOR,
   SECONDARY_TEXT_COLOR,
+  TABLET_MIN_WIDTH,
 } from 'src/models/constants'
 import styled from 'styled-components'
 
@@ -53,4 +54,14 @@ export const SecondaryButton = styled(StyledButton)`
     border-color: ${SECONDARY_TEXT_COLOR};
     color: #fff;
   }
+`
+
+export const FixedButton = styled(PrimaryButton)`
+  position: fixed !important;
+  bottom: 0;
+  z-index: 1;
+  width: calc(100% - 1rem);
+  max-width: ${TABLET_MIN_WIDTH};
+
+  margin: 0.5rem;
 `

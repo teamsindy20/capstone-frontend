@@ -10,29 +10,18 @@ import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRight
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import styled from 'styled-components'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { Padding } from 'src/components/layouts/NavigationLayout'
 import { getSelectedOptionsPrice } from '../stores/[nameId]/[name]'
 import { formatPrice } from 'src/utils/price'
 import { useState, useEffect } from 'react'
-import { PrimaryButton } from 'src/components/atoms/Button'
+import { FixedButton } from 'src/components/atoms/Button'
 import { useRouter } from 'next/router'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledKeyboardArrowRightRoundedIcon = { fontSize: 20, color: grey[800] }
-
-const FixedButton = styled(PrimaryButton)`
-  position: fixed !important;
-  bottom: 0;
-  z-index: 1;
-  width: calc(100% - 1rem);
-  max-width: ${TABLET_MIN_WIDTH};
-
-  margin: 0.5rem;
-`
 
 const FlexContainerBetween1 = styled(FlexContainerBetween)`
   height: 100%;

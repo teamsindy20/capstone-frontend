@@ -1,8 +1,8 @@
 {
   "name": "디저트핏 (Dessert Fit)",
   "short_name": "디저트핏",
-  "theme_color": "#ffffff",
-  "background_color": "#ffc9c3",
+  "theme_color": "#ff9a88",
+  "background_color": "#fcfcfc",
   "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",

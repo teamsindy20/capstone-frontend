@@ -14,11 +14,7 @@ import { useState, useContext } from 'react'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { HEADER_HEIGHT, TABLET_MIN_WIDTH } from 'src/models/constants'
 import { sleep } from 'src/utils/commons'
-import {
-  useMenusQuery,
-  useMenuFavoriteLazyQuery,
-  useUserPreferencesQuery,
-} from 'src/graphql/generated/types-and-hooks'
+import { useMenusQuery, useUserPreferencesQuery } from 'src/graphql/generated/types-and-hooks'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { GlobalContext } from './_app'
@@ -149,19 +145,6 @@ const ColoredLogo = styled.img`
   border-radius: 50%;
 `
 
-export function useRefetchMenuFavorite() {
-  const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
-
-  function refetchMenuFavorite(menuId: string) {
-    return () => menuFavoriteLazyQuery({ variables: { id: menuId } })
-  }
-
-  return refetchMenuFavorite
-}
-
 function HomePage() {
   const { user, loading } = useContext(GlobalContext)
   const router = useRouter()
@@ -186,8 +169,6 @@ function HomePage() {
 
   const preferences = userPreferencesQueryResult.data?.me.preferences
   const isUserPreferencesLoading = userPreferencesQueryResult.networkStatus < 7
-
-  const refetchMenuFavorite = useRefetchMenuFavorite()
 
   async function fetchMoreMenus() {
     if (menus?.length) {
@@ -321,12 +302,7 @@ function HomePage() {
               {menus
                 ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
                 .map((menu) => (
-                  <MenuCard
-                    key={menu.id}
-                    afterPickingMenu={refetchMenuFavorite(menu.id)}
-                    menu={menu}
-                    onlyImage={onlyImage}
-                  />
+                  <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
                 ))}
               {(isMenusLoading || hasMoreMenus) && (
                 <div ref={sentryRef}>
@@ -404,12 +380,7 @@ function HomePage() {
               {menus
                 ?.filter((menu) => doesFranchiseIncluded || !menu.store.isFranchise)
                 .map((menu) => (
-                  <MenuCard
-                    key={menu.id}
-                    afterPickingMenu={refetchMenuFavorite(menu.id)}
-                    menu={menu}
-                    onlyImage={onlyImage}
-                  />
+                  <MenuCard key={menu.id} menu={menu} onlyImage={onlyImage} />
                 ))}
               {(isMenusLoading || hasMoreMenus) && (
                 <div ref={sentryRef}>

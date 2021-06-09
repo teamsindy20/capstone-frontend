@@ -106,7 +106,6 @@ function LoginPage() {
               name="email"
               render={({ field }) => (
                 <Input
-                  autoFocus
                   disabled={isSNSLoading || loading || Boolean(user)}
                   placeholder="어? 나 디저트 좋아하네"
                   size="large"
@@ -170,7 +169,7 @@ function LoginPage() {
 
           <FlexContainerAroundCenter>
             <ClientSideLink href="/register">
-              <Padding>회원가입</Padding>
+              <Padding>회원가입 페이지</Padding>
             </ClientSideLink>
             <Divider type="vertical" />
             <ClientSideLink href="/find/password">

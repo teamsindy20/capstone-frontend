@@ -145,7 +145,6 @@ function RegisterPage() {
               name="email"
               render={({ field }) => (
                 <Input
-                  autoFocus
                   disabled={isSNSLoading || loading || Boolean(user)}
                   placeholder={user ? '이미 로그인되어 있습니다.' : '밥은 대충 먹더라도'}
                   size="large"
@@ -217,7 +216,7 @@ function RegisterPage() {
 
           <FlexContainerCenterCenter>
             <ClientSideLink href="/login">
-              <Padding>로그인</Padding>
+              <Padding>로그인 페이지</Padding>
             </ClientSideLink>
           </FlexContainerCenterCenter>
         </GridContainerForm>

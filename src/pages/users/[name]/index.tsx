@@ -88,7 +88,7 @@ function MyDessertFitPage() {
 
   if (loading) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 또는 더미데이터로 채운 화면 보여주기
         </NavigationLayout>
@@ -98,7 +98,7 @@ function MyDessertFitPage() {
 
   if (!user) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           <NotLoginModal />
           <Footer />
@@ -108,7 +108,7 @@ function MyDessertFitPage() {
   }
 
   return (
-    <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+    <PageHead title="디저트핏 - my디핏" description={description}>
       <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Image from 'next/image'
+import ClientSideLink from './atoms/ClientSideLink'
 
 const GridContainer = styled.div`
   display: grid;
@@ -12,6 +13,10 @@ const Line = styled.div`
   margin: 1rem;
   border: 0.5px solid black;
 `
+
+const anchorStyle = {
+  color: '#400000',
+}
 
 const GridContainerGap = styled.div`
   display: grid;
@@ -34,8 +39,24 @@ function Footer() {
         <Line />
       </GridContainer>
       <GridContainerGap>
-        <h2>© 2021 Dessert Fit, Inc. All rights reserved.</h2>
-        <h3>자주 묻는 질문 | 디저트핏 규칙 | 이용약관 | 개인정보처리방침</h3>
+        <h3>Copyright © {new Date().getUTCFullYear()} Dessert Fit, Inc. All rights reserved.</h3>
+        <h4>
+          자주 묻는 질문 |{' '}
+          <ClientSideLink href="/documents/terms-of-service" style={anchorStyle}>
+            이용약관
+          </ClientSideLink>{' '}
+          |{' '}
+          <ClientSideLink href="/documents/privacy-policy" style={anchorStyle}>
+            개인정보처리방침
+          </ClientSideLink>{' '}
+          |{' '}
+          <a
+            href="https://www.notion.so/Signature-In-Dessert-SINDY-424f606b1cf6465da31a7e3e23b1e36e"
+            style={anchorStyle}
+          >
+            팀 소개
+          </a>
+        </h4>
         <div>
           <div>
             <b>(주) SINDY (대표 : XXX)</b>
@@ -53,13 +74,14 @@ function Footer() {
             <b>E-mail :</b> teamsindy20@gmail.com
           </div>
           <div>
-            <b>고객센터 :</b> 010-9203-2837 평일 09~18시 (점심시간 12~13시), 주말/공휴일 휴무
+            <b>고객센터 :</b> 010-9203-2837
           </div>
-          <p>
-            디저트핏은 통신판매중개자로써 디저트 판매에 대한 거래 당사자 및 판매자가 아니며,
-            판매자가 등록한 모든 내용과 거래에 대해 디저트핏은 일체의 책임을 지지 않습니다.
-          </p>
+          <div>평일 09~18시 (점심시간 12~13시), 주말/공휴일 휴무</div>
         </div>
+        <p>
+          디저트핏은 통신판매중개자로써 디저트 판매에 대한 거래 당사자 및 판매자가 아니며, 판매자가
+          등록한 모든 내용과 거래에 대해 디저트핏은 일체의 책임을 지지 않습니다.
+        </p>
       </GridContainerGap>
     </footer>
   )

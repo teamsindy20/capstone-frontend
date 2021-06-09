@@ -59,13 +59,13 @@ export default class CapstoneDocument extends Document {
             rel="apple-touch-startup-image"
           />
           <link
-            href="/splashscreens/iphoneplus_splash.png"
-            media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+            href="/splashscreens/iphonex_splash.png"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
             rel="apple-touch-startup-image"
           />
           <link
-            href="/splashscreens/iphonex_splash.png"
-            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+            href="/splashscreens/iphoneplus_splash.png"
+            media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
             rel="apple-touch-startup-image"
           />
           <link

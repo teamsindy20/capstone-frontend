@@ -10,36 +10,18 @@ import KeyboardArrowRightRoundedIcon from '@material-ui/icons/KeyboardArrowRight
 import grey from '@material-ui/core/colors/grey'
 import { Button } from 'antd'
 import styled from 'styled-components'
-import { TABLET_MIN_WIDTH } from 'src/models/constants'
 import useGoBack from 'src/hooks/useGoBack'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { Padding } from 'src/components/layouts/NavigationLayout'
 import { getSelectedOptionsPrice } from '../stores/[nameId]/[name]'
 import { formatPrice } from 'src/utils/price'
 import { useState, useEffect } from 'react'
+import { FixedButton } from 'src/components/atoms/Button'
+import { useRouter } from 'next/router'
 
 const StyledArrowBackIosRoundedIcon = { fontSize: 20, color: grey[800] }
 
 const StyledKeyboardArrowRightRoundedIcon = { fontSize: 20, color: grey[800] }
-
-export const ReviewButton = styled(Button)`
-  background-color: #ff9a87;
-  border-radius: 7px;
-  color: #ffffff;
-  height: 45px;
-  font-size: 1rem;
-`
-
-export const FixedButton = styled(ReviewButton)`
-  position: fixed;
-  border-radius: 0;
-  left: 50%;
-  bottom: 0;
-  z-index: 1;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: ${TABLET_MIN_WIDTH};
-`
 
 const FlexContainerBetween1 = styled(FlexContainerBetween)`
   height: 100%;
@@ -70,6 +52,7 @@ const StyledImg = styled.img`
   height: 1.8rem;
   object-fit: cover;
   border-radius: 50%;
+  overflow: hidden;
 `
 
 const NoMarginH4 = styled.h4`
@@ -95,7 +78,7 @@ export function getTotalPrice(cartMenus: CartMenu[]) {
 }
 
 function CartPage() {
-  const goToOrderPage = useGoToPage('/order')
+  const router = useRouter()
   const goBack = useGoBack()
 
   const cartStore = useReactiveVar(cartStoreVar)
@@ -109,11 +92,17 @@ function CartPage() {
 
   const totalMenusPrice = getTotalPrice(cartMenus)
 
+  const [loading, setLoading] = useState(false)
   const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
     setDisabled(!cartStore || totalMenusPrice < cartStore.minimumDeliveryAmount)
   }, [cartStore, totalMenusPrice])
+
+  function goToOrderPage() {
+    setLoading(true)
+    router.push('/order')
+  }
 
   return (
     <PageHead title="디저트핏 - 장바구니" description={description}>
@@ -149,7 +138,8 @@ function CartPage() {
           <CartMenuCard key={cartMenu.id} cartMenu={cartMenu} />
         ))}
       </GridContainerUl>
-      <FixedButton disabled={disabled} onClick={goToOrderPage}>
+
+      <FixedButton disabled={disabled} loading={true} onClick={goToOrderPage}>
         ({cartMenus.length}) 총 {formatPrice(totalMenusPrice + (cartStore?.deliveryCharge ?? 0))}{' '}
         주문하기
       </FixedButton>

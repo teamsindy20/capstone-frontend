@@ -17,7 +17,7 @@ import {
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
 import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
-import { StyledButton } from 'src/pages/register'
+import { PrimaryButton } from 'src/components/atoms/Button'
 
 const GridContainer = styled.div`
   display: grid;
@@ -82,24 +82,13 @@ const NoMarginH3 = styled.h3`
   margin: 0;
 `
 
-const LogoutButton = styled(StyledButton)`
-  background-color: ${PRIMARY_BACKGROUND_COLOR};
-  border: 1px solid ${PRIMARY_BACKGROUND_COLOR};
-  color: white;
-
-  :hover {
-    background-color: white;
-    color: ${PRIMARY_TEXT_COLOR};
-  }
-`
-
 function MyDessertFitPage() {
   const { user, loading, refetchUser } = useContext(GlobalContext)
   const { query } = useRouter()
 
   if (loading) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           사용자 인증 중. 이때 여기 페이지만의 로딩 스켈레톤 또는 더미데이터로 채운 화면 보여주기
         </NavigationLayout>
@@ -109,7 +98,7 @@ function MyDessertFitPage() {
 
   if (!user) {
     return (
-      <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+      <PageHead title="디저트핏 - my디핏" description={description}>
         <NavigationLayout>
           <NotLoginModal />
           <Footer />
@@ -119,7 +108,7 @@ function MyDessertFitPage() {
   }
 
   return (
-    <PageHead title="디저트핏 - 내 DessertFit" description={description}>
+    <PageHead title="디저트핏 - my디핏" description={description}>
       <NavigationLayout>
         <TopHeader>
           <FlexContainerCenterCenter>
@@ -168,7 +157,7 @@ function MyDessertFitPage() {
           <TitleFlexContainer>ABOUT SINDY</TitleFlexContainer>
           <ContentFlexContainer>공지사항</ContentFlexContainer>
           <ContentFlexContainer>이벤트</ContentFlexContainer>
-          <LogoutButton
+          <PrimaryButton
             onClick={() => {
               localStorage.removeItem('token')
               sessionStorage.removeItem('token')
@@ -176,7 +165,7 @@ function MyDessertFitPage() {
             }}
           >
             LOGOUT
-          </LogoutButton>
+          </PrimaryButton>
         </GridContainer>
 
         <Footer />

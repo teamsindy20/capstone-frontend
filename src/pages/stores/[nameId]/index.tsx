@@ -1,3 +1,5 @@
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
 import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import { Checkbox, Tabs, Tooltip, Button, Divider, Layout, Popover } from 'antd'
 import { useRouter } from 'next/router'
@@ -5,7 +7,13 @@ import styled from 'styled-components'
 import { handleApolloError } from 'src/apollo/error'
 import PageHead from 'src/components/layouts/PageHead'
 import NavigationLayout, { Padding } from 'src/components/layouts/NavigationLayout'
-import MenuCard, { MenuLoadingCard, SquareFrame } from 'src/components/MenuCard'
+import MenuCard, {
+  favoriteBorderRoundedIconStyle,
+  favoriteRoundedIconLoadingStyle,
+  favoriteRoundedIconStyle,
+  MenuLoadingCard,
+  SquareFrame,
+} from 'src/components/MenuCard'
 import TopHeader from 'src/components/TopHeader'
 import {
   useStoreMenusQuery,
@@ -15,11 +23,11 @@ import {
   StoreQuery,
 } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
-import { GridContainerUl, useRefetchMenuFavorite, IconImg } from 'src/pages'
+import { GridContainerUl, IconImg } from 'src/pages'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import { EnvironmentOutlined, PhoneOutlined, InstagramOutlined } from '@ant-design/icons'
 import { grey } from '@material-ui/core/colors'
-import { useRef, ReactText, ReactNode } from 'react'
+import { useRef, ReactText, ReactNode, useState } from 'react'
 import { toast } from 'react-toastify'
 import useGoBack from 'src/hooks/useGoBack'
 import Image from 'next/image'
@@ -38,10 +46,8 @@ const TopIconDiv = styled.div`
 `
 
 const IconDiv = styled.div`
-  padding: 7px;
+  padding: 0.2rem;
   cursor: pointer;
-  /* display: flex;
-  align-items: center; */
 `
 const StoreHomeGrid = styled.div`
   display: grid;
@@ -148,16 +154,20 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
   const goBack = useGoBack()
   const { storeId, getStoreUrl } = useStoreNameIdUrl()
 
+  const toastId = useRef<ReactText>('')
+
+  const [isPickingStoreLoading, setIsPickingStoreLoading] = useState(false)
+
   const [storeFavoriteLazyQuery] = useStoreFavoriteLazyQuery({
     fetchPolicy: 'network-only',
+    onCompleted: () => setTimeout(() => setIsPickingStoreLoading(false), 300),
     onError: handleApolloError,
   })
 
-  const toastId = useRef<ReactText>('')
-
-  const [pickStoreMutation, { loading: isPickingStoreLoading }] = usePickStoreMutation({
+  const [pickStoreMutation] = usePickStoreMutation({
     onCompleted: (data) => {
       function restorePicking() {
+        setIsPickingStoreLoading(true)
         pickStoreMutation({ variables: { id: storeId } })
       }
 
@@ -186,6 +196,7 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
 
   function pickStore() {
     if (!isPickingStoreLoading) {
+      setIsPickingStoreLoading(true)
       pickStoreMutation({ variables: { id: storeId } })
     }
   }
@@ -230,7 +241,13 @@ export function StorePageLayout({ children, defaultPage, loading, store }: Props
       <PickRegularGrid>
         <PickRegularContainer>
           <IconDiv onClick={pickStore}>
-            <IconImg src={store?.favorite ? '/358@3x.png' : '/173@3x.png'} alt="notification" />
+            {isPickingStoreLoading ? (
+              <FavoriteRoundedIcon style={favoriteRoundedIconLoadingStyle} />
+            ) : store?.favorite ? (
+              <FavoriteRoundedIcon style={favoriteRoundedIconStyle} />
+            ) : (
+              <FavoriteBorderRoundedIcon style={favoriteBorderRoundedIconStyle} />
+            )}
           </IconDiv>
           찜<PinkPickRegularText>{store?.favoriteCount}</PinkPickRegularText>
         </PickRegularContainer>
@@ -289,8 +306,6 @@ function StoreMenusPage() {
 
   const menus = data?.store?.menus
 
-  const refetchMenuFavorite = useRefetchMenuFavorite()
-
   return (
     <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
       <NavigationLayout>
@@ -302,13 +317,7 @@ function StoreMenusPage() {
           </Divider>
           <GridContainerUl onlyImage={onlyImage}>
             {menus?.map((menu) => (
-              <MenuCard
-                key={menu.id}
-                afterPickingMenu={refetchMenuFavorite(menu.id)}
-                hideStoreName
-                menu={menu}
-                onlyImage={onlyImage}
-              />
+              <MenuCard key={menu.id} hideStoreName menu={menu} onlyImage={onlyImage} />
             ))}
             {isStoreMenusLoading ? (
               <MenuLoadingCard onlyImage={onlyImage} />

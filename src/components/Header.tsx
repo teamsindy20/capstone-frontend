@@ -28,17 +28,12 @@ const FixedHeader = styled.header`
   background-color: #ffffff;
 `
 
-const FlexContainerAroundNav = styled.nav`
-  display: flex;
-  justify-content: space-around;
+const GridContainerAlignCenter = styled.nav`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
 
   height: 100%;
-
-  > a {
-    flex-grow: 1;
-    height: 100%;
-  }
 `
 
 const FlexContainerColumnCenterCenter = styled(FlexContainerAlignCenter)`
@@ -68,7 +63,7 @@ function Header() {
 
   return (
     <FixedHeader>
-      <FlexContainerAroundNav>
+      <GridContainerAlignCenter>
         <ClientSideLink href={homePageUrl}>
           <FlexContainerColumnCenterCenter>
             <HomeRoundedIcon
@@ -117,7 +112,7 @@ function Header() {
             <NoMarginH6 style={asPath === myPageUrl ? {} : UnSelectedTextStyle}>my디핏</NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
-      </FlexContainerAroundNav>
+      </GridContainerAlignCenter>
     </FixedHeader>
   )
 }

@@ -8,10 +8,7 @@ import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import MenuCard, { MenuLoadingCard } from 'src/components/MenuCard'
 import NotLoginModal from 'src/components/NotLoginModal'
 import TopHeader from 'src/components/TopHeader'
-import {
-  useFavoriteMenusQuery,
-  useFavoriteMenusFavoriteLazyQuery,
-} from 'src/graphql/generated/types-and-hooks'
+import { useFavoriteMenusQuery } from 'src/graphql/generated/types-and-hooks'
 import useBoolean from 'src/hooks/useBoolean'
 import { GridContainerUl } from 'src/pages'
 import { GlobalContext } from 'src/pages/_app'
@@ -33,11 +30,6 @@ function UserFavoriteMenusPage() {
 
   const favoriteMenus = data?.me.favoriteMenus
   const isFavoriteMenusLoading = networkStatus < 7
-
-  const [refetchfavoriteMenusFavorite] = useFavoriteMenusFavoriteLazyQuery({
-    fetchPolicy: 'network-only',
-    onError: handleApolloError,
-  })
 
   async function fetchMoreMenus() {
     if (favoriteMenus?.length) {
@@ -95,12 +87,7 @@ function UserFavoriteMenusPage() {
 
             <GridContainerUl onlyImage={onlyImage}>
               {favoriteMenus?.map((favoriteMenu) => (
-                <MenuCard
-                  key={favoriteMenu.id}
-                  afterPickingMenu={refetchfavoriteMenusFavorite}
-                  menu={favoriteMenu}
-                  onlyImage={onlyImage}
-                />
+                <MenuCard key={favoriteMenu.id} menu={favoriteMenu} onlyImage={onlyImage} />
               ))}
               {isFavoriteMenusLoading || hasMoreMenus ? (
                 <div ref={sentryRef}>

@@ -7,12 +7,16 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { MouseEvent, ReactText, useRef } from 'react'
+import { MouseEvent, ReactText, useRef, useState } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
-import { MenuCardFragment, usePickMenuMutation } from 'src/graphql/generated/types-and-hooks'
+import {
+  MenuCardFragment,
+  useMenuFavoriteLazyQuery,
+  usePickMenuMutation,
+} from 'src/graphql/generated/types-and-hooks'
 import grey from '@material-ui/core/colors/grey'
 import { handleApolloError } from 'src/apollo/error'
 import ClientSideLink from './atoms/ClientSideLink'
@@ -21,7 +25,11 @@ import useBoolean from 'src/hooks/useBoolean'
 import { Button } from 'antd'
 import Image from 'next/image'
 import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
-import { PRIMARY_BACKGROUND_COLOR } from 'src/models/constants'
+import {
+  PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
+  PRIMARY_BACKGROUND_COLOR,
+  PRIMARY_TEXT_COLOR,
+} from 'src/models/constants'
 
 const GridContainerLi = styled.li<{ onlyImage: boolean }>`
   display: grid;
@@ -53,17 +61,23 @@ const AbsolutePositionTopRight = styled.div`
   right: 0;
 `
 
-export const StyledFavoriteRoundedIcon = styled(FavoriteRoundedIcon)`
-  font-size: 1.5rem !important;
-  color: ${PRIMARY_BACKGROUND_COLOR};
-  margin: 0.5rem;
-`
+export const favoriteRoundedIconStyle = {
+  fontSize: '1.5rem',
+  color: PRIMARY_BACKGROUND_COLOR,
+  margin: '0.5rem',
+}
 
-export const StyledFavoriteBorderRoundedIcon = styled(FavoriteBorderRoundedIcon)`
-  font-size: 1.5rem !important;
-  color: ${PRIMARY_BACKGROUND_COLOR};
-  margin: 0.5rem;
-`
+export const favoriteBorderRoundedIconStyle = {
+  fontSize: '1.5rem',
+  color: PRIMARY_TEXT_COLOR,
+  margin: '0.5rem',
+}
+
+export const favoriteRoundedIconLoadingStyle = {
+  fontSize: '1.5rem',
+  color: PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
+  margin: '0.5rem',
+}
 
 const StoreName = styled.h5`
   font-size: 0.9rem;
@@ -105,9 +119,16 @@ const MenuPrice = styled.h3`
 const DetailButton = styled(Button)`
   position: absolute;
   right: 0;
-  bottom: 0.2rem;
+  bottom: 0rem;
   margin: 0;
-  border-color: #fcfcfc;
+
+  border: 1px solid #fcfcfc;
+
+  :active,
+  :focus,
+  :hover {
+    border-color: #eee;
+  }
 `
 
 const StyledArrowDropUpRoundedIcon = styled(ArrowDropUpRoundedIcon)`
@@ -174,19 +195,28 @@ export function MenuLoadingCard({ onlyImage }: Props2) {
 }
 
 type Props = {
-  afterPickingMenu: () => void
   hideStoreName?: boolean
   menu: MenuCardFragment
   onlyImage: boolean
 }
 
-function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
-  const toastId = useRef<ReactText>('')
+function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
   const [isCardDetailOpened, toggleCardDetail] = useBoolean(false)
 
-  const [pickMenu, { loading: isPickingMenuLoading }] = usePickMenuMutation({
+  const toastId = useRef<ReactText>('')
+
+  const [isPickingMenuLoading, setIsPickingMenuLoading] = useState(false)
+
+  const [menuFavoriteLazyQuery] = useMenuFavoriteLazyQuery({
+    fetchPolicy: 'network-only',
+    onCompleted: () => setTimeout(() => setIsPickingMenuLoading(false), 300),
+    onError: handleApolloError,
+  })
+
+  const [pickMenu] = usePickMenuMutation({
     onCompleted: (data) => {
       function restorePicking() {
+        setIsPickingMenuLoading(true)
         pickMenu({ variables: { id: menu.id } })
       }
 
@@ -208,7 +238,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
         )
       }
 
-      afterPickingMenu()
+      menuFavoriteLazyQuery({ variables: { id: menu.id } })
     },
     onError: handleApolloError,
   })
@@ -216,6 +246,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
   function pickMenuStopPropagation(e: MouseEvent) {
     e.stopPropagation()
     if (!isPickingMenuLoading) {
+      setIsPickingMenuLoading(true)
       pickMenu({ variables: { id: menu.id } })
     }
   }
@@ -268,7 +299,13 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
           )}
 
           <AbsolutePositionTopRight onClick={pickMenuStopPropagation}>
-            {menu.favorite ? <StyledFavoriteRoundedIcon /> : <StyledFavoriteBorderRoundedIcon />}
+            {isPickingMenuLoading ? (
+              <FavoriteRoundedIcon style={favoriteRoundedIconLoadingStyle} />
+            ) : menu.favorite ? (
+              <FavoriteRoundedIcon style={favoriteRoundedIconStyle} />
+            ) : (
+              <FavoriteBorderRoundedIcon style={favoriteBorderRoundedIconStyle} />
+            )}
           </AbsolutePositionTopRight>
 
           <MenuName>{menu.name}</MenuName>
@@ -287,7 +324,7 @@ function MenuCard({ afterPickingMenu, hideStoreName, menu, onlyImage }: Props) {
 
         <FlexContainerRelativePosition>
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-          <DetailButton shape="circle" onClick={toggleCardDetail}>
+          <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
             {isCardDetailOpened ? (
               <StyledArrowDropUpRoundedIcon />
             ) : (

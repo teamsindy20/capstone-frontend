@@ -4,6 +4,7 @@ import cache from './cache'
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+  credentials: 'same-origin',
 })
 
 // Authenticate using HTTP header
@@ -21,6 +22,6 @@ const authLink = setContext((_, { headers }) => {
 })
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
   cache,
+  link: authLink.concat(httpLink),
 })

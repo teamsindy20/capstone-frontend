@@ -7,7 +7,7 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { MouseEvent, ReactText, useRef, useState } from 'react'
+import { memo, MouseEvent, ReactText, useRef, useState } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -367,4 +367,4 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
   )
 }
 
-export default MenuCard
+export default memo(MenuCard)

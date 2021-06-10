@@ -21,9 +21,9 @@
       "purpose": "maskable"
     },
     {
-      "src": "dessert-fit-logo-white-512.webp",
+      "src": "dessert-fit-logo-white-512.png",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/png"
     }
   ]
 }

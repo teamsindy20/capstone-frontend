@@ -146,6 +146,8 @@ const ColoredLogo = styled.img`
 `
 
 function HomePage() {
+  console.log(process.env.NODE_ENV)
+
   const { user, loading } = useContext(GlobalContext)
   const router = useRouter()
 

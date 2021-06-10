@@ -313,9 +313,7 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
               <Hashtag key={hashtag}>
-                <ClientSideLink href={`/search/${hashtag.slice(1)}`}>
-                  {hashtag}&nbsp;
-                </ClientSideLink>
+                <ClientSideLink href={`/search/${hashtag}`}>{hashtag}&nbsp;</ClientSideLink>
               </Hashtag>
             ))}
           </Hashtags>

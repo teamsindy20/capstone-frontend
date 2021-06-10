@@ -1,0 +1,5 @@
+query SearchMenus($hashtag: NonEmptyString!) {
+  searchMenus(hashtag: $hashtag) {
+    ...menuCard
+  }
+}

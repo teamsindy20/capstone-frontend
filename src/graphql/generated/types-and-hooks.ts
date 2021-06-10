@@ -854,6 +854,14 @@ export type RegularStoresQuery = { __typename?: 'Query' } & {
     }
 }
 
+export type SearchMenusQueryVariables = Exact<{
+  hashtag: Scalars['NonEmptyString']
+}>
+
+export type SearchMenusQuery = { __typename?: 'Query' } & {
+  searchMenus?: Maybe<Array<{ __typename?: 'Menu' } & MenuCardFragment>>
+}
+
 export type StoreQueryVariables = Exact<{
   id: Scalars['ID']
 }>
@@ -1720,6 +1728,49 @@ export type RegularStoresQueryResult = Apollo.QueryResult<
   RegularStoresQuery,
   RegularStoresQueryVariables
 >
+export const SearchMenusDocument = gql`
+  query SearchMenus($hashtag: NonEmptyString!) {
+    searchMenus(hashtag: $hashtag) {
+      ...menuCard
+    }
+  }
+  ${MenuCardFragmentDoc}
+`
+
+/**
+ * __useSearchMenusQuery__
+ *
+ * To run a query within a React component, call `useSearchMenusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchMenusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchMenusQuery({
+ *   variables: {
+ *      hashtag: // value for 'hashtag'
+ *   },
+ * });
+ */
+export function useSearchMenusQuery(
+  baseOptions: Apollo.QueryHookOptions<SearchMenusQuery, SearchMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SearchMenusQuery, SearchMenusQueryVariables>(SearchMenusDocument, options)
+}
+export function useSearchMenusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SearchMenusQuery, SearchMenusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SearchMenusQuery, SearchMenusQueryVariables>(
+    SearchMenusDocument,
+    options
+  )
+}
+export type SearchMenusQueryHookResult = ReturnType<typeof useSearchMenusQuery>
+export type SearchMenusLazyQueryHookResult = ReturnType<typeof useSearchMenusLazyQuery>
+export type SearchMenusQueryResult = Apollo.QueryResult<SearchMenusQuery, SearchMenusQueryVariables>
 export const StoreDocument = gql`
   query Store($id: ID!) {
     store(id: $id) {

@@ -191,10 +191,7 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
-              <LocationText>
-                {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
-                흑석동
-              </LocationText>
+              <LocationText>흑석동</LocationText>
               <ClientSideLink href="/location">
                 <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
               </ClientSideLink>

@@ -11,11 +11,18 @@
     {
       "src": "dessert-fit-logo-white-144.webp",
       "sizes": "144x144",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "maskable"
     },
     {
       "src": "dessert-fit-logo-white-192.webp",
       "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    },
+    {
+      "src": "dessert-fit-logo-white-512.webp",
+      "sizes": "512x512",
       "type": "image/webp"
     }
   ]

@@ -23,12 +23,12 @@ function PageHead({
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="/sindy.jpeg" />
-        <meta property="og:url" content={`${canonicalUrl}${pathname.slice(1)}`} />
+        <meta property="og:image" content="/favicon.ico" />
+        <meta property="og:url" content={`${canonicalUrl}${pathname}`} />
         <meta property="og:site_name" content="디저트핏 (Dessert Fit)" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image:alt" content="Sindy Logo" />
+        <meta name="twitter:image:alt" content="Dessert Fit Logo" />
       </Head>
       {children}
     </>

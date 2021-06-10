@@ -4,7 +4,7 @@ import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constan
 import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
-export const canonicalUrl = 'https://dessert.fit/'
+export const canonicalUrl = 'https://dessert.fit'
 
 // 최대 10개
 const keywords = '디저트핏,DessertFit,디핏,디저트,검색,맞춤,추천,배달,픽업,예약'

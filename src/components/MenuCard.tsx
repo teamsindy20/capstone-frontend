@@ -313,7 +313,9 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
               <Hashtag key={hashtag}>
-                <ClientSideLink href={`/search/${hashtag}`}>{hashtag}&nbsp;</ClientSideLink>
+                <ClientSideLink href={`/search/${encodeURIComponent(hashtag)}`}>
+                  {hashtag}&nbsp;
+                </ClientSideLink>
               </Hashtag>
             ))}
           </Hashtags>
@@ -322,14 +324,15 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
 
         <FlexContainerRelativePosition>
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-          <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
-            {isCardDetailOpened ? (
-              <StyledArrowDropUpRoundedIcon />
-            ) : (
-              <StyledArrowDropDownRoundedIcon />
-            )}
-          </DetailButton>
+          <div />
         </FlexContainerRelativePosition>
+        <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
+          {isCardDetailOpened ? (
+            <StyledArrowDropUpRoundedIcon />
+          ) : (
+            <StyledArrowDropDownRoundedIcon />
+          )}
+        </DetailButton>
       </FlexContainerBetweenColumn>
 
       {isCardDetailOpened && (

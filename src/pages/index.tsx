@@ -146,6 +146,8 @@ const ColoredLogo = styled.img`
 `
 
 function HomePage() {
+  console.log(process.env.NODE_ENV)
+
   const { user, loading } = useContext(GlobalContext)
   const router = useRouter()
 
@@ -191,23 +193,20 @@ function HomePage() {
         <TopHeader>
           <FlexContainerBetweenCenter>
             <FlexContainerAlignCenter>
-              <LocationText>
-                {/* <LocationOnRoundedIcon style={StyledLocationOnRoundedIcon} /> */}
-                흑석동
-              </LocationText>
+              <LocationText>흑석동</LocationText>
               <ClientSideLink href="/location">
                 <ExpandMoreRoundedIcon style={StyledExpandMoreRoundedIcon} />
               </ClientSideLink>
             </FlexContainerAlignCenter>
             <FlexContainerAlignCenter>
               <ClientSideLink href="/users/username/regulars">
-                <TopIconImg src="/442@3x.png" />
+                <TopIconImg src="/442@3x.png" alt="regular stores" />
               </ClientSideLink>
               <ClientSideLink href="/users/username/notifications">
-                <TopIconImg src="/441@3x.png" />
+                <TopIconImg src="/441@3x.png" alt="notifications" />
               </ClientSideLink>
               <ClientSideLink href="/search">
-                <TopIconImg src="/440@3x.png" />
+                <TopIconImg src="/440@3x.png" alt="search" />
               </ClientSideLink>
             </FlexContainerAlignCenter>
           </FlexContainerBetweenCenter>
@@ -274,7 +273,7 @@ function HomePage() {
                   '디저트핏 로딩 중...'
                 ) : preferences.length ? (
                   preferences.map((hashtag) => (
-                    <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+                    <ClientSideLink key={hashtag} href={`/search/${hashtag}`}>
                       <Tag color="#F57961">{hashtag}</Tag>
                     </ClientSideLink>
                   ))

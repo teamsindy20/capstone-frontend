@@ -14,7 +14,6 @@ import { username } from 'src/models/mock-data'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
 import styled from 'styled-components'
-import { grey } from '@material-ui/core/colors'
 import { useRouter } from 'next/router'
 
 const FixedHeader = styled.header`
@@ -109,7 +108,9 @@ function Header() {
             <PersonRoundedIcon
               style={asPath === myPageUrl ? SelectedIconStyle : UnSelectedIconStyle}
             />
-            <NoMarginH6 style={asPath === myPageUrl ? {} : UnSelectedTextStyle}>my디핏</NoMarginH6>
+            <NoMarginH6 style={asPath === myPageUrl ? undefined : UnSelectedTextStyle}>
+              my디핏
+            </NoMarginH6>
           </FlexContainerColumnCenterCenter>
         </ClientSideLink>
       </GridContainerAlignCenter>

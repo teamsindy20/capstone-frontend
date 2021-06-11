@@ -20,7 +20,7 @@
 
 생성한 이슈를 기반으로 develop 브랜치에서 자신이 작업할 feature 브랜치를 생성합니다.
 
-브랜치를 생성하기 전엔 다른 사람의 커밋을 항상 최신으로 유지하기 위해 `git fetch, git pull, yarn` 등을 실행합니다.
+브랜치를 생성하기 전엔 다른 사람의 커밋을 항상 최신으로 유지하기 위해 `git pull, yarn` 등을 실행합니다.
 
 만약 이슈 번호가 `#1`이면 브랜치 이름은 `feature/#1/description-of-feature`와 같은 형식으로 짓고, 설명 부분은 [Kebob Case](https://en.wiktionary.org/wiki/kebab_case)를 사용해서 영어로 간단히 짓습니다.
 

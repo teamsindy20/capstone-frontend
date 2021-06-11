@@ -12,7 +12,8 @@
     "**/.git": true,
     "**/.next": true,
     "**/out": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    "node_modules": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.packageManager": "yarn"

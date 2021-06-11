@@ -139,7 +139,7 @@ function CartPage() {
         ))}
       </GridContainerUl>
 
-      <FixedButton disabled={disabled} loading={true} onClick={goToOrderPage}>
+      <FixedButton disabled={disabled} loading={loading} onClick={goToOrderPage}>
         ({cartMenus.length}) 총 {formatPrice(totalMenusPrice + (cartStore?.deliveryCharge ?? 0))}{' '}
         주문하기
       </FixedButton>

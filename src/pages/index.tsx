@@ -273,7 +273,7 @@ function HomePage() {
                   '디저트핏 로딩 중...'
                 ) : preferences.length ? (
                   preferences.map((hashtag) => (
-                    <ClientSideLink key={hashtag} href={`/search/${hashtag}`}>
+                    <ClientSideLink key={hashtag} href={`/search/${encodeURIComponent(hashtag)}`}>
                       <Tag color="#F57961">{hashtag}</Tag>
                     </ClientSideLink>
                   ))

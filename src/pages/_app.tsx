@@ -33,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     color: ${DARK_CHOCO_COLOR};
-    font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Roboto',
+    font-family: 'Noto Sans KR', 'Roboto', -apple-system, BlinkMacSystemFont, 
       'Helvetica Neue', sans-serif;
     line-height: normal;
     word-break: keep-all;

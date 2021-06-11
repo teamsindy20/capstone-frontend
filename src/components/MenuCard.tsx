@@ -7,7 +7,7 @@ import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounde
 import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded'
 import ArrowDropUpRoundedIcon from '@material-ui/icons/ArrowDropUpRounded'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
-import { MouseEvent, ReactText, useRef, useState } from 'react'
+import { memo, MouseEvent, ReactText, useRef, useState } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
 import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
@@ -62,19 +62,19 @@ const AbsolutePositionTopRight = styled.div`
 `
 
 export const favoriteRoundedIconStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_BACKGROUND_COLOR,
   margin: '0.5rem',
 }
 
 export const favoriteBorderRoundedIconStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_TEXT_COLOR,
   margin: '0.5rem',
 }
 
 export const favoriteRoundedIconLoadingStyle = {
-  fontSize: '1.5rem',
+  fontSize: '1.8rem',
   color: PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
   margin: '0.5rem',
 }
@@ -313,7 +313,7 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
           <Hashtags>
             {menu.hashtags?.map((hashtag) => (
               <Hashtag key={hashtag}>
-                <ClientSideLink href={`/search/${hashtag.slice(1)}`}>
+                <ClientSideLink href={`/search/${encodeURIComponent(hashtag)}`}>
                   {hashtag}&nbsp;
                 </ClientSideLink>
               </Hashtag>
@@ -324,14 +324,15 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
 
         <FlexContainerRelativePosition>
           <MenuPrice>{formatPrice(menu.price)}</MenuPrice>
-          <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
-            {isCardDetailOpened ? (
-              <StyledArrowDropUpRoundedIcon />
-            ) : (
-              <StyledArrowDropDownRoundedIcon />
-            )}
-          </DetailButton>
+          <div />
         </FlexContainerRelativePosition>
+        <DetailButton shape="circle" size="small" onClick={toggleCardDetail}>
+          {isCardDetailOpened ? (
+            <StyledArrowDropUpRoundedIcon />
+          ) : (
+            <StyledArrowDropDownRoundedIcon />
+          )}
+        </DetailButton>
       </FlexContainerBetweenColumn>
 
       {isCardDetailOpened && (
@@ -367,4 +368,4 @@ function MenuCard({ hideStoreName, menu, onlyImage }: Props) {
   )
 }
 
-export default MenuCard
+export default memo(MenuCard)

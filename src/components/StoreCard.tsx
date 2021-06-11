@@ -170,7 +170,7 @@ function StoreCard({ afterPickingStore, store }: Props) {
           </AbsolutePositionTopRight>
           <Hashtags>
             {store.hashtags?.map((hashtag) => (
-              <ClientSideLink key={hashtag} href={`/search/${hashtag.slice(1)}`}>
+              <ClientSideLink key={hashtag} href={`/search/${encodeURIComponent(hashtag)}`}>
                 <Hashtag key={hashtag}>{hashtag}&nbsp;</Hashtag>
               </ClientSideLink>
             ))}

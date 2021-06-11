@@ -51,7 +51,7 @@ function Footer() {
           </ClientSideLink>{' '}
           |{' '}
           <a
-            href="https://www.notion.so/Signature-In-Dessert-SINDY-424f606b1cf6465da31a7e3e23b1e36e"
+            href="/" // "https://www.notion.so/Signature-In-Dessert-SINDY-424f606b1cf6465da31a7e3e23b1e36e"
             style={anchorStyle}
           >
             팀 소개

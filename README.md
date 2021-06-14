@@ -74,6 +74,16 @@ http://localhost:3000
 
 > https://velog.io/@gwak2837/줄-시퀀스-충돌
 
+### (Windows) PowerShell 보안 오류
+
+```shell
+> Set-ExecutionPolicy Unrestricted
+```
+
+PowerShell을 관리자 권한으로 열어서 보안 정책을 위와 같이 수정해줍니다.
+
+> https://velog.io/@gwak2837/powershell-yarn-보안-오류
+
 ## 유용한 스크립트
 
 ### Pre-Push

@@ -13,7 +13,7 @@
 
 ### 프로젝트 다운로드
 
-```bash
+```shell
 > git clone 프로젝트-주소
 > cd 프로젝트-폴더
 > git checkout 브랜치-이름
@@ -40,7 +40,7 @@ NEXT_PUBLIC_GOOGLE_ANALITICS_ID=
 
 ### 개발 모드
 
-```bash
+```shell
 > yarn dev
 ```
 
@@ -48,7 +48,7 @@ NEXT_PUBLIC_GOOGLE_ANALITICS_ID=
 
 ### 프로덕션 모드
 
-```bash
+```shell
 > yarn build
 > yarn start
 ```
@@ -63,11 +63,22 @@ http://localhost:3000
 
 브라우저에서 아래 주소로 접속하면 개발 중인 사이트를 볼 수 있습니다.
 
+### (Windows) ESLint LF 오류
+
+```shell
+> git config --global core.autocrlf input
+> git config --global core.eol lf
+```
+
+에디터에서 라인 시퀀스 관련 ESLint 오류가 발생하면 Git 관련 설정을 위와 같이 변경해줍니다.
+
+> https://velog.io/@gwak2837/줄-시퀀스-충돌
+
 ## 유용한 스크립트
 
 ### Pre-Push
 
-```bash
+```shell
 > yarn pre-push
 ```
 
@@ -75,7 +86,7 @@ http://localhost:3000
 
 ### GraphQL Code Generator
 
-```bash
+```shell
 > yarn generate
 ```
 
@@ -85,7 +96,7 @@ http://localhost:3000
 
 #### 정적 빌드
 
-```bash
+```shell
 > yarn export
 ```
 
@@ -93,7 +104,7 @@ http://localhost:3000
 
 #### 동적 빌드
 
-```bash
+```shell
 > yarn build
 ```
 

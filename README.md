@@ -70,7 +70,7 @@ http://localhost:3000
 > git config --global core.eol lf
 ```
 
-에디터에서 라인 시퀀스 관련 ESLint 오류가 발생하면 Git 관련 설정을 위와 같이 변경해줍니다.
+에디터에서 라인 시퀀스 관련 ESLint 오류가 발생하면 Git 관련 설정을 위와 같이 변경해줍니다. 그리고 프로젝트 폴더를 지우고 다시 클론합니다.
 
 > https://velog.io/@gwak2837/줄-시퀀스-충돌
 

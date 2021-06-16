@@ -1,6 +1,6 @@
 import PageHead from 'src/components/layouts/PageHead'
 import TopHeader from 'src/components/TopHeader'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import styled from 'styled-components'
 import { Button, Divider, Menu, Input, Select, Tooltip } from 'antd'
 import {

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { ReactNode } from 'react'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import styled from 'styled-components'
 import ClientSideLink from '../atoms/ClientSideLink'
 

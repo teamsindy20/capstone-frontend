@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { FlexContainerBetween } from '../styles/FlexContainer'
-import { GridContainerGap } from '../styles/GridContainer'
+import { FlexContainerBetween } from './atoms/FlexContainer'
+import { GridContainerGap } from 'src/components/atoms/GridContainer'
 import { PostsByAddressQuery } from 'src/graphql/generated/types-and-hooks'
 import { Button } from 'antd'
-import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import { SkeletonGradient, SkeletonImage, SkeletonText } from 'src/components/atoms/LoadingSkeleton'
 import Image from 'next/image'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 

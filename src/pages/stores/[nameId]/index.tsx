@@ -1,6 +1,6 @@
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import { Checkbox, Tabs, Tooltip, Button, Divider, Layout, Popover } from 'antd'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'

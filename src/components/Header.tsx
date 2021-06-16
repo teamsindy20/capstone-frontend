@@ -12,7 +12,7 @@ import {
 } from 'src/models/constants'
 import { username } from 'src/models/mock-data'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
-import { FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 

@@ -4,7 +4,7 @@ import PageHead from 'src/components/layouts/PageHead'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import TopHeader from 'src/components/TopHeader'
 import styled from 'styled-components'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import ReviewCard from 'src/components/ReviewCard'
 import {
   HorizontalBorder,

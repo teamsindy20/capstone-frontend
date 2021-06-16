@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { StoreCardFragment, usePickStoreMutation } from 'src/graphql/generated/types-and-hooks'
 import styled from 'styled-components'
-import { FlexContainerBetween } from '../styles/FlexContainer'
+import { FlexContainerBetween } from './atoms/FlexContainer'
 import { Button, Popover } from 'antd'
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded'
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded'
@@ -11,7 +11,7 @@ import ClientSideLink from './atoms/ClientSideLink'
 import { Hashtag, Hashtags, SquareFrame } from './MenuCard'
 import { useRef, ReactText } from 'react'
 import Image from 'next/image'
-import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import { SkeletonImage, SkeletonText } from 'src/components/atoms/LoadingSkeleton'
 
 const GridContainerLi = styled.li`
   display: grid;

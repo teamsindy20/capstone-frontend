@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client'
 import { CartMenu, cartMenusVar, setCartMenus, setCartStore } from 'src/apollo/cache'
 import styled from 'styled-components'
-import { FlexContainerBetween } from '../styles/FlexContainer'
+import { FlexContainerBetween } from './atoms/FlexContainer'
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded'
 import { formatPrice } from 'src/utils/price'
 import CountButton from './atoms/CountButton'

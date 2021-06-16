@@ -1,7 +1,7 @@
 {
-  "name": "capstone-frontend",
+  "name": "dessert-fit-frontend",
   "version": "1.0.0",
-  "description": "capstone-frontend",
+  "description": "dessert-fit-frontend",
   "repository": "https://github.com/teamsindy20/capstone-frontend.git",
   "author": "sindy",
   "license": "GPL-3.0-only",
@@ -60,6 +60,7 @@
     "@typescript-eslint/parser": "^4.27.0",
     "babel-plugin-styled-components": "^1.12.0",
     "eslint": "^7.28.0",
+    "eslint-config-next": "^11.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.23.4",

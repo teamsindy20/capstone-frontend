@@ -1,6 +1,6 @@
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
-import { Button, Checkbox, Divider, Radio } from 'antd'
+import { Button, Checkbox, Divider, Radio, Image as AntdImage } from 'antd'
 import { useRouter } from 'next/router'
 import { Fragment, useState, CSSProperties } from 'react'
 import { toast } from 'react-toastify'
@@ -21,6 +21,8 @@ import { getSelectedMenuOptionIdsFrom } from 'src/components/CartMenuCard'
 import { FixedButton } from 'src/components/atoms/Button'
 import { useStoreNameIdUrl } from '..'
 import { GridContainerGap } from 'src/components/atoms/GridContainer'
+import Image from 'next/image'
+import { TABLET_MIN_WIDTH } from 'src/models/constants'
 
 export const ReviewButton = styled(Button)`
   background-color: #ff9a87;
@@ -92,8 +94,9 @@ const description = '메뉴 세부 정보를 확인해보세요'
 
 function StoreMenuPage() {
   const router = useRouter()
-  const { storeId } = useStoreNameIdUrl()
+  const { storeName, storeId } = useStoreNameIdUrl()
   const menuName = (router.query.name ?? '') as string
+  const title = storeName && menuName ? `디저트핏 - ${storeName}: ${menuName}` : '디저트핏 - 메뉴'
 
   const { data, loading } = useMenuQuery({
     onError: handleApolloError,
@@ -168,7 +171,7 @@ function StoreMenuPage() {
   const totalAmount = formatPrice(((menu?.price ?? 0) + selectedOptionsPrice) * count)
 
   return (
-    <PageHead title="디저트핏 - 메뉴 상세" description={description}>
+    <PageHead title={title} description={description}>
       <TopHeader>
         <FlexContainerBetween1>
           <ArrowBackIosRoundedIcon onClick={goBack} style={StyledArrowBackIosRoundedIcon} />
@@ -183,8 +186,12 @@ function StoreMenuPage() {
         </>
       ) : (
         <>
-          <img src={menu.imageUrls ? menu.imageUrls[0] : ''} alt="menu" width="320px" />
-
+          <Image
+            src={menu.imageUrls ? menu.imageUrls[0] : ''}
+            alt={menu.imageUrls ? menu.imageUrls[0] : ''}
+            width={TABLET_MIN_WIDTH}
+            height={TABLET_MIN_WIDTH}
+          />
           <HorizontalBorder />
           <GridContainerPadding>
             <ClientSideLink href={`/stores/${router.query.nameId}`}>

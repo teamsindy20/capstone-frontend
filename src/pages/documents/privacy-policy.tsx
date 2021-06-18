@@ -13,7 +13,7 @@ const description =
 
 function PrivacyPolicyPage() {
   return (
-    <PageHead title="디저트핏 - 개인정보처리방침" description={description}>
+    <PageHead title="디저트핏 - 개인정보보호정책" description={description}>
       <GridContainerGap>
         <h1>우리는 개인 정보를 보호하기 위해 최선을 다합니다.</h1>
         <div>

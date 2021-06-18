@@ -290,6 +290,7 @@ const description = '매장에서 판매하는 메뉴를 볼 수 있어요.'
 
 function StoreMenusPage() {
   const { storeId, storeName } = useStoreNameIdUrl()
+  const title = storeName ? `디저트핏 - ${storeName} 메뉴` : '디저트핏 - 매장 메뉴'
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -307,7 +308,7 @@ function StoreMenusPage() {
   const menus = data?.store?.menus
 
   return (
-    <PageHead title="디저트핏 - 매장 메뉴" description={`${storeName} ${description}`}>
+    <PageHead title={title} description={`${storeName} ${description}`}>
       <NavigationLayout>
         <StorePageLayout defaultPage="menus" loading={isStoreLoading} store={store}>
           <Divider orientation="right">

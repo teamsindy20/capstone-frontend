@@ -11,7 +11,7 @@ import { GridContainerUl } from 'src/pages'
 import { sleep } from 'src/utils/commons'
 import styled from 'styled-components'
 import PostCard, { PostLoadingCard } from '../../components/PostCard'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import ClientSideLink from 'src/components/atoms/ClientSideLink'
 
 export const HorizontalBorder = styled.div`

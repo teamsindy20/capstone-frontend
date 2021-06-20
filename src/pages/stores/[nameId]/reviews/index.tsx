@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import PageHead from 'src/components/layouts/PageHead'
 import NavigationLayout from 'src/components/layouts/NavigationLayout'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from '../../../../styles/FlexContainer'
+import { FlexContainerBetween } from '../../../../components/atoms/FlexContainer'
 import ReviewCard from '../../../../components/ReviewCard'
 import { useEffect, useState } from 'react'
 import { StorePageLayout, useStoreNameIdUrl } from '..'
@@ -27,7 +27,8 @@ function handleChange(value: any) {
 }
 
 function StoreReviewsPage() {
-  const { storeId } = useStoreNameIdUrl()
+  const { storeName, storeId } = useStoreNameIdUrl()
+  const title = storeName ? `디저트핏 - ${storeName} 리뷰` : '디저트핏 - 매장 리뷰'
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -42,7 +43,7 @@ function StoreReviewsPage() {
   }, [])
 
   return (
-    <PageHead title="디저트핏 - 매장 리뷰" description={description}>
+    <PageHead title={title} description={description}>
       <NavigationLayout>
         <StorePageLayout defaultPage="reviews" loading={isStoreLoading} store={store}>
           <MarginDiv>

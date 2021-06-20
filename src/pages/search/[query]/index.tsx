@@ -19,7 +19,10 @@ function SearchResultPage() {
   const menus = data?.searchMenus
 
   return (
-    <PageHead title={`디저트핏 - 검색: ${query.query}`} description={description}>
+    <PageHead
+      title={`디저트핏 - 검색${query.query ? `: ${query.query}` : ''}`}
+      description={description}
+    >
       <div>검색 결과 페이지: {query.query}</div>
       <div>{loading && '로딩 중'}</div>
       <GridContainerUl onlyImage={false}>

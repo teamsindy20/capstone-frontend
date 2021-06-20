@@ -1,7 +1,7 @@
 import PageHead from 'src/components/layouts/PageHead'
 import styled from 'styled-components'
 import TopHeader from 'src/components/TopHeader'
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded'
 import grey from '@material-ui/core/colors/grey'
 import useGoBack from 'src/hooks/useGoBack'

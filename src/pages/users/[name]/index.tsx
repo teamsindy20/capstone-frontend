@@ -13,7 +13,7 @@ import {
   FlexContainerAlignCenter,
   FlexContainerBetween,
   FlexContainerAround,
-} from 'src/styles/FlexContainer'
+} from 'src/components/atoms/FlexContainer'
 import { UserName, ReviewBadge, ImgInCard } from 'src/components/ReviewCard'
 import { ProfileTitleGrid, FlexContainer } from 'src/components/PostCard'
 import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'

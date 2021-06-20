@@ -34,6 +34,7 @@ const description = '매장의 소식을 확인해보세요'
 
 function StoreFeedPage() {
   const { storeId, storeName } = useStoreNameIdUrl()
+  const title = storeName ? `디저트핏 - ${storeName} 소식` : '디저트핏 - 매장 소식'
 
   // store 정보는 cache-first 로 가져오기
   const storeQueryResult = useStoreQuery({ onError: handleApolloError, variables: { id: storeId } })
@@ -68,7 +69,7 @@ function StoreFeedPage() {
   })
 
   return (
-    <PageHead title="디저트핏 - 매장 소식" description={`${storeName} ${description}`}>
+    <PageHead title={title} description={`${storeName} ${description}`}>
       <NavigationLayout>
         <StorePageLayout defaultPage="feed" loading={isStoreLoading} store={store}>
           <Div>

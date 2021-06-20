@@ -10,7 +10,7 @@ import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined'
 import { memo, MouseEvent, ReactText, useRef, useState } from 'react'
 import { formatPrice, formatNumber } from 'src/utils/price'
 import styled from 'styled-components'
-import { FlexContainerAlignCenter, FlexContainerBetween } from '../styles/FlexContainer'
+import { FlexContainerAlignCenter, FlexContainerBetween } from './atoms/FlexContainer'
 import useGoToPage from 'src/hooks/useGoToPage'
 import {
   MenuCardFragment,
@@ -24,7 +24,7 @@ import { toast } from 'react-toastify'
 import useBoolean from 'src/hooks/useBoolean'
 import { Button } from 'antd'
 import Image from 'next/image'
-import { SkeletonImage, SkeletonText } from 'src/styles/LoadingSkeleton'
+import { SkeletonImage, SkeletonText } from 'src/components/atoms/LoadingSkeleton'
 import {
   PRIMARY_ACHROMATIC_BACKGROUND_COLOR,
   PRIMARY_BACKGROUND_COLOR,

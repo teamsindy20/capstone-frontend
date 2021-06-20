@@ -1,4 +1,4 @@
-import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/styles/FlexContainer'
+import { FlexContainerBetween, FlexContainerAlignCenter } from 'src/components/atoms/FlexContainer'
 import styled from 'styled-components'
 import { ShopOutlined } from '@ant-design/icons'
 

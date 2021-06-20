@@ -66,7 +66,7 @@ feature 브랜치에서 개발을 진행하고 자유롭게 커밋합니다.
 
 1. Pull Request 들어가기
 2. File changed
-3. 코드에 의견, 질문, 제안 등 달고
+3. 코드 리뷰 하기 (의견, 질문, 제안 등)
 4. Review changes
 5. Approve
 6. Submit review

@@ -1,20 +1,26 @@
 # Contributing to this repository
 
-> 참고: [https://guides.github.com/introduction/flow/](https://guides.github.com/introduction/flow/)
+> [Git Flow (atlassian.com)](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+
+> [GitHub Flow (guides.github.com)](https://guides.github.com/introduction/flow/)
 
 ## Getting started
 
 개발을 시작하기 전에
 
-- 컴퓨터 개발 환경을 확인합니다. 이 프로젝트에 필요한 [개발 환경](README.md)은 여기서 확인할 수 있습니다.
-- Have you read the [code of conduct](CODE_OF_CONDUCT.md)?
-- Check out the [existing issues](https://github.com/teamsindy20/capstone-frontend/issues)
+- 프로젝트를 개발하기 위해 필요한 [개발 환경](README.md)을 확인합니다.
+- [Code of conduct](CODE_OF_CONDUCT.md)를 읽어보셨나요?
+- 프로젝트에 존재하는 [이슈](https://github.com/teamsindy20/capstone-frontend/issues)를 확인합니다.
+
+## Git Flow
+
+본 프로젝트는 프로젝트 참여 인원이 적기 때문에 main, develop, feature 브랜치 위주로 이용합니다.
 
 ## 이슈 등록
 
 다른 사람에게 자신의 진행 상황을 공유하기 위해 GitHub에 자신이 할 일을 이슈로 등록합니다.
 
-이슈 등록 시 [이슈 템플릿](https://github.com/teamsindy20/capstone-frontend/issues/new/choose)을 이용합니다. 그리고 이슈 제목은 제목만 보고도 대략적으로 내용을 알 수 있을 정도로 작성한 후 오른쪽의 Assignee는 자신으로, Labels과 Projects는 적절하게 선택합니다. 이슈 내용은 어떤 기능을 개발할 것인지 제목보다 상세하게 적으면 좋습니다.
+이슈 등록 시 [이슈 템플릿](https://github.com/teamsindy20/capstone-frontend/issues/new/choose)을 이용합니다. 이슈 제목은 제목을 보고 대략적으로 내용을 알 수 있을 정도로 작성한 후 오른쪽의 Assignee는 자신으로, Labels과 Projects는 적절하게 선택합니다. 이슈 내용은 어떤 기능을 개발할 것인지 제목보다 상세하게 적고, 이해를 돕는 이미지·영상을 첨부하면 더 좋습니다.
 
 ## 브랜치 생성
 
@@ -28,9 +34,9 @@
 
 ## Pull Request 생성
 
-팀원에게 자신의 진행 상황을 공유하기 위해 GitHub에 해당 feature 브랜치를 develop 브랜치로 병합하는 PR을 `Draft`로 생성합니다.
+팀원에게 자신의 진행 상황을 공유하기 위해 GitHub에 feature 브랜치를 develop 브랜치로 병합하는 PR을 `Draft`로 생성합니다.
 
-PR 제목은 소스 브랜치 이름으로 합니다. 예를 들어 `feature/#1/project-setting` 브랜치를 develop 브랜치로 병합하는 PR의 제목은 `Feature/#1/project setting` 형식으로 짓습니다.
+PR 제목은 병합하려는 브랜치 이름으로 합니다. 예를 들어 `feature/#1/project-setting` 브랜치를 develop 브랜치로 병합하는 PR의 제목은 `Feature/#1/project setting` 형식으로 짓습니다.
 
 이슈와 마찬가지로 PR를 등록할 때 오른쪽의 Assignee는 자신으로 설정하고, Labels와 Projects는 적절하게 선택합니다.
 

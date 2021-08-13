@@ -1,15 +1,23 @@
-# 2021-1 Capstone Front-end (React.js)
+# 2021-1 Capstone Frontend (React.js)
 
 ## 실행 방법
 
 ### 개발 환경
 
 - macOS 11.2
-- Git 2.31
-- Node LTS
-- Yarn 1.22
-- Visual Studio Code 1.57
+- [Git](https://git-scm.com/downloads) 2.31
+- [Node](https://nodejs.org/ko/download/) LTS
+- [Yarn](https://yarnpkg.com/getting-started/install#about-global-installs) 1.22
+- [Visual Studio Code](https://code.visualstudio.com/Download) 1.57
 - Chrome 89.0, Safari 14.0, Whale 2.9, Firefox 87.0
+
+```bash
+> git --version
+> node --version
+> yarn --version
+```
+
+위 명령어를 통해 프로젝트에 필요한 모든 프로그램이 설치되어 있는지 확인합니다.
 
 ### 프로젝트 다운로드
 
@@ -29,14 +37,16 @@
 ### 환경 변수 설정
 
 ```
-NEXT_PUBLIC_GRAPHQL_API_URL=
 NEXT_PUBLIC_BACKEND_URL=
 NEXT_PUBLIC_GOOGLE_ANALITICS_ID=
+NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY=
 ```
 
 프로젝트 루트 경로에 `.env.development`과 `.env.production` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
 `.env.development`는 `yarn dev` 실행 시에만 적용되고, `.env.production`는 `yarn start` 실행 시에만 적용됩니다.
+
+> https://nextjs.org/docs/basic-features/environment-variables
 
 ### 개발 모드
 

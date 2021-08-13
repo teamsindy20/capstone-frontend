@@ -125,3 +125,6 @@ dist
 
 # Environment variables
 .env.development
+
+# PWA
+public/*.js

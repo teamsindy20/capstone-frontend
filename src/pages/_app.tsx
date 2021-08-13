@@ -116,10 +116,6 @@ function DessertFitApp({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
-  useEffect(() => {
-    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY)
-  }, [])
-
   return (
     <>
       <Head>

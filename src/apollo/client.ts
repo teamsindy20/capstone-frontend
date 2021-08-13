@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context'
 import cache from './cache'
 
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_API_URL,
+  uri: `${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`,
   credentials: 'same-origin',
 })
 

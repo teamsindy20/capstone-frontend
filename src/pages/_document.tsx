@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
 import { PRIMARY_BACKGROUND_COLOR, PRIMARY_TEXT_COLOR } from 'src/models/constants'
-import { GOOGLE_ANALYTICS_TRACKING_ID } from 'src/utils/google-analytics'
+import { GOOGLE_ANALYTICS_ID } from 'src/utils/google-analytics'
 import { ServerStyleSheet } from 'styled-components'
 
 export const canonicalUrl = 'https://dessert.fit'
@@ -39,7 +39,8 @@ export default class DessertFitDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
           <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
             rel="stylesheet"
@@ -107,26 +108,23 @@ export default class DessertFitDocument extends Document {
           <meta name="apple-mobile-web-app-title" content="디저트핏" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          {process.env.NODE_ENV === 'production' && (
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_TRACKING_ID}`}
-              />
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
+          <script
+            defer
+            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
-                    gtag('config', '${GOOGLE_ANALYTICS_TRACKING_ID}', {
+                    gtag('config', '${GOOGLE_ANALYTICS_ID}', {
                       page_path: window.location.pathname,
                     });
                   `,
-                }}
-              />
-            </>
-          )}
+            }}
+          />
+          <script defer src="https://developers.kakao.com/sdk/js/kakao.min.js" />
         </Head>
         <body>
           <Main />

@@ -1,7 +1,7 @@
 overwrite: true
 schema:
   # 외부 GraphQL API
-  - ${NEXT_PUBLIC_GRAPHQL_API_URL}
+  - ${NEXT_PUBLIC_BACKEND_URL}/graphql
 
   # Client Schema
   - src/graphql/schema/*.graphql

@@ -54,8 +54,8 @@ const Padding = styled.div`
 export const validateEmail = {
   required: '필수 항목입니다.',
   maxLength: {
-    value: 64,
-    message: '최대 64글자 이하로 입력해주세요.',
+    value: 50,
+    message: '최대 50글자 이하로 입력해주세요.',
   },
   pattern: {
     value: /\S+@\S+\.\S+/,
